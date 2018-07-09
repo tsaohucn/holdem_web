@@ -7,7 +7,7 @@ import {
 import logo from '../logo.svg';
 import '../App.css';
 
-class Session extends Component {
+class SessionScreen extends Component {
 
   constructor(props) {
     super(props)
@@ -46,4 +46,4 @@ class Session extends Component {
   }
 }
 
-export default Session;
+export default SessionScreen;

@@ -5,13 +5,18 @@ import {
 	ControlLabel,
 	FormControl,
 	HelpBlock,
+  Button
 } from 'react-bootstrap';
 import Grid from '@material-ui/core/Grid';
+import {
+  withRouter,
+  Link
+} from "react-router-dom";
 // local components
 import logo from '../logo.svg';
 import '../App.css';
 
-class Welcome extends Component {
+class WelcomeScreen extends Component {
 
   constructor(props, context) {
     super(props, context);
@@ -49,6 +54,7 @@ class Welcome extends Component {
 	          controlId="formBasicText"
 	          validationState={this.getValidationState()}
 	        >
+            <h1 style={{textAlign: 'center'}}>驗證帳密</h1>
 	          <ControlLabel>Working example with validation</ControlLabel>
 	          <FormControl
 	            type="text"
@@ -60,12 +66,23 @@ class Welcome extends Component {
 	          <HelpBlock>Validation is based on string length.</HelpBlock>
 	        </FormGroup>
 	      </form>
+        <Button onClick={() => {this.props.history.push('/mains/function')}}>登入</Button>
+        <AuthButton/>
       </Grid>
     );
   }
 }
 
-export default Welcome;
+export default WelcomeScreen;
+
+const AuthButton = withRouter(
+  ({ history }) =>
+    <Button
+      onClick={() => {history.push('/mains/function')}}
+    >
+      登入
+    </Button>
+);
 
 const height = window.innerHeight
 
