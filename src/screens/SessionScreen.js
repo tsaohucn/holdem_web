@@ -6,6 +6,7 @@ import {
 // local components
 import logo from '../logo.svg';
 import '../App.css';
+import firebase from '../configs/firebase'
 
 class SessionScreen extends Component {
 
@@ -17,10 +18,12 @@ class SessionScreen extends Component {
   }
 
   componentDidMount() {
-    this.sleep(3000).then(() => {
-      this.setState({
-        isAuth: true
-      })
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.props.history.push('/mains/function')
+      } else {
+        this.props.history.push('/welcome')
+      }
     })
   }
 
@@ -29,9 +32,6 @@ class SessionScreen extends Component {
   }
 
   render() {
-    if (this.state.isAuth) {
-      return <Redirect to={'welcome'} />
-    }
     return (
       <div className="App">
         <header className="App-header">
@@ -47,3 +47,18 @@ class SessionScreen extends Component {
 }
 
 export default SessionScreen;
+
+/*
+
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Welcome to React</h1>
+        </header>
+        <p className="App-intro">
+          {'連結firebase判斷是否登入'}
+        </p>
+      </div>
+    );
+*/
