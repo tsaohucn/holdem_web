@@ -15,29 +15,51 @@ import {
 // local components
 import logo from '../logo.svg';
 import '../App.css';
+import firebase from '../configs/firebase'
 
 class WelcomeScreen extends Component {
 
   constructor(props, context) {
     super(props, context);
-
-    this.handleChange = this.handleChange.bind(this);
-
     this.state = {
-      value: ''
+      account: '',
+      password:'',
+      error: ''
     };
   }
 
-  getValidationState() {
-    const length = this.state.value.length;
+  getValidationState = () => {
+    const length = this.state.account.length;
     if (length > 10) return 'success';
     else if (length > 5) return 'warning';
     else if (length > 0) return 'error';
     return null;
   }
 
-  handleChange(e) {
-    this.setState({ value: e.target.value });
+  setAccount = e => {
+    this.setState({ account: e.target.value });
+  }
+
+  setPassword = e => {
+    this.setState({ password: e.target.value });
+  }
+
+  register = () => {
+    firebase.auth().createUserWithEmailAndPassword(this.state.account,this.state.password)
+    .catch((error) => {
+      this.setState({
+        error: error.toString()
+      })
+    }) 
+  }
+
+  login = () => {
+    firebase.auth().signInWithEmailAndPassword(this.state.account,this.state.password)
+    .catch((error) => {
+      this.setState({
+        error: error.toString()
+      })
+    })
   }
 
   render() {
@@ -58,16 +80,25 @@ class WelcomeScreen extends Component {
 	          <ControlLabel>Working example with validation</ControlLabel>
 	          <FormControl
 	            type="text"
-	            value={this.state.value}
-	            placeholder="Enter text"
-	            onChange={this.handleChange}
+	            value={this.state.account}
+	            placeholder="輸入帳號"
+	            onChange={this.setAccount}
 	          />
+            <FormControl
+              type="text"
+              value={this.state.password}
+              placeholder="輸入密碼"
+              onChange={this.setPassword}
+            />
 	          <FormControl.Feedback />
 	          <HelpBlock>Validation is based on string length.</HelpBlock>
 	        </FormGroup>
 	      </form>
-        <Button onClick={() => {this.props.history.push('/mains/function')}}>登入</Button>
-        <AuthButton/>
+        <h4>{this.state.error}</h4>
+        <div>
+          <Button onClick={this.register}>註冊</Button>
+          <Button onClick={this.login}>登入</Button>
+        </div>
       </Grid>
     );
   }

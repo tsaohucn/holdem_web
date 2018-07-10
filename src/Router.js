@@ -13,7 +13,7 @@ const Router = () => (
     <Switch>
       <Route exact path="/" component={SessionScreen} />
       <Route path="/welcome" component={WelcomeScreen} />
-       <Route path="/mains/function" component={FunctionScreen} />
+      <Route path="/mains/function" component={FunctionScreen} />
     </Switch>
   </BrowserRouter>
 );
