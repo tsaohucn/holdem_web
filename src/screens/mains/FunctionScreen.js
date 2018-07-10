@@ -12,9 +12,11 @@ import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import PersonIcon from '@material-ui/icons/Person';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { mailFolderListItems } from './tileData';
+import firebase from '../../configs/firebase'
 
 const drawerWidth = 240;
 
@@ -53,6 +55,9 @@ const styles = theme => ({
   menuButton: {
     marginLeft: 12,
     marginRight: 20,
+  },
+  logoutButton: {
+    marginLeft: 'auto'
   },
   hide: {
     display: 'none',
@@ -117,6 +122,11 @@ class PersistentDrawer extends React.Component {
     });
   };
 
+  logout = () => {
+    firebase.auth().signOut()
+    .catch(error => console.log(error))
+  }
+
   render() {
     const { classes, theme } = this.props;
     const { anchor, open } = this.state;
@@ -161,6 +171,14 @@ class PersistentDrawer extends React.Component {
               <Typography variant="title" color="inherit" noWrap>
                 iWhite
               </Typography>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={this.logout}
+                className={classNames(classes.logoutButton)}
+              >
+                <PersonIcon />
+              </IconButton>
             </Toolbar>
           </AppBar>
           {drawer}
