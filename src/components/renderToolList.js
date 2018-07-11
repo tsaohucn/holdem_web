@@ -10,9 +10,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ReportIcon from '@material-ui/icons/Report';
 
-export const mailFolderListItems = (
+const renderToolList = (props) => (
   <div>
-    <ListItem button>
+    <ListItem button onClick={() => { props.alert.show('Oh look, an alert!') }}>
       <ListItemIcon>
         <InboxIcon />
       </ListItemIcon>
@@ -50,3 +50,6 @@ export const mailFolderListItems = (
     </ListItem>
   </div>
 );
+
+
+export default renderToolList
