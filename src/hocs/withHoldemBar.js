@@ -4,20 +4,19 @@ import React from 'react';
 import HoldemBar from '../components/HoldemBar'
 
 function withHoldemBar(WrappedComponent) {
-	return class extends React.Component {
-		constructor(props) {
-			super(props)
-		}
+  return class extends React.Component {
+	constructor(props) {
+	  super(props)
+	}
 
     render() {
-    	return(
-        <HoldemBar>
+      return(
+        <HoldemBar {...this.props}>
           <WrappedComponent {...this.props}/>
         </HoldemBar>
-    	)
+      )
     }
-
-	}
+  }
 }
 
 export default withHoldemBar

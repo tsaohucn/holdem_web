@@ -12,7 +12,6 @@ import {
   withRouter,
   Link
 } from "react-router-dom";
-import { withAlert } from 'react-alert'
 // local components
 import logo from '../logo.svg';
 import '../App.css';
@@ -105,7 +104,7 @@ class WelcomeScreen extends Component {
   }
 }
 
-export default withAlert(WelcomeScreen);
+export default WelcomeScreen;
 
 const AuthButton = withRouter(
   ({ history }) =>

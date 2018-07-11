@@ -1,5 +1,6 @@
 // node_module
 import React from 'react';
+import { withAlert } from 'react-alert'
 // local components
 import withHoldemBar from '../../hocs/withHoldemBar'
 
@@ -12,9 +13,4 @@ class FunctionScreen extends React.Component {
   }
 }
 
-FunctionScreen.propTypes = {
-  //classes: PropTypes.object.isRequired,
-  //theme: PropTypes.object.isRequired,
-};
-
-export default withHoldemBar(FunctionScreen);
+export default withAlert(withHoldemBar(FunctionScreen));
