@@ -2,27 +2,33 @@
 	"tool" : [
 	  {
       "title": "俱樂部資料表",
-      "icon": "InboxIcon"
+      "icon": "InboxIcon",
+      "path": "club"
 	  },
 	  {
       "title": "裁判資料表",
-      "icon": "StarIcon"
+      "icon": "StarIcon",
+      "path": "referee"
 	  },
 	  {
 	  	"title": "會員資料表",
-	  	"icon": "SendIcon"
+	  	"icon": "SendIcon",
+	  	"path": "member"
 	  },
 	  {
 	  	"title": "員工資料表",
-	  	"icon": "DraftsIcon"
+	  	"icon": "DraftsIcon",
+	  	"path": "employee"
 	  },
 	  {
 	  	"title": "報表",
-	  	"icon": "DeleteIcon"
+	  	"icon": "DeleteIcon",
+	  	"path": "report"
 	  },
 	  {
 	  	"title": "桌次現況",
-	  	"icon": "ReportIcon"
+	  	"icon": "ReportIcon",
+	  	"path": "live"
 	  }
   ]
 }

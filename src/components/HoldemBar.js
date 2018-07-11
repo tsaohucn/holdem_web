@@ -154,7 +154,7 @@ class PersistentDrawer extends React.Component {
         <List>
           {
             config['tool'].map( ele => (
-              <ListItem button>
+              <ListItem button onClick={() => this.props.history.push('/mains/' + ele.path)}>
                 <ListItemIcon>
                   <Icon tag={ele.icon}/>
                 </ListItemIcon>
