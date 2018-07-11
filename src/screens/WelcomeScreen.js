@@ -12,6 +12,7 @@ import {
   withRouter,
   Link
 } from "react-router-dom";
+import { withAlert } from 'react-alert'
 // local components
 import logo from '../logo.svg';
 import '../App.css';
@@ -53,7 +54,7 @@ class WelcomeScreen extends Component {
     }) 
   }
 
-  login = () => {
+  login = () => {    
     firebase.auth().signInWithEmailAndPassword(this.state.account,this.state.password)
     .catch((error) => {
       this.setState({
@@ -104,7 +105,7 @@ class WelcomeScreen extends Component {
   }
 }
 
-export default WelcomeScreen;
+export default withAlert(WelcomeScreen);
 
 const AuthButton = withRouter(
   ({ history }) =>

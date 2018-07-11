@@ -7,6 +7,8 @@
     "@material-ui/icons": "^1.1.0",
     "firebase": "^5.2.0",
     "react": "^16.4.1",
+    "react-alert": "^4.0.4",
+    "react-alert-template-basic": "^1.0.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.1",
     "react-router-dom": "^4.3.1",

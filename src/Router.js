@@ -7,6 +7,7 @@ import SessionScreen from "./screens/SessionScreen"
 import WelcomeScreen from "./screens/WelcomeScreen"
 // mains
 import FunctionScreen from "./screens/mains/FunctionScreen"
+import ClubScreen from "./screens/mains/ClubScreen"
 
 const Router = () => (
   <BrowserRouter>
@@ -14,6 +15,7 @@ const Router = () => (
       <Route exact path="/" component={SessionScreen} />
       <Route path="/welcome" component={WelcomeScreen} />
       <Route path="/mains/function" component={FunctionScreen} />
+      <Route path="/mains/club" component={ClubScreen} />
     </Switch>
   </BrowserRouter>
 );
