@@ -21,7 +21,7 @@ class Icon extends Component {
 
   render() {
      const TagName = this.components[this.props.tag || 'InboxIcon'];
-     return <TagName />
+     return <TagName/>
   }
 }
 
