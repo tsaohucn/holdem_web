@@ -32,16 +32,16 @@ const tableData = [
 const SearchPageComponent = (props) => 
   <SearchPage
     {...props}
-    title="搜索員工"
+    title="搜索業務"
     buttonLeftTitle='搜索' 
-    buttonRightTitle='新增員工'
+    buttonRightTitle='新增業務'
   />
 
 const NewPageComponent = (props) =>
   <NewPage
    {...props}
    data={fieldData}
-   buttonTitle={'確認新增員工'}
+   buttonTitle={'確認新增業務'}
   />
 
 const TablePageComponent = (props) => 
@@ -50,6 +50,6 @@ const TablePageComponent = (props) =>
     data={tableData}
   />
 
-const EmployeeScreen = contentCompose(SearchPageComponent,NewPageComponent,TablePageComponent)
+const SalesScreen = contentCompose(SearchPageComponent,NewPageComponent,TablePageComponent)
 
-export default withHoldemBar(EmployeeScreen)
+export default withHoldemBar(SalesScreen)

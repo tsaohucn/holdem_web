@@ -2,7 +2,7 @@
 	"tool" : [
 	  {
       "title": "俱樂部資料表",
-      "icon": "InboxIcon",
+      "icon": "StarIcon",
       "path": "club"
 	  },
 	  {
@@ -10,24 +10,29 @@
       "icon": "StarIcon",
       "path": "referee"
 	  },
+    {
+      "title": "業務資料表",
+      "icon": "StarIcon",
+      "path": "sales"
+    },
 	  {
 	  	"title": "會員資料表",
-	  	"icon": "SendIcon",
+	  	"icon": "StarIcon",
 	  	"path": "member"
 	  },
 	  {
 	  	"title": "員工資料表",
-	  	"icon": "DraftsIcon",
+	  	"icon": "StarIcon",
 	  	"path": "employee"
 	  },
 	  {
 	  	"title": "報表",
-	  	"icon": "DeleteIcon",
+	  	"icon": "StarIcon",
 	  	"path": "report"
 	  },
 	  {
 	  	"title": "桌次現況",
-	  	"icon": "ReportIcon",
+	  	"icon": "StarIcon",
 	  	"path": "live"
 	  }
   ],

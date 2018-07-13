@@ -4,17 +4,19 @@ import SearchBar from 'material-ui-search-bar'
 import SearchIcon from '@material-ui/icons/Search'
 import Button from '@material-ui/core/Button'
 // local components
-const PageOne = (props) =>  {
-
+const SearchPage = (props) =>  {
+  // search page
   const { 
-    onClick, 
+    onClickPageOneLeftButton,
+    onClickPageOneRightButton, 
     buttonLeftTitle, 
-    buttonRightTitle 
+    buttonRightTitle,
+    title
   } = props ? props : {}
 
   return(
     <div>
-      <h1>俱樂部查詢</h1>
+      <h1>{title}</h1>
       <div style={styles.searchView}>
         <SearchBar
           style={styles.SearchBar}
@@ -26,8 +28,8 @@ const PageOne = (props) =>  {
       <br/>
       <div style={styles.buttonView}>
         <div style={styles.buttonSlit}>
-          <Button style={styles.button} variant="contained" color="secondary">{buttonLeftTitle}</Button>
-          <Button style={styles.button} variant="contained" color="secondary" onClick={onClick}>{buttonRightTitle}</Button>
+          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickPageOneLeftButton}>{buttonLeftTitle}</Button>
+          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickPageOneRightButton}>{buttonRightTitle}</Button>
         </div>
       </div> 
     </div>
@@ -57,4 +59,4 @@ const styles = {
     width: '40%'
   }
 }
-export default PageOne
+export default SearchPage

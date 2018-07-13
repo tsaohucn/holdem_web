@@ -10,10 +10,30 @@ function contentCompose(PageOneComponent,PageTwoComponent,PageThreeComponent) {
       }
   	}
 
-    goToPageTwo = () => {
+    onClickPageOneRightButton = () => {
       this.setState({
         page: 2
       })
+    }
+
+    onClickPageOneLeftButton = () => {
+      // do something then
+      this.setState({
+        page: 3
+      })      
+    }
+
+    onClickPageTwoButton = () => {
+      // do something then
+      this.setState({
+        page: 1
+      })      
+    }
+
+    onClickPageThreeButton = () => {
+      this.setState({
+        page: 1
+      })       
     }
 
     renderSubComponent() {
@@ -33,7 +53,10 @@ function contentCompose(PageOneComponent,PageTwoComponent,PageThreeComponent) {
       return(
         <div {...this.props}>
           <SubComponent
-            onClick={this.goToPageTwo}
+            onClickPageOneLeftButton={this.onClickPageOneLeftButton}
+            onClickPageOneRightButton={this.onClickPageOneRightButton}
+            onClickPageTwoButton={this.onClickPageTwoButton}
+            onClickPageThreeButton={this.onClickPageThreeButton}
           />
         </div>
       )
