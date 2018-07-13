@@ -9,6 +9,7 @@ import WelcomeScreen from "./screens/WelcomeScreen"
 import FunctionScreen from "./screens/mains/FunctionScreen"
 import ClubScreen from "./screens/mains/ClubScreen"
 import RefereeScreen from "./screens/mains/RefereeScreen"
+import SalesScreen from "./screens/mains/SalesScreen"
 import MemberScreen from "./screens/mains/MemberScreen"
 import EmployeeScreen from "./screens/mains/EmployeeScreen"
 import ReportScreen from "./screens/mains/ReportScreen"
@@ -22,6 +23,7 @@ const Router = () => (
       <Route path="/mains/function" component={FunctionScreen} />
       <Route path="/mains/club" component={ClubScreen} />
       <Route path="/mains/referee" component={RefereeScreen} />
+      <Route path="/mains/sales" component={SalesScreen} />
       <Route path="/mains/member" component={MemberScreen} />
       <Route path="/mains/employee" component={EmployeeScreen} />
       <Route path="/mains/report" component={ReportScreen} />

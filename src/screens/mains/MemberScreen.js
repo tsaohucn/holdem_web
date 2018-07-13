@@ -3,18 +3,53 @@ import React from 'react'
 // local components
 import withHoldemBar from '../../hocs/withHoldemBar'
 import contentCompose from '../../hocs/contentCompose'
-import PageOne from '../../views/PageOne'
+import SearchPage from '../../views/SearchPage'
+import NewPage from '../../views/NewPage'
+import TablePage from '../../views/TablePage'
 
-const PageOneComponent = (props) => 
-  <PageOne
-    {...props} 
+const fieldData = [
+  {
+    key: 'dsd',
+    label: 'Test'
+  },
+  {
+    key: 'sdsd',
+    label: 'sdsdsd'
+  }
+]
+
+const tableData = [
+  {
+    id: '1',
+    name: 'Frozen yoghurt',
+    calories: 159,
+    fat: 6.0,
+    carbs: 24,
+    protein: '4.0'
+  }
+]
+
+const SearchPageComponent = (props) => 
+  <SearchPage
+    {...props}
+    title="搜索會員"
     buttonLeftTitle='搜索' 
     buttonRightTitle='新增會員'
   />
 
-const PageTwoComponent = () => <h1>PageTwoComponent</h1>
-const PageThreeComponent = () => <h1>PageThreeComponent</h1>
+const NewPageComponent = (props) =>
+  <NewPage
+   {...props}
+   data={fieldData}
+   buttonTitle={'確認新增會員'}
+  />
 
-const MemberScreen = contentCompose(PageOneComponent,PageTwoComponent,PageThreeComponent)
+const TablePageComponent = (props) => 
+  <TablePage
+    {...props}
+    data={tableData}
+  />
 
-export default withHoldemBar(MemberScreen);
+const MemberScreen = contentCompose(SearchPageComponent,NewPageComponent,TablePageComponent)
+
+export default withHoldemBar(MemberScreen)
