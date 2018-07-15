@@ -1,13 +1,13 @@
 // node module
 import React from 'react'
-import Spinner from 'react-spinner-material'
+import CircularProgress from '@material-ui/core/CircularProgress'
 // local components
 function contentCompose(PageOneComponent,PageTwoComponent,PageThreeComponent) {
   return class extends React.Component {
   	constructor(props) {
   	  super(props)
       this.state = {
-        isLoading: false,
+        isLoading: true,
         page: 1
       }
   	}
@@ -57,11 +57,7 @@ function contentCompose(PageOneComponent,PageTwoComponent,PageThreeComponent) {
           {
             this.state.isLoading ? 
             <div style={styles.spinner}>
-              <Spinner
-                size={120}
-                spinnerColor={"#4682b4"}
-                spinnerWidth={5}
-              /> 
+              <CircularProgress size={50}/>
             </div>
             :
             <SubComponent
