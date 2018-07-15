@@ -7,7 +7,7 @@ function contentCompose(PageOneComponent,PageTwoComponent,PageThreeComponent) {
   	constructor(props) {
   	  super(props)
       this.state = {
-        isLoading: true,
+        isLoading: false,
         page: 1
       }
   	}
@@ -53,7 +53,10 @@ function contentCompose(PageOneComponent,PageTwoComponent,PageThreeComponent) {
       const SubComponent = this.renderSubComponent()
 
       return(
-        <div style={styles.container} {...this.props}>
+        <div 
+          style={styles.container} 
+          {...this.props}
+        >
           {
             this.state.isLoading ? 
             <div style={styles.spinner}>
@@ -75,13 +78,16 @@ function contentCompose(PageOneComponent,PageTwoComponent,PageThreeComponent) {
 
 const styles = {
   container: {
-    height: '100%'
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1
   },
   spinner: {
     display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
     justifyContent: 'center',
-    alignItems:'center',
-    height: '100%'    
+    alignItems: 'center'
   }
 }
 
