@@ -12,7 +12,7 @@ const TablePage = (props) =>  {
 
   const { 
     data,
-    onClickPageThreeButton,
+    onClickTablePageButton,
   } = props ? props : {}
 
   return(
@@ -47,7 +47,7 @@ const TablePage = (props) =>  {
             </Table>
           </Paper>
           <br/>
-          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickPageThreeButton}>返回</Button>
+          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickTablePageButton}>返回</Button>
           <br/>
           <br/>
         </div>

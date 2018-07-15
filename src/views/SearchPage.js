@@ -1,40 +1,45 @@
 // node_module
-import React from 'react'
+import React, { Component } from 'react'
 import SearchBar from 'material-ui-search-bar'
 import SearchIcon from '@material-ui/icons/Search'
 import Button from '@material-ui/core/Button'
 // local components
-const SearchPage = (props) =>  {
-  // search page
-  const { 
-    onClickPageOneLeftButton,
-    onClickPageOneRightButton, 
-    buttonLeftTitle, 
-    buttonRightTitle,
-    title
-  } = props ? props : {}
 
-  return(
-    <div>
-      <h1>{title}</h1>
-      <div style={styles.searchView}>
-        <SearchBar
-          style={styles.SearchBar}
-          value={''}
-          //onChange={this.onChange}
-          //onRequestSearch={this.searchClub}
-        />
-      </div>
-      <br/>
-      <div style={styles.buttonView}>
-        <div style={styles.buttonSlit}>
-          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickPageOneLeftButton}>{buttonLeftTitle}</Button>
-          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickPageOneRightButton}>{buttonRightTitle}</Button>
+class SearchPage extends Component {
+
+  render() {
+
+    const { 
+      onClickSearchPageLeftButton,
+      onClickSearchPageRightButton, 
+      leftButtonTitle, 
+      rightButtonTitle,
+      title
+    } = this.props
+
+    return(
+      <div>
+        <h1>{title}</h1>
+        <div style={styles.searchView}>
+          <SearchBar
+            style={styles.SearchBar}
+            value={''}
+            //onChange={this.onChange}
+            //onRequestSearch={this.searchClub}
+          />
         </div>
-      </div> 
-    </div>
-  )
+        <br/>
+        <div style={styles.buttonView}>
+          <div style={styles.buttonSlit}>
+            <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageLeftButton}>{leftButtonTitle}</Button>
+            <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageRightButton}>{rightButtonTitle}</Button>
+          </div>
+        </div> 
+      </div>
+    )
+  }
 }
+
 
 const styles = {
   searchView: {

@@ -1,5 +1,5 @@
 // node module
-import React from 'react';
+import React from 'react'
 // local components
 import HoldemBar from '../components/HoldemBar'
 
