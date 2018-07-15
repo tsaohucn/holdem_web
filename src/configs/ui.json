@@ -36,9 +36,142 @@
 	  	"path": "live"
 	  }
   ],
-  "clubField": ["俱樂部名稱","俱樂部帳號","俱樂部密碼"],
-  "refereeField": ["裁判代號","裁判姓名","裁判電話","裁判帳號","裁判密碼","所屬俱樂部"],
-  "salesField": ["裁判代號","裁判姓名","裁判電話","裁判帳號","裁判密碼","所屬俱樂部"],
-  "memberField": ["會員編號","會員姓名","入會日期","性別","出生日期","出生地","學歷","身分證字號","戶籍地址","聯絡電話","會員抓馬額度","所屬俱樂部","所屬裁判","所屬業務"],
-  "employeeField": ["員工名稱","員工帳號","員工密碼"]
+  "clubField": [
+    {
+      "key": "name",
+      "label": "俱樂部名稱"
+    },
+    {
+      "key": "account",
+      "label": "俱樂部帳號"
+    },
+    {
+      "key": "password",
+      "label": "俱樂部密碼"
+    }
+  ],
+  "refereeField": [
+    {
+      "key": "id",
+      "label": "裁判代號"
+    },
+    {
+      "key": "name",
+      "label": "裁判姓名"
+    },
+    {
+      "key": "telephone",
+      "label": "裁判電話"
+    },
+    {
+      "key": "account",
+      "label": "裁判帳號"
+    },
+    {
+      "key": "password",
+      "label": "裁判密碼"
+    },
+    {
+      "key": "club",
+      "label": "所屬俱樂部"
+    }
+  ],
+  "salesField": [
+    {
+      "key": "id",
+      "label": "業務代號"
+    },
+    {
+      "key": "name",
+      "label": "業務姓名"
+    },
+    {
+      "key": "telephone",
+      "label": "業務電話"
+    },
+    {
+      "key": "account",
+      "label": "業務帳號"
+    },
+    {
+      "key": "password",
+      "label": "業務密碼"
+    },
+    {
+      "key": "club",
+      "label": "所屬俱樂部"
+    }
+  ],
+  "memberField": [
+    {
+      "key": "id",
+      "label": "會員編號"
+    },
+    {
+      "key": "name",
+      "label": "會員姓名"
+    },
+    {
+      "key": "joinDate",
+      "label": "入會日期"
+    },
+    {
+      "key": "gender",
+      "label": "性別"
+    },
+    {
+      "key": "birthday",
+      "label": "出生日期"
+    },
+    {
+      "key": "place",
+      "label": "出生地"
+    },
+    {
+      "key": "education",
+      "label": "學歷"      
+    },
+    {
+      "key": "identity",
+      "label": "身分證字號"
+    },
+    {
+      "key": "address",
+      "label": "戶籍地址"
+    },
+    {
+      "key": "phone",
+      "label": "聯絡電話"      
+    },
+    {
+      "key": "limit",
+      "label": "會員抓馬額度"
+    },
+    {
+      "key": "club",
+      "label": "所屬俱樂部"      
+    },
+    {
+      "key": "referee",
+      "label": "所屬裁判"      
+    },
+    {
+      "key": "sales",
+      "label": "所屬業務" 
+    }
+  ],
+  "employeeField": [
+    {
+      "key": "name",
+      "label": "員工名稱"
+    },
+    {
+      "key": "account",
+      "label": "員工名稱"
+    },
+    {
+      "key": "password",
+      "label": "員工密碼"
+    }
+  ]
 }

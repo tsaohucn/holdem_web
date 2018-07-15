@@ -1,34 +1,55 @@
 // node_module
-import React from 'react'
+import React, { PureComponent } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 // local components
-const NewPage = (props) =>  {
-  // add new page
-  const { 
-    data,
-    onClickPageTwoButton,
-    buttonTitle
-  } = props ? props : {}
+class NewPage extends PureComponent {
 
-  return(
-    <div>
-      {
-        data.map((ele,index) => 
-          <div key={index}>
-            <TextField
-              label={ele}
-              id="margin-normal"
-              style={styles.textField}
-              margin="normal"
-            />
-          </div>
-        )
-      }
-      <Button style={styles.button} variant="contained" color="secondary" onClick={onClickPageTwoButton}>{buttonTitle}</Button>
-    </div>
-  )
+  state = {
+    name: '',
+    account: '',
+    password: ''
+  }
+
+  onChange(state) {
+    this.setState(state)
+  }
+
+  onClick = () => {
+    this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state)
+  }
+    
+  render() {
+    const { 
+      data,
+      buttonTitle
+    } = this.props
+
+    return(
+      <div>
+        {
+          data.map(ele => 
+            <div key={ele.key}>
+              <TextField
+                label={ele.label}
+                id="margin-normal"
+                style={styles.textField}
+                margin="normal"
+                onChange={(event) => {
+                  const state = {}
+                  state[ele.key] = event.target.value
+                  this.onChange(state)
+                }}
+              />
+            </div>
+          )
+        }
+        <Button style={styles.button} variant="contained" color="secondary" onClick={this.onClick}>{buttonTitle}</Button>
+      </div>
+    )    
+  }
 }
+
 
 const styles = {
   textField: {

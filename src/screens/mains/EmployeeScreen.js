@@ -22,9 +22,9 @@ const tableData = [
 const SearchPageComponent = (props) => 
   <SearchPage
     {...props}
-    title="搜索員工"
-    buttonLeftTitle='搜索' 
-    buttonRightTitle='新增員工'
+    title='搜索員工'
+    leftButtonTitle='搜索' 
+    rightButtonTitle='新增員工'
   />
 
 const NewPageComponent = (props) =>

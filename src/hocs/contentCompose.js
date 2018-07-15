@@ -1,50 +1,66 @@
 // node module
 import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import sleep from '../helpers/sleep'
 // local components
-function contentCompose(PageOneComponent,PageTwoComponent,PageThreeComponent) {
+function contentCompose(SearchComponent,NewComponent,TableComponent,upload) {
   return class extends React.Component {
   	constructor(props) {
   	  super(props)
       this.state = {
         isLoading: false,
-        page: 1
+        loadingState: null,
+        page: 'search'
       }
+      this.ref = React.createRef()
   	}
 
-    onClickPageOneRightButton = () => {
+    searchTable = () => {
+      // do something then 
+      this.goToTableComponent()    
+    }
+
+    addNewData = (state) => {
       this.setState({
-        page: 2
+        isLoading: true,
+        loadingState: '上傳資料中'
+      },async function () {
+        await upload && upload(state)
+        await sleep(3000)
+        this.setState({
+          isLoading: false,
+          loadingState: null               
+        },this.goToSearchComponent)
       })
     }
 
-    onClickPageOneLeftButton = () => {
-      // do something then
+    goToSearchComponent = () => {
       this.setState({
-        page: 3
-      })      
+        page: 'search'
+      })       
     }
 
-    onClickPageTwoButton = () => {
-      // do something then
+    goToNewComponent = () => {
       this.setState({
-        page: 1
-      })      
+        page: 'new'
+      })
     }
 
-    onClickPageThreeButton = () => {
+    goToTableComponent = () => {
       this.setState({
-        page: 1
+        page: 'table'
       })       
     }
 
     renderSubComponent() {
-      if (this.state.page === 3) {
-        return PageThreeComponent
-      } else if (this.state.page === 2) {
-        return PageTwoComponent
+      if (this.state.page === 'search') {
+        return SearchComponent
+      } else if (this.state.page === 'new') {
+        return NewComponent
+      } else if (this.state.page === 'table') {
+        return TableComponent
       } else {
-        return PageOneComponent
+        return null
       }
     }
 
@@ -61,13 +77,15 @@ function contentCompose(PageOneComponent,PageTwoComponent,PageThreeComponent) {
             this.state.isLoading ? 
             <div style={styles.spinner}>
               <CircularProgress size={50}/>
+              <h3>{this.state.loadingState}</h3>
             </div>
             :
             <SubComponent
-              onClickPageOneLeftButton={this.onClickPageOneLeftButton}
-              onClickPageOneRightButton={this.onClickPageOneRightButton}
-              onClickPageTwoButton={this.onClickPageTwoButton}
-              onClickPageThreeButton={this.onClickPageThreeButton}
+              ref={this.ref}
+              onClickSearchPageLeftButton={this.searchTable}
+              onClickSearchPageRightButton={this.goToNewComponent}
+              onClickNewPageButton={this.addNewData}
+              onClickTablePageButton={this.goToSearchComponent}
             />
           }
         </div>
