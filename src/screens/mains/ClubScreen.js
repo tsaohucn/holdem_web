@@ -18,16 +18,14 @@ const fieldData = [
   }
 ]
 
-const tableData = [
-  {
-    id: '1',
-    name: 'Frozen yoghurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: '4.0'
-  }
-]
+const tableData = Array(500).fill().map((e,index) => ({
+  id: index,
+  name: 'Frozen yoghurt',
+  calories: 159,
+  fat: 6.0,
+  carbs: 24,
+  protein: '4.0'
+}))
 
 const SearchPageComponent = (props) => 
   <SearchPage
