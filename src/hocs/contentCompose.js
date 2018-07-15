@@ -1,11 +1,13 @@
 // node module
-import React from 'react';
+import React from 'react'
+import Spinner from 'react-spinner-material'
 // local components
 function contentCompose(PageOneComponent,PageTwoComponent,PageThreeComponent) {
   return class extends React.Component {
   	constructor(props) {
   	  super(props)
       this.state = {
+        isLoading: false,
         page: 1
       }
   	}
@@ -51,16 +53,39 @@ function contentCompose(PageOneComponent,PageTwoComponent,PageThreeComponent) {
       const SubComponent = this.renderSubComponent()
 
       return(
-        <div {...this.props}>
-          <SubComponent
-            onClickPageOneLeftButton={this.onClickPageOneLeftButton}
-            onClickPageOneRightButton={this.onClickPageOneRightButton}
-            onClickPageTwoButton={this.onClickPageTwoButton}
-            onClickPageThreeButton={this.onClickPageThreeButton}
-          />
+        <div style={styles.container} {...this.props}>
+          {
+            this.state.isLoading ? 
+            <div style={styles.spinner}>
+              <Spinner
+                size={120}
+                spinnerColor={"#4682b4"}
+                spinnerWidth={5}
+              /> 
+            </div>
+            :
+            <SubComponent
+              onClickPageOneLeftButton={this.onClickPageOneLeftButton}
+              onClickPageOneRightButton={this.onClickPageOneRightButton}
+              onClickPageTwoButton={this.onClickPageTwoButton}
+              onClickPageThreeButton={this.onClickPageThreeButton}
+            />
+          }
         </div>
       )
     }
+  }
+}
+
+const styles = {
+  container: {
+    height: '100%'
+  },
+  spinner: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems:'center',
+    height: '100%'    
   }
 }
 
