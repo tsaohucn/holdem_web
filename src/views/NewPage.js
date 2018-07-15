@@ -14,10 +14,10 @@ const NewPage = (props) =>  {
   return(
     <div>
       {
-        data.map(ele => 
-          <div key={ele.key}>
+        data.map((ele,index) => 
+          <div key={index}>
             <TextField
-              label={ele.label}
+              label={ele}
               id="margin-normal"
               style={styles.textField}
               margin="normal"

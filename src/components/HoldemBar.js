@@ -21,7 +21,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 // local components
 import Icon from './Icon'
 import firebase from '../configs/firebase'
-import config from '../configs/config'
+import ui from '../configs/ui'
 
 const drawerWidth = 240;
 
@@ -155,7 +155,7 @@ class PersistentDrawer extends React.Component {
         <Divider />
         <List>
           {
-            config['tool'].map( ele => (
+            ui.tool.map( ele => (
               <ListItem button onClick={() => this.props.history.push('/mains/' + ele.path)}>
                 <ListItemIcon>
                   <Icon tag={ele.icon}/>
