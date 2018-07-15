@@ -27,10 +27,10 @@ const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   appFrame: {
-    height: 430,
+    height: '100%',
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -79,7 +79,7 @@ const styles = theme => ({
     ...theme.mixins.toolbar,
   },
   content: {
-    overflow: 'scroll',
+    //overflow: 'scroll',
     flexGrow: 1,
     //backgroundColor: theme.palette.background.default,
     paddingLeft: theme.spacing.unit * 3,
