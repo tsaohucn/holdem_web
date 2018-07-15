@@ -12,7 +12,6 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,upload) {
         loadingState: null,
         page: 'search'
       }
-      this.ref = React.createRef()
   	}
 
     searchTable = () => {
@@ -25,12 +24,16 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,upload) {
         isLoading: true,
         loadingState: '上傳資料中'
       },async function () {
-        await upload && upload(state)
-        await sleep(3000)
-        this.setState({
-          isLoading: false,
-          loadingState: null               
-        },this.goToSearchComponent)
+        try {
+          await upload && upload(state)
+          await sleep(3000)
+          this.setState({
+            isLoading: false,
+            loadingState: null               
+          },this.goToSearchComponent)
+        } catch(err) {
+          console.log(err)
+        }
       })
     }
 

@@ -20,9 +20,9 @@ class SessionScreen extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.props.history.push('/mains/function')
+        this.props.history.push('/mains')
       } else {
-        this.props.history.push('/welcome')
+        this.props.history.push('/welcomes')
       }
     })
   }

@@ -5,8 +5,8 @@ import { BrowserRouter , Route, Switch } from "react-router-dom";
 // screens
 import SessionScreen from "./screens/SessionScreen"
 import WelcomeScreen from "./screens/WelcomeScreen"
+import MainScreen from "./screens/MainScreen"
 // mains
-import FunctionScreen from "./screens/mains/FunctionScreen"
 import ClubScreen from "./screens/mains/ClubScreen"
 import RefereeScreen from "./screens/mains/RefereeScreen"
 import SalesScreen from "./screens/mains/SalesScreen"
@@ -19,8 +19,8 @@ const Router = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path="/" component={SessionScreen} />
-      <Route path="/welcome" component={WelcomeScreen} />
-      <Route path="/mains/function" component={FunctionScreen} />
+      <Route path="/welcomes" component={WelcomeScreen} />
+      <Route path="/mains" component={MainScreen} />
       <Route path="/mains/club" component={ClubScreen} />
       <Route path="/mains/referee" component={RefereeScreen} />
       <Route path="/mains/sales" component={SalesScreen} />
