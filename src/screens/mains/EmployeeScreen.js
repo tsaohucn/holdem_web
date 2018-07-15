@@ -3,8 +3,8 @@ import React from 'react'
 // local components
 import withHoldemBar from '../../hocs/withHoldemBar'
 import contentCompose from '../../hocs/contentCompose'
+import NewPage from '../../components/NewPage'
 import SearchPage from '../../views/SearchPage'
-import NewPage from '../../views/NewPage'
 import TablePage from '../../views/TablePage'
 import ui from '../../configs/ui'
 
@@ -30,7 +30,7 @@ const SearchPageComponent = (props) =>
 const NewPageComponent = (props) =>
   <NewPage
    {...props}
-   data={ui.employeeField}
+   field={ui.employeeField}
    buttonTitle={'確認新增員工'}
   />
 

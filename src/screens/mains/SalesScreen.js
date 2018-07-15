@@ -3,10 +3,11 @@ import React from 'react'
 // local components
 import withHoldemBar from '../../hocs/withHoldemBar'
 import contentCompose from '../../hocs/contentCompose'
+import NewPage from '../../components/NewPage'
 import SearchPage from '../../views/SearchPage'
-import NewPage from '../../views/NewPage'
 import TablePage from '../../views/TablePage'
 import ui from '../../configs/ui'
+import firebase from '../../configs/firebase'
 
 const tableData = [
   {
@@ -19,6 +20,8 @@ const tableData = [
   }
 ]
 
+const upload = (state) => firebase.database().ref('sales').push(state)
+
 const SearchPageComponent = (props) => 
   <SearchPage
     {...props}
@@ -30,7 +33,7 @@ const SearchPageComponent = (props) =>
 const NewPageComponent = (props) =>
   <NewPage
    {...props}
-   data={ui.salesField}
+   field={ui.salesField}
    buttonTitle={'確認新增業務'}
   />
 
@@ -40,6 +43,6 @@ const TablePageComponent = (props) =>
     data={tableData}
   />
 
-const SalesScreen = contentCompose(SearchPageComponent,NewPageComponent,TablePageComponent)
+const SalesScreen = contentCompose(SearchPageComponent,NewPageComponent,TablePageComponent,upload)
 
 export default withHoldemBar(SalesScreen)
