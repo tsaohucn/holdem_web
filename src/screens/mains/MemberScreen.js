@@ -6,17 +6,7 @@ import contentCompose from '../../hocs/contentCompose'
 import SearchPage from '../../views/SearchPage'
 import NewPage from '../../views/NewPage'
 import TablePage from '../../views/TablePage'
-
-const fieldData = [
-  {
-    key: 'dsd',
-    label: 'Test'
-  },
-  {
-    key: 'sdsd',
-    label: 'sdsdsd'
-  }
-]
+import ui from '../../configs/ui'
 
 const tableData = [
   {
@@ -40,7 +30,7 @@ const SearchPageComponent = (props) =>
 const NewPageComponent = (props) =>
   <NewPage
    {...props}
-   data={fieldData}
+   data={ui.memberField}
    buttonTitle={'確認新增會員'}
   />
 
