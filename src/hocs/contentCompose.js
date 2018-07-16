@@ -3,14 +3,15 @@ import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import sleep from '../helpers/sleep'
 // local components
-function contentCompose(SearchComponent,NewComponent,TableComponent,upload) {
+function contentCompose(SearchComponent,NewComponent,TableComponent,upload,fetchOptions) {
   return class extends React.Component {
   	constructor(props) {
   	  super(props)
       this.state = {
         isLoading: false,
         loadingState: null,
-        page: 'search'
+        page: 'search',
+        clubOptions: []
       }
   	}
 
@@ -46,8 +47,22 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,upload) {
     }
 
     goToNewComponent = () => {
+      let options = []
       this.setState({
+        isLoading: true,
         page: 'new'
+      },async function () {
+        try {
+          await sleep(1000)
+          fetchOptions && (options = await fetchOptions())
+        } catch(err) {
+          this.props.alert.show('下載俱樂部資料失敗')
+        } finally {
+          this.setState({
+            isLoading: false,
+            ...options           
+          })
+        }
       })
     }
 
@@ -72,6 +87,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,upload) {
     render() {
 
       const SubComponent = this.renderSubComponent()
+      const { clubOptions } = this.state
 
       return(
         <div 
@@ -91,6 +107,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,upload) {
               onClickSearchPageRightButton={this.goToNewComponent}
               onClickNewPageButton={this.addNewData}
               onClickTablePageButton={this.goToSearchComponent}
+              clubOptions={clubOptions}
             />
           }
         </div>

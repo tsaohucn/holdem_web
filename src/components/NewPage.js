@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import MenuItem from '@material-ui/core/MenuItem'
-import CircularProgress from '@material-ui/core/CircularProgress'
 // local components
 class NewPage extends PureComponent {
 
@@ -33,18 +32,14 @@ class NewPage extends PureComponent {
     }
   }
 
-  renderClubSelect() {
-    return(
-      <CircularProgress size={10}/>
-      //this.props.options && this.props.options.map(option => (
-      //  <MenuItem key={option.key} value={option.key}>
-      //    {option.label}
-      //  </MenuItem>
-      //))
-    )
+  renderClubSelect = () => {
+    return this.props.clubOptions && this.props.clubOptions.map(option => (
+      <MenuItem key={option.key} value={option.key}>
+        {option.name}
+      </MenuItem>
+    ))
   }
-
-    
+ 
   render() {
     const { 
       field,
@@ -57,7 +52,7 @@ class NewPage extends PureComponent {
           field.map(ele => 
             {
               const { key, label } = ele ? ele : {}
-              const isSelect = ele.key === 'club'
+              const isSelect = key === 'club'
               return(
                 <div key={key}>
                   <TextField

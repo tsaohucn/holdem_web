@@ -31,11 +31,17 @@ const options = [
   }
 ]
 
-const fetchClubOptions = () => {
-  return options
-}
-
 const upload = (state) => firebase.database().ref('referees').push(state)
+
+const fetchOptions = async () => {
+  const snap = await firebase.database().ref('clubs').orderByChild('name').once('value')
+  const club_keys = Object.keys(snap.val())
+  const options = club_keys.map(key => ({
+    key,
+    name: snap.val()[key]['name']
+  }))
+  return { clubOptions: options }
+}
 
 const SearchPageComponent = (props) => 
   <SearchPage
@@ -59,6 +65,6 @@ const TablePageComponent = (props) =>
     data={tableData}
   />
 
-const RefereeScreen = contentCompose(SearchPageComponent,NewPageComponent,TablePageComponent,upload)
+const RefereeScreen = contentCompose(SearchPageComponent,NewPageComponent,TablePageComponent,upload,fetchOptions)
 
 export default withHoldemBar(withAlert(RefereeScreen))
