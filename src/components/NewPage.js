@@ -3,45 +3,47 @@ import React, { PureComponent } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import MenuItem from '@material-ui/core/MenuItem'
+import CircularProgress from '@material-ui/core/CircularProgress'
 // local components
-const ranges = [
-  {
-    value: '0-20',
-    label: '0 to 20',
-  },
-  {
-    value: '21-50',
-    label: '21 to 50',
-  },
-  {
-    value: '51-100',
-    label: '51 to 100',
-  },
-]
-
 class NewPage extends PureComponent {
 
   state = this.props.field.reduce(function(o, ele) { o[ele.key] = ''; return o; }, {})
+
+  checkDataIntegrity() {
+    const values =  Object.values(this.state)
+    const index = values.findIndex(value => (!value || value === ''))
+    console.warn(values)
+    if (index < 0) {
+      return true
+    } else {
+      const warning = this.props.field[index].label + '不能為空'
+      this.props.alert.show(warning)
+      return false      
+    }
+  }
 
   onChange(state) {
     this.setState(state)
   }
 
   onClick = () => {
-    this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state)
-  }
-
-  renderSelect(flag) {
-    if (flag) {
-      return(
-        this.props.options.map(option => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))
-      )
+    const dataIsIntegrity = this.checkDataIntegrity()
+    if (dataIsIntegrity) {
+      this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state)
     }
   }
+
+  renderClubSelect() {
+    return(
+      <CircularProgress size={10}/>
+      //this.props.options && this.props.options.map(option => (
+      //  <MenuItem key={option.key} value={option.key}>
+      //    {option.label}
+      //  </MenuItem>
+      //))
+    )
+  }
+
     
   render() {
     const { 
@@ -54,24 +56,26 @@ class NewPage extends PureComponent {
         {
           field.map(ele => 
             {
-              const ifSelect = ele.key === 'club'
+              const { key, label } = ele ? ele : {}
+              const isSelect = ele.key === 'club'
               return(
-                <div key={ele.key}>
+                <div key={key}>
                   <TextField
-                    select={ifSelect}
-                    label={ele.label}
+                    select={isSelect}
+                    label={label}
                     id="margin-normal"
                     style={styles.textField}
                     margin="normal"
-                    value={this.state[ele.key]}
-                    onChange={(event) => {
-                      const state = {}
-                      state[ele.key] = event.target.value
+                    value={this.state[key]}
+                    onChange={event => {
+                      const state = {
+                        [key]: event.target.value
+                      }
                       this.onChange(state)
                     }}
                   > 
                   {
-                    this.renderSelect(ifSelect)
+                    isSelect ? this.renderClubSelect() : null
                   }
                   </TextField>
                 </div>

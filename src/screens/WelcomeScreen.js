@@ -104,7 +104,7 @@ class WelcomeScreen extends Component {
   }
 }
 
-export default WelcomeScreen;
+export default WelcomeScreen
 
 const AuthButton = withRouter(
   ({ history }) =>

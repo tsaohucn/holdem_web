@@ -2,9 +2,9 @@
 import React from 'react'
 import { withAlert } from 'react-alert'
 // local components
-import withHoldemBar from '../hocs/withHoldemBar'
-import image from '../images/background.png'
-class MainScreen extends React.Component {
+import withHoldemBar from '../../hocs/withHoldemBar'
+
+class IndexScreen extends React.Component {
 
   render() {
     return(
@@ -16,4 +16,4 @@ class MainScreen extends React.Component {
   }
 }
 
-export default withAlert(withHoldemBar(MainScreen))
+export default withAlert(withHoldemBar(IndexScreen))
