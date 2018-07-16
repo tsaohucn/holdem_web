@@ -2,11 +2,11 @@
 import React from "react";
 import { BrowserRouter , Route, Switch } from "react-router-dom";
 // local components
-// screens
+// auths
 import SessionScreen from "./screens/SessionScreen"
 import WelcomeScreen from "./screens/WelcomeScreen"
-import MainScreen from "./screens/MainScreen"
 // mains
+import IndexScreen from "./screens/mains/IndexScreen"
 import ClubScreen from "./screens/mains/ClubScreen"
 import RefereeScreen from "./screens/mains/RefereeScreen"
 import SalesScreen from "./screens/mains/SalesScreen"
@@ -20,7 +20,7 @@ const Router = () => (
     <Switch>
       <Route exact path="/" component={SessionScreen} />
       <Route path="/welcomes" component={WelcomeScreen} />
-      <Route path="/mains" component={MainScreen} />
+      <Route path="/mains/index" component={IndexScreen} />
       <Route path="/mains/club" component={ClubScreen} />
       <Route path="/mains/referee" component={RefereeScreen} />
       <Route path="/mains/sales" component={SalesScreen} />

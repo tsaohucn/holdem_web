@@ -1,11 +1,15 @@
 // node_module
 import React from 'react'
-// local components
-import withHoldemBar from '../../hocs/withHoldemBar'
+import { withAlert } from 'react-alert'
+// local_module
+// hocs
 import contentCompose from '../../hocs/contentCompose'
+import withHoldemBar from '../../hocs/withHoldemBar'
+// components
 import NewPage from '../../components/NewPage'
 import SearchPage from '../../views/SearchPage'
 import TablePage from '../../views/TablePage'
+// tools
 import ui from '../../configs/ui'
 import firebase from '../../configs/firebase'
 
@@ -19,6 +23,17 @@ const tableData = [
     protein: '4.0'
   }
 ]
+
+const options = [
+  {
+    key: 'test',
+    label: 'aaaaa'
+  }
+]
+
+const fetchClubOptions = () => {
+  return options
+}
 
 const upload = (state) => firebase.database().ref('referees').push(state)
 
@@ -35,6 +50,7 @@ const NewPageComponent = (props) =>
    {...props}
    field={ui.refereeField}
    buttonTitle={'確認新增裁判'}
+   //options={fetchClubOptions()}
   />
 
 const TablePageComponent = (props) => 
@@ -45,4 +61,4 @@ const TablePageComponent = (props) =>
 
 const RefereeScreen = contentCompose(SearchPageComponent,NewPageComponent,TablePageComponent,upload)
 
-export default withHoldemBar(RefereeScreen)
+export default withHoldemBar(withAlert(RefereeScreen))

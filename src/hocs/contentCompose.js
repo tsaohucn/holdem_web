@@ -25,14 +25,16 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,upload) {
         loadingState: '上傳資料中'
       },async function () {
         try {
+          await sleep(1000)
           await upload && upload(state)
-          await sleep(3000)
+          this.props.alert.show('上傳成功')
+        } catch(err) {
+          this.props.alert.show('上傳失敗 : ' + err.toString())
+        } finally {
           this.setState({
             isLoading: false,
             loadingState: null               
           },this.goToSearchComponent)
-        } catch(err) {
-          console.log(err)
         }
       })
     }
@@ -84,7 +86,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,upload) {
             </div>
             :
             <SubComponent
-              ref={this.ref}
+              {...this.props}
               onClickSearchPageLeftButton={this.searchTable}
               onClickSearchPageRightButton={this.goToNewComponent}
               onClickNewPageButton={this.addNewData}

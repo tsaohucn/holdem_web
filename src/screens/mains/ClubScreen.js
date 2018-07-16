@@ -1,11 +1,15 @@
 // node_module
 import React from 'react'
+import { withAlert } from 'react-alert'
 // local components
-import withHoldemBar from '../../hocs/withHoldemBar'
+// hocs
 import contentCompose from '../../hocs/contentCompose'
+import withHoldemBar from '../../hocs/withHoldemBar'
+
 import NewPage from '../../components/NewPage'
 import SearchPage from '../../views/SearchPage'
 import TablePage from '../../views/TablePage'
+// tools
 import ui from '../../configs/ui'
 import firebase from '../../configs/firebase'
 
@@ -18,7 +22,9 @@ const tableData = Array(500).fill().map((e,index) => ({
   protein: '4.0'
 }))
 
-const upload = (state) => firebase.database().ref('clubs').push(state)
+const upload = (state) => {
+  return firebase.database().ref('clubs').push(state)
+}
 
 const SearchPageComponent = (props) => 
   <SearchPage
@@ -43,4 +49,4 @@ const TablePageComponent = (props) =>
 
 const ClubScreen = contentCompose(SearchPageComponent,NewPageComponent,TablePageComponent,upload)
 
-export default withHoldemBar(ClubScreen)
+export default withHoldemBar(withAlert((ClubScreen)))
