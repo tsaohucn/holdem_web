@@ -1,5 +1,6 @@
 // node_module
 import React from 'react'
+import { withAlert } from 'react-alert'
 // local components
 import withHoldemBar from '../../hocs/withHoldemBar'
 import contentCompose from '../../hocs/contentCompose'
@@ -20,12 +21,22 @@ const tableData = [
   }
 ]
 
-const upload = (state) => firebase.database().ref('sales').push(state)
+const uploadInsertData = (state) => firebase.database().ref('sales').push(state)
+
+const fetchOptions = async () => {
+  const snap = await firebase.database().ref('clubs').orderByChild('name').once('value')
+  const club_keys = Object.keys(snap.val())
+  const options = club_keys.map(key => ({
+    key,
+    name: snap.val()[key]['name']
+  }))
+  return { clubOptions: options }
+}
 
 const SearchPageComponent = (props) => 
   <SearchPage
     {...props}
-    title='搜索業務'
+    title='業務代號查詢'
     leftButtonTitle='搜索' 
     rightButtonTitle='新增業務'
   />
@@ -40,9 +51,22 @@ const NewPageComponent = (props) =>
 const TablePageComponent = (props) => 
   <TablePage
     {...props}
+    title={ui.salesTable}
     data={tableData}
   />
 
-const SalesScreen = contentCompose(SearchPageComponent,NewPageComponent,TablePageComponent,upload)
+const EditComponent = (props) => 
+  <div>
+    <p>{'EditComponent'}</p>
+  </div>
 
-export default withHoldemBar(SalesScreen)
+const SalesScreen = contentCompose(
+  SearchPageComponent,
+  NewPageComponent,
+  TablePageComponent,
+  EditComponent,
+  uploadInsertData,
+  fetchOptions
+)
+
+export default withHoldemBar(withAlert(SalesScreen))

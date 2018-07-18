@@ -11,8 +11,10 @@ import Button from '@material-ui/core/Button'
 const TablePage = (props) =>  {
 
   const { 
+    title,
     data,
     onClickTablePageButton,
+    onClickEdit
   } = props ? props : {}
 
   return(
@@ -22,24 +24,26 @@ const TablePage = (props) =>  {
             <Table style={styles.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell>Dessert (100g serving)</TableCell>
-                  <TableCell numeric>Calories</TableCell>
-                  <TableCell numeric>Fat (g)</TableCell>
-                  <TableCell numeric>Carbs (g)</TableCell>
-                  <TableCell numeric>Protein (g)</TableCell>
+                  {
+                    title && title.map(ele => (
+                      <TableCell key={ele.key}>{ele.label}</TableCell>
+                    ))
+                  }
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.map(n => {
+                {data.map((n,index) => {
                   return (
-                    <TableRow key={n.id}>
-                      <TableCell component="th" scope="row">
-                        {n.name}
-                      </TableCell>
-                      <TableCell numeric>{n.calories}</TableCell>
-                      <TableCell numeric>{n.fat}</TableCell>
-                      <TableCell numeric>{n.carbs}</TableCell>
-                      <TableCell numeric>{n.protein}</TableCell>
+                    <TableRow key={index}>
+                      {
+                        title && title.map(ele => {
+                          if (ele.key === 'edit') {
+                            return <TableCell><a onClick={onClickEdit}>{'編輯'}</a></TableCell>
+                          } else {
+                            return <TableCell>{n[ele.key]}</TableCell>
+                          }
+                        })
+                      }
                     </TableRow>
                   );
                 })}

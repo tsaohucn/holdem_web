@@ -43,7 +43,8 @@ class NewPage extends PureComponent {
   render() {
     const { 
       field,
-      buttonTitle
+      buttonTitle,
+      onClickNewPageReturn
     } = this.props
 
     return(
@@ -78,7 +79,12 @@ class NewPage extends PureComponent {
             }
           )
         }
-        <Button style={styles.button} variant="contained" color="secondary" onClick={this.onClick}>{buttonTitle}</Button>
+        <br/>
+        <div style={styles.buttonView}>
+          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickNewPageReturn}>{'返回'}</Button>
+          <Button style={styles.button} variant="contained" color="secondary" onClick={this.onClick}>{buttonTitle}</Button>
+        </div>
+        <br/>
       </div>
     )    
   }
@@ -89,8 +95,14 @@ const styles = {
   textField: {
     width: '40%'
   },
+  buttonView: {
+    width: '40%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
   button: {
-    width: '40%'
+    width: '30%'
   }
 }
 export default NewPage

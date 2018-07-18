@@ -19,8 +19,9 @@ class SearchPage extends Component {
 
     return(
       <div>
-        <h1>{title}</h1>
-        <div style={styles.searchView}>
+        <br/>
+        <div style={styles.searchBlock}>
+          <h4 style={styles.SearchTitle}>{title}</h4>
           <SearchBar
             style={styles.SearchBar}
             value={''}
@@ -30,10 +31,8 @@ class SearchPage extends Component {
         </div>
         <br/>
         <div style={styles.buttonView}>
-          <div style={styles.buttonSlit}>
-            <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageLeftButton}>{leftButtonTitle}</Button>
-            <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageRightButton}>{rightButtonTitle}</Button>
-          </div>
+          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageLeftButton}>{leftButtonTitle}</Button>
+          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageRightButton}>{rightButtonTitle}</Button>
         </div> 
       </div>
     )
@@ -42,26 +41,25 @@ class SearchPage extends Component {
 
 
 const styles = {
-  searchView: {
+  searchBlock: {
     display: 'flex', 
     flexDirection: 'row',
     alignItems: 'center'
   },
   SearchBar: {
+    flex: 6
+  },
+  SearchTitle: {
     flex: 1
   },
   buttonView: {
+    width: '25%',
     display: 'flex',
-    justifyContent: 'flex-start'
-  },
-  buttonSlit: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '35%',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   button: {
-    width: '40%'
+    width: '30%'
   }
 }
 export default SearchPage

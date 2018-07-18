@@ -24,14 +24,7 @@ const tableData = [
   }
 ]
 
-const options = [
-  {
-    key: 'test',
-    label: 'aaaaa'
-  }
-]
-
-const upload = (state) => firebase.database().ref('referees').push(state)
+const uploadInsertData = (state) => firebase.database().ref('referees').push(state)
 
 const fetchOptions = async () => {
   const snap = await firebase.database().ref('clubs').orderByChild('name').once('value')
@@ -46,7 +39,7 @@ const fetchOptions = async () => {
 const SearchPageComponent = (props) => 
   <SearchPage
     {...props}
-    title='搜索裁判'
+    title={'裁判代號查詢'}
     leftButtonTitle='搜索' 
     rightButtonTitle='新增裁判'
   />
@@ -62,9 +55,22 @@ const NewPageComponent = (props) =>
 const TablePageComponent = (props) => 
   <TablePage
     {...props}
+    title={ui.refereeTable}
     data={tableData}
   />
 
-const RefereeScreen = contentCompose(SearchPageComponent,NewPageComponent,TablePageComponent,upload,fetchOptions)
+const EditComponent = (props) => 
+  <div>
+    <p>{'EditComponent'}</p>
+  </div>
+
+const RefereeScreen = contentCompose(
+  SearchPageComponent,
+  NewPageComponent,
+  TablePageComponent,
+  EditComponent,
+  uploadInsertData,
+  fetchOptions
+)
 
 export default withHoldemBar(withAlert(RefereeScreen))
