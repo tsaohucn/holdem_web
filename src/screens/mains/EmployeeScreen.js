@@ -40,6 +40,12 @@ const TablePageComponent = (props) =>
     data={tableData}
   />
 
-const EmployeeScreen = contentCompose(SearchPageComponent,NewPageComponent,TablePageComponent)
+const EmployeeScreen = contentCompose(
+  SearchPageComponent,
+  NewPageComponent,
+  TablePageComponent,
+  null,
+  null,null
+)
 
 export default withHoldemBar(EmployeeScreen)

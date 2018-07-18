@@ -3,7 +3,7 @@ import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import sleep from '../helpers/sleep'
 // local components
-function contentCompose(SearchComponent,NewComponent,TableComponent,upload,fetchOptions) {
+function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponent,uploadInsertData,fetchOptions) {
   return class extends React.Component {
   	constructor(props) {
   	  super(props)
@@ -27,7 +27,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,upload,fetch
       },async function () {
         try {
           await sleep(1000)
-          await upload && upload(state)
+          await uploadInsertData && uploadInsertData(state)
           this.props.alert.show('上傳成功')
         } catch(err) {
           this.props.alert.show('上傳失敗 : ' + err.toString())
@@ -40,10 +40,16 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,upload,fetch
       })
     }
 
+    goToEditComponent = () => {
+      this.setState({
+        page: 'edit'
+      })       
+    }
+
     goToSearchComponent = () => {
       this.setState({
         page: 'search'
-      })       
+      })      
     }
 
     goToNewComponent = () => {
@@ -68,6 +74,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,upload,fetch
 
     goToTableComponent = () => {
       this.setState({
+        //isLoading: true,
         page: 'table'
       })       
     }
@@ -79,6 +86,8 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,upload,fetch
         return NewComponent
       } else if (this.state.page === 'table') {
         return TableComponent
+      } else if (this.state.page === 'edit') {
+        return EditComponent
       } else {
         return null
       }
@@ -106,7 +115,9 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,upload,fetch
               onClickSearchPageLeftButton={this.searchTable}
               onClickSearchPageRightButton={this.goToNewComponent}
               onClickNewPageButton={this.addNewData}
+              onClickNewPageReturn={this.goToSearchComponent}
               onClickTablePageButton={this.goToSearchComponent}
+              onClickEdit={this.goToEditComponent}
               clubOptions={clubOptions}
             />
           }

@@ -173,5 +173,86 @@
       "key": "password",
       "label": "員工密碼"
     }
-  ]
+  ],
+  "clubTable": [
+    {
+      "key": "name",
+      "label": "俱樂部名稱"
+    },
+    {
+      "key": "account",
+      "label": "俱樂部帳號"
+    },
+    {
+      "key": "password",
+      "label": "俱樂部密碼"
+    }
+  ],
+  "refereeTable": [
+    {
+      "key": "id",
+      "label": "裁判代號"
+    },
+    {
+      "key": "name",
+      "label": "裁判姓名"
+    },
+    {
+      "key": "telephone",
+      "label": "裁判電話"
+    },
+    {
+      "key": "account",
+      "label": "裁判帳號"
+    },
+    {
+      "key": "password",
+      "label": "裁判密碼"
+    },
+    {
+      "key": "memberCount",
+      "label": "所含會員成員"
+    },
+    {
+      "key": "club",
+      "label": "所屬俱樂部"
+    },{
+      "key": "edit",
+      "label": "編輯"
+    }
+  ],
+  "salesTable": [
+    {
+      "key": "id",
+      "label": "業務代號"
+    },
+    {
+      "key": "name",
+      "label": "業務姓名"
+    },
+    {
+      "key": "telephone",
+      "label": "業務電話"
+    },
+    {
+      "key": "account",
+      "label": "業務帳號"
+    },
+    {
+      "key": "password",
+      "label": "業務密碼"
+    },
+    {
+      "key": "memberCount",
+      "label": "所含會員成員"
+    },
+    {
+      "key": "club",
+      "label": "所屬俱樂部"
+    },
+    {
+      "key": "edit",
+      "label": "編輯"
+    }
+  ]  
 }
