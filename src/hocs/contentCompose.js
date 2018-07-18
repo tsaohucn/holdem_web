@@ -3,7 +3,7 @@ import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import sleep from '../helpers/sleep'
 // local components
-function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponent,uploadInsertData,fetchOptions) {
+function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponent,uploadInsertData,fetchOptions,fetchTableData) {
   return class extends React.Component {
   	constructor(props) {
   	  super(props)
@@ -11,7 +11,8 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
         isLoading: false,
         loadingState: null,
         page: 'search',
-        clubOptions: []
+        clubOptions: [],
+        showTableConfirmButton: false
       }
   	}
 
@@ -40,9 +41,24 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
       })
     }
 
+    onClickTableReturnButton = () => {
+      if (this.state.page === 'table') {
+        this.goToSearchComponent()
+      } else if (this.state.page === 'edit') {
+        this.goToTableComponent()
+      }
+    }
+
     goToEditComponent = () => {
       this.setState({
+        showTableConfirmButton: true,
+        isLoading: true,
         page: 'edit'
+      },async function () {
+        await sleep(1000) 
+        this.setState({
+          isLoading: false
+        })
       })       
     }
 
@@ -56,7 +72,8 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
       let options = []
       this.setState({
         isLoading: true,
-        page: 'new'
+        page: 'new',
+        loadingState: '下載資料中'
       },async function () {
         try {
           await sleep(1000)
@@ -73,9 +90,24 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
     }
 
     goToTableComponent = () => {
+      let tableData = []
       this.setState({
-        //isLoading: true,
-        page: 'table'
+        showTableConfirmButton: false,
+        isLoading: true,
+        page: 'table',
+        loadingState: '下載資料中'
+      },async function () {
+        try {
+          await sleep(1000)
+          fetchTableData && (tableData = await fetchTableData())
+        } catch(err) {
+          this.props.alert.show('下載資料表失敗')
+        } finally {
+          this.setState({
+            isLoading: false,
+            ...tableData           
+          })          
+        }
       })       
     }
 
@@ -96,7 +128,11 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
     render() {
 
       const SubComponent = this.renderSubComponent()
-      const { clubOptions } = this.state
+      const { 
+        clubOptions,
+        tableData,
+        showTableConfirmButton
+      } = this.state
 
       return(
         <div 
@@ -116,9 +152,11 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
               onClickSearchPageRightButton={this.goToNewComponent}
               onClickNewPageButton={this.addNewData}
               onClickNewPageReturn={this.goToSearchComponent}
-              onClickTablePageButton={this.goToSearchComponent}
+              onClickTableReturnButton={this.onClickTableReturnButton}
               onClickEdit={this.goToEditComponent}
               clubOptions={clubOptions}
+              tableData={tableData}
+              showTableConfirmButton={showTableConfirmButton}
             />
           }
         </div>

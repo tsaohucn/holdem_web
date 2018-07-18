@@ -11,7 +11,6 @@ class NewPage extends PureComponent {
   checkDataIntegrity() {
     const values =  Object.values(this.state)
     const index = values.findIndex(value => (!value || value === ''))
-    console.warn(values)
     if (index < 0) {
       return true
     } else {

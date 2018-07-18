@@ -19,8 +19,8 @@ const tableData = Array(500).fill().map((e,index) => ({
   password: 6.0
 }))
 
-const uploadInsertData = (state) => {
-  return firebase.database().ref('clubs').push(state)
+const uploadInsertData = async (state) => {
+  await firebase.database().ref('clubs').push(state)
 }
 
 const SearchPageComponent = (props) => 

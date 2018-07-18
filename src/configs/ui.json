@@ -214,11 +214,8 @@
       "label": "所含會員成員"
     },
     {
-      "key": "club",
+      "key": "clubName",
       "label": "所屬俱樂部"
-    },{
-      "key": "edit",
-      "label": "編輯"
     }
   ],
   "salesTable": [
@@ -247,12 +244,8 @@
       "label": "所含會員成員"
     },
     {
-      "key": "club",
+      "key": "clubName",
       "label": "所屬俱樂部"
-    },
-    {
-      "key": "edit",
-      "label": "編輯"
     }
   ]  
 }
