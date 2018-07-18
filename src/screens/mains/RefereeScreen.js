@@ -24,7 +24,14 @@ const tableData = [
   }
 ]
 
-const uploadInsertData = (state) => firebase.database().ref('referees').push(state)
+const uploadInsertData = async (state) => {
+  const snap = await firebase.database().ref('clubs/' + state.club + '/name').once('value')
+  const obj = {
+    clubName: snap.val(),
+    memberCount: 10,
+  }
+  await firebase.database().ref('referees').push(Object.assign(state,obj))
+}
 
 const fetchOptions = async () => {
   const snap = await firebase.database().ref('clubs').orderByChild('name').once('value')
@@ -34,6 +41,12 @@ const fetchOptions = async () => {
     name: snap.val()[key]['name']
   }))
   return { clubOptions: options }
+}
+
+const fetchTableData = async () => {
+  const snap = await firebase.database().ref('referees').once('value')
+  const tableData = Object.values(snap.val())
+  return { tableData }
 }
 
 const SearchPageComponent = (props) => 
@@ -49,20 +62,33 @@ const NewPageComponent = (props) =>
    {...props}
    field={ui.refereeField}
    buttonTitle={'確認新增裁判'}
-   //options={fetchClubOptions()}
   />
 
-const TablePageComponent = (props) => 
-  <TablePage
-    {...props}
-    title={ui.refereeTable}
-    data={tableData}
-  />
+const TablePageComponent = (props) => {
+  const obj = {
+    key: "edit",
+    label: "編輯"
+  }
+  return(
+    <TablePage
+      {...props}
+      title={ui.refereeTable.concat(obj)}
+    />
+  )
+}
 
-const EditComponent = (props) => 
-  <div>
-    <p>{'EditComponent'}</p>
-  </div>
+const EditComponent = (props) => {
+  const obj = {
+    key: "delete",
+    label: "刪除"
+  }
+  return(
+    <TablePage
+      {...props}
+      title={ui.refereeTable.concat(obj)}
+    />
+  )
+}
 
 const RefereeScreen = contentCompose(
   SearchPageComponent,
@@ -70,7 +96,8 @@ const RefereeScreen = contentCompose(
   TablePageComponent,
   EditComponent,
   uploadInsertData,
-  fetchOptions
+  fetchOptions,
+  fetchTableData
 )
 
 export default withHoldemBar(withAlert(RefereeScreen))

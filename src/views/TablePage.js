@@ -12,9 +12,12 @@ const TablePage = (props) =>  {
 
   const { 
     title,
-    data,
-    onClickTablePageButton,
-    onClickEdit
+    tableData,
+    onClickTableReturnButton,
+    onClickTableConfirmButton,
+    onClickEdit,
+    onClickDelete,
+    showTableConfirmButton
   } = props ? props : {}
 
   return(
@@ -32,13 +35,15 @@ const TablePage = (props) =>  {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.map((n,index) => {
+                {tableData && tableData.map((n,index) => {
                   return (
-                    <TableRow key={index}>
+                    <TableRow key={index.toString()}>
                       {
                         title && title.map(ele => {
                           if (ele.key === 'edit') {
                             return <TableCell><a onClick={onClickEdit}>{'編輯'}</a></TableCell>
+                          } else if (ele.key === 'delete') {
+                            return <TableCell><a onClick={onClickDelete}>{'刪除'}</a></TableCell>
                           } else {
                             return <TableCell>{n[ele.key]}</TableCell>
                           }
@@ -51,7 +56,12 @@ const TablePage = (props) =>  {
             </Table>
           </Paper>
           <br/>
-          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickTablePageButton}>返回</Button>
+          <div style={styles.buttonView}>
+            <Button style={styles.button} variant="contained" color="secondary" onClick={onClickTableReturnButton}>返回</Button> 
+            {
+              showTableConfirmButton && <Button style={styles.button} variant="contained" color="secondary" onClick={onClickTableConfirmButton}>確認</Button>
+            }
+          </div>
           <br/>
           <br/>
         </div>
@@ -66,5 +76,14 @@ const styles = {
   table: {
     minWidth: 700,
   },
+  buttonView: {
+    width: '25%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  button: {
+    width: '30%'
+  }
 }
 export default TablePage
