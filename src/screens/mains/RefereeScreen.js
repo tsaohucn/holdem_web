@@ -7,6 +7,7 @@ import contentCompose from '../../hocs/contentCompose'
 import withHoldemBar from '../../hocs/withHoldemBar'
 // components
 import NewPage from '../../components/NewPage'
+import EditPage from '../../components/EditPage'
 import SearchPage from '../../views/SearchPage'
 import TablePage from '../../views/TablePage'
 // tools
@@ -83,7 +84,7 @@ const EditComponent = (props) => {
     label: "刪除"
   }
   return(
-    <TablePage
+    <EditPage
       {...props}
       title={ui.refereeTable.concat(obj)}
     />

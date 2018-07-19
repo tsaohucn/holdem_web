@@ -19,7 +19,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import CircularProgress from '@material-ui/core/CircularProgress'
-
 // local components
 import Icon from './Icon'
 import firebase from '../configs/firebase'
@@ -157,8 +156,8 @@ class PersistentDrawer extends React.Component {
         <Divider />
         <List>
           {
-            ui.tool.map( ele => (
-              <ListItem button onClick={() => this.props.history.push('/mains/' + ele.path)}>
+            ui.tool.map((ele,index) => (
+              <ListItem key={index.toString()} button onClick={() => this.props.history.push('/mains/' + ele.path)}>
                 <ListItemIcon>
                   <Icon tag={ele.icon}/>
                 </ListItemIcon>
