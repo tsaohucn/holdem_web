@@ -90,6 +90,8 @@ class EditPage extends PureComponent {
                       title && title.map((ele) => {
                         if (ele.key === 'delete') {
                           return <TableCell key={ele.key}><a onClick={() => this.onClickDelete(index)}>{'刪除'}</a></TableCell>
+                        } else if (ele.key === 'clubName' || ele.key === 'memberCount') {
+                          return <TableCell key={ele.key}>{n[ele.key]}</TableCell>
                         } else {
                           return (
                             <TableCell

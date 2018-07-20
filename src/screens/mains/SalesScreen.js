@@ -1,12 +1,16 @@
 // node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
-// local components
+// local_module
+// hocs
 import withHoldemBar from '../../hocs/withHoldemBar'
 import contentCompose from '../../hocs/contentCompose'
+// components
 import NewPage from '../../components/NewPage'
+import EditPage from '../../components/EditPage'
 import SearchPage from '../../views/SearchPage'
 import TablePage from '../../views/TablePage'
+// tools
 import ui from '../../configs/ui'
 import firebase from '../../configs/firebase'
 
@@ -31,7 +35,7 @@ const uploadInsertData = async (state) => {
 }
 
 const updataData = async (state) => {
-  console.log(state)
+  await firebase.database().ref('sales').update(state)
 }
 
 const fetchOptions = async () => {
@@ -84,7 +88,7 @@ const EditComponent = (props) => {
     label: "刪除"
   }
   return(
-    <TablePage
+    <EditPage
       {...props}
       title={ui.salesTable.concat(obj)}
     />
