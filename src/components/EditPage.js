@@ -33,26 +33,41 @@ const data = [
 
 class EditPage extends PureComponent {
 
-  state = { tableData: this.props.tableData }
+  state = this.props.tableData || {}
 
   onChange = (index,key,value) => {
-    const tableData = this.state.tableData
-    tableData[index][key] = value
-    this.setState({
-      tableData: tableData
-    })
-    console.log(this.state)
+    const keys = this.getKeys()
+    const tableData = this.state
+    const _key = keys[index]
+    tableData[_key][key] = value
+    this.setState(tableData)
+  }
+
+  onClickDelete = (index) => {
+    const keys = this.getKeys()
+    const tableData = Object.assign({},this.state)
+    const _key = keys[index]
+    tableData[_key] = null
+    this.setState(tableData)
+  }
+
+  getKeys = () => {
+    return Object.keys(this.state).filter(key => this.state[key])
+  }
+
+  onClickTableConfirmButton = () => {
+    this.props.onClickTableConfirmButton(this.state)
   }
 
   render() {
 
     const { 
       title,
-      onClickTableReturnButton,
-      onClickTableConfirmButton,
-      onClickDelete
+      onClickTableReturnButton
     } = this.props ? this.props : {}
-    console.log(this.state.tableData)
+
+    const keys = this.getKeys()
+
     return(
       <div>
         <br/>
@@ -68,13 +83,13 @@ class EditPage extends PureComponent {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.state.tableData && this.state.tableData.map((n,index) => {
+              {Object.values(this.state).filter(x => x).map((n,index) => {
                 return (
-                  <TableRow key={index.toString()}>
+                  <TableRow key={keys[index]}>
                     {
                       title && title.map((ele) => {
                         if (ele.key === 'delete') {
-                          return <TableCell key={ele.key}><a onClick={onClickDelete}>{'刪除'}</a></TableCell>
+                          return <TableCell key={ele.key}><a onClick={() => this.onClickDelete(index)}>{'刪除'}</a></TableCell>
                         } else {
                           return (
                             <TableCell
@@ -101,7 +116,7 @@ class EditPage extends PureComponent {
                       })
                     }
                   </TableRow>
-                );
+                )
               })}
             </TableBody>
           </Table>
@@ -109,7 +124,7 @@ class EditPage extends PureComponent {
         <br/>
         <div style={styles.buttonView}>
           <Button style={styles.button} variant="contained" color="secondary" onClick={onClickTableReturnButton}>返回</Button> 
-          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickTableConfirmButton}>確認</Button>
+          <Button style={styles.button} variant="contained" color="secondary" onClick={this.onClickTableConfirmButton}>確認</Button>
         </div>
         <br/>
         <br/>

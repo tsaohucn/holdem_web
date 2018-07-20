@@ -3,7 +3,7 @@ import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import sleep from '../helpers/sleep'
 // local components
-function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponent,uploadInsertData,fetchOptions,fetchTableData) {
+function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponent,uploadInsertData,fetchOptions,fetchTableData,updataData) {
   return class extends React.Component {
   	constructor(props) {
   	  super(props)
@@ -24,14 +24,14 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
     addNewData = (state) => {
       this.setState({
         isLoading: true,
-        loadingState: '上傳資料中'
+        loadingState: '新增資料中'
       },async function () {
         try {
           await sleep(1000)
           await uploadInsertData && uploadInsertData(state)
-          this.props.alert.show('上傳成功')
+          this.props.alert.show('新增成功')
         } catch(err) {
-          this.props.alert.show('上傳失敗 : ' + err.toString())
+          this.props.alert.show('新增失敗 : ' + err.toString())
         } finally {
           this.setState({
             isLoading: false,
@@ -39,6 +39,26 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
           },this.goToSearchComponent)
         }
       })
+    }
+
+    updataData = (state) => {
+      this.setState({
+        isLoading: true,
+        loadingState: '更新資料中'
+      },async function () {
+        try {
+          await sleep(1000)
+          await updataData && updataData(state)
+          this.props.alert.show('更新成功')
+        } catch(err) {
+          this.props.alert.show('更新失敗 : ' + err.toString())
+        } finally {
+          this.setState({
+            isLoading: false,
+            loadingState: null               
+          },this.goToSearchComponent)
+        }
+      })      
     }
 
     onClickTableReturnButton = () => {
@@ -157,6 +177,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
               clubOptions={clubOptions}
               tableData={tableData}
               showTableConfirmButton={showTableConfirmButton}
+              onClickTableConfirmButton={this.updataData}
             />
           }
         </div>

@@ -30,6 +30,10 @@ const uploadInsertData = async (state) => {
   await firebase.database().ref('sales').push(Object.assign(state,obj))
 }
 
+const updataData = async (state) => {
+  console.log(state)
+}
+
 const fetchOptions = async () => {
   const snap = await firebase.database().ref('clubs').orderByChild('name').once('value')
   const club_keys = Object.keys(snap.val())
@@ -42,7 +46,7 @@ const fetchOptions = async () => {
 
 const fetchTableData = async () => {
   const snap = await firebase.database().ref('sales').once('value')
-  const tableData = Object.values(snap.val())
+  const tableData = snap.val()
   return { tableData }
 }
 
@@ -94,7 +98,8 @@ const SalesScreen = contentCompose(
   EditComponent,
   uploadInsertData,
   fetchOptions,
-  fetchTableData
+  fetchTableData,
+  updataData
 )
 
 export default withHoldemBar(withAlert(SalesScreen))
