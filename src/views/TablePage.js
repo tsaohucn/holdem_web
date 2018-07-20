@@ -35,7 +35,7 @@ const TablePage = (props) =>  {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tableData && tableData.map((n,index) => {
+                {tableData && Object.values(tableData).map((n,index) => {
                   return (
                     <TableRow key={index.toString()}>
                       {

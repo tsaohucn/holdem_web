@@ -29,9 +29,13 @@ const uploadInsertData = async (state) => {
   const snap = await firebase.database().ref('clubs/' + state.club + '/name').once('value')
   const obj = {
     clubName: snap.val(),
-    memberCount: 10,
+    memberCount: 10, // 捕抓
   }
   await firebase.database().ref('referees').push(Object.assign(state,obj))
+}
+
+const updataData = async (state) => {
+  await firebase.database().ref('referees').update(state)
 }
 
 const fetchOptions = async () => {
@@ -46,7 +50,7 @@ const fetchOptions = async () => {
 
 const fetchTableData = async () => {
   const snap = await firebase.database().ref('referees').once('value')
-  const tableData = Object.values(snap.val())
+  const tableData = snap.val()
   return { tableData }
 }
 
@@ -98,7 +102,8 @@ const RefereeScreen = contentCompose(
   EditComponent,
   uploadInsertData,
   fetchOptions,
-  fetchTableData
+  fetchTableData,
+  updataData
 )
 
 export default withHoldemBar(withAlert(RefereeScreen))
