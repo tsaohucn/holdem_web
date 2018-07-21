@@ -7,7 +7,9 @@ import contentCompose from '../../hocs/contentCompose'
 import NewPage from '../../components/NewPage'
 import SearchPage from '../../views/SearchPage'
 import TablePage from '../../views/TablePage'
+// tools
 import ui from '../../configs/ui'
+import firebase from '../../configs/firebase'
 
 const tableData = [
   {
@@ -19,6 +21,35 @@ const tableData = [
     protein: '4.0'
   }
 ]
+
+const fetchOptions = async () => {
+  const clubs_snap = await firebase.database().ref('clubs').orderByChild('name').once('value')
+  //const referee_snap = await firebase.database().ref('referee').orderByChild('name').once('value')
+  //const sales_snap = await firebase.database().ref('sales').orderByChild('name').once('value')
+  //
+  const club_keys = Object.keys(clubs_snap.val())
+  //const referee_keys = Object.keys(referee_snap.val())
+  //const sales_keys = Object.keys(sales_snap.val())
+  //
+  const clubOptions = club_keys.map(key => ({
+    key,
+    name: clubs_snap.val()[key]['name']
+  }))
+  /*
+  const refereeOptions = referee_keys.map(key => ({
+    key,
+    name: referee_snap.val()[key]['name']
+  }))
+  const salesOptions = sales_keys.map(key => ({
+    key,
+    name: sales_snap.val()[key]['name']
+  }))*/
+  return { 
+    clubOptions,
+    //refereeOptions,
+    //salesOptions
+  }
+}
 
 const SearchPageComponent = (props) => 
   <SearchPage
@@ -43,13 +74,17 @@ const TablePageComponent = (props) =>
     data={tableData}
   />
 
+const EditComponent = (props) => {
+  return null
+}
+
 const MemberScreen = contentCompose(
   SearchPageComponent,
   NewPageComponent,
   TablePageComponent,
+  EditComponent,
   null,
-  null,
-  null
+  fetchOptions
 )
 
 export default withHoldemBar(withAlert(MemberScreen))

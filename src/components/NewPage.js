@@ -31,8 +31,9 @@ class NewPage extends PureComponent {
     }
   }
 
-  renderClubSelect = () => {
-    return this.props.clubOptions && this.props.clubOptions.map(option => (
+  renderSelect = (key) => {
+    const property = key + 'Options'
+    return this.props[property] && this.props[property].map(option => (
       <MenuItem key={option.key} value={option.key}>
         {option.name}
       </MenuItem>
@@ -52,7 +53,7 @@ class NewPage extends PureComponent {
           field.map(ele => 
             {
               const { key, label } = ele ? ele : {}
-              const isSelect = key === 'club'
+              const isSelect = key === 'club' || key === 'referee' || key === 'sales'
               return(
                 <div key={key}>
                   <TextField
@@ -70,7 +71,7 @@ class NewPage extends PureComponent {
                     }}
                   > 
                   {
-                    isSelect ? this.renderClubSelect() : null
+                    isSelect ? this.renderSelect(key) : null
                   }
                   </TextField>
                 </div>
