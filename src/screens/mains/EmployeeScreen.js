@@ -7,7 +7,9 @@ import contentCompose from '../../hocs/contentCompose'
 import NewPage from '../../components/NewPage'
 import ButtonSearchPage from '../../views/ButtonSearchPage'
 import TablePage from '../../views/TablePage'
+// tools
 import ui from '../../configs/ui'
+import firebase from '../../configs/firebase'
 
 const tableData = [
   {
@@ -19,6 +21,10 @@ const tableData = [
     protein: '4.0'
   }
 ]
+
+const uploadInsertData = async (state) => {
+  await firebase.database().ref('employees').push(state)
+}
 
 const SearchPageComponent = (props) => 
   <ButtonSearchPage
@@ -45,7 +51,8 @@ const EmployeeScreen = contentCompose(
   NewPageComponent,
   TablePageComponent,
   null,
-  null,null
+  uploadInsertData,
+  null
 )
 
 export default withHoldemBar(withAlert(EmployeeScreen))
