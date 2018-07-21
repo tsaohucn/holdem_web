@@ -1,26 +1,18 @@
 // node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
-// local components
+// local_module
+// hocs
 import withHoldemBar from '../../hocs/withHoldemBar'
 import contentCompose from '../../hocs/contentCompose'
+// components
+import EditPage from '../../components/EditPage'
 import NewPage from '../../components/NewPage'
 import SearchPage from '../../views/SearchPage'
 import TablePage from '../../views/TablePage'
 // tools
 import ui from '../../configs/ui'
 import firebase from '../../configs/firebase'
-
-const tableData = [
-  {
-    id: '1',
-    name: 'Frozen yoghurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: '4.0'
-  }
-]
 
 const fetchOptions = async () => {
   const clubs_snap = await firebase.database().ref('clubs').orderByChild('name').once('value')
@@ -52,6 +44,34 @@ const fetchOptions = async () => {
   }
 }
 
+const uploadInsertData = async (state) => {
+  await firebase.database().ref('members').push(state)
+  await firebase.database().ref('referees/' +  state.referee + '/memberCount').transaction(memberCount => {
+    if (!memberCount) {
+      return 1
+    } else {
+      return memberCount + 1
+    }
+  })
+  await firebase.database().ref('sales/' +  state.sales + '/memberCount').transaction(memberCount => {
+    if (!memberCount) {
+      return 1
+    } else {
+      return memberCount + 1
+    }
+  })
+}
+
+const updataData = async (state) => {
+  await firebase.database().ref('members').update(state)
+}
+
+const fetchTableData = async () => {
+  const snap = await firebase.database().ref('members').once('value')
+  const tableData = snap.val() || {}
+  return { tableData }
+}
+
 const SearchPageComponent = (props) => 
   <SearchPage
     {...props}
@@ -69,14 +89,30 @@ const NewPageComponent = (props) =>
    buttonTitle={'確認新增會員'}
   />
 
-const TablePageComponent = (props) => 
-  <TablePage
-    {...props}
-    data={tableData}
-  />
+const TablePageComponent = (props) => {
+  const obj = {
+    key: "edit",
+    label: "編輯"
+  }
+  return(
+    <TablePage
+      {...props}
+      title={ui.memberTable.concat(obj)}
+    />
+  )
+}
 
 const EditComponent = (props) => {
-  return null
+  const obj = {
+    key: "delete",
+    label: "刪除"
+  }
+  return(
+    <EditPage
+      {...props}
+      title={ui.memberTable.concat(obj)}
+    />
+  )
 }
 
 const MemberScreen = contentCompose(
@@ -84,8 +120,10 @@ const MemberScreen = contentCompose(
   NewPageComponent,
   TablePageComponent,
   EditComponent,
-  null,
-  fetchOptions
+  uploadInsertData,
+  fetchOptions,
+  fetchTableData,
+  updataData
 )
 
 export default withHoldemBar(withAlert(MemberScreen))

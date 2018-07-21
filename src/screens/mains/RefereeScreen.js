@@ -14,22 +14,11 @@ import TablePage from '../../views/TablePage'
 import ui from '../../configs/ui'
 import firebase from '../../configs/firebase'
 
-const tableData = [
-  {
-    id: '1',
-    name: 'Frozen yoghurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: '4.0'
-  }
-]
-
 const uploadInsertData = async (state) => {
   const snap = await firebase.database().ref('clubs/' + state.club + '/name').once('value')
   const obj = {
     clubName: snap.val(),
-    memberCount: 10, // 捕抓
+    memberCount: 0
   }
   await firebase.database().ref('referees').push(Object.assign(state,obj))
 }

@@ -247,5 +247,131 @@
       "key": "clubName",
       "label": "所屬俱樂部"
     }
-  ]  
+  ],
+  "employeeTable": [
+    {
+      "key": "name",
+      "label": "員工名稱"
+    },
+    {
+      "key": "account",
+      "label": "員工帳號"
+    },
+    {
+      "key": "password",
+      "label": "員工密碼"
+    }
+  ],
+  "memberTable": [
+    {
+      "key": "id",
+      "label": "會員編號"
+    },
+    {
+      "key": "name",
+      "label": "會員姓名"
+    },
+    {
+      "key": "joinDate",
+      "label": "入會日期"
+    },
+    {
+      "key": "gender",
+      "label": "性別"
+    },
+    {
+      "key": "birthday",
+      "label": "出生日期"
+    },
+    {
+      "key": "place",
+      "label": "出生地"
+    },
+    {
+      "key": "education",
+      "label": "學歷"      
+    },
+    {
+      "key": "identity",
+      "label": "身分證字號"
+    },
+    {
+      "key": "address",
+      "label": "戶籍地址"
+    },
+    {
+      "key": "phone",
+      "label": "聯絡電話"      
+    },
+    {
+      "key": "limit",
+      "label": "會員抓馬額度"
+    },
+    {
+      "key": "club",
+      "label": "所屬俱樂部"      
+    },
+    {
+      "key": "referee",
+      "label": "所屬裁判"      
+    },
+    {
+      "key": "sales",
+      "label": "所屬業務" 
+    }
+  ],
+  "liveTable": [
+    {
+      "key": "date",
+      "label": "日期"
+    },
+    {
+      "key": "table_id",
+      "label": "桌次編號"
+    },
+    {
+      "key": "table_referee",
+      "label": "回桌裁判"
+    },
+    {
+      "key": "referee",
+      "label": "所屬裁判"      
+    },
+    {
+      "key": "member_id",
+      "label": "會員ID"      
+    },
+    {
+      "key": "member_name",
+      "label": "會員名稱"      
+    },
+    {
+      "key": "table_date",
+      "label": "上桌日期"      
+    },
+    {
+      "key": "table_time",
+      "label": "上桌時間"      
+    },
+    {
+      "key": "open_date",
+      "label": "解碼日期"      
+    },
+    {
+      "key": "open_time",
+      "label": "解碼時間"      
+    },
+    {
+      "key": "level",
+      "label": "盲著級別"      
+    },
+    {
+      "key": "spend_time",
+      "label": "本局時數"      
+    },
+    {
+      "key": "6mins",
+      "label": "N個六分鐘"      
+    }
+  ]
 }
