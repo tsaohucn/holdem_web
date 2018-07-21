@@ -14,7 +14,9 @@ class SearchPage extends Component {
       onClickSearchPageRightButton, 
       leftButtonTitle, 
       rightButtonTitle,
-      title
+      title,
+      showSecondSearchBar,
+      secondBarTitle
     } = this.props
 
     return(
@@ -33,7 +35,27 @@ class SearchPage extends Component {
         <div style={styles.buttonView}>
           <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageLeftButton}>{leftButtonTitle}</Button>
           <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageRightButton}>{rightButtonTitle}</Button>
-        </div> 
+        </div>
+        <br/> 
+        {
+          showSecondSearchBar ? 
+          <div>
+            <div style={styles.searchBlock}>
+              <h4 style={styles.SearchTitle}>{secondBarTitle}</h4>
+              <SearchBar
+                style={styles.SearchBar}
+                value={''}
+                //onChange={this.onChange}
+                //onRequestSearch={this.searchClub}
+              /> 
+            </div>
+            <br/> 
+            <div style={styles.buttonView}>
+              <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageLeftButton}>{leftButtonTitle}</Button>
+            </div>
+          </div>
+          : null
+        }
       </div>
     )
   }
