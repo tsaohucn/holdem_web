@@ -1,10 +1,11 @@
 // node_module
 import React from 'react'
+import { withAlert } from 'react-alert'
 // local components
 import withHoldemBar from '../../hocs/withHoldemBar'
 import contentCompose from '../../hocs/contentCompose'
 import NewPage from '../../components/NewPage'
-import SearchPage from '../../views/SearchPage'
+import ButtonSearchPage from '../../views/ButtonSearchPage'
 import TablePage from '../../views/TablePage'
 import ui from '../../configs/ui'
 
@@ -20,11 +21,10 @@ const tableData = [
 ]
 
 const SearchPageComponent = (props) => 
-  <SearchPage
+  <ButtonSearchPage
     {...props}
-    title='搜索員工'
-    leftButtonTitle='搜索' 
-    rightButtonTitle='新增員工'
+    leftButtonTitle='查看帳號' 
+    rightButtonTitle='新增帳號'
   />
 
 const NewPageComponent = (props) =>
@@ -48,4 +48,4 @@ const EmployeeScreen = contentCompose(
   null,null
 )
 
-export default withHoldemBar(EmployeeScreen)
+export default withHoldemBar(withAlert(EmployeeScreen))

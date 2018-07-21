@@ -1,20 +1,44 @@
 // node_module
-import React from 'react';
+import React from 'react'
+import { withAlert } from 'react-alert'
 // local components
+// hocs
+import contentCompose from '../../hocs/contentCompose'
 import withHoldemBar from '../../hocs/withHoldemBar'
 
-class ReportScreen extends React.Component {
+import NewPage from '../../components/NewPage'
+import ReportPage from '../../views/ReportPage'
+import TablePage from '../../views/TablePage'
+// tools
+import ui from '../../configs/ui'
+import firebase from '../../configs/firebase'
 
-  render() {
-    return(
-      <h1>{'ReportScreen'}</h1>
-    )
-  }
+const SearchPageComponent = (props) => 
+  <ReportPage
+    leftButtonTitle='搜尋'
+    {...props}
+  />
+
+const NewPageComponent = (props) => {
+  return null
 }
 
-ReportScreen.propTypes = {
-  //classes: PropTypes.object.isRequired,
-  //theme: PropTypes.object.isRequired,
-};
 
-export default withHoldemBar(ReportScreen);
+const TablePageComponent = (props) => {
+  return null
+}
+
+
+const ReportScreen = contentCompose(
+  SearchPageComponent,
+  NewPageComponent,
+  TablePageComponent,
+  null,
+  null,
+  null,
+  null,
+  null
+)
+
+
+export default withHoldemBar(withAlert((ReportScreen)))
