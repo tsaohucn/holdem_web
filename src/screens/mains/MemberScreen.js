@@ -1,5 +1,6 @@
 // node_module
 import React from 'react'
+import { withAlert } from 'react-alert'
 // local components
 import withHoldemBar from '../../hocs/withHoldemBar'
 import contentCompose from '../../hocs/contentCompose'
@@ -51,4 +52,4 @@ const MemberScreen = contentCompose(
   null
 )
 
-export default withHoldemBar(MemberScreen)
+export default withHoldemBar(withAlert(MemberScreen))

@@ -51,6 +51,8 @@ const ClubScreen = contentCompose(
   TablePageComponent,
   null,
   uploadInsertData,
+  null,
+  null,
   null
 )
 
