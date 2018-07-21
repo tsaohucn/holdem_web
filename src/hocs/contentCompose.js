@@ -27,7 +27,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
         loadingState: '新增資料中'
       },async function () {
         try {
-          await sleep(1000)
+          await sleep(delay)
           await uploadInsertData && uploadInsertData(state)
           this.props.alert.show('新增成功')
         } catch(err) {
@@ -47,7 +47,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
         loadingState: '更新資料中'
       },async function () {
         try {
-          await sleep(1000)
+          await sleep(delay)
           await updataData && updataData(state)
           this.props.alert.show('更新成功')
         } catch(err) {
@@ -75,7 +75,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
         isLoading: true,
         page: 'edit'
       },async function () {
-        await sleep(1000) 
+        await sleep(delay) 
         this.setState({
           isLoading: false
         })
@@ -96,7 +96,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
         loadingState: '下載資料中'
       },async function () {
         try {
-          await sleep(1000)
+          await sleep(delay)
           fetchOptions && (options = await fetchOptions())
         } catch(err) {
           this.props.alert.show('下載俱樂部資料失敗')
@@ -118,7 +118,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
         loadingState: '下載資料中'
       },async function () {
         try {
-          await sleep(1000)
+          await sleep(delay)
           fetchTableData && (tableData = await fetchTableData())
         } catch(err) {
           this.props.alert.show('下載資料表失敗')
@@ -150,6 +150,8 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
       const SubComponent = this.renderSubComponent()
       const { 
         clubOptions,
+        refereeOptions,
+        salesOptions,
         tableData,
         showTableConfirmButton
       } = this.state
@@ -175,7 +177,9 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
               onClickTableReturnButton={this.onClickTableReturnButton}
               onClickEdit={this.goToEditComponent}
               clubOptions={clubOptions}
+              refereeOptions={refereeOptions}
               tableData={tableData}
+              salesOptions={salesOptions}
               showTableConfirmButton={showTableConfirmButton}
               onClickTableConfirmButton={this.updataData}
             />
@@ -185,6 +189,8 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
     }
   }
 }
+
+const delay = 200
 
 const styles = {
   container: {
