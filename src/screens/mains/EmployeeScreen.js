@@ -84,6 +84,7 @@ const EmployeeScreen = contentCompose(
   NewPageComponent,
   TablePageComponent,
   EditComponent,
+  null,
   uploadInsertData,
   null,
   fetchTableData,

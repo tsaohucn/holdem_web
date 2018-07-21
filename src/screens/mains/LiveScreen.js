@@ -41,6 +41,7 @@ const LiveScreen = contentCompose(
   null,
   null,
   null,
+  null,
   fetchTableData,
   null
 )

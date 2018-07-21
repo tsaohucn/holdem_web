@@ -13,12 +13,38 @@ const TablePage = (props) =>  {
   const { 
     title,
     tableData,
+    memberData,
     onClickTableReturnButton,
     onClickTableConfirmButton,
     onClickEdit,
     onClickDelete,
-    showTableConfirmButton
+    onClickMemberCount,
+    showTableConfirmButton,
+    isMemberTable
   } = props ? props : {}
+
+  const render = (data) => (
+    data && Object.values(data).map((n,index) => {
+      return (
+        <TableRow key={index.toString()}>
+          {
+            title && title.map(ele => {
+              if (ele.key === 'edit') {
+                return <TableCell><a onClick={onClickEdit}>{'編輯'}</a></TableCell>
+              } else if (ele.key === 'delete') {
+                return <TableCell><a onClick={onClickDelete}>{'刪除'}</a></TableCell>
+              } else if (ele.key === 'memberCount') {
+                const onClick = () => onClickMemberCount(Object.keys(data)[index])
+                return <TableCell><a onClick={onClick}>{n[ele.key]}</a></TableCell>
+              } else {
+                return <TableCell>{n[ele.key]}</TableCell>
+              }
+            })
+          }
+        </TableRow>
+      )
+    })
+  )
 
   return(
         <div>
@@ -35,23 +61,7 @@ const TablePage = (props) =>  {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {tableData && Object.values(tableData).map((n,index) => {
-                  return (
-                    <TableRow key={index.toString()}>
-                      {
-                        title && title.map(ele => {
-                          if (ele.key === 'edit') {
-                            return <TableCell><a onClick={onClickEdit}>{'編輯'}</a></TableCell>
-                          } else if (ele.key === 'delete') {
-                            return <TableCell><a onClick={onClickDelete}>{'刪除'}</a></TableCell>
-                          } else {
-                            return <TableCell>{n[ele.key]}</TableCell>
-                          }
-                        })
-                      }
-                    </TableRow>
-                  );
-                })}
+                 { isMemberTable ? render(memberData) : render(tableData) }
               </TableBody>
             </Table>
           </Paper>

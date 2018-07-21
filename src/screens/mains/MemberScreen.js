@@ -120,6 +120,7 @@ const MemberScreen = contentCompose(
   NewPageComponent,
   TablePageComponent,
   EditComponent,
+  null,
   uploadInsertData,
   fetchOptions,
   fetchTableData,

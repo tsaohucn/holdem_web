@@ -3,7 +3,7 @@ import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import sleep from '../helpers/sleep'
 // local components
-function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponent,uploadInsertData,fetchOptions,fetchTableData,updataData) {
+function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponent,MemberComponent,uploadInsertData,fetchOptions,fetchTableData,updataData,fetchMemberData) {
   return class extends React.Component {
   	constructor(props) {
   	  super(props)
@@ -64,7 +64,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
     onClickTableReturnButton = () => {
       if (this.state.page === 'table') {
         this.goToSearchComponent()
-      } else if (this.state.page === 'edit') {
+      } else {
         this.goToTableComponent()
       }
     }
@@ -89,7 +89,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
     }
 
     goToNewComponent = () => {
-      let options = []
+      let options = {}
       this.setState({
         isLoading: true,
         page: 'new',
@@ -110,7 +110,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
     }
 
     goToTableComponent = () => {
-      let tableData = []
+      let tableData = {}
       this.setState({
         showTableConfirmButton: false,
         isLoading: true,
@@ -131,6 +131,28 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
       })       
     }
 
+    goToMemberComponent = (id) => {
+      let memberData = {}
+      this.setState({
+        showTableConfirmButton: false,
+        isLoading: true,
+        page: 'member',
+        loadingState: '下載資料中'
+      },async function () {
+        try {
+          await sleep(delay)
+          fetchMemberData && (memberData = await fetchMemberData(id))
+        } catch(err) {
+          this.props.alert.show('下載資料表失敗')
+        } finally {
+          this.setState({
+            isLoading: false,
+            ...memberData           
+          })          
+        }
+      })       
+    }
+
     renderSubComponent() {
       if (this.state.page === 'search') {
         return SearchComponent
@@ -140,6 +162,8 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
         return TableComponent
       } else if (this.state.page === 'edit') {
         return EditComponent
+      } else if (this.state.page === 'member') {
+        return MemberComponent
       } else {
         return null
       }
@@ -153,6 +177,7 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
         refereeOptions,
         salesOptions,
         tableData,
+        memberData,
         showTableConfirmButton
       } = this.state
 
@@ -179,9 +204,11 @@ function contentCompose(SearchComponent,NewComponent,TableComponent,EditComponen
               clubOptions={clubOptions}
               refereeOptions={refereeOptions}
               tableData={tableData}
+              memberData={memberData}
               salesOptions={salesOptions}
               showTableConfirmButton={showTableConfirmButton}
               onClickTableConfirmButton={this.updataData}
+              onClickMemberCount={this.goToMemberComponent}
             />
           }
         </div>
