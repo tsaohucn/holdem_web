@@ -24,30 +24,31 @@ const tableData = [
 
 const fetchOptions = async () => {
   const clubs_snap = await firebase.database().ref('clubs').orderByChild('name').once('value')
-  //const referee_snap = await firebase.database().ref('referee').orderByChild('name').once('value')
-  //const sales_snap = await firebase.database().ref('sales').orderByChild('name').once('value')
+  const referees_snap = await firebase.database().ref('referees').orderByChild('name').once('value')
+  const sales_snap = await firebase.database().ref('sales').orderByChild('name').once('value')
   //
-  const club_keys = Object.keys(clubs_snap.val())
-  //const referee_keys = Object.keys(referee_snap.val())
-  //const sales_keys = Object.keys(sales_snap.val())
+  const club_keys = Object.keys(clubs_snap.val() || {})
+  const referee_keys = Object.keys(referees_snap.val() || {})
+  const sales_keys = Object.keys(sales_snap.val() || {})
   //
   const clubOptions = club_keys.map(key => ({
     key,
     name: clubs_snap.val()[key]['name']
   }))
-  /*
+  
   const refereeOptions = referee_keys.map(key => ({
     key,
-    name: referee_snap.val()[key]['name']
+    name: referees_snap.val()[key]['name']
   }))
+  
   const salesOptions = sales_keys.map(key => ({
     key,
     name: sales_snap.val()[key]['name']
-  }))*/
+  }))
   return { 
     clubOptions,
-    //refereeOptions,
-    //salesOptions
+    refereeOptions,
+    salesOptions
   }
 }
 

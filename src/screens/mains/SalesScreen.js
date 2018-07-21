@@ -40,7 +40,7 @@ const updataData = async (state) => {
 
 const fetchOptions = async () => {
   const snap = await firebase.database().ref('clubs').orderByChild('name').once('value')
-  const club_keys = Object.keys(snap.val())
+  const club_keys = Object.keys(snap.val() || {})
   const options = club_keys.map(key => ({
     key,
     name: snap.val()[key]['name']
@@ -50,7 +50,7 @@ const fetchOptions = async () => {
 
 const fetchTableData = async () => {
   const snap = await firebase.database().ref('sales').once('value')
-  const tableData = snap.val()
+  const tableData = snap.val() || {}
   return { tableData }
 }
 
