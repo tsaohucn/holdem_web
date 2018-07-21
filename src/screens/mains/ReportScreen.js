@@ -37,6 +37,7 @@ const ReportScreen = contentCompose(
   null,
   null,
   null,
+  null,
   null
 )
 

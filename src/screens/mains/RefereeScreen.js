@@ -43,6 +43,12 @@ const fetchTableData = async () => {
   return { tableData }
 }
 
+const fetchMemberData = async (id) => {
+  const snap = await firebase.database().ref('members').orderByChild('referee').equalTo(id).once('value')
+  const memberData = snap.val() || {}
+  return { memberData }
+}
+
 const SearchPageComponent = (props) => 
   <SearchPage
     {...props}
@@ -84,15 +90,27 @@ const EditComponent = (props) => {
   )
 }
 
+const MemberComponent = (props) => {
+  return(
+    <TablePage
+      {...props}
+      title={ui.member}
+      isMemberTable
+    />
+  )  
+}
+
 const RefereeScreen = contentCompose(
   SearchPageComponent,
   NewPageComponent,
   TablePageComponent,
   EditComponent,
+  MemberComponent,
   uploadInsertData,
   fetchOptions,
   fetchTableData,
-  updataData
+  updataData,
+  fetchMemberData
 )
 
 export default withHoldemBar(withAlert(RefereeScreen))
