@@ -5,13 +5,18 @@ import { withAlert } from 'react-alert'
 // hocs
 import contentCompose from '../../hocs/contentCompose'
 import withHoldemBar from '../../hocs/withHoldemBar'
-
-import NewPage from '../../components/NewPage'
+// components
 import OnlySearchPage from '../../views/OnlySearchPage'
 import TablePage from '../../views/TablePage'
 // tools
-//import ui from '../../configs/ui'
+import ui from '../../configs/ui'
 import firebase from '../../configs/firebase'
+
+const fetchTableData = async () => {
+  const snap = await firebase.database().ref('live').once('value')
+  const tableData = snap.val() || {}
+  return { tableData }
+}
 
 const SearchPageComponent = (props) => 
   <OnlySearchPage
@@ -20,30 +25,24 @@ const SearchPageComponent = (props) =>
     leftButtonTitle='搜索' 
   />
 
-const NewPageComponent = (props) => {
-  return null
-}
-
-
 const TablePageComponent = (props) => {
-  return null
+  return(
+    <TablePage
+      {...props}
+      title={ui.liveTable}
+    />
+  )
 }
-
 
 const LiveScreen = contentCompose(
   SearchPageComponent,
-  NewPageComponent,
+  null,
   TablePageComponent,
   null,
   null,
   null,
-  null,
+  fetchTableData,
   null
 )
-
-LiveScreen.propTypes = {
-  //classes: PropTypes.object.isRequired,
-  //theme: PropTypes.object.isRequired,
-};
 
 export default withHoldemBar(withAlert((LiveScreen)))

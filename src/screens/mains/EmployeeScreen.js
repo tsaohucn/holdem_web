@@ -1,10 +1,13 @@
 // node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
-// local components
+// local_module
+// hocs
 import withHoldemBar from '../../hocs/withHoldemBar'
 import contentCompose from '../../hocs/contentCompose'
+// components
 import NewPage from '../../components/NewPage'
+import EditPage from '../../components/EditPage'
 import ButtonSearchPage from '../../views/ButtonSearchPage'
 import TablePage from '../../views/TablePage'
 // tools
@@ -26,6 +29,16 @@ const uploadInsertData = async (state) => {
   await firebase.database().ref('employees').push(state)
 }
 
+const updataData = async (state) => {
+  await firebase.database().ref('employees').update(state)
+}
+
+const fetchTableData = async () => {
+  const snap = await firebase.database().ref('employees').once('value')
+  const tableData = snap.val() || {}
+  return { tableData }
+}
+
 const SearchPageComponent = (props) => 
   <ButtonSearchPage
     {...props}
@@ -40,19 +53,41 @@ const NewPageComponent = (props) =>
    buttonTitle={'確認新增員工'}
   />
 
-const TablePageComponent = (props) => 
-  <TablePage
-    {...props}
-    data={tableData}
-  />
+const TablePageComponent = (props) => {
+  const obj = {
+    key: "edit",
+    label: "編輯"
+  }
+  return(
+    <TablePage
+      {...props}
+      title={ui.employeeTable.concat(obj)}
+    />
+  )
+}
+
+const EditComponent = (props) => {
+  const obj = {
+    key: "delete",
+    label: "刪除"
+  }
+  return(
+    <EditPage
+      {...props}
+      title={ui.employeeTable.concat(obj)}
+    />
+  )
+}
 
 const EmployeeScreen = contentCompose(
   SearchPageComponent,
   NewPageComponent,
   TablePageComponent,
-  null,
+  EditComponent,
   uploadInsertData,
-  null
+  null,
+  fetchTableData,
+  updataData
 )
 
 export default withHoldemBar(withAlert(EmployeeScreen))
