@@ -47,29 +47,29 @@ const Router = () => (
       {/*clubs*/}
       <Route path='/mains/clubs/index' component={ClubIndexScreen}/>
       <Route path='/mains/clubs/new' component={ClubNewScreen}/>
-      <Route path='/mains/clubs/table' component={ClubTableScreen}/>
+      <Route path='/mains/clubs/table/:id' component={ClubTableScreen}/>
       {/*referees*/}
       <Route path='/mains/referees/index' component={RefereeIndexScreen}/>
       <Route path='/mains/referees/new' component={RefereeNewScreen}/>
-      <Route path='/mains/referees/table' component={RefereeTableScreen}/>
-      <Route path='/mains/referees/edit' component={RefereeEditScreen}/>
+      <Route path='/mains/referees/table/:id' component={RefereeTableScreen}/>
+      <Route path='/mains/referees/edit/:id' component={RefereeEditScreen}/>
       <Route path='/mains/referees/member/:id' component={RefereeMemberScreen}/>
       {/*sales*/}
       <Route path='/mains/sales/index' component={SalesIndexScreen}/>
       <Route path='/mains/sales/new' component={SalesNewScreen}/>
-      <Route path='/mains/sales/table' component={SalesTableScreen}/>
-      <Route path='/mains/sales/edit' component={SalesEditScreen}/>
+      <Route path='/mains/sales/table/:id' component={SalesTableScreen}/>
+      <Route path='/mains/sales/edit/:id' component={SalesEditScreen}/>
       <Route path='/mains/sales/member/:id' component={SalesMemberScreen}/>
       {/*members*/}
       <Route path='/mains/members/index' component={MemberIndexScreen}/>
       <Route path='/mains/members/new' component={MemberNewScreen}/>
-      <Route path='/mains/members/table' component={MemberTableScreen}/>
-      <Route path='/mains/members/edit' component={MemberEditScreen}/>
+      <Route path='/mains/members/table/:id' component={MemberTableScreen}/>
+      <Route path='/mains/members/edit/:id' component={MemberEditScreen}/>
       {/*employees*/}
       <Route path='/mains/employees/index' component={EmployeeIndexScreen}/>
       <Route path='/mains/employees/new' component={EmployeeNewScreen}/>
-      <Route path='/mains/employees/table' component={EmployeeTableScreen}/>
-      <Route path='/mains/employees/edit' component={EmployeeEditScreen}/>
+      <Route path='/mains/employees/table/:id' component={EmployeeTableScreen}/>
+      <Route path='/mains/employees/edit/:id' component={EmployeeEditScreen}/>
       {/*reports*/}
       <Route path='/mains/reports/index' component={ReportIndexScreen}/>
       {/*tables*/}

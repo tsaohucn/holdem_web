@@ -3,7 +3,7 @@ import React from 'react'
 // local_module
 import SearchComponent from '../components/SearchComponent'
 
-function withIndex(params) {
+function withSearch(params) {
   const {
     searchTitle,
     resource,
@@ -21,8 +21,8 @@ function withIndex(params) {
       this.props.history.push('/mains/' + resource + '/new')
     }
 
-    onClickSearchPageLeftButton = () => {
-      this.props.history.push('/mains/' + resource + '/table')
+    goToTable = (search) => {
+      this.props.history.push('/mains/' + resource + '/table/' + search )
     }
 
     render() {
@@ -37,7 +37,8 @@ function withIndex(params) {
           leftButtonTitle={leftButtonTitle || defaultLeftButtonTitle}
           rightButtonTitle={rightButtonTitle || defaultRightButtonTitle}
           onClickSearchPageRightButton={this.onClickSearchPageRightButton}
-          onClickSearchPageLeftButton={this.onClickSearchPageLeftButton}
+          onClickSearchPageLeftButton={this.goToTable}
+          onClickSecondSearchButton={this.goToTable}
         />
       )
     }
@@ -47,4 +48,4 @@ function withIndex(params) {
 const defaultLeftButtonTitle = '搜索'
 const defaultRightButtonTitle = '新增'
 
-export default withIndex
+export default withSearch

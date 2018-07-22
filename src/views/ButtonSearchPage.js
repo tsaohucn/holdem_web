@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import SearchBar from 'material-ui-search-bar'
 import SearchIcon from '@material-ui/icons/Search'
-import Button from '@material-ui/core/Button'
+import PartialButton from './PartialButton'
 // local components
 
 class ButtonSearchPage extends Component {
@@ -20,8 +20,8 @@ class ButtonSearchPage extends Component {
       <div>
         <br/>
         <div style={styles.buttonView}>
-          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageLeftButton}>{leftButtonTitle}</Button>
-          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageRightButton}>{rightButtonTitle}</Button>
+          <PartialButton onClick={onClickSearchPageLeftButton}>{leftButtonTitle}</PartialButton>
+          <PartialButton onClick={onClickSearchPageRightButton}>{rightButtonTitle}</PartialButton>
         </div>
       </div>
     )
@@ -46,9 +46,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between'
-  },
-  button: {
-    width: '30%'
   }
 }
 export default ButtonSearchPage

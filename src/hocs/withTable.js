@@ -19,22 +19,20 @@ function withTable(params) {
       this.state = {
         isLoading: true
       }
-      this.setPath()
+      this.paths = this.props.location.pathname.split("/")
+      this.id = this.props.match.params.id
     }
 
     componentDidMount() {
-      if (this.path === 'table' || this.path === 'edit') {
-        this.fetchTableData(firebase.database().ref(resource))
+      if (this.paths.includes('table') || this.paths.includes('edit')) {
+        if (this.id === '$all') {
+          this.fetchTableData(firebase.database().ref(resource))
+        } else {
+          this.fetchTableData(firebase.database().ref(resource).orderByChild('id').equalTo(this.id))
+        }
       } else {
-        const id = this.props.match.params.id || null
-        console.log(id)
-        this.fetchTableData(firebase.database().ref('members').orderByChild(resource).equalTo(id))
+        this.fetchTableData(firebase.database().ref('members').orderByChild(resource).equalTo(this.id))
       }
-    }
-
-    setPath = () => {
-      const paths = this.props.location.pathname.split("/")
-      this.path = paths[paths.length - 1]
     }
 
     fetchTableData = async (fetch) => {
@@ -57,10 +55,10 @@ function withTable(params) {
     }
 
     onClickTableReturnButton = () => {
-      if (this.path === 'table') {
+      if (this.paths.includes('table')) {
         this.props.history.push('/mains/' + resource + '/index')
       } else {
-        this.props.history.push('/mains/' + resource + '/table')
+        this.props.history.goBack()
       }
     }
 
@@ -69,7 +67,7 @@ function withTable(params) {
     }
 
     onClickEditLink = () => {
-      this.props.history.push('/mains/' + resource + '/edit')
+      this.props.history.push('/mains/' + resource + '/edit/' + this.id)
     }
 
     render() {

@@ -7,11 +7,35 @@ import PartialButton from '../views/PartialButton'
 
 class SearchComponent extends PureComponent {
 
+  onChangeSearchValue = (value) => {
+    this.searchValue = value
+  }
+
+  onChangeSecondSearchValue = (value) => {
+    this.secondSearchValue = value
+  }
+
+  onClickSearchPageLeftButton = () => {
+    /*
+    if (this.value) {
+      this.props.onClickSearchPageLeftButton && this.props.onClickSearchPageLeftButton(this.value)
+    } else {
+      this.props.alert.show('請輸入搜尋條件')
+    }
+    */
+    this.props.onClickSearchPageLeftButton && this.props.onClickSearchPageLeftButton(this.searchValue || '$all')
+  }
+
+  onClickSecondSearchButton = () => {
+    this.props.onClickSecondSearchButton && this.props.onClickSecondSearchButton(this.secondSearchValue || '$all')
+  }
+
   render() {
 
     const { 
       onClickSearchPageLeftButton,
       onClickSearchPageRightButton, 
+      onClickSecondSearchButton,
       leftButtonTitle, 
       rightButtonTitle,
       title,
@@ -28,14 +52,14 @@ class SearchComponent extends PureComponent {
           <SearchBar
             style={styles.SearchBar}
             value={''}
-            //onChange={this.onChange}
+            onChange={this.onChangeSearchValue}
             onRequestSearch={() => {}}
           />
         </div>
         <br/>
         <div style={styles.buttonView}>
           <PartialButton 
-            onClick={onClickSearchPageLeftButton}
+            onClick={this.onClickSearchPageLeftButton}
           >
             {leftButtonTitle}
           </PartialButton>
@@ -54,14 +78,14 @@ class SearchComponent extends PureComponent {
               <SearchBar
                 style={styles.SearchBar}
                 value={''}
-                //onChange={this.onChange}
+                onChange={this.onChangeSecondSearchValue}
                 onRequestSearch={() => {}}
               /> 
             </div>
             <br/> 
             <div style={styles.buttonView}>
               <PartialButton 
-                onClick={onClickSearchPageLeftButton}
+                onClick={this.onClickSecondSearchButton}
               >
                 {secondButtonTitle}
               </PartialButton>

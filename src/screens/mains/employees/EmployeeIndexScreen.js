@@ -1,11 +1,11 @@
 // node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
-import withIndex from '../../../hocs/withIndex'
+import withSearch from '../../../hocs/withSearch'
 import withHoldemBar from '../../../hocs/withHoldemBar'
 import ButtonSearchPage from '../../../views/ButtonSearchPage'
 
-const EmployeeIndexScreen = withIndex({
+const EmployeeIndexScreen = withSearch({
   resource: 'employees',
   wrapperComponent: ButtonSearchPage
 })

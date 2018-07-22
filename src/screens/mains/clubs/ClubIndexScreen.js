@@ -1,10 +1,10 @@
 // node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
-import withIndex from '../../../hocs/withIndex'
+import withSearch from '../../../hocs/withSearch'
 import withHoldemBar from '../../../hocs/withHoldemBar'
 
-const ClubIndexScreen = withIndex({
+const ClubIndexScreen = withSearch({
 	resource: 'clubs',
 	searchTitle: '俱樂部查詢',
 	leftButtonTitle: '搜索',
