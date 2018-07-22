@@ -8,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import PartialButton from '../views/PartialButton'
+import Modal from '@material-ui/core/Modal'
 // local components
 const data = [
   {
@@ -32,7 +33,14 @@ const data = [
 
 class EditComponent extends PureComponent {
 
-  state = this.props.data || {}
+  constructor(props) {
+    super(props)
+    this.state = {
+      ...this.props.data,
+      open: false
+    }
+    this.index = null
+  }
 
   onChange = (index,key,value) => {
     const keys = this.getKeys()
@@ -43,11 +51,24 @@ class EditComponent extends PureComponent {
   }
 
   onClickDelete = (index) => {
+    this.setState({
+      open: true
+    })
+    this.index = index
+  }
+
+  confirmDelete = () => {
     const keys = this.getKeys()
     const data = Object.assign({},this.state)
-    const _key = keys[index]
+    const _key = keys[this.index]
     data[_key] = null
-    this.setState(data)
+    this.setState(data)    
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false
+    })    
   }
 
   getKeys = () => {
@@ -68,7 +89,34 @@ class EditComponent extends PureComponent {
     const keys = this.getKeys()
 
     return(
+
       <div>
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.open}
+          onClose={this.handleClose}
+          style={styles.modal}
+        >
+          <div style={styles.modalView}>
+            <div style={styles.modalTitle}>
+              <p>是否確定刪除</p>
+            </div>
+            <div style={styles.modalButtonView}>
+              <PartialButton 
+                onClick={this.handleClose}
+              >
+                否
+              </PartialButton> 
+              <PartialButton 
+                onClick={this.onClickEditConfirmButton}
+              >
+                是
+              </PartialButton>
+            </div>
+          </div>
+        </Modal>
+
         <br/>
         <Paper style={styles.root}>
           <Table style={styles.table}>
@@ -170,6 +218,34 @@ const styles = {
   },
   tableCell: {
     fontSize: 13
+  },
+  modal: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalView: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: '20vw',
+    height: '20vw',
+    backgroundColor: '#FFFFFF',
+    boxShadow: 5,
+    borderRadius: 5
+  },
+  modalTitle: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalButtonView: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center'
   }
 }
 export default EditComponent
