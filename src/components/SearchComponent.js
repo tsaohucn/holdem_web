@@ -1,11 +1,11 @@
 // node_module
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import SearchBar from 'material-ui-search-bar'
 import SearchIcon from '@material-ui/icons/Search'
-import Button from '@material-ui/core/Button'
+import PartialButton from '../views/PartialButton'
 // local components
 
-class SearchPage extends Component {
+class SearchComponent extends PureComponent {
 
   render() {
 
@@ -16,7 +16,8 @@ class SearchPage extends Component {
       rightButtonTitle,
       title,
       showSecondSearchBar,
-      secondBarTitle
+      secondBarTitle,
+      secondButtonTitle
     } = this.props
 
     return(
@@ -33,8 +34,16 @@ class SearchPage extends Component {
         </div>
         <br/>
         <div style={styles.buttonView}>
-          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageLeftButton}>{leftButtonTitle}</Button>
-          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageRightButton}>{rightButtonTitle}</Button>
+          <PartialButton 
+            onClick={onClickSearchPageLeftButton}
+          >
+            {leftButtonTitle}
+          </PartialButton>
+          <PartialButton 
+            onClick={onClickSearchPageRightButton}
+          >
+            {rightButtonTitle}
+          </PartialButton>
         </div>
         <br/> 
         {
@@ -51,7 +60,11 @@ class SearchPage extends Component {
             </div>
             <br/> 
             <div style={styles.buttonView}>
-              <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageLeftButton}>{leftButtonTitle}</Button>
+              <PartialButton 
+                onClick={onClickSearchPageLeftButton}
+              >
+                {secondButtonTitle}
+              </PartialButton>
             </div>
           </div>
           : null
@@ -82,7 +95,8 @@ const styles = {
   },
   button: {
     width: '33%',
-    minWidth: 0
+    minWidth: 0,
+    fontSize: 15
   }
 }
-export default SearchPage
+export default SearchComponent

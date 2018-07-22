@@ -7,7 +7,7 @@ import withHoldemBar from '../../../hocs/withHoldemBar'
 const ClubIndexScreen = withIndex({
 	resource: 'clubs',
 	searchTitle: '俱樂部查詢',
-	leftButtonTitle: '搜索全部俱樂部',
+	leftButtonTitle: '搜索',
 	rightButtonTitle: '新增俱樂部'
 })
 

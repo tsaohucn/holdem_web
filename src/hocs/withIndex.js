@@ -1,14 +1,18 @@
 // node_module
 import React from 'react'
 // local_module
-import SearchPage from '../views/SearchPage'
+import SearchComponent from '../components/SearchComponent'
 
 function withIndex(params) {
   const {
     searchTitle,
     resource,
     leftButtonTitle,
-    rightButtonTitle
+    rightButtonTitle,
+    showSecondSearchBar,
+    secondBarTitle,
+    secondButtonTitle,
+    wrapperComponent
   } = params ? params : {}
 
   return class extends React.PureComponent {
@@ -22,10 +26,14 @@ function withIndex(params) {
     }
 
     render() {
+      const Component = wrapperComponent ? wrapperComponent : SearchComponent
       return(
-        <SearchPage
+        <Component
           {...this.props}
           title={searchTitle}
+          showSecondSearchBar={showSecondSearchBar}
+          secondBarTitle={secondBarTitle}
+          secondButtonTitle={secondButtonTitle}
           leftButtonTitle={leftButtonTitle || defaultLeftButtonTitle}
           rightButtonTitle={rightButtonTitle || defaultRightButtonTitle}
           onClickSearchPageRightButton={this.onClickSearchPageRightButton}

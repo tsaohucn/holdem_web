@@ -5,8 +5,8 @@ import withHoldemBar from '../../../hocs/withHoldemBar'
 
 const RefereeIndexScreen = withIndex({
 	resource: 'referees',
-	searchTitle: '裁判代號查詢',
-	leftButtonTitle: '搜索全部裁判',
+	searchTitle: '依裁判代號查詢',
+	leftButtonTitle: '搜尋',
 	rightButtonTitle: '新增裁判'
 })
 
