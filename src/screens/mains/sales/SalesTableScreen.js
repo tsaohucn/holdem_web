@@ -10,9 +10,9 @@ const edit = {
   label: "編輯"
 }
 
-const ClubTableScreen = withTable({
-  title: ui.clubTable.concat(edit),
-  resource: 'clubs'
+const SalesTableScreen = withTable({
+  title: ui.salesTable.concat(edit),
+  resource: 'sales'
 })
 
-export default withHoldemBar(withAlert((ClubTableScreen)))
+export default withHoldemBar(withAlert((SalesTableScreen)))
