@@ -1,10 +1,10 @@
 // node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
-import withIndex from '../../../hocs/withIndex'
+import withSearch from '../../../hocs/withSearch'
 import withHoldemBar from '../../../hocs/withHoldemBar'
 
-const SalesIndexScreen = withIndex({
+const SalesIndexScreen = withSearch({
 	resource: 'sales',
 	searchTitle: '依業務代號查詢',
 	leftButtonTitle: '搜尋',

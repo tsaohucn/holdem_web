@@ -5,7 +5,7 @@ import withTable from '../../../hocs/withTable'
 import ui from '../../../configs/ui'
 
 const SalesMemberScreen = withTable({
-  title: ui.member,
+  title: ui.specificMembersTable,
   resource: 'sales',
 })
 
