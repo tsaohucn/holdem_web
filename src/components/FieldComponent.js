@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import MenuItem from '@material-ui/core/MenuItem'
 // local components
-class NewPage extends PureComponent {
+class FieldComponent extends PureComponent {
 
   state = this.props.field.reduce(function(o, ele) { o[ele.key] = ''; return o; }, {})
 
@@ -31,8 +31,7 @@ class NewPage extends PureComponent {
     }
   }
 
-  renderSelect = (key) => {
-    const property = key + 'Options'
+  renderSelect = (property) => {
     return this.props[property] && this.props[property].map(option => (
       <MenuItem key={option.key} value={option.key}>
         {option.name}
@@ -53,7 +52,7 @@ class NewPage extends PureComponent {
           field.map(ele => 
             {
               const { key, label } = ele ? ele : {}
-              const isSelect = key === 'club' || key === 'referee' || key === 'sales'
+              const isSelect = key === 'clubs' || key === 'referees' || key === 'sales'
               return(
                 <div key={key}>
                   <TextField
@@ -106,4 +105,4 @@ const styles = {
     minWidth: 0
   }
 }
-export default NewPage
+export default FieldComponent

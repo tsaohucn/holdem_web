@@ -44,7 +44,7 @@
       "label": "裁判密碼"
     },
     {
-      "key": "club",
+      "key": "clubs",
       "label": "所屬俱樂部"
     }
   ],
@@ -70,7 +70,7 @@
       "label": "業務密碼"
     },
     {
-      "key": "club",
+      "key": "clubs",
       "label": "所屬俱樂部"
     }
   ],
@@ -120,11 +120,11 @@
       "label": "會員抓馬額度"
     },
     {
-      "key": "club",
+      "key": "clubs",
       "label": "所屬俱樂部"      
     },
     {
-      "key": "referee",
+      "key": "referees",
       "label": "所屬裁判"      
     },
     {
@@ -186,7 +186,7 @@
       "label": "所含會員成員"
     },
     {
-      "key": "clubName",
+      "key": "clubs",
       "label": "所屬俱樂部"
     }
   ],
@@ -216,7 +216,7 @@
       "label": "所含會員成員"
     },
     {
-      "key": "clubName",
+      "key": "clubs",
       "label": "所屬俱樂部"
     }
   ],

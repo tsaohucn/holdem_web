@@ -12,15 +12,10 @@ const TablePage = (props) =>  {
 
   const { 
     title,
-    tableData,
-    memberData,
+    data,
     onClickTableReturnButton,
-    onClickTableConfirmButton,
-    onClickEdit,
-    onClickDelete,
-    onClickMemberCount,
-    showTableConfirmButton,
-    isMemberTable
+    onClickMemberCountLink,
+    onClickEditLink
   } = props ? props : {}
 
   const render = (data) => (
@@ -29,15 +24,16 @@ const TablePage = (props) =>  {
         <TableRow key={index.toString()}>
           {
             title && title.map(ele => {
-              if (ele.key === 'edit') {
-                return <TableCell><a onClick={onClickEdit}>{'編輯'}</a></TableCell>
-              } else if (ele.key === 'delete') {
-                return <TableCell><a onClick={onClickDelete}>{'刪除'}</a></TableCell>
-              } else if (ele.key === 'memberCount') {
-                const onClick = () => onClickMemberCount(Object.keys(data)[index])
-                return <TableCell><a onClick={onClick}>{n[ele.key]}</a></TableCell>
+              const key = ele.key
+              if (key !== 'edit' && key !== 'memberCount') {
+                return <TableCell style={styles.tableCell}>{n[key]}</TableCell>
               } else {
-                return <TableCell>{n[ele.key]}</TableCell>
+                if (key === 'edit') {
+                  return <TableCell style={styles.tableCell}><a onClick={onClickEditLink}>{'編輯'}</a></TableCell>
+                } else if (key === 'memberCount') {
+                  const onClick = () => onClickMemberCountLink && onClickMemberCountLink(Object.keys(data)[index])
+                  return <TableCell style={styles.tableCell}><a onClick={onClick}>{n[key] || 0}</a></TableCell>
+                }
               }
             })
           }
@@ -55,22 +51,19 @@ const TablePage = (props) =>  {
                 <TableRow>
                   {
                     title && title.map(ele => (
-                      <TableCell key={ele.key}>{ele.label}</TableCell>
+                      <TableCell style={styles.tableCell} key={ele.key}>{ele.label}</TableCell>
                     ))
                   }
                 </TableRow>
               </TableHead>
               <TableBody>
-                 { isMemberTable ? render(memberData) : render(tableData) }
+                 { render(data) }
               </TableBody>
             </Table>
           </Paper>
           <br/>
           <div style={styles.buttonView}>
             <Button style={styles.button} variant="contained" color="secondary" onClick={onClickTableReturnButton}>返回</Button> 
-            {
-              showTableConfirmButton && <Button style={styles.button} variant="contained" color="secondary" onClick={onClickTableConfirmButton}>確認</Button>
-            }
           </div>
           <br/>
           <br/>
@@ -94,6 +87,9 @@ const styles = {
   },
   button: {
     width: '30%'
+  },
+  tableCell: {
+    fontSize: 13
   }
 }
 export default TablePage
