@@ -14,6 +14,7 @@ import ClubTableScreen  from './screens/mains/clubs/ClubTableScreen'
 import ClubEditScreen from './screens/mains/clubs/ClubEditScreen'
 // referees
 import RefereeIndexScreen from './screens/mains/referees/RefereeIndexScreen'
+import RefereeNewScreen from './screens/mains/referees/RefereeNewScreen'
 import RefereeTableScreen from './screens/mains/referees/RefereeTableScreen'
 // sales
 import SalesIndexScreen from './screens/mains/sales/SalesIndexScreen'
@@ -40,6 +41,7 @@ const Router = () => (
       <Route path='/mains/clubs/edit' component={ClubEditScreen}/>
       {/*referees*/}
       <Route path='/mains/referees/index' component={RefereeIndexScreen}/>
+      <Route path='/mains/referees/new' component={RefereeNewScreen}/>
       <Route path='/mains/referees/table' component={RefereeTableScreen}/>
       {/*sales*/}
       <Route path='/mains/sales/index' component={SalesIndexScreen}/>

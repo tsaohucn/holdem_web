@@ -1,4 +1,3 @@
-// node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
 import withHoldemBar from '../../../hocs/withHoldemBar'
