@@ -1,41 +1,13 @@
 {
-	"tool" : [
-	  {
-      "title": "俱樂部資料表",
-      "icon": "StarIcon",
-      "path": "clubs/index"
-	  },
-	  {
-      "title": "裁判資料表",
-      "icon": "StarIcon",
-      "path": "referee"
-	  },
-    {
-      "title": "業務資料表",
-      "icon": "StarIcon",
-      "path": "sales"
-    },
-	  {
-	  	"title": "會員資料表",
-	  	"icon": "StarIcon",
-	  	"path": "member"
-	  },
-	  {
-	  	"title": "員工資料表",
-	  	"icon": "StarIcon",
-	  	"path": "employee"
-	  },
-	  {
-	  	"title": "報表",
-	  	"icon": "StarIcon",
-	  	"path": "report"
-	  },
-	  {
-	  	"title": "桌次現況",
-	  	"icon": "StarIcon",
-	  	"path": "live"
-	  }
-  ],
+	"router": {
+    "clubs": "俱樂部資料表",
+    "referees": "裁判資料表",
+    "sales": "業務資料表",
+    "members": "會員資料表",
+    "employees": "員工資料表",
+    "reports": "報表",
+    "tables": "桌次現況"
+  },
   "clubField": [
     {
       "key": "name",

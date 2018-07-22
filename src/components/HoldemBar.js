@@ -157,8 +157,8 @@ class PersistentDrawer extends React.Component {
         <Divider />
         <List>
           {
-            ui.tool.map((ele,index) => (
-              <ListItem key={index.toString()} button onClick={() => this.props.history.push('/mains/' + ele.path)}>
+            router_path.map((path,index) => (
+              <ListItem key={path} button onClick={() => this.props.history.push('/mains/' + path + '/index')}>
               {
                 /*
                 <ListItemIcon>
@@ -166,7 +166,7 @@ class PersistentDrawer extends React.Component {
                 </ListItemIcon>
                 */
               }
-                <ListItemText primary={ele.title} />
+                <ListItemText primary={router_name[index]} />
               </ListItem>
             ))
           }
@@ -193,7 +193,7 @@ class PersistentDrawer extends React.Component {
                 <MenuIcon />
               </IconButton>
               <Typography variant="title" color="inherit" noWrap>
-                iWhite
+                {router[this.props.location.pathname.split("/")[2]]}
               </Typography>
               <IconButton
                 color="inherit"
@@ -225,5 +225,9 @@ PersistentDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 }
-/*{ this.props.children }*/
+
+const router = ui.router
+const router_path = Object.keys(router)
+const router_name = Object.values(router)
+
 export default withStyles(styles, { withTheme: true })(PersistentDrawer)
