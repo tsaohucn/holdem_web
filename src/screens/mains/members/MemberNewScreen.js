@@ -4,11 +4,11 @@ import withHoldemBar from '../../../hocs/withHoldemBar'
 import withField from '../../../hocs/withField'
 import ui from '../../../configs/ui'
 
-const SalesNewScreen = withField({
-  field: ui.salesField,
+const MemberNewScreen = withField({
+  field: ui.memberField,
   buttonTitle: '送出',
-  resource: 'sales',
-  optionResource: ['clubs']
+  resource: 'members',
+  optionResource: ['clubs','referees','sales']
 })
 
-export default withHoldemBar(withAlert((SalesNewScreen)))
+export default withHoldemBar(withAlert((MemberNewScreen)))

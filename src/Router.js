@@ -25,6 +25,7 @@ import SalesEditScreen from './screens/mains/sales/SalesEditScreen'
 import SalesMemberScreen from './screens/mains/sales/SalesMemberScreen'
 // members
 import MemberIndexScreen from './screens/mains/members/MemberIndexScreen'
+import MemberNewScreen from './screens/mains/members/MemberNewScreen'
 // employees
 import EmployeeIndexScreen from './screens/mains/employees/EmployeeIndexScreen'
 // reports
@@ -56,6 +57,7 @@ const Router = () => (
       <Route path='/mains/sales/member/:id' component={SalesMemberScreen}/>
       {/*members*/}
       <Route path='/mains/members/index' component={MemberIndexScreen}/>
+      <Route path='/mains/members/new' component={MemberNewScreen}/>
       {/*employees*/}
       <Route path='/mains/employees/index' component={EmployeeIndexScreen}/>
       {/*reports*/}

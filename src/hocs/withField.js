@@ -21,27 +21,37 @@ function withField(params) {
         isLoading: true,
         event: '下載資料中'
       }
+      this.setPath()
     }
 
     componentDidMount() {
       this.fetchOptions()
     }
 
+    setPath = () => {
+      const paths = this.props.location.pathname.split("/")
+      this.path = paths[paths.length - 2]
+    }
+
     fetchOptions = async () => {
-      let options = []
+      let all_options = {}
       try {
-        const snap = await firebase.database().ref(optionResource).orderByChild('name').once('value')
-        const keys = Object.keys(snap.val() || {})
-        options = keys.map(key => ({
-          key,
-          name: snap.val()[key]['name']
-        }))
+        const optionPromise = optionResource.map(resource => firebase.database().ref(resource).orderByChild('name').once('value'))
+        const snap_arr = await Promise.all(optionPromise)
+        snap_arr.forEach((snap,index) => {
+          const keys = Object.keys(snap.val() || {})
+          const options = keys.map(key => ({
+            key,
+            name: snap.val()[key]['name']
+          }))
+          all_options[optionResource[index]] = options
+        })
       } catch(err) {
         //
       } finally {
         this.setState({
           isLoading: false,
-          [optionResource]: options
+          ...all_options
         })
       }
     }
@@ -53,6 +63,22 @@ function withField(params) {
       },async () => {
         try {
           await firebase.database().ref(resource).push(state)
+          if (this.path === 'members') {
+            await firebase.database().ref('referees/' +  state.referees + '/memberCount').transaction(memberCount => {
+              if (!memberCount) {
+                return 1
+              } else {
+                return memberCount + 1
+              }
+            })
+            await firebase.database().ref('sales/' +  state.sales + '/memberCount').transaction(memberCount => {
+              if (!memberCount) {
+                return 1
+              } else {
+                return memberCount + 1
+              }
+            })
+          }
           this.props.alert.show('上傳成功')
         } catch(err) {
           this.props.alert.show('上傳失敗 : ' + err.toString())

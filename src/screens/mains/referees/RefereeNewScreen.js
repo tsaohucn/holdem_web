@@ -8,7 +8,7 @@ const RefereeNewScreen = withField({
   field: ui.refereeField,
   buttonTitle: '送出',
   resource: 'referees',
-  optionResource: 'clubs'
+  optionResource: ['clubs']
 })
 
 export default withHoldemBar(withAlert((RefereeNewScreen)))
