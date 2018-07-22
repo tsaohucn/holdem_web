@@ -6,18 +6,24 @@ import { BrowserRouter , Route, Switch } from "react-router-dom"
 import SessionScreen from "./screens/SessionScreen"
 import WelcomeScreen from "./screens/WelcomeScreen"
 // mains
+// clubs
 import IndexScreen from "./screens/mains/IndexScreen"
 import ClubIndexScreen from "./screens/mains/clubs/ClubIndexScreen"
 import ClubNewScreen from "./screens/mains/clubs/ClubNewScreen"
 import ClubTableScreen  from "./screens/mains/clubs/ClubTableScreen"
 import ClubEditScreen from "./screens/mains/clubs/ClubEditScreen"
-
-import RefereeScreen from "./screens/mains/RefereeScreen"
-import SalesScreen from "./screens/mains/SalesScreen"
-import MemberScreen from "./screens/mains/MemberScreen"
-import EmployeeScreen from "./screens/mains/EmployeeScreen"
-import ReportScreen from "./screens/mains/ReportScreen"
-import LiveScreen from "./screens/mains/LiveScreen"
+// referees
+import RefereeIndexScreen from "./screens/mains/referees/RefereeIndexScreen"
+// sales
+import SalesIndexScreen from "./screens/mains/sales/SalesIndexScreen"
+// members
+import MemberIndexScreen from "./screens/mains/members/MemberIndexScreen"
+// employees
+import EmployeeIndexScreen from "./screens/mains/employees/EmployeeIndexScreen"
+// reports
+import ReportIndexScreen from "./screens/mains/reports/ReportIndexScreen"
+// tables
+import TableIndexScreen from "./screens/mains/tables/TableIndexScreen"
 
 const Router = () => (
   <BrowserRouter>
@@ -31,17 +37,17 @@ const Router = () => (
       <Route path="/mains/clubs/table" component={ClubTableScreen}/>
       <Route path="/mains/clubs/edit" component={ClubEditScreen}/>
       {/*referees*/}
-      <Route path="/mains/referees/index" component={RefereeScreen}/>
+      <Route path="/mains/referees/index" component={RefereeIndexScreen}/>
       {/*sales*/}
-      <Route path="/mains/sales/index" component={SalesScreen}/>
+      <Route path="/mains/sales/index" component={SalesIndexScreen}/>
       {/*members*/}
-      <Route path="/mains/members/index" component={MemberScreen}/>
+      <Route path="/mains/members/index" component={MemberIndexScreen}/>
       {/*employees*/}
-      <Route path="/mains/employees/index" component={EmployeeScreen}/>
+      <Route path="/mains/employees/index" component={EmployeeIndexScreen}/>
       {/*reports*/}
-      <Route path="/mains/reports/index" component={ReportScreen}/>
+      <Route path="/mains/reports/index" component={ReportIndexScreen}/>
       {/*tables*/}
-      <Route path="/mains/tables/index" component={LiveScreen}/>
+      <Route path="/mains/tables/index" component={TableIndexScreen}/>
     </Switch>
   </BrowserRouter>
 )
