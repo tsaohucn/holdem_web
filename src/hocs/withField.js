@@ -59,7 +59,7 @@ function withField(params) {
     onClickNewPageButton = (state) => {
       this.setState({
         isLoading: true,
-        event: '上傳資料中'
+        event: '新增資料中'
       },async () => {
         try {
           await firebase.database().ref(resource).push(state)
@@ -79,9 +79,9 @@ function withField(params) {
               }
             })
           }
-          this.props.alert.show('上傳成功')
+          this.props.alert.show('新增成功')
         } catch(err) {
-          this.props.alert.show('上傳失敗 : ' + err.toString())
+          this.props.alert.show('新增失敗 : ' + err.toString())
         } finally {
           this.setState({
             isLoading: false

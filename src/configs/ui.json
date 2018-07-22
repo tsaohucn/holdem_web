@@ -8,7 +8,7 @@
     "reports": "報表",
     "tables": "桌次現況"
   },
-  "clubField": [
+  "clubsField": [
     {
       "key": "name",
       "label": "俱樂部名稱"
@@ -22,7 +22,7 @@
       "label": "俱樂部密碼"
     }
   ],
-  "refereeField": [
+  "refereesField": [
     {
       "key": "id",
       "label": "裁判代號"
@@ -74,7 +74,7 @@
       "label": "所屬俱樂部"
     }
   ],
-  "memberField": [
+  "membersField": [
     {
       "key": "id",
       "label": "會員編號"
@@ -132,7 +132,7 @@
       "label": "所屬業務" 
     }
   ],
-  "employeeField": [
+  "employeesField": [
     {
       "key": "name",
       "label": "員工名稱"
@@ -146,7 +146,7 @@
       "label": "員工密碼"
     }
   ],
-  "clubTable": [
+  "clubsTable": [
     {
       "key": "name",
       "label": "俱樂部名稱"
@@ -160,7 +160,7 @@
       "label": "俱樂部密碼"
     }
   ],
-  "refereeTable": [
+  "refereesTable": [
     {
       "key": "id",
       "label": "裁判代號"
@@ -220,7 +220,7 @@
       "label": "所屬俱樂部"
     }
   ],
-  "employeeTable": [
+  "employeesTable": [
     {
       "key": "name",
       "label": "員工名稱"
@@ -234,7 +234,7 @@
       "label": "員工密碼"
     }
   ],
-  "memberTable": [
+  "membersTable": [
     {
       "key": "id",
       "label": "會員編號"
@@ -280,11 +280,11 @@
       "label": "會員抓馬額度"
     },
     {
-      "key": "club",
+      "key": "clubs",
       "label": "所屬俱樂部"      
     },
     {
-      "key": "referee",
+      "key": "referees",
       "label": "所屬裁判"      
     },
     {
@@ -292,7 +292,7 @@
       "label": "所屬業務" 
     }
   ],
-  "liveTable": [
+  "tablesTable": [
     {
       "key": "date",
       "label": "日期"
@@ -346,7 +346,7 @@
       "label": "N個六分鐘"      
     }
   ],
-  "member": [
+  "specificMembersTable": [
     {
       "key": "id",
       "label": "會員編號"      

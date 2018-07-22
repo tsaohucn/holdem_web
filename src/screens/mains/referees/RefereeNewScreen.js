@@ -5,7 +5,7 @@ import withField from '../../../hocs/withField'
 import ui from '../../../configs/ui'
 
 const RefereeNewScreen = withField({
-  field: ui.refereeField,
+  field: ui.refereesField,
   buttonTitle: '送出',
   resource: 'referees',
   optionResource: ['clubs']

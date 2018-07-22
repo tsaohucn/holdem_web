@@ -10,10 +10,10 @@ const _delete = {
   label: "刪除"
 }
 
-const RefereeEditScreen = withTable({
-  title: ui.refereesTable.concat(_delete),
-  resource: 'referees',
+const MemberEditScreen = withTable({
+  title: ui.membersTable.concat(_delete),
+  resource: 'members',
   wrapperComponent: EditComponent
 })
 
-export default withHoldemBar(withAlert((RefereeEditScreen)))
+export default withHoldemBar(withAlert((MemberEditScreen)))

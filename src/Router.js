@@ -26,8 +26,13 @@ import SalesMemberScreen from './screens/mains/sales/SalesMemberScreen'
 // members
 import MemberIndexScreen from './screens/mains/members/MemberIndexScreen'
 import MemberNewScreen from './screens/mains/members/MemberNewScreen'
+import MemberTableScreen from './screens/mains/members/MemberTableScreen'
+import MemberEditScreen from './screens/mains/members/MemberEditScreen'
 // employees
 import EmployeeIndexScreen from './screens/mains/employees/EmployeeIndexScreen'
+import EmployeeNewScreen from './screens/mains/employees/EmployeeNewScreen'
+import EmployeeTableScreen from './screens/mains/employees/EmployeeTableScreen'
+import EmployeeEditScreen from './screens/mains/employees/EmployeeEditScreen'
 // reports
 import ReportIndexScreen from './screens/mains/reports/ReportIndexScreen'
 // tables
@@ -58,8 +63,13 @@ const Router = () => (
       {/*members*/}
       <Route path='/mains/members/index' component={MemberIndexScreen}/>
       <Route path='/mains/members/new' component={MemberNewScreen}/>
+      <Route path='/mains/members/table' component={MemberTableScreen}/>
+      <Route path='/mains/members/edit' component={MemberEditScreen}/>
       {/*employees*/}
       <Route path='/mains/employees/index' component={EmployeeIndexScreen}/>
+      <Route path='/mains/employees/new' component={EmployeeNewScreen}/>
+      <Route path='/mains/employees/table' component={EmployeeTableScreen}/>
+      <Route path='/mains/employees/edit' component={EmployeeEditScreen}/>
       {/*reports*/}
       <Route path='/mains/reports/index' component={ReportIndexScreen}/>
       {/*tables*/}
