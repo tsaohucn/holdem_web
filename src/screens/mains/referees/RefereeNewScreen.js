@@ -1,13 +1,14 @@
 import React from 'react'
 import { withAlert } from 'react-alert'
 import withHoldemBar from '../../../hocs/withHoldemBar'
-import withNew from '../../../hocs/withNew'
+import withField from '../../../hocs/withField'
 import ui from '../../../configs/ui'
 
-const RefereeNewScreen = withNew({
+const RefereeNewScreen = withField({
   field: ui.refereeField,
-  buttonTitle: '確認新增裁判',
-  resource: 'referees'
+  buttonTitle: '送出',
+  resource: 'referees',
+  optionResource: 'clubs'
 })
 
 export default withHoldemBar(withAlert((RefereeNewScreen)))

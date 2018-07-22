@@ -1,11 +1,11 @@
 // node_module
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Redirect
-} from "react-router-dom";
+} from "react-router-dom"
 // local components
-import logo from '../logo.svg';
-import '../App.css';
+import logo from '../logo.svg'
+import '../App.css'
 import firebase from '../configs/firebase'
 
 class SessionScreen extends Component {
@@ -28,7 +28,7 @@ class SessionScreen extends Component {
   }
 
   sleep = ms => {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms))
   }
 
   render() {
@@ -42,11 +42,11 @@ class SessionScreen extends Component {
           {'連結firebase判斷是否登入'}
         </p>
       </div>
-    );
+    )
   }
 }
 
-export default SessionScreen;
+export default SessionScreen
 
 /*
 
@@ -60,5 +60,5 @@ export default SessionScreen;
           {'連結firebase判斷是否登入'}
         </p>
       </div>
-    );
+    )
 */

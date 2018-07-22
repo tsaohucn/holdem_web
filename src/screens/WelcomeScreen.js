@@ -1,47 +1,47 @@
 // node module
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { 
 	FormGroup,
 	ControlLabel,
 	FormControl,
 	HelpBlock,
   Button
-} from 'react-bootstrap';
-import Grid from '@material-ui/core/Grid';
+} from 'react-bootstrap'
+import Grid from '@material-ui/core/Grid'
 import {
   withRouter,
   Link
-} from "react-router-dom";
+} from "react-router-dom"
 // local components
-import logo from '../logo.svg';
-import '../App.css';
+import logo from '../logo.svg'
+import '../App.css'
 import firebase from '../configs/firebase'
 
 class WelcomeScreen extends Component {
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
     this.state = {
       account: '',
       password:'',
       error: ''
-    };
+    }
   }
 
   getValidationState = () => {
-    const length = this.state.account.length;
-    if (length > 10) return 'success';
-    else if (length > 5) return 'warning';
-    else if (length > 0) return 'error';
-    return null;
+    const length = this.state.account.length
+    if (length > 10) return 'success'
+    else if (length > 5) return 'warning'
+    else if (length > 0) return 'error'
+    return null
   }
 
   setAccount = e => {
-    this.setState({ account: e.target.value });
+    this.setState({ account: e.target.value })
   }
 
   setPassword = e => {
-    this.setState({ password: e.target.value });
+    this.setState({ password: e.target.value })
   }
 
   register = () => {
@@ -100,7 +100,7 @@ class WelcomeScreen extends Component {
           <Button onClick={this.login}>登入</Button>
         </div>
       </Grid>
-    );
+    )
   }
 }
 
@@ -113,7 +113,7 @@ const AuthButton = withRouter(
     >
       登入
     </Button>
-);
+)
 
 const height = window.innerHeight
 
