@@ -10,7 +10,7 @@ const edit = {
 }
 
 const RefereeTableScreen = withTable({
-  title: ui.refereeTable.concat(edit),
+  title: ui.refereesTable.concat(edit),
   resource: 'referees'
 })
 

@@ -5,9 +5,14 @@ import withHoldemBar from '../../../hocs/withHoldemBar'
 import withTable from '../../../hocs/withTable'
 import ui from '../../../configs/ui'
 
-const ClubTableScreen = withTable({
-  title: ui.clubsTable,
-  resource: 'clubs'
+const edit = {
+  key: "edit",
+  label: "編輯"
+}
+
+const EmployeeTableScreen = withTable({
+  title: ui.employeesTable.concat(edit),
+  resource: 'employees'
 })
 
-export default withHoldemBar(withAlert((ClubTableScreen)))
+export default withHoldemBar(withAlert((EmployeeTableScreen)))
