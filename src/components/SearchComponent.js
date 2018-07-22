@@ -29,7 +29,7 @@ class SearchComponent extends PureComponent {
             style={styles.SearchBar}
             value={''}
             //onChange={this.onChange}
-            //onRequestSearch={this.searchClub}
+            onRequestSearch={() => {}}
           />
         </div>
         <br/>
@@ -55,7 +55,7 @@ class SearchComponent extends PureComponent {
                 style={styles.SearchBar}
                 value={''}
                 //onChange={this.onChange}
-                //onRequestSearch={this.searchClub}
+                onRequestSearch={() => {}}
               /> 
             </div>
             <br/> 
