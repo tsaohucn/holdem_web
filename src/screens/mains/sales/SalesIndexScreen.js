@@ -6,8 +6,8 @@ import withHoldemBar from '../../../hocs/withHoldemBar'
 
 const SalesIndexScreen = withIndex({
 	resource: 'sales',
-	searchTitle: '業務代號查詢',
-	leftButtonTitle: '搜索全部業務',
+	searchTitle: '依業務代號查詢',
+	leftButtonTitle: '搜尋',
 	rightButtonTitle: '新增業務'
 })
 

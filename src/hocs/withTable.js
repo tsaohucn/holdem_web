@@ -2,7 +2,7 @@
 import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
-import TablePage from '../views/TablePage'
+import TableView from '../views/TableView'
 import firebase from '../configs/firebase'
 
 function withTable(params) {
@@ -73,7 +73,7 @@ function withTable(params) {
     }
 
     render() {
-      const Component = wrapperComponent ? wrapperComponent : TablePage
+      const Component = wrapperComponent ? wrapperComponent : TableView
       return(
         <div 
           style={styles.container} 

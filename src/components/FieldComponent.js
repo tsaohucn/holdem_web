@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import MenuItem from '@material-ui/core/MenuItem'
+import PartialButton from '../views/PartialButton'
 // local components
 class FieldComponent extends PureComponent {
 
@@ -80,8 +81,21 @@ class FieldComponent extends PureComponent {
         }
         <br/>
         <div style={styles.buttonView}>
-          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickNewPageReturn}>{'返回'}</Button>
-          <Button style={styles.button} variant="contained" color="secondary" onClick={this.onClick}>{buttonTitle}</Button>
+          <PartialButton 
+            style={styles.button} 
+            variant="contained" 
+            color="secondary" 
+            onClick={onClickNewPageReturn}>
+            {'返回'}
+          </PartialButton>
+          <PartialButton 
+            style={styles.button} 
+            variant="contained" 
+            color="secondary" 
+            onClick={this.onClick}
+          >
+            {buttonTitle}
+          </PartialButton>
         </div>
         <br/>
       </div>

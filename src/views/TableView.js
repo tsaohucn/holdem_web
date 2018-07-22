@@ -6,9 +6,9 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
+import PartialButton from './PartialButton'
 // local components
-const TablePage = (props) =>  {
+const TableView = (props) =>  {
 
   const { 
     title,
@@ -63,7 +63,11 @@ const TablePage = (props) =>  {
           </Paper>
           <br/>
           <div style={styles.buttonView}>
-            <Button style={styles.button} variant="contained" color="secondary" onClick={onClickTableReturnButton}>返回</Button> 
+            <PartialButton 
+              onClick={onClickTableReturnButton}
+            >
+              返回
+            </PartialButton> 
           </div>
           <br/>
           <br/>
@@ -80,16 +84,14 @@ const styles = {
     minWidth: 700,
   },
   buttonView: {
-    width: '25%',
+    width: '50%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between'
-  },
-  button: {
-    width: '30%'
   },
   tableCell: {
     fontSize: 13
   }
 }
-export default TablePage
+
+export default TableView
