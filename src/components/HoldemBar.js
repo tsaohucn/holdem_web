@@ -79,6 +79,7 @@ const styles = theme => ({
     ...theme.mixins.toolbar,
   },
   content: {
+    overflowX: 'scroll',
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
@@ -158,9 +159,13 @@ class PersistentDrawer extends React.Component {
           {
             ui.tool.map((ele,index) => (
               <ListItem key={index.toString()} button onClick={() => this.props.history.push('/mains/' + ele.path)}>
+              {
+                /*
                 <ListItemIcon>
                   <Icon tag={ele.icon}/>
                 </ListItemIcon>
+                */
+              }
                 <ListItemText primary={ele.title} />
               </ListItem>
             ))

@@ -81,7 +81,7 @@ const TablePage = (props) =>  {
 const styles = {
   root: {
     width: '100%',
-    overflowX: 'auto',
+    overflowX: 'auto'
   },
   table: {
     minWidth: 700,
