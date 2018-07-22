@@ -75,13 +75,14 @@ const styles = {
     flex: 1
   },
   buttonView: {
-    width: '25%',
+    width: '50%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
   button: {
-    width: '30%'
+    width: '33%',
+    minWidth: 0
   }
 }
 export default SearchPage

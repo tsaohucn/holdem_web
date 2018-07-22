@@ -93,16 +93,17 @@ class NewPage extends PureComponent {
 
 const styles = {
   textField: {
-    width: '40%'
+    width: '50%'
   },
   buttonView: {
-    width: '40%',
+    width: '50%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
   button: {
-    width: '30%'
+    width: '33%',
+    minWidth: 0
   }
 }
 export default NewPage
