@@ -7,7 +7,11 @@ import SessionScreen from "./screens/SessionScreen"
 import WelcomeScreen from "./screens/WelcomeScreen"
 // mains
 import IndexScreen from "./screens/mains/IndexScreen"
-import ClubScreen from "./screens/mains/ClubScreen"
+import ClubIndexScreen from "./screens/mains/clubs/ClubIndexScreen"
+import ClubNewScreen from "./screens/mains/clubs/ClubNewScreen"
+import ClubTableScreen  from "./screens/mains/clubs/ClubTableScreen"
+import ClubEditScreen from "./screens/mains/clubs/ClubEditScreen"
+
 import RefereeScreen from "./screens/mains/RefereeScreen"
 import SalesScreen from "./screens/mains/SalesScreen"
 import MemberScreen from "./screens/mains/MemberScreen"
@@ -21,7 +25,10 @@ const Router = () => (
       <Route exact path="/" component={SessionScreen} />
       <Route path="/welcomes" component={WelcomeScreen} />
       <Route path="/mains/index" component={IndexScreen} />
-      <Route path="/mains/club" component={ClubScreen} />
+      <Route path="/mains/clubs/index" component={ClubIndexScreen} />
+      <Route path="/mains/clubs/new" component={ClubNewScreen} />
+      <Route path="/mains/clubs/table" component={ClubTableScreen} />
+      <Route path="/mains/clubs/edit" component={ClubEditScreen} />
       <Route path="/mains/referee" component={RefereeScreen} />
       <Route path="/mains/sales" component={SalesScreen} />
       <Route path="/mains/member" component={MemberScreen} />
