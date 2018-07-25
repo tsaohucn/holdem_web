@@ -3,8 +3,9 @@ import React from 'react'
 import { BrowserRouter , Route, Switch } from 'react-router-dom'
 // local components
 // auths
-import SessionScreen from './screens/SessionScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
+import NoMatchScreen from './screens/NoMatchScreen'
+import SessionScreen from './screens/SessionScreen'
 // mains
 // clubs
 import IndexScreen from './screens/mains/IndexScreen'
@@ -38,42 +39,74 @@ import ReportIndexScreen from './screens/mains/reports/ReportIndexScreen'
 // tables
 import TableIndexScreen from './screens/mains/tables/TableIndexScreen'
 
-const Router = () => (
+const Router = ({auth}) => {
+  switch(auth) {
+    case 'init':
+      return <Init/>
+      break
+    case true:
+      return <Auth/>
+      break
+    case false:
+      return <NoAuth/>
+      break
+    default:
+      return null
+  }
+}
+
+const Init = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path='/' component={SessionScreen}/>
-      <Route path='/welcomes' component={WelcomeScreen}/>
-      <Route path='/mains/index' component={IndexScreen}/>
+      <Route path='/' component={SessionScreen}/>
+    </Switch>
+  </BrowserRouter>
+)
+
+const NoAuth = () => (
+  <BrowserRouter>
+    <Switch>
+      <Route exact path='/index' component={WelcomeScreen}/>
+      <Route path='/' component={NoMatchScreen}/>
+    </Switch>
+  </BrowserRouter>
+)
+
+const Auth = () => (
+  <BrowserRouter>
+    <Switch>
       {/*clubs*/}
-      <Route path='/mains/clubs/index' component={ClubIndexScreen}/>
-      <Route path='/mains/clubs/new' component={ClubNewScreen}/>
-      <Route path='/mains/clubs/table/:id' component={ClubTableScreen}/>
+      <Route exact path='/index' component={IndexScreen}/>
+      <Route exact path='/clubs/index' component={ClubIndexScreen}/>
+      <Route exact path='/clubs/new' component={ClubNewScreen}/>
+      <Route exact path='/clubs/table/:id' component={ClubTableScreen}/>
       {/*referees*/}
-      <Route path='/mains/referees/index' component={RefereeIndexScreen}/>
-      <Route path='/mains/referees/new' component={RefereeNewScreen}/>
-      <Route path='/mains/referees/table/:id' component={RefereeTableScreen}/>
-      <Route path='/mains/referees/edit/:id' component={RefereeEditScreen}/>
-      <Route path='/mains/referees/member/:id' component={RefereeMemberScreen}/>
+      <Route exact path='/referees/index' component={RefereeIndexScreen}/>
+      <Route exact path='/referees/new' component={RefereeNewScreen}/>
+      <Route exact path='/referees/table/:id' component={RefereeTableScreen}/>
+      <Route exact path='/referees/edit/:id' component={RefereeEditScreen}/>
+      <Route exact path='/referees/member/:id' component={RefereeMemberScreen}/>
       {/*sales*/}
-      <Route path='/mains/sales/index' component={SalesIndexScreen}/>
-      <Route path='/mains/sales/new' component={SalesNewScreen}/>
-      <Route path='/mains/sales/table/:id' component={SalesTableScreen}/>
-      <Route path='/mains/sales/edit/:id' component={SalesEditScreen}/>
-      <Route path='/mains/sales/member/:id' component={SalesMemberScreen}/>
+      <Route exact path='/sales/index' component={SalesIndexScreen}/>
+      <Route exact path='/sales/new' component={SalesNewScreen}/>
+      <Route exact path='/sales/table/:id' component={SalesTableScreen}/>
+      <Route exact path='/sales/edit/:id' component={SalesEditScreen}/>
+      <Route exact path='/sales/member/:id' component={SalesMemberScreen}/>
       {/*members*/}
-      <Route path='/mains/members/index' component={MemberIndexScreen}/>
-      <Route path='/mains/members/new' component={MemberNewScreen}/>
-      <Route path='/mains/members/table/:id' component={MemberTableScreen}/>
-      <Route path='/mains/members/edit/:id' component={MemberEditScreen}/>
+      <Route exact path='/members/index' component={MemberIndexScreen}/>
+      <Route exact path='/members/new' component={MemberNewScreen}/>
+      <Route exact path='/members/table/:id' component={MemberTableScreen}/>
+      <Route exact path='/members/edit/:id' component={MemberEditScreen}/>
       {/*employees*/}
-      <Route path='/mains/employees/index' component={EmployeeIndexScreen}/>
-      <Route path='/mains/employees/new' component={EmployeeNewScreen}/>
-      <Route path='/mains/employees/table/:id' component={EmployeeTableScreen}/>
-      <Route path='/mains/employees/edit/:id' component={EmployeeEditScreen}/>
+      <Route exact path='/employees/index' component={EmployeeIndexScreen}/>
+      <Route exact path='/employees/new' component={EmployeeNewScreen}/>
+      <Route exact path='/employees/table/:id' component={EmployeeTableScreen}/>
+      <Route exact path='/employees/edit/:id' component={EmployeeEditScreen}/>
       {/*reports*/}
-      <Route path='/mains/reports/index' component={ReportIndexScreen}/>
+      <Route exact path='/reports/index' component={ReportIndexScreen}/>
       {/*tables*/}
-      <Route path='/mains/tables/index' component={TableIndexScreen}/>
+      <Route exact path='/tables/index' component={TableIndexScreen}/>
+      <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>
 )
