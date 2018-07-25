@@ -158,7 +158,7 @@ class PersistentDrawer extends React.Component {
         <List>
           {
             router_path.map((path,index) => (
-              <ListItem key={path} button onClick={() => this.props.history.push('/mains/' + path + '/index')}>
+              <ListItem key={path} button onClick={() => this.props.history.push('/' + path + '/index')}>
               {
                 /*
                 <ListItemIcon>
@@ -193,7 +193,7 @@ class PersistentDrawer extends React.Component {
                 <MenuIcon />
               </IconButton>
               <Typography variant="title" color="inherit" noWrap>
-                {router[this.props.location.pathname.split("/")[2]]}
+                {router[this.props.location.pathname.split("/")[1]]}
               </Typography>
               <IconButton
                 color="inherit"

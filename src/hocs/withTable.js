@@ -56,18 +56,18 @@ function withTable(params) {
 
     onClickTableReturnButton = () => {
       if (this.paths.includes('table')) {
-        this.props.history.push('/mains/' + resource + '/index')
+        this.props.history.push('/' + resource + '/index')
       } else {
         this.props.history.goBack()
       }
     }
 
     onClickMemberCountLink = (id) => {
-      this.props.history.push('/mains/' + resource + '/member/' + id)
+      this.props.history.push('/' + resource + '/member/' + id)
     }
 
     onClickEditLink = () => {
-      this.props.history.push('/mains/' + resource + '/edit/' + this.id)
+      this.props.history.push('/' + resource + '/edit/' + this.id)
     }
 
     render() {

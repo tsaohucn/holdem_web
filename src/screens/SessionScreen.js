@@ -1,64 +1,31 @@
-// node_module
-import React, { Component } from 'react'
-import {
-  Redirect
-} from "react-router-dom"
-// local components
-import logo from '../logo.svg'
-import '../App.css'
-import firebase from '../configs/firebase'
+// node module
+import React from 'react'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
-class SessionScreen extends Component {
+const SessionScreen = () =>         
+  <div 
+    style={styles.container} 
+  >
+    <div style={styles.spinner}>
+      <CircularProgress size={50}/>
+      <h3>{'檢查登入狀態'}</h3>
+    </div>
+  </div>
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isAuth: false
-    }
-  }
+const height = window.innerHeight
 
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.props.history.push('/mains/index')
-      } else {
-        this.props.history.push('/welcomes')
-      }
-    })
-  }
-
-  sleep = ms => {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          {'連結firebase判斷是否登入'}
-        </p>
-      </div>
-    )
+const styles = {
+  container: {
+    display: 'flex',
+    height
+  },
+  spinner: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 }
 
 export default SessionScreen
-
-/*
-
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          {'連結firebase判斷是否登入'}
-        </p>
-      </div>
-    )
-*/

@@ -86,14 +86,14 @@ function withField(params) {
           this.setState({
             isLoading: false
           },() => {
-            this.props.history.push('/mains/' + resource + '/index')
+            this.props.history.push('/' + resource + '/index')
           })
         }
       })
     }
 
     onClickNewPageReturn = () => {
-      this.props.history.push('/mains/' + resource + '/index')
+      this.props.history.push('/' + resource + '/index')
     }
 
     render() {

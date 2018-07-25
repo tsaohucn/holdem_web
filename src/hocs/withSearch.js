@@ -18,11 +18,11 @@ function withSearch(params) {
   return class extends React.PureComponent {
 
     onClickSearchPageRightButton = () => {
-      this.props.history.push('/mains/' + resource + '/new')
+      this.props.history.push('/' + resource + '/new')
     }
 
     goToTable = (search) => {
-      this.props.history.push('/mains/' + resource + '/table/' + search )
+      this.props.history.push('/' + resource + '/table/' + search )
     }
 
     render() {
