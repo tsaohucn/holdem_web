@@ -36,33 +36,30 @@ class EditComponent extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      ...this.props.data,
       open: false
     }
     this.index = null
+    this.data = this.props.data
+    this.keys
   }
 
-  onChange = (index,key,value) => {
-    const keys = this.getKeys()
-    const data = this.state
-    const _key = keys[index]
-    data[_key][key] = value
-    this.setState(data)
+  onChange = (_key,key,value) => {
+    this.data[_key][key] = value
   }
 
   onClickDelete = (index) => {
     this.setState({
       open: true
     })
-    this.index = index
+    //this.index = index
   }
 
   confirmDelete = () => {
-    const keys = this.getKeys()
-    const data = Object.assign({},this.state)
-    const _key = keys[this.index]
-    data[_key] = null
-    this.setState(data)    
+    //const keys = this.getKeys()
+    //const data = Object.assign({},this.state)
+    //const _key = keys[this.index]
+    //data[_key] = null
+    //this.setState(data)    
   }
 
   handleClose = () => {
@@ -71,12 +68,8 @@ class EditComponent extends PureComponent {
     })    
   }
 
-  getKeys = () => {
-    return Object.keys(this.state).filter(key => this.state[key])
-  }
-
   onClickEditConfirmButton = () => {
-    this.props.onClickEditConfirmButton(this.state)
+    this.props.onClickEditConfirmButton(this.data)
   }
 
   render() {
@@ -85,8 +78,6 @@ class EditComponent extends PureComponent {
       title,
       onClickTableReturnButton
     } = this.props ? this.props : {}
-
-    const keys = this.getKeys()
 
     return(
 
@@ -136,13 +127,13 @@ class EditComponent extends PureComponent {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Object.values(this.state).filter(x => x).map((n,index) => {
+              {Object.keys(this.data).map((_key,index) => {
                 return (
-                  <TableRow key={keys[index]}>
+                  <TableRow key={_key}>
                     {
                       title && title.map((ele) => {
                         const key = ele.key
-                        if (key !== 'delete' && key !== 'clubs' && key !== 'memberCount') {
+                        if (key !== 'delete' && key !== 'clubs' && key !== 'memberCount' && key !== 'account' && key !== 'password') {
                           return (
                             <TableCell
                               key={key}
@@ -150,17 +141,10 @@ class EditComponent extends PureComponent {
                             >
                               <TextField
                                 style={styles.tableCell}
-                                defaultValue={n[key]}
-                                //id="bootstrap-input"
-                                //InputProps={{
-                                //  disableUnderline: true
-                                //}}
-                                //InputLabelProps={{
-                                //  shrink: true
-                                //}}
+                                defaultValue={this.data[_key][key]}
                                 onChange={event => {
                                   const value = event.target.value
-                                  this.onChange(index,key,value)
+                                  this.onChange(_key,key,value)
                                 }}
                               />
                             </TableCell>
@@ -168,8 +152,8 @@ class EditComponent extends PureComponent {
                         } else {
                           if (key === 'delete') {
                             return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickDelete(index)}>{'刪除'}</a></TableCell>
-                          } else if (key === 'clubs') {
-                            return <TableCell key={key} style={styles.tableCell}>{n[key]}</TableCell> //選單
+                          } else if (key === 'clubs' || key === 'account' || key === 'password') {
+                            return <TableCell key={key} style={styles.tableCell}>{this.data[_key][key]}</TableCell> //選單
                           } else if (key === 'memberCount') {
                             return null
                           }
