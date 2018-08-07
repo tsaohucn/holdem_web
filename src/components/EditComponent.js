@@ -10,26 +10,6 @@ import TextField from '@material-ui/core/TextField'
 import PartialButton from '../views/PartialButton'
 import Modal from '@material-ui/core/Modal'
 // local components
-const data = [
-  {
-    id: '1234',
-    name: 'Foo',
-    telephone: 112122,
-    account: 'sass',
-    password: 'sdsd',
-    memberCount: 'dsdsd',
-    clubName: 'ssas'
-  },
-  {
-    id: '4567',
-    name: 'Bar',
-    telephone: 55555,
-    account: 'sass',
-    password: 'sdsd',
-    memberCount: 'dsdsd',
-    clubName: 'ewee'
-  }
-]
 
 class EditComponent extends PureComponent {
 

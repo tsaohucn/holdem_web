@@ -8,13 +8,7 @@ import {
   Button
 } from 'react-bootstrap'
 import Grid from '@material-ui/core/Grid'
-import {
-  withRouter,
-  Link
-} from "react-router-dom"
 // local components
-import logo from '../logo.svg'
-import '../App.css'
 import firebase from '../configs/firebase'
 
 class WelcomeScreen extends Component {
@@ -105,15 +99,6 @@ class WelcomeScreen extends Component {
 }
 
 export default WelcomeScreen
-
-const AuthButton = withRouter(
-  ({ history }) =>
-    <Button
-      onClick={() => {history.push('/mains/function')}}
-    >
-      登入
-    </Button>
-)
 
 const height = window.innerHeight
 
