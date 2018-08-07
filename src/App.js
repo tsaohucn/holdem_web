@@ -5,6 +5,7 @@ import AlertTemplate from 'react-alert-template-basic'
 // local components
 import Router from './Router'
 import firebase from './configs/firebase'
+import HoldemStore from './mobx/HoldemStore'
 
 // optional cofiguration
 const options = {
@@ -24,8 +25,16 @@ class App extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.setState({
-          isAuth: true
+        firebase.database().ref('/users/' + user.uid).once('value').then((snap) => {
+          HoldemStore.setUser(snap.val())
+          this.setState({
+            isAuth: true
+          })
+        }).catch(err => {
+          HoldemStore.setUser(null)
+          this.setState({
+            isAuth: true
+          })          
         })
       } else {
         this.setState({
@@ -38,7 +47,9 @@ class App extends Component {
   render() {
     return (
  	    <AlertProvider template={AlertTemplate} {...options}>
-        <Router auth={this.state.isAuth}/>
+        <Router 
+          auth={this.state.isAuth}
+        />
       </AlertProvider>
     );
   }

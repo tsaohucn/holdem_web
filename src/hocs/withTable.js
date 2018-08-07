@@ -9,7 +9,8 @@ function withTable(params) {
   const {
     title,
     resource,
-    wrapperComponent
+    wrapperComponent,
+    auth
   } = params ? params : {}
 
   return class extends React.PureComponent {
