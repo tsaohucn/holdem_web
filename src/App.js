@@ -18,7 +18,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isAuth: 'init'
+      isAuth: 'init',
+      user: null
     }
   }
 
@@ -26,19 +27,20 @@ class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         firebase.database().ref('/users/' + user.uid).once('value').then((snap) => {
-          HoldemStore.setUser(snap.val())
           this.setState({
-            isAuth: true
+            isAuth: true,
+            user: snap.val()
           })
         }).catch(err => {
-          HoldemStore.setUser(null)
           this.setState({
-            isAuth: true
+            isAuth: true,
+            user: null
           })          
         })
       } else {
         this.setState({
-          isAuth: false
+          isAuth: false,
+          user: null
         })
       }
     })
@@ -49,6 +51,7 @@ class App extends Component {
  	    <AlertProvider template={AlertTemplate} {...options}>
         <Router 
           auth={this.state.isAuth}
+          user={this.state.user}
         />
       </AlertProvider>
     );

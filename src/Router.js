@@ -6,6 +6,7 @@ import { BrowserRouter , Route, Switch } from 'react-router-dom'
 import WelcomeScreen from './screens/WelcomeScreen'
 import NoMatchScreen from './screens/NoMatchScreen'
 import SessionScreen from './screens/SessionScreen'
+import NoAuthScreen from './screens/NoAuthScreen'
 // mains
 // clubs
 import IndexScreen from './screens/mains/IndexScreen'
@@ -39,19 +40,36 @@ import ReportIndexScreen from './screens/mains/reports/ReportIndexScreen'
 // tables
 import TableIndexScreen from './screens/mains/tables/TableIndexScreen'
 
-const Router = ({auth}) => {
+const Router = ({auth,user}) => {
   switch(auth) {
     case 'init':
       return <Init/>
       break
     case true:
-      return <Auth/>
+      switch(user) {
+        case 'admin':
+          return <AuthAdmin/>
+          break
+        case 'employees':
+          return <AuthAdmin/>
+          break
+        case 'referees':
+          return <AuthOnlyReport/>
+          break
+        case 'sales' :
+          return <AuthOnlyReport/>
+          break
+        default:
+          return <h1>Error</h1>
+          break
+      }
       break
     case false:
       return <NoAuth/>
       break
     default:
-      return null
+      return <h1>Error</h1>
+      break
   }
 }
 
@@ -72,7 +90,7 @@ const NoAuth = () => (
   </BrowserRouter>
 )
 
-const Auth = () => (
+const AuthAdmin = () => (
   <BrowserRouter>
     <Switch>
       {/*clubs*/}
@@ -106,6 +124,45 @@ const Auth = () => (
       <Route exact path='/reports/index' component={ReportIndexScreen}/>
       {/*tables*/}
       <Route exact path='/tables/index' component={TableIndexScreen}/>
+      <Route path='/' component={NoMatchScreen}/>
+    </Switch>
+  </BrowserRouter>
+)
+
+const AuthOnlyReport = () => (
+  <BrowserRouter>
+    <Switch>
+      {/*clubs*/}
+      <Route exact path='/index' component={IndexScreen}/>
+      <Route exact path='/clubs/index' component={NoAuthScreen}/>
+      <Route exact path='/clubs/new' component={NoAuthScreen}/>
+      <Route exact path='/clubs/table/:id' component={NoAuthScreen}/>
+      {/*referees*/}
+      <Route exact path='/referees/index' component={NoAuthScreen}/>
+      <Route exact path='/referees/new' component={NoAuthScreen}/>
+      <Route exact path='/referees/table/:id' component={NoAuthScreen}/>
+      <Route exact path='/referees/edit/:id' component={NoAuthScreen}/>
+      <Route exact path='/referees/member/:id' component={NoAuthScreen}/>
+      {/*sales*/}
+      <Route exact path='/sales/index' component={NoAuthScreen}/>
+      <Route exact path='/sales/new' component={NoAuthScreen}/>
+      <Route exact path='/sales/table/:id' component={NoAuthScreen}/>
+      <Route exact path='/sales/edit/:id' component={NoAuthScreen}/>
+      <Route exact path='/sales/member/:id' component={NoAuthScreen}/>
+      {/*members*/}
+      <Route exact path='/members/index' component={NoAuthScreen}/>
+      <Route exact path='/members/new' component={NoAuthScreen}/>
+      <Route exact path='/members/table/:id' component={NoAuthScreen}/>
+      <Route exact path='/members/edit/:id' component={NoAuthScreen}/>
+      {/*employees*/}
+      <Route exact path='/employees/index' component={NoAuthScreen}/>
+      <Route exact path='/employees/new' component={NoAuthScreen}/>
+      <Route exact path='/employees/table/:id' component={NoAuthScreen}/>
+      <Route exact path='/employees/edit/:id' component={NoAuthScreen}/>
+      {/*reports*/}
+      <Route exact path='/reports/index' component={ReportIndexScreen}/>
+      {/*tables*/}
+      <Route exact path='/tables/index' component={NoAuthScreen}/>
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>
