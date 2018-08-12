@@ -26,7 +26,7 @@ class App extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        firebase.database().ref('/users/' + user.uid).once('value').then((snap) => {
+        firebase.database().ref('/users/' + user.uid +'/resource').once('value').then((snap) => {
           this.setState({
             isAuth: true,
             user: snap.val()

@@ -63,8 +63,10 @@ function withField(params) {
       },async () => {
         try {
           const snap = await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
-          console.log(snap.user.uid)
-          await firebase.database().ref('/users/' + snap.user.uid).set(resource)
+          await firebase.database().ref('/users/' + snap.user.uid).set({
+            account: state.account,
+            resource
+          })
           await firebase.database().ref(resource).push(state)
           if (this.path === 'members') {
             await firebase.database().ref('referees/' +  state.referees + '/memberCount').transaction(memberCount => {
