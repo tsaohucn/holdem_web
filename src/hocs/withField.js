@@ -21,16 +21,10 @@ function withField(params) {
         isLoading: true,
         event: '下載資料中'
       }
-      this.setPath()
     }
 
     componentDidMount() {
       this.fetchOptions()
-    }
-
-    setPath = () => {
-      const paths = this.props.location.pathname.split("/")
-      this.path = paths[paths.length - 2]
     }
 
     fetchOptions = async () => {
@@ -62,13 +56,15 @@ function withField(params) {
         event: '新增資料中'
       },async () => {
         try {
-          const snap = await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
-          await firebase.database().ref('/users/' + snap.user.uid).set({
-            account: state.account,
-            resource
-          })
+          if (resource === 'referees' && resource === 'sales') {
+            const snap = await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
+            await firebase.database().ref('/users/' + snap.user.uid).set({
+              account: state.account,
+              resource
+            })
+          }
           await firebase.database().ref(resource).push(state)
-          if (this.path === 'members') {
+          if (resource === 'members') {
             await firebase.database().ref('referees/' +  state.referees + '/memberCount').transaction(memberCount => {
               if (!memberCount) {
                 return 1
