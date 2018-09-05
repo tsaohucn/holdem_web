@@ -39,6 +39,7 @@ import EmployeeEditScreen from './screens/mains/employees/EmployeeEditScreen'
 import ReportIndexScreen from './screens/mains/reports/ReportIndexScreen'
 // tables
 import TableIndexScreen from './screens/mains/tables/TableIndexScreen'
+import TableTableScreen from './screens/mains/tables/TableTableScreen'
 
 const Router = ({auth,user}) => {
   switch(auth) {
@@ -124,6 +125,7 @@ const AuthAdmin = () => (
       <Route exact path='/reports/index' component={ReportIndexScreen}/>
       {/*tables*/}
       <Route exact path='/tables/index' component={TableIndexScreen}/>
+      <Route exact path='/tables/table/:id' component={TableTableScreen}/>
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>
@@ -163,6 +165,7 @@ const AuthOnlyReport = () => (
       <Route exact path='/reports/index' component={ReportIndexScreen}/>
       {/*tables*/}
       <Route exact path='/tables/index' component={NoAuthScreen}/>
+      <Route exact path='/tables/table/:id' component={NoAuthScreen}/>
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>

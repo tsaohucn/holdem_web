@@ -2,15 +2,22 @@
 import React, { Component } from 'react'
 import SearchBar from 'material-ui-search-bar'
 import SearchIcon from '@material-ui/icons/Search'
-import Button from '@material-ui/core/Button'
+import PartialButton from './PartialButton'
 // local components
 
 class OnlySearchPage extends Component {
 
+  onChangeSearchValue = (value) => {
+    this.searchValue = value
+  }
+
+  onClickSearchPageLeftButton = () => {
+    this.props.onClickSearchPageLeftButton && this.props.onClickSearchPageLeftButton(this.searchValue || '$all')
+  }
+
   render() {
 
     const { 
-      onClickSearchPageLeftButton,
       leftButtonTitle, 
       title
     } = this.props
@@ -23,13 +30,13 @@ class OnlySearchPage extends Component {
           <SearchBar
             style={styles.SearchBar}
             value={''}
-            //onChange={this.onChange}
-            //onRequestSearch={this.searchClub}
+            onChange={this.onChangeSearchValue}
+            onRequestSearch={() => {}}
           />
         </div>
         <br/>
         <div style={styles.buttonView}>
-          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageLeftButton}>{leftButtonTitle}</Button>
+          <PartialButton style={styles.button} variant="contained" color="secondary" onClick={this.onClickSearchPageLeftButton}>{leftButtonTitle}</PartialButton>
         </div>
         <br/> 
       </div>
