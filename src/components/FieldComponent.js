@@ -53,7 +53,7 @@ class FieldComponent extends PureComponent {
           field.map(ele => 
             {
               const { key, label } = ele ? ele : {}
-              const isSelect = key === 'clubs' || key === 'referees' || key === 'sales'
+              const isSelect = key === 'club' || key === 'referee' || key === 'sale'
               return(
                 <div key={key}>
                   <TextField

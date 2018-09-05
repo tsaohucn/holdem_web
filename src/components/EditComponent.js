@@ -113,7 +113,7 @@ class EditComponent extends PureComponent {
                     {
                       title && title.map((ele) => {
                         const key = ele.key
-                        if (key !== 'delete' && key !== 'clubs' && key !== 'memberCount' && key !== 'account' && key !== 'password') {
+                        if (!textInput.includes(key)) {
                           return (
                             <TableCell
                               key={key}
@@ -132,7 +132,7 @@ class EditComponent extends PureComponent {
                         } else {
                           if (key === 'delete') {
                             return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickDelete(index)}>{'刪除'}</a></TableCell>
-                          } else if (key === 'clubs' || key === 'account' || key === 'password') {
+                          } else if (fix.includes(key)) {
                             return <TableCell key={key} style={styles.tableCell}>{this.data[_key][key]}</TableCell> //選單
                           } else if (key === 'memberCount') {
                             return null
@@ -165,6 +165,24 @@ class EditComponent extends PureComponent {
     )
   }
 }
+
+const textInput = [
+  'delete',
+  'club_name',
+  'referee_name',
+  'sale_name',
+  'memberCount',
+  'account',
+  'password'
+]
+
+const fix = [
+  'club_name',
+  'referee_name',
+  'sale_name',
+  'account',
+  'password'  
+]
 
 const styles = {
   root: {

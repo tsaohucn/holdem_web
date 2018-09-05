@@ -7,10 +7,13 @@ import PartialButton from './PartialButton'
 
 class ButtonSearchPage extends Component {
 
+  onClickSearchPageLeftButton = () => {
+    this.props.onClickSearchPageLeftButton && this.props.onClickSearchPageLeftButton('$all')
+  }
+
   render() {
 
     const { 
-      onClickSearchPageLeftButton,
       onClickSearchPageRightButton, 
       leftButtonTitle, 
       rightButtonTitle,
@@ -20,7 +23,7 @@ class ButtonSearchPage extends Component {
       <div>
         <br/>
         <div style={styles.buttonView}>
-          <PartialButton onClick={onClickSearchPageLeftButton}>{leftButtonTitle}</PartialButton>
+          <PartialButton onClick={this.onClickSearchPageLeftButton}>{leftButtonTitle}</PartialButton>
           <PartialButton onClick={onClickSearchPageRightButton}>{rightButtonTitle}</PartialButton>
         </div>
       </div>
