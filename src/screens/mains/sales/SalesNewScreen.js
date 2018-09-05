@@ -8,7 +8,7 @@ const SalesNewScreen = withField({
   field: ui.salesField,
   buttonTitle: '送出',
   resource: 'sales',
-  optionResource: ['clubs']
+  belong: ['club']
 })
 
 export default withHoldemBar(withAlert((SalesNewScreen)))

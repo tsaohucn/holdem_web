@@ -10,13 +10,14 @@ function withField(params) {
     field,
     buttonTitle,
     resource,
-    optionResource
+    belong
   } = params ? params : {}
 
   return class extends React.PureComponent {
 
     constructor(props) {
       super(props)
+      this.options = {}
       this.state = {
         isLoading: true,
         event: '下載資料中'
@@ -28,24 +29,24 @@ function withField(params) {
     }
 
     fetchOptions = async () => {
-      let all_options = {}
       try {
-        const optionPromise = optionResource.map(resource => firebase.database().ref(resource).orderByChild('name').once('value'))
+        const optionPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').orderByChild('name').once('value'))
         const snap_arr = await Promise.all(optionPromise)
         snap_arr.forEach((snap,index) => {
           const keys = Object.keys(snap.val() || {})
           const options = keys.map(key => ({
             key,
-            name: snap.val()[key]['name']
+            name: snap.val()[key]['name'],
+            id: snap.val()[key]['id']
           }))
-          all_options[optionResource[index]] = options
+          this.options[belong[index]] = options
         })
       } catch(err) {
-        //
+        this.props.alert.show('下載資料錯誤 : ' + err.toString())
       } finally {
         this.setState({
           isLoading: false,
-          ...all_options
+          ...this.options
         })
       }
     }
@@ -56,30 +57,44 @@ function withField(params) {
         event: '新增資料中'
       },async () => {
         try {
-          if (resource === 'referees' && resource === 'sales') {
-            const snap = await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
-            await firebase.database().ref('/users/' + snap.user.uid).set({
-              account: state.account,
-              resource
-            })
-          }
-          await firebase.database().ref(resource).push(state)
-          if (resource === 'members') {
-            await firebase.database().ref('referees/' +  state.referees + '/memberCount').transaction(memberCount => {
-              if (!memberCount) {
-                return 1
-              } else {
-                return memberCount + 1
+          let attach_data = {}
+          belong.forEach(belongResource => {
+            const ele = this.options[belongResource].find(ele => ele.key === state[belongResource])
+            attach_data[belongResource + '_name'] = ele.name || null
+            attach_data[belongResource + '_id'] = ele.id || null
+          })
+          const upload_data = Object.assign({},state,attach_data)
+          if (resource === 'referees' || resource === 'sales' || resource === 'members' || resource === 'employees') {
+            if (state.id) {
+              const id_snap = await firebase.database().ref(resource).orderByChild('id').equalTo(state.id).once('value')
+              if (id_snap.val()) {
+                throw "代號重複"
               }
-            })
-            await firebase.database().ref('sales/' +  state.sales + '/memberCount').transaction(memberCount => {
-              if (!memberCount) {
-                return 1
-              } else {
-                return memberCount + 1
-              }
-            })
+            }
+            if (resource === 'referees' || resource === 'sales' || resource === 'employees') {
+              const snap = await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
+              await firebase.database().ref('/users/' + snap.user.uid).set({
+                account: state.account,
+                resource
+              })
+            } else if (resource === 'members') {
+              await firebase.database().ref('referees/' +  state['referee'] + '/memberCount').transaction(memberCount => {
+                if (!memberCount) {
+                  return 1
+                } else {
+                  return memberCount + 1
+                }
+              })
+              await firebase.database().ref('sales/' +  state['sale'] + '/memberCount').transaction(memberCount => {
+                if (!memberCount) {
+                  return 1
+                } else {
+                  return memberCount + 1
+                }
+              })
+            }
           }
+          await firebase.database().ref(resource).push(upload_data)
           this.props.alert.show('新增成功')
         } catch(err) {
           this.props.alert.show('新增失敗 : ' + err.toString())

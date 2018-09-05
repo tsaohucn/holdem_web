@@ -7,7 +7,9 @@ import ButtonSearchPage from '../../../views/ButtonSearchPage'
 
 const EmployeeIndexScreen = withSearch({
   resource: 'employees',
-  wrapperComponent: ButtonSearchPage
+  wrapperComponent: ButtonSearchPage,
+  leftButtonTitle: '查看帳號',
+  rightButtonTitle: '新增帳號',
 })
 
 export default withHoldemBar(withAlert((EmployeeIndexScreen)))

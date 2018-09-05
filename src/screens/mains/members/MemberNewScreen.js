@@ -8,7 +8,7 @@ const MemberNewScreen = withField({
   field: ui.membersField,
   buttonTitle: '送出',
   resource: 'members',
-  optionResource: ['clubs','referees','sales']
+  belong: ['club','referee','sale']
 })
 
 export default withHoldemBar(withAlert((MemberNewScreen)))
