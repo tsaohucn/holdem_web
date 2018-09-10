@@ -89,6 +89,10 @@ function withTable(params) {
       this.props.history.push('/' + resource + '/table/' + this.id)
     }
 
+    gotToSecret = () => {
+      this.props.history.push('/clubs/secret')
+    }
+
     render() {
       const Component = wrapperComponent ? wrapperComponent : TableView
       return(
@@ -110,6 +114,7 @@ function withTable(params) {
               onClickMemberCountLink={this.goToMember}
               onClickEditLink={this.goToEdit}
               onClickEditConfirmButton={this.onClickEditConfirmButton}
+              onClickSecret={this.gotToSecret}
             />
           }
         </div>
