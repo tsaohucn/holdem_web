@@ -2,10 +2,10 @@
 import React from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
-import FieldComponent from '../components/FieldComponent'
+import FormComponent from '../components/FormComponent'
 import firebase from '../configs/firebase'
 
-function withField(params) {
+function withForm(params) {
   const {
     field,
     buttonTitle,
@@ -20,7 +20,7 @@ function withField(params) {
       this.options = {}
       this.state = {
         isLoading: true,
-        event: '下載資料中'
+        event: '載入中'
       }
     }
 
@@ -124,7 +124,7 @@ function withField(params) {
               <h3>{this.state.event}</h3>
             </div>
             :
-            <FieldComponent
+            <FormComponent
               {...this.props}
               {...this.state}
               field={field}
@@ -154,4 +154,4 @@ const styles = {
   }
 }
 
-export default withField
+export default withForm

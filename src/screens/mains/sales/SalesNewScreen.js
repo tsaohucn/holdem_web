@@ -2,10 +2,10 @@ import React from 'react'
 import { withAlert } from 'react-alert'
 // local components
 import withNavigation from '../../../hocs/withNavigation'
-import withField from '../../../hocs/withField'
+import withForm from '../../../hocs/withForm'
 import ui from '../../../configs/ui'
 
-const SalesNewScreen = withField({
+const SalesNewScreen = withForm({
   field: ui.salesField,
   buttonTitle: '送出',
   resource: 'sales',

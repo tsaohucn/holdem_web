@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 // local components
 import PartialButton from '../views/PartialButton'
 
-class FieldComponent extends PureComponent {
+class FormComponent extends PureComponent {
 
   state = this.props.field.reduce(function(o, ele) { o[ele.key] = ''; return o; }, {})
 
@@ -120,4 +120,4 @@ const styles = {
     minWidth: 0
   }
 }
-export default FieldComponent
+export default FormComponent
