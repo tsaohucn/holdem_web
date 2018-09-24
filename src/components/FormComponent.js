@@ -1,10 +1,8 @@
 // node_module
 import React, { PureComponent } from 'react'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import MenuItem from '@material-ui/core/MenuItem'
 // local components
-import PartialButton from '../views/PartialButton'
+import PartialForm from '../views/PartialForm'
+import { errorAlert } from '../helpers'
 
 class FormComponent extends PureComponent {
 
@@ -16,108 +14,36 @@ class FormComponent extends PureComponent {
     if (index < 0) {
       return true
     } else {
-      const warning = this.props.field[index].label + '不能為空'
-      this.props.alert.show(warning)
+      const message = this.props.field[index].label + '不能為空'
+      errorAlert(this.props.alert,message)
       return false      
     }
   }
 
-  onChange(state) {
+  onChange = (event,key) => {
+    const state = {
+      [key]: event.target.value
+    }
     this.setState(state)
   }
 
-  onClick = () => {
+  onClickNewPageButton = () => {
     const dataIsIntegrity = this.checkDataIntegrity()
     if (dataIsIntegrity) {
       this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state)
     }
   }
-
-  renderSelect = (property) => {
-    return this.props[property] && this.props[property].map(option => (
-      <MenuItem key={option.key} value={option.key}>
-        {option.name}
-      </MenuItem>
-    ))
-  }
  
   render() {
-    const { 
-      field,
-      buttonTitle,
-      onClickNewPageReturn
-    } = this.props
-
     return(
-      <div>
-        {
-          field.map(ele => 
-            {
-              const { key, label } = ele ? ele : {}
-              const isSelect = key === 'club' || key === 'referee' || key === 'sale'
-              return(
-                <div key={key}>
-                  <TextField
-                    select={isSelect}
-                    label={label}
-                    id="margin-normal"
-                    style={styles.textField}
-                    margin="normal"
-                    value={this.state[key]}
-                    onChange={event => {
-                      const state = {
-                        [key]: event.target.value
-                      }
-                      this.onChange(state)
-                    }}
-                  > 
-                  {
-                    isSelect ? this.renderSelect(key) : null
-                  }
-                  </TextField>
-                </div>
-              )
-            }
-          )
-        }
-        <br/>
-        <div style={styles.buttonView}>
-          <PartialButton 
-            style={styles.button} 
-            variant="contained" 
-            color="secondary" 
-            onClick={onClickNewPageReturn}>
-            {'返回'}
-          </PartialButton>
-          <PartialButton 
-            style={styles.button} 
-            variant="contained" 
-            color="secondary" 
-            onClick={this.onClick}
-          >
-            {buttonTitle}
-          </PartialButton>
-        </div>
-        <br/>
-      </div>
+      <PartialForm
+        {...this.props}
+        value={this.state}
+        onChange={this.onChange}
+        onClickNewPageButton={this.onClickNewPageButton}
+      />
     )    
   }
 }
 
-
-const styles = {
-  textField: {
-    width: '50%'
-  },
-  buttonView: {
-    width: '50%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  button: {
-    width: '33%',
-    minWidth: 0
-  }
-}
 export default FormComponent
