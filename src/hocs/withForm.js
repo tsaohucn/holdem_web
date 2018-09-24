@@ -4,6 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
 import FormComponent from '../components/FormComponent'
 import firebase from '../configs/firebase'
+import ui from '../configs/ui'
 import { errorAlert, successAlert } from '../helpers'
 
 function withForm(params) {
@@ -47,6 +48,8 @@ function withForm(params) {
       } finally {
         this.setState({
           isLoading: false,
+          gender: ui.gender,
+          education: ui.education,
           ...this.options
         })
       }

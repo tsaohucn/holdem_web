@@ -30,7 +30,7 @@ const PartialForm = (props) => {
         field.map(ele => 
           {
             const { key, label } = ele ? ele : {}
-            const isSelect = key === 'club' || key === 'referee' || key === 'sale' 
+            const isSelect = key === 'club' || key === 'referee' || key === 'sale' || key === 'gender' || key === 'education'
             return(
               <div key={key}>
                 <TextField
