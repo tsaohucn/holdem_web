@@ -1,8 +1,9 @@
 // node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
+// local components
 import withSearch from '../../../hocs/withSearch'
-import withHoldemBar from '../../../hocs/withHoldemBar'
+import withNavigation from '../../../hocs/withNavigation'
 
 const SalesIndexScreen = withSearch({
 	resource: 'sales',
@@ -11,4 +12,4 @@ const SalesIndexScreen = withSearch({
 	rightButtonTitle: '新增業務'
 })
 
-export default withHoldemBar(withAlert((SalesIndexScreen)))
+export default withNavigation(withAlert((SalesIndexScreen)))

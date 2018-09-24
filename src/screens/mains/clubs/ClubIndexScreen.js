@@ -1,8 +1,9 @@
 // node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
+// local components
 import withSearch from '../../../hocs/withSearch'
-import withHoldemBar from '../../../hocs/withHoldemBar'
+import withNavigation from '../../../hocs/withNavigation'
 
 const ClubIndexScreen = withSearch({
 	resource: 'clubs',
@@ -11,4 +12,4 @@ const ClubIndexScreen = withSearch({
 	rightButtonTitle: '新增俱樂部',
 })
 
-export default withHoldemBar(withAlert((ClubIndexScreen)))
+export default withNavigation(withAlert((ClubIndexScreen)))

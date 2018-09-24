@@ -1,6 +1,7 @@
 import React from 'react'
 import { withAlert } from 'react-alert'
-import withHoldemBar from '../../../hocs/withHoldemBar'
+// local components
+import withNavigation from '../../../hocs/withNavigation'
 import withTable from '../../../hocs/withTable'
 import EditComponent from '../../../components/EditComponent'
 import ui from '../../../configs/ui'
@@ -16,4 +17,4 @@ const RefereeEditScreen = withTable({
   wrapperComponent: EditComponent
 })
 
-export default withHoldemBar(withAlert((RefereeEditScreen)))
+export default withNavigation(withAlert((RefereeEditScreen)))

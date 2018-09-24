@@ -3,8 +3,9 @@ import React, { PureComponent } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import MenuItem from '@material-ui/core/MenuItem'
-import PartialButton from '../views/PartialButton'
 // local components
+import PartialButton from '../views/PartialButton'
+
 class FieldComponent extends PureComponent {
 
   state = this.props.field.reduce(function(o, ele) { o[ele.key] = ''; return o; }, {})

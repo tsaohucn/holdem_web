@@ -11,6 +11,102 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 // local components
 
+const ReportPage = (props) => {
+
+    const { 
+      leftButtonTitle,
+      onClickSearchPageLeftButton
+    } = props 
+    
+    return(
+      <div>
+        <br/>
+        <div style={styles.dateView}>
+          <p>{"查詢日期從 : "}</p>
+          <form noValidate>
+            <TextField
+              style={styles.date}
+              id="date"
+              type="date"
+              defaultValue="2017-05-24"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </form>
+          <p>{"至"}</p>
+          <form noValidate>
+            <TextField
+              style={styles.date}
+              id="date"
+              type="date"
+              defaultValue="2017-05-24"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </form>
+        </div>
+         <FormControl component="fieldset">
+            <FormGroup>
+              <div>
+                <FormControlLabel
+                  control={
+                    <Radio
+                      //checked={this.state.gilad}
+                      //onChange={this.handleChange('gilad')}
+                      value="gilad"
+                    />
+                  }
+                  label="會員姓名"
+                />
+                <TextField
+                  id="margin-none"
+                  defaultValue="Default Value"
+                />
+              </div>
+              <div>
+                <FormControlLabel
+                  control={
+                    <Radio
+                      //checked={this.state.jason}
+                      //onChange={this.handleChange('jason')}
+                      value="jason"
+                    />
+                  }
+                  label="裁判代號"
+                />
+                <TextField
+                  id="margin-none"
+                  defaultValue="Default Value"
+                />
+              </div>
+              <div>
+                <FormControlLabel
+                  control={
+                    <Radio
+                      //checked={this.state.antoine}
+                      //onChange={this.handleChange('antoine')}
+                      value="antoine"
+                    />
+                  }
+                  label="業務代號"
+                />
+                <TextField
+                  id="margin-none"
+                  defaultValue="Default Value"
+                />
+              </div>
+            </FormGroup>
+          </FormControl>
+        <br/>
+        <div style={styles.buttonView}>
+          <Button style={styles.button} variant="contained" color="secondary" onClick={onClickSearchPageLeftButton}>{leftButtonTitle}</Button>
+        </div>
+      </div>
+    ) 
+}
+/*
 class ReportPage extends Component {
 
   render() {
@@ -109,7 +205,7 @@ class ReportPage extends Component {
     )
   }
 }
-
+*/
 
 const styles = {
   searchBlock: {

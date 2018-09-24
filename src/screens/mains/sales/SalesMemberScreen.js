@@ -1,6 +1,7 @@
 import React from 'react'
 import { withAlert } from 'react-alert'
-import withHoldemBar from '../../../hocs/withHoldemBar'
+// local components
+import withNavigation from '../../../hocs/withNavigation'
 import withTable from '../../../hocs/withTable'
 import ui from '../../../configs/ui'
 
@@ -9,4 +10,4 @@ const SalesMemberScreen = withTable({
   resource: 'sales',
 })
 
-export default withHoldemBar(withAlert((SalesMemberScreen)))
+export default withNavigation(withAlert((SalesMemberScreen)))

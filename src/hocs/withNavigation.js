@@ -1,9 +1,9 @@
 // node module
 import React from 'react'
 // local components
-import HoldemBar from '../components/HoldemBar'
+import NavigationBar from '../components/NavigationBar'
 
-function withHoldemBar(WrappedComponent) {
+function withNavigation(WrappedComponent) {
   return class extends React.PureComponent {
 	constructor(props) {
 	  super(props)
@@ -11,12 +11,12 @@ function withHoldemBar(WrappedComponent) {
 
     render() {
       return(
-        <HoldemBar {...this.props}>
+        <NavigationBar {...this.props}>
           <WrappedComponent {...this.props}/>
-        </HoldemBar>
+        </NavigationBar>
       )
     }
   }
 }
 
-export default withHoldemBar
+export default withNavigation

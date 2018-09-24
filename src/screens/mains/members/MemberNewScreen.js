@@ -1,6 +1,7 @@
 import React from 'react'
 import { withAlert } from 'react-alert'
-import withHoldemBar from '../../../hocs/withHoldemBar'
+// local components
+import withNavigation from '../../../hocs/withNavigation'
 import withField from '../../../hocs/withField'
 import ui from '../../../configs/ui'
 
@@ -11,4 +12,4 @@ const MemberNewScreen = withField({
   belong: ['club','referee','sale']
 })
 
-export default withHoldemBar(withAlert((MemberNewScreen)))
+export default withNavigation(withAlert((MemberNewScreen)))

@@ -1,7 +1,8 @@
 import React from 'react'
 import { withAlert } from 'react-alert'
+// local components
 import withSearch from '../../../hocs/withSearch'
-import withHoldemBar from '../../../hocs/withHoldemBar'
+import withNavigation from '../../../hocs/withNavigation'
 
 const RefereeIndexScreen = withSearch({
 	resource: 'referees',
@@ -10,4 +11,4 @@ const RefereeIndexScreen = withSearch({
 	rightButtonTitle: '新增裁判'
 })
 
-export default withHoldemBar(withAlert((RefereeIndexScreen)))
+export default withNavigation(withAlert((RefereeIndexScreen)))

@@ -1,15 +1,16 @@
 // node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
+// local components
 import withSearch from '../../../hocs/withSearch'
-import withHoldemBar from '../../../hocs/withHoldemBar'
-import ButtonSearchPage from '../../../views/ButtonSearchPage'
+import withNavigation from '../../../hocs/withNavigation'
+import ButtonGroup from '../../../views/ButtonGroup'
 
 const EmployeeIndexScreen = withSearch({
   resource: 'employees',
-  wrapperComponent: ButtonSearchPage,
+  wrapperComponent: ButtonGroup,
   leftButtonTitle: '查看帳號',
   rightButtonTitle: '新增帳號',
 })
 
-export default withHoldemBar(withAlert((EmployeeIndexScreen)))
+export default withNavigation(withAlert((EmployeeIndexScreen)))

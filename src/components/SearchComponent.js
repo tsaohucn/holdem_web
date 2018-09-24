@@ -52,6 +52,7 @@ class SearchComponent extends PureComponent {
           <SearchBar
             style={styles.SearchBar}
             value={''}
+            placeholder={'dsddsd'}
             onChange={this.onChangeSearchValue}
             onRequestSearch={() => {}}
           />
@@ -78,6 +79,7 @@ class SearchComponent extends PureComponent {
               <SearchBar
                 style={styles.SearchBar}
                 value={''}
+                placeholder={'dsddsd'}
                 onChange={this.onChangeSecondSearchValue}
                 onRequestSearch={() => {}}
               /> 
