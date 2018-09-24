@@ -10,9 +10,7 @@ const edit = {
   label: "編輯"
 }
 
-const RefereeTableScreen = withTable({
+export default withNavigation(withAlert((withTable({
   title: ui.refereesTable.concat(edit),
   resource: 'referees'
-})
-
-export default withNavigation(withAlert((RefereeTableScreen)))
+}))))
