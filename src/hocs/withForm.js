@@ -4,6 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
 import FormComponent from '../components/FormComponent'
 import firebase from '../configs/firebase'
+import { errorAlert, successAlert } from '../helpers'
 
 function withForm(params) {
   const {
@@ -42,7 +43,7 @@ function withForm(params) {
           this.options[belong[index]] = options
         })
       } catch(err) {
-        this.props.alert.show('下載資料錯誤 : ' + err.toString())
+        errorAlert(this.props.alert,'下載資料錯誤 : ' + err.toString())
       } finally {
         this.setState({
           isLoading: false,
@@ -93,11 +94,18 @@ function withForm(params) {
                 }
               })
             }
+          } else if (resource === 'clubs') {
+            if (state.name) {
+              const name_snap = await firebase.database().ref(resource).orderByChild('name').equalTo(state.name).once('value')
+              if (name_snap.val()) {
+                throw "俱樂部名稱重複"
+              }
+            }            
           }
           await firebase.database().ref(resource).push(upload_data)
-          this.props.alert.show('新增成功')
+          successAlert(this.props.alert,'新增成功')
         } catch(err) {
-          this.props.alert.show('新增失敗 : ' + err.toString())
+          errorAlert(this.props.alert,'新增失敗 : ' + err.toString())
         } finally {
           this.setState({
             isLoading: false
