@@ -1,19 +1,20 @@
 // node module
-import React from 'react'
+import React, { PureComponent } from 'react'
 // local components
-import NavigationBar from '../components/NavigationBar'
+import NavigationComponent from '../components/NavigationComponent'
 
 function withNavigation(WrappedComponent) {
-  return class extends React.PureComponent {
-	constructor(props) {
-	  super(props)
-	}
+  return class extends PureComponent {
 
+  	constructor(props) {
+  	  super(props)
+  	}
+    
     render() {
       return(
-        <NavigationBar {...this.props}>
+        <NavigationComponent {...this.props}>
           <WrappedComponent {...this.props}/>
-        </NavigationBar>
+        </NavigationComponent>
       )
     }
   }

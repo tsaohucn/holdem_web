@@ -111,7 +111,7 @@ const styles = theme => ({
   },
 })
 
-class NavigationBar extends PureComponent {
+class NavigationComponent extends PureComponent {
   state = {
     open: false,
     anchor: 'left',
@@ -221,7 +221,7 @@ class NavigationBar extends PureComponent {
   }
 }
 
-NavigationBar.propTypes = {
+NavigationComponent.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 }
@@ -230,4 +230,4 @@ const router = ui.router
 const router_path = Object.keys(router)
 const router_name = Object.values(router)
 
-export default withStyles(styles, { withTheme: true })(NavigationBar)
+export default withStyles(styles, { withTheme: true })(NavigationComponent)

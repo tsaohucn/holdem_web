@@ -6,11 +6,9 @@ import withSearch from '../../../hocs/withSearch'
 import withNavigation from '../../../hocs/withNavigation'
 import ButtonGroup from '../../../views/ButtonGroup'
 
-const EmployeeIndexScreen = withSearch({
-  resource: 'employees',
+export default withNavigation(withAlert((withSearch({
   wrapperComponent: ButtonGroup,
+  resource: 'employees',
   leftButtonTitle: '查看帳號',
-  rightButtonTitle: '新增帳號',
-})
-
-export default withNavigation(withAlert((EmployeeIndexScreen)))
+  rightButtonTitle: '新增帳號'
+}))))
