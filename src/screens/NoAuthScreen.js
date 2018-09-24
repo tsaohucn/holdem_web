@@ -1,9 +1,10 @@
 // node module
 import React from 'react'
-import withHoldemBar from '../hocs/withHoldemBar'
+// local components
+import withNavigation from '../hocs/withNavigation'
 
 const NoAuthScreen = () => (
   <h1>{'沒有權限'}</h1>
 )
 
-export default withHoldemBar(NoAuthScreen)
+export default withNavigation(NoAuthScreen)

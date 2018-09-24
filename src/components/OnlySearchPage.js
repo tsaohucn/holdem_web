@@ -1,11 +1,11 @@
 // node_module
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import SearchBar from 'material-ui-search-bar'
 import SearchIcon from '@material-ui/icons/Search'
-import PartialButton from './PartialButton'
+import PartialButton from '../views/PartialButton'
 // local components
 
-class OnlySearchPage extends Component {
+class OnlySearchPage extends PureComponent {
 
   onChangeSearchValue = (value) => {
     this.searchValue = value
@@ -30,6 +30,7 @@ class OnlySearchPage extends Component {
           <SearchBar
             style={styles.SearchBar}
             value={''}
+            placeholder={'dsddsd'}
             onChange={this.onChangeSearchValue}
             onRequestSearch={() => {}}
           />

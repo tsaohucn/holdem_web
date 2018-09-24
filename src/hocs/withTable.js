@@ -1,8 +1,8 @@
 // node_module
-import React from 'react'
+import React, { PureComponent } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
-import TableView from '../views/TableView'
+import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
 
 function withTable(params) {
@@ -13,7 +13,7 @@ function withTable(params) {
     auth
   } = params ? params : {}
 
-  return class extends React.PureComponent {
+  return class extends PureComponent {
 
     constructor(props) {
       super(props)
@@ -94,7 +94,7 @@ function withTable(params) {
     }
 
     render() {
-      const Component = wrapperComponent ? wrapperComponent : TableView
+      const Component = wrapperComponent ? wrapperComponent : PartialTable
       return(
         <div 
           style={styles.container} 

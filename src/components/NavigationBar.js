@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
@@ -20,7 +20,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // local components
-import Icon from './Icon'
+import Icon from '../views/Icon'
 import firebase from '../configs/firebase'
 import ui from '../configs/ui'
 
@@ -111,7 +111,7 @@ const styles = theme => ({
   },
 })
 
-class PersistentDrawer extends React.Component {
+class NavigationBar extends PureComponent {
   state = {
     open: false,
     anchor: 'left',
@@ -221,7 +221,7 @@ class PersistentDrawer extends React.Component {
   }
 }
 
-PersistentDrawer.propTypes = {
+NavigationBar.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 }
@@ -230,4 +230,4 @@ const router = ui.router
 const router_path = Object.keys(router)
 const router_name = Object.values(router)
 
-export default withStyles(styles, { withTheme: true })(PersistentDrawer)
+export default withStyles(styles, { withTheme: true })(NavigationBar)

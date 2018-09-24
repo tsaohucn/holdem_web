@@ -2,8 +2,8 @@
 import React from 'react'
 import { withAlert } from 'react-alert'
 // local components
-import withHoldemBar from '../../hocs/withHoldemBar'
+import withNavigation from '../../hocs/withNavigation'
 
 const IndexScreen = () => null
 
-export default withAlert(withHoldemBar(IndexScreen))
+export default withAlert(withNavigation(IndexScreen))

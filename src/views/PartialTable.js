@@ -6,9 +6,10 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-import PartialButton from './PartialButton'
 // local components
-const TableView = (props) =>  {
+import PartialButton from './PartialButton'
+
+const PartialTable = (props) =>  {
 
   const { 
     title,
@@ -94,4 +95,4 @@ const styles = {
   }
 }
 
-export default TableView
+export default PartialTable

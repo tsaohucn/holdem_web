@@ -1,7 +1,8 @@
 // node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
-import withHoldemBar from '../../../hocs/withHoldemBar'
+// local components
+import withNavigation from '../../../hocs/withNavigation'
 import withField from '../../../hocs/withField'
 import ui from '../../../configs/ui'
 
@@ -12,4 +13,4 @@ const EmployeeNewScreen = withField({
   belong: []
 })
 
-export default withHoldemBar(withAlert((EmployeeNewScreen)))
+export default withNavigation(withAlert((EmployeeNewScreen)))

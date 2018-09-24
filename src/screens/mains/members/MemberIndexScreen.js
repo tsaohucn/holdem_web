@@ -1,8 +1,9 @@
 // node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
+// local components
 import withSearch from '../../../hocs/withSearch'
-import withHoldemBar from '../../../hocs/withHoldemBar'
+import withNavigation from '../../../hocs/withNavigation'
 
 const MemberIndexScreen = withSearch({
   resource: 'members',
@@ -14,4 +15,4 @@ const MemberIndexScreen = withSearch({
   showSecondSearchBar: true
 })
 
-export default withHoldemBar(withAlert((MemberIndexScreen)))
+export default withNavigation(withAlert((MemberIndexScreen)))
