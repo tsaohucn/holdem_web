@@ -11,9 +11,7 @@ const edit = {
   label: "編輯"
 }
 
-const SalesTableScreen = withTable({
+export default withNavigation(withAlert((withTable({
   title: ui.salesTable.concat(edit),
   resource: 'sales'
-})
-
-export default withNavigation(withAlert((SalesTableScreen)))
+}))))

@@ -2,8 +2,7 @@ import React from 'react'
 import { withAlert } from 'react-alert'
 // local components
 import withNavigation from '../../../hocs/withNavigation'
-import withTable from '../../../hocs/withTable'
-import EditComponent from '../../../components/EditComponent'
+import withEdit from '../../../hocs/withEdit'
 import ui from '../../../configs/ui'
 
 const _delete = {
@@ -11,10 +10,7 @@ const _delete = {
   label: "刪除"
 }
 
-const SalesEditScreen = withTable({
+export default withNavigation(withAlert((withEdit({
   title: ui.salesTable.concat(_delete),
-  resource: 'sales',
-  wrapperComponent: EditComponent
-})
-
-export default withNavigation(withAlert((SalesEditScreen)))
+  resource: 'sales'
+}))))

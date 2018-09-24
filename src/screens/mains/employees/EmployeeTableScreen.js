@@ -11,9 +11,7 @@ const edit = {
   label: "編輯"
 }
 
-const EmployeeTableScreen = withTable({
+export default withNavigation(withAlert((withTable({
   title: ui.employeesTable.concat(edit),
   resource: 'employees'
-})
-
-export default withNavigation(withAlert((EmployeeTableScreen)))
+}))))

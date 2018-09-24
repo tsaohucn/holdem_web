@@ -2,11 +2,11 @@
 import React, { PureComponent } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
-import PartialTable from '../views/PartialTable'
+import EditComponent from '../components/EditComponent'
 import firebase from '../configs/firebase'
 import { errorAlert, successAlert } from '../helpers'
 
-function withTable(params) {
+function withEdit(params) {
   const {
     title,
     resource,
@@ -50,22 +50,31 @@ function withTable(params) {
       }      
     }
 
+    onClickEditConfirmButton = (data) => {
+      this.setState({
+        isLoading: true,
+        event: '更新資料中'
+      },async () => {
+        try {
+          await firebase.database().ref(resource).update(data)
+        } catch(err) {
+          errorAlert(this.props.alert,'更新失敗 : ' + err.toString())
+        } finally {
+          this.goBack()
+        }
+      })
+    }
+
     goBack = () => {
       this.props.history.goBack()
     }
 
-    goToMember = (id) => {
-      this.props.history.push('/' + resource + '/member/' + id)
-    }
-
-    goToEdit = () => {
-      this.props.history.push('/' + resource + '/edit/' + this.id)
+    gotToSecret = () => {
+      this.props.history.push('/clubs/secret')
     }
 
     render() {
-
-      const Component = wrapperComponent ? wrapperComponent : PartialTable
-
+      const Component = wrapperComponent ? wrapperComponent : EditComponent
       return(
         <div 
           style={styles.container} 
@@ -82,8 +91,8 @@ function withTable(params) {
               title={title}
               data={this.state.data}
               onClickTableReturnButton={this.goBack}
-              onClickMemberCountLink={this.goToMember}
-              onClickEditLink={this.goToEdit}
+              onClickEditConfirmButton={this.onClickEditConfirmButton}
+              onClickSecret={this.gotToSecret}
             />
           }
         </div>
@@ -107,4 +116,4 @@ const styles = {
   }
 }
 
-export default withTable
+export default withEdit

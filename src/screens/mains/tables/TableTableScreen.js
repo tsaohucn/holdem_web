@@ -10,9 +10,7 @@ const edit = {
   label: "編輯"
 }
 
-const MemberTableScreen = withTable({
+export default withNavigation(withAlert((withTable({
   title: ui.tablesTable.concat(edit),
   resource: 'tables'
-})
-
-export default withNavigation(withAlert((MemberTableScreen)))
+}))))
