@@ -9,10 +9,13 @@ function withSearch(params) {
     resource,
     leftButtonTitle,
     rightButtonTitle,
+    showRightButton,
     showSecondSearchBar,
     secondBarTitle,
     secondButtonTitle,
-    wrapperComponent
+    wrapperComponent,
+    placeholder,
+    secondPlaceholder
   } = params ? params : {}
 
   return class extends React.PureComponent {
@@ -31,6 +34,9 @@ function withSearch(params) {
         <Component
           {...this.props}
           title={searchTitle}
+          placeholder={placeholder}
+          secondPlaceholder={secondPlaceholder}
+          showRightButton={showRightButton}
           showSecondSearchBar={showSecondSearchBar}
           secondBarTitle={secondBarTitle}
           secondButtonTitle={secondButtonTitle}
