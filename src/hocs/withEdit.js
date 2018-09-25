@@ -69,8 +69,12 @@ function withEdit(params) {
       this.props.history.goBack()
     }
 
-    gotToSecret = () => {
-      this.props.history.push('/clubs/secret')
+    gotToAccount = (key) => {
+      this.props.history.push('/'+ resource + '/account/' + key)
+    }
+
+    gotToPassword = (key) => {
+      this.props.history.push('/'+ resource + '/password/' + key)
     }
 
     render() {
@@ -92,7 +96,8 @@ function withEdit(params) {
               data={this.state.data}
               onClickTableReturnButton={this.goBack}
               onClickEditConfirmButton={this.onClickEditConfirmButton}
-              onClickSecret={this.gotToSecret}
+              onClickAccount={this.gotToAccount}
+              onClickPassword={this.gotToPassword}
             />
           }
         </div>
