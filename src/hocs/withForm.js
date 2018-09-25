@@ -1,5 +1,5 @@
 // node_module
-import React from 'react'
+import React, { PureComponent } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
 import FormComponent from '../components/FormComponent'
@@ -15,7 +15,7 @@ function withForm(params) {
     belong
   } = params ? params : {}
 
-  return class extends React.PureComponent {
+  return class extends PureComponent {
 
     constructor(props) {
       super(props)

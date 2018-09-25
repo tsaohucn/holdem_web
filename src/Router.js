@@ -13,19 +13,22 @@ import IndexScreen from './screens/mains/IndexScreen'
 import ClubIndexScreen from './screens/mains/clubs/ClubIndexScreen'
 import ClubNewScreen from './screens/mains/clubs/ClubNewScreen'
 import ClubTableScreen  from './screens/mains/clubs/ClubTableScreen'
-import ClubSecretScreen from './screens/mains/clubs/ClubSecretScreen'
 // referees
 import RefereeIndexScreen from './screens/mains/referees/RefereeIndexScreen'
 import RefereeNewScreen from './screens/mains/referees/RefereeNewScreen'
 import RefereeTableScreen from './screens/mains/referees/RefereeTableScreen'
 import RefereeEditScreen from './screens/mains/referees/RefereeEditScreen'
 import RefereeMemberScreen from './screens/mains/referees/RefereeMemberScreen'
+import RefereeAccountScreen from './screens/mains/referees/RefereeAccountScreen'
+import RefereePasswordScreen from './screens/mains/referees/RefereePasswordScreen'
 // sales
 import SalesIndexScreen from './screens/mains/sales/SalesIndexScreen'
 import SalesNewScreen from './screens/mains/sales/SalesNewScreen'
 import SalesTableScreen from './screens/mains/sales/SalesTableScreen'
 import SalesEditScreen from './screens/mains/sales/SalesEditScreen'
 import SalesMemberScreen from './screens/mains/sales/SalesMemberScreen'
+import SalesAccountScreen from './screens/mains/sales/SalesAccountScreen'
+import SalesPasswordScreen from './screens/mains/sales/SalesPasswordScreen'
 // members
 import MemberIndexScreen from './screens/mains/members/MemberIndexScreen'
 import MemberNewScreen from './screens/mains/members/MemberNewScreen'
@@ -36,6 +39,8 @@ import EmployeeIndexScreen from './screens/mains/employees/EmployeeIndexScreen'
 import EmployeeNewScreen from './screens/mains/employees/EmployeeNewScreen'
 import EmployeeTableScreen from './screens/mains/employees/EmployeeTableScreen'
 import EmployeeEditScreen from './screens/mains/employees/EmployeeEditScreen'
+import EmployeeAccountScreen from './screens/mains/employees/EmployeeAccountScreen'
+import EmployeePasswordScreen from './screens/mains/employees/EmployeePasswordScreen'
 // reports
 import ReportIndexScreen from './screens/mains/reports/ReportIndexScreen'
 // tables
@@ -100,19 +105,22 @@ const AuthAdmin = () => (
       <Route exact path='/clubs/index' component={ClubIndexScreen}/>
       <Route exact path='/clubs/new' component={ClubNewScreen}/>
       <Route exact path='/clubs/table/:id' component={ClubTableScreen}/>
-      <Route exact path='/clubs/secret' component={ClubSecretScreen}/>
       {/*referees*/}
       <Route exact path='/referees/index' component={RefereeIndexScreen}/>
       <Route exact path='/referees/new' component={RefereeNewScreen}/>
       <Route exact path='/referees/table/:id' component={RefereeTableScreen}/>
       <Route exact path='/referees/edit/:id' component={RefereeEditScreen}/>
       <Route exact path='/referees/member/:id' component={RefereeMemberScreen}/>
+      <Route exact path='/referees/account/:id' component={RefereeAccountScreen}/>
+      <Route exact path='/referees/password/:id' component={RefereePasswordScreen}/>
       {/*sales*/}
       <Route exact path='/sales/index' component={SalesIndexScreen}/>
       <Route exact path='/sales/new' component={SalesNewScreen}/>
       <Route exact path='/sales/table/:id' component={SalesTableScreen}/>
       <Route exact path='/sales/edit/:id' component={SalesEditScreen}/>
       <Route exact path='/sales/member/:id' component={SalesMemberScreen}/>
+      <Route exact path='/sales/account/:id' component={SalesAccountScreen}/>
+      <Route exact path='/sales/password/:id' component={SalesPasswordScreen}/>
       {/*members*/}
       <Route exact path='/members/index' component={MemberIndexScreen}/>
       <Route exact path='/members/new' component={MemberNewScreen}/>
@@ -123,6 +131,8 @@ const AuthAdmin = () => (
       <Route exact path='/employees/new' component={EmployeeNewScreen}/>
       <Route exact path='/employees/table/:id' component={EmployeeTableScreen}/>
       <Route exact path='/employees/edit/:id' component={EmployeeEditScreen}/>
+      <Route exact path='/employees/account/:id' component={EmployeeAccountScreen}/>
+      <Route exact path='/employees/password/:id' component={EmployeePasswordScreen}/>
       {/*reports*/}
       <Route exact path='/reports/index' component={ReportIndexScreen}/>
       {/*tables*/}

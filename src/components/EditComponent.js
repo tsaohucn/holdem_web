@@ -52,8 +52,12 @@ class EditComponent extends PureComponent {
     this.props.onClickEditConfirmButton && this.props.onClickEditConfirmButton(this.data)
   }
 
-  onClickSecret = () => {
-    this.props.onClickSecret && this.props.onClickSecret()
+  onClickAccount = (key) => {
+    this.props.onClickAccount && this.props.onClickAccount(key)
+  }
+
+  onClickPassword = (key) => {
+    this.props.onClickPassword && this.props.onClickPassword(key)
   }
 
   render() {
@@ -136,8 +140,10 @@ class EditComponent extends PureComponent {
                         } else {
                           if (key === 'delete') {
                             return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickDelete(index)}>{'刪除'}</a></TableCell>
-                          } else if (secret.includes(key)) {
-                            return <TableCell key={key} style={styles.tableCell}><a onClick={this.onClickSecret}>{this.data[_key][key]}</a></TableCell>
+                          } else if (key === 'account') {
+                            return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickAccount(_key)}>{this.data[_key][key]}</a></TableCell>
+                          } else if (key === 'password') {
+                            return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickPassword(_key)}>{this.data[_key][key]}</a></TableCell>
                           } else if (fix.includes(key)) {
                             return <TableCell key={key} style={styles.tableCell}>{this.data[_key][key]}</TableCell> //選單
                           } else if (key === 'memberCount') {
