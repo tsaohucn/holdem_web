@@ -65,6 +65,27 @@ function withEdit(params) {
       })
     }
 
+    confirmDelete = (key) => {
+      this.setState({
+        isLoading: true,
+        event: '刪除資料中'
+      },async () => {
+        try {
+          const snap = await firebase.database().ref(resource + '/' + key + '/memberCount').once('value')
+          if (snap.val() === null || snap.val() === 0) {
+            // 刪除會員和資料
+            successAlert(this.props.alert,'刪除成功')
+          } else {
+            throw '此人底下存在會員'
+          }
+        } catch(err) {
+          errorAlert(this.props.alert,'刪除失敗 : ' + err.toString())
+        } finally {
+          this.goBack()
+        }
+      })      
+    }
+
     goBack = () => {
       this.props.history.goBack()
     }
@@ -98,6 +119,7 @@ function withEdit(params) {
               onClickEditConfirmButton={this.onClickEditConfirmButton}
               onClickAccount={this.gotToAccount}
               onClickPassword={this.gotToPassword}
+              confirmDelete={this.confirmDelete}
             />
           }
         </div>

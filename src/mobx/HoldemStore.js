@@ -1,25 +1,25 @@
-import { configure, observable, decorate } from 'mobx'
+import { configure, observable, decorate, action } from 'mobx'
 
 configure({ 
   enforceActions: true,
   isolateGlobalState: false 
 })
 
-class Holdem {
+class HoldemStore {
 
   constructor() {
-    this.user = "none"
+    this.isAuth = false
+    this.user = null
   }
 
-  setUser = (user) => {
+  setUser = action((isAuth,user) => {
+    this.isAuth = isAuth
     this.user = user
-  }
-
+  })
 }
 
-decorate(Holdem, {
-  user: observable
+decorate(HoldemStore, {
+  isAuth: observable
 })
 
-const HoldemStore = new Holdem()
 export default HoldemStore

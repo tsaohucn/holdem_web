@@ -7,6 +7,7 @@ import {
 	HelpBlock,
   Button
 } from 'react-bootstrap'
+import { inject, observer } from 'mobx-react'
 import Grid from '@material-ui/core/Grid'
 // local components
 import firebase from '../configs/firebase'
@@ -18,7 +19,7 @@ class WelcomeScreen extends Component {
     this.state = {
       account: '',
       password:'',
-      error: ''
+      loadingState: ''
     }
   }
 
@@ -38,22 +39,33 @@ class WelcomeScreen extends Component {
     this.setState({ password: e.target.value })
   }
 
-  register = () => {
-    firebase.auth().createUserWithEmailAndPassword(this.state.account,this.state.password)
-    .catch((error) => {
-      this.setState({
-        error: error.toString()
-      })
-    }) 
+  login = () => {
+    this.props.HoldemStore.setUser(true,'admin')
+    /*
+    this.setState({
+      loadingState: '登入中'
+    },() => {
+      firebase.database().ref('/users').orderByChild('account').equalTo(this.state.account).once('value')
+      .then((snap) => {
+        const val = snap.val()
+        if (val) {
+          const user = Object.values(val)[0]
+          if (user.password.toString() === this.state.password) {
+            this.props.HoldemStore.setUser(true,user.resource)
+          } else {
+            this.loginError()
+          }
+        } else {
+          this.loginError()
+        }
+      })      
+    })*/
   }
 
-  login = () => {    
-    firebase.auth().signInWithEmailAndPassword(this.state.account,this.state.password)
-    .catch((error) => {
-      this.setState({
-        error: error.toString()
-      })
-    })
+  loginError = () => {
+    this.setState({
+      loadingState: '登入錯誤'
+    }) 
   }
 
   render() {
@@ -65,45 +77,54 @@ class WelcomeScreen extends Component {
         justify={'center'}
         direction={'column'}
        >
+        <h1 style={styles.title}>德州舖克後台管理系統</h1>
+        <h4 style={styles.loadingState}>{this.state.loadingState}</h4>
 	      <form>
 	        <FormGroup
 	          controlId="formBasicText"
 	          validationState={this.getValidationState()}
 	        >
-            <h1 style={{textAlign: 'center'}}>驗證帳密</h1>
-	          <ControlLabel>Working example with validation</ControlLabel>
 	          <FormControl
 	            type="text"
 	            value={this.state.account}
-	            placeholder="輸入帳號"
+	            placeholder="請輸入您的帳號"
 	            onChange={this.setAccount}
 	          />
+	          <FormControl.Feedback />
+            <br/>
             <FormControl
               type="text"
               value={this.state.password}
-              placeholder="輸入密碼"
+              placeholder="請輸入您的密碼"
               onChange={this.setPassword}
             />
-	          <FormControl.Feedback />
-	          <HelpBlock>Validation is based on string length.</HelpBlock>
 	        </FormGroup>
+          <div style={styles.buttonView}>
+            <Button onClick={this.login}>登入</Button>
+          </div>
 	      </form>
-        <h4>{this.state.error}</h4>
-        <div>
-          <Button onClick={this.register}>註冊</Button>
-          <Button onClick={this.login}>登入</Button>
-        </div>
       </Grid>
     )
   }
 }
 
-export default WelcomeScreen
+export default inject("HoldemStore")(WelcomeScreen)
 
 const height = window.innerHeight
 
 const styles = {
 	gird: {
-		height: height
-	}
+		height
+	},
+  loadingState: {
+    color: '#778899',
+    textAlign: 'center'
+  },
+  title:{
+    textAlign: 'center'
+  },
+  buttonView: {
+    display: 'flex',
+    justifyContent: 'center'
+  }
 }

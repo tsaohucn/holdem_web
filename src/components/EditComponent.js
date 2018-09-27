@@ -18,31 +18,30 @@ class EditComponent extends PureComponent {
     this.state = {
       open: false
     }
-    this.index = null
     this.data = this.props.data
-    this.keys
+    this.key = null
   }
 
   onChange = (_key,key,value) => {
     this.data[_key][key] = value
   }
 
-  onClickDelete = (index) => {
+  onClickDelete = (key) => {
+    this.key = key
     this.setState({
       open: true
     })
-    //this.index = index
   }
 
   confirmDelete = () => {
-    //const keys = this.getKeys()
-    //const data = Object.assign({},this.state)
-    //const _key = keys[this.index]
-    //data[_key] = null
-    //this.setState(data)    
+    this.setState({
+      open: false
+    },() => {
+      this.props.confirmDelete && this.props.confirmDelete(this.key)
+    })
   }
 
-  handleClose = () => {
+  cancelDelete = () => {
     this.setState({
       open: false
     })    
@@ -74,7 +73,7 @@ class EditComponent extends PureComponent {
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
           open={this.state.open}
-          onClose={this.handleClose}
+          onClose={this.cancelDelete}
           style={styles.modal}
         >
           <div style={styles.modalView}>
@@ -83,12 +82,12 @@ class EditComponent extends PureComponent {
             </div>
             <div style={styles.modalButtonView}>
               <PartialButton 
-                onClick={this.handleClose}
+                onClick={this.cancelDelete}
               >
                 否
               </PartialButton> 
               <PartialButton 
-                onClick={this.onClickEditConfirmButton}
+                onClick={this.confirmDelete}
               >
                 是
               </PartialButton>
@@ -139,7 +138,7 @@ class EditComponent extends PureComponent {
                           )
                         } else {
                           if (key === 'delete') {
-                            return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickDelete(index)}>{'刪除'}</a></TableCell>
+                            return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickDelete(_key)}>{'刪除'}</a></TableCell>
                           } else if (key === 'account') {
                             return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickAccount(_key)}>{this.data[_key][key]}</a></TableCell>
                           } else if (key === 'password') {
