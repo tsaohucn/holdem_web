@@ -61,6 +61,7 @@ function withForm(params) {
         event: '新增資料中'
       },async () => {
         try {
+          let user_id = null
           let attach_data = {}
           belong.forEach(belongResource => {
             const ele = this.options[belongResource].find(ele => ele.key === state[belongResource])
@@ -77,7 +78,8 @@ function withForm(params) {
             }
             if (resource === 'referees' || resource === 'sales' || resource === 'employees') {
               const snap = await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
-              await firebase.database().ref('/users/' + snap.user.uid).set({
+              user_id = snap.user.uid
+              await firebase.database().ref('/users/' + user_id).set({
                 account: state.account,
                 resource
               })
@@ -105,7 +107,7 @@ function withForm(params) {
               }
             }            
           }
-          await firebase.database().ref(resource).push(upload_data)
+          await firebase.database().ref(resource + '/' + user_id).set(upload_data)
           successAlert(this.props.alert,'新增成功')
         } catch(err) {
           errorAlert(this.props.alert,'新增失敗 : ' + err.toString())

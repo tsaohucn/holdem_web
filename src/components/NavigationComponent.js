@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { inject, observer } from 'mobx-react'
 import { withStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import AppBar from '@material-ui/core/AppBar'
@@ -62,7 +63,7 @@ const styles = theme => ({
     marginRight: 20,
   },
   logoutButton: {
-    marginLeft: 'auto'
+
   },
   hide: {
     display: 'none',
@@ -109,6 +110,12 @@ const styles = theme => ({
   'contentShift-right': {
     marginRight: 0,
   },
+  title: {
+    marginLeft: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    lineHeight: 1
+  }
 })
 
 class NavigationComponent extends PureComponent {
@@ -132,8 +139,24 @@ class NavigationComponent extends PureComponent {
   }
 
   logout = () => {
-    firebase.auth().signOut()
-    .catch(error => console.log(error))
+    this.props.HoldemStore.setUser(false,null) 
+  }
+
+  getUserResource = (user) => {
+     switch(user) {
+      case 'admin':
+        return '管理員'
+        break
+      case 'referees':
+        return '裁判'
+        break
+      case 'sales':
+        return '業務'
+        break 
+      default:
+        return '匿名'
+        break     
+     }
   }
 
   render() {
@@ -195,6 +218,7 @@ class NavigationComponent extends PureComponent {
               <Typography variant="title" color="inherit" noWrap>
                 {router[this.props.location.pathname.split("/")[1]]}
               </Typography>
+              <p className={classNames(classes.title)}>{this.getUserResource(this.props.HoldemStore.user)}</p>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -230,4 +254,4 @@ const router = ui.router
 const router_path = Object.keys(router)
 const router_name = Object.values(router)
 
-export default withStyles(styles, { withTheme: true })(NavigationComponent)
+export default inject("HoldemStore")(withStyles(styles, { withTheme: true })(NavigationComponent))

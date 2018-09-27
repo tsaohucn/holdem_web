@@ -1,6 +1,7 @@
 // node module
 import React from 'react'
 import { BrowserRouter , Route, Switch } from 'react-router-dom'
+import { inject, observer } from 'mobx-react'
 // local components
 // auths
 import WelcomeScreen from './screens/WelcomeScreen'
@@ -47,13 +48,13 @@ import ReportIndexScreen from './screens/mains/reports/ReportIndexScreen'
 import TableIndexScreen from './screens/mains/tables/TableIndexScreen'
 import TableTableScreen from './screens/mains/tables/TableTableScreen'
 
-const Router = ({auth,user}) => {
-  switch(auth) {
-    case 'init':
+const Router = inject('HoldemStore')(observer(({HoldemStore,auth,user}) => {
+  switch(HoldemStore.isAuth) {
+    case 'check':
       return <Init/>
       break
     case true:
-      switch(user) {
+      switch(HoldemStore.user) {
         case 'admin':
           return <AuthAdmin/>
           break
@@ -78,7 +79,7 @@ const Router = ({auth,user}) => {
       return <h1>Error</h1>
       break
   }
-}
+}))
 
 const Init = () => (
   <BrowserRouter>
