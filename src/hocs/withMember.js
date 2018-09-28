@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
+import EditComponent from '../components/EditComponent'
 import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
 import { errorAlert, successAlert } from '../helpers'
@@ -52,7 +53,7 @@ function withMember(params) {
 
     render() {
 
-      const Component = wrapperComponent ? wrapperComponent : PartialTable
+      const Component = wrapperComponent ? wrapperComponent : PartialTable//EditComponent
 
       return(
         <div 

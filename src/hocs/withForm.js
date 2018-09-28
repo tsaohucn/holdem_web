@@ -1,6 +1,7 @@
 // node_module
 import React, { PureComponent } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import uuidv1 from 'uuid/v1'
 // local_module
 import FormComponent from '../components/FormComponent'
 import firebase from '../configs/firebase'
@@ -61,28 +62,36 @@ function withForm(params) {
         event: '新增資料中'
       },async () => {
         try {
-          let user_id = null
           let attach_data = {}
+          let user_id = uuidv1()
           belong.forEach(belongResource => {
             const ele = this.options[belongResource].find(ele => ele.key === state[belongResource])
             attach_data[belongResource + '_name'] = ele.name || null
             attach_data[belongResource + '_id'] = ele.id || null
           })
           const upload_data = Object.assign({},state,attach_data)
-          if (resource === 'referees' || resource === 'sales' || resource === 'members' || resource === 'employees') {
+          if (resource === 'referees' || resource === 'sales' || resource === 'employees' || resource === 'members') {
             if (state.id) {
               const id_snap = await firebase.database().ref(resource).orderByChild('id').equalTo(state.id).once('value')
               if (id_snap.val()) {
                 throw "代號重複"
               }
             }
+            if (state.account) {
+              const user_snap = await firebase.database().ref('/users').orderByChild('account').equalTo(state.account).once('value')
+              if (user_snap.val()) {
+                throw "帳號重複"
+              }
+            }
             if (resource === 'referees' || resource === 'sales' || resource === 'employees') {
-              const snap = await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
-              user_id = snap.user.uid
               await firebase.database().ref('/users/' + user_id).set({
                 account: state.account,
+                password: state.password,
                 resource
               })
+              if (resource === 'employees') {
+                await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
+              }
             } else if (resource === 'members') {
               await firebase.database().ref('referees/' +  state['referee'] + '/memberCount').transaction(memberCount => {
                 if (!memberCount) {
