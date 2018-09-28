@@ -40,8 +40,7 @@ class WelcomeScreen extends Component {
   }
 
   login = () => {
-    this.props.HoldemStore.setUser(true,'admin')
-    /*
+    //this.props.HoldemStore.setUser(true,'admin')
     this.setState({
       loadingState: '登入中'
     },() => {
@@ -59,7 +58,7 @@ class WelcomeScreen extends Component {
           this.loginError()
         }
       })      
-    })*/
+    })
   }
 
   loginError = () => {

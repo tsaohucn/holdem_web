@@ -5,7 +5,12 @@ import withNavigation from '../../../hocs/withNavigation'
 import withMember from '../../../hocs/withMember'
 import ui from '../../../configs/ui'
 
+const _delete = {
+  key: "delete",
+  label: "刪除"
+}
+
 export default withNavigation(withAlert((withMember({
-  title: ui.specificMembersTable,
+  title: ui.specificMembersTable,//.concat(_delete),
   resource: 'referee',
 }))))
