@@ -110,6 +110,12 @@ const styles = theme => ({
   'contentShift-right': {
     marginRight: 0,
   },
+  id: {
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    lineHeight: 1,
+    marginLeft: 5
+  },
   title: {
     marginLeft: 'auto',
     marginTop: 'auto',
@@ -219,6 +225,7 @@ class NavigationComponent extends PureComponent {
                 {router[this.props.location.pathname.split("/")[1]]}
               </Typography>
               <p className={classNames(classes.title)}>{this.getUserResource(this.props.HoldemStore.user)}</p>
+              <p className={classNames(classes.id)}>{'(A123434)'}</p>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
