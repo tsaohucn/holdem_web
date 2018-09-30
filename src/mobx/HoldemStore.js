@@ -9,17 +9,21 @@ class HoldemStore {
 
   constructor() {
     this.isAuth = false
-    this.user = null
+    this.resource = null
+    this.account = null
   }
 
-  setUser = action((isAuth,user) => {
+  setUser = action((isAuth,resource,account) => {
     this.isAuth = isAuth
-    this.user = user
+    this.resource = resource
+    this.account = account
   })
 }
 
 decorate(HoldemStore, {
-  isAuth: observable
+  isAuth: observable,
+  resource: observable,
+  account: observable
 })
 
 export default HoldemStore

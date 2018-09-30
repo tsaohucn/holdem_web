@@ -51,12 +51,20 @@ class EditComponent extends PureComponent {
     this.props.onClickEditConfirmButton && this.props.onClickEditConfirmButton(this.data)
   }
 
-  onClickAccount = (key) => {
-    this.props.onClickAccount && this.props.onClickAccount(key)
-  }
-
-  onClickPassword = (key) => {
-    this.props.onClickPassword && this.props.onClickPassword(key)
+  onClickJumpPage = (key,_key) => {
+    switch(key) {
+      case 'account':
+        this.props.onClickAccount && this.props.onClickAccount(_key)
+        break
+      case 'password':
+        this.props.onClickAccount && this.props.onClickPassword(_key)
+        break
+      case 'id':
+        this.props.onClickId && this.props.onClickId(_key)
+        break
+      default:
+        break
+    }
   }
 
   render() {
@@ -67,7 +75,6 @@ class EditComponent extends PureComponent {
     } = this.props ? this.props : {}
 
     return(
-
       <div>
         <Modal
           aria-labelledby="simple-modal-title"
@@ -94,7 +101,6 @@ class EditComponent extends PureComponent {
             </div>
           </div>
         </Modal>
-
         <br/>
         <Paper style={styles.root}>
           <Table style={styles.table}>
@@ -120,7 +126,7 @@ class EditComponent extends PureComponent {
                     {
                       title && title.map((ele) => {
                         const key = ele.key
-                        if (!textInput.includes(key)) {
+                        if (!noTextInput.includes(key)) {
                           return (
                             <TableCell
                               key={key}
@@ -137,15 +143,13 @@ class EditComponent extends PureComponent {
                             </TableCell>
                           )
                         } else {
-                          if (key === 'delete') {
-                            return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickDelete(_key)}>{'刪除'}</a></TableCell>
-                          } else if (key === 'account') {
-                            return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickAccount(_key)}>{this.data[_key][key]}</a></TableCell>
-                          } else if (key === 'password') {
-                            return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickPassword(_key)}>{this.data[_key][key]}</a></TableCell>
-                          } else if (fix.includes(key)) {
+                          if (options.includes(key)) {
                             return <TableCell key={key} style={styles.tableCell}>{this.data[_key][key]}</TableCell> //選單
-                          } else if (key === 'memberCount') {
+                          } else if (jumpPage.includes(key)) {
+                            return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickJumpPage(key,_key)}>{this.data[_key][key]}</a></TableCell>
+                          } else if (key === 'delete') {
+                            return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickDelete(_key)}>{'刪除'}</a></TableCell>
+                          } else {
                             return null
                           }
                         }
@@ -177,25 +181,27 @@ class EditComponent extends PureComponent {
   }
 }
 
-const textInput = [
-  'delete',
+const noTextInput = [
   'club_name',
   'referee_name',
   'sale_name',
-  'memberCount',
   'account',
-  'password'
+  'password',
+  'id',
+  'delete',
+  'memberCount'
 ]
 
-const fix = [
+const options = [
   'club_name',
   'referee_name',
   'sale_name' 
 ]
 
-const secret = [
+const jumpPage = [
   'account',
-  'password' 
+  'password',
+  'id'
 ]
 
 const styles = {

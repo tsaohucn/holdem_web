@@ -224,8 +224,8 @@ class NavigationComponent extends PureComponent {
               <Typography variant="title" color="inherit" noWrap>
                 {router[this.props.location.pathname.split("/")[1]]}
               </Typography>
-              <p className={classNames(classes.title)}>{this.getUserResource(this.props.HoldemStore.user)}</p>
-              <p className={classNames(classes.id)}>{'(A123434)'}</p>
+              <p className={classNames(classes.title)}>{this.getUserResource(this.props.HoldemStore.resource)}</p>
+              <p className={classNames(classes.id)}>{'(' + this.props.HoldemStore.account +')'}</p>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"

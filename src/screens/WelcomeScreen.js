@@ -50,7 +50,7 @@ class WelcomeScreen extends Component {
         if (val) {
           const user = Object.values(val)[0]
           if (user.password.toString() === this.state.password) {
-            this.props.HoldemStore.setUser(true,user.resource)
+            this.props.HoldemStore.setUser(true,user.resource,this.state.account)
           } else {
             this.loginError()
           }
