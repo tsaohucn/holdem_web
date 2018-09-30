@@ -11,6 +11,6 @@ const _delete = {
 }
 
 export default withNavigation(withAlert((withMember({
-  title: ui.specificMembersTable,//.concat(_delete),
+  title: ui.memberCountTable,//.concat(_delete),
   resource: 'referee',
 }))))

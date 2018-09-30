@@ -32,15 +32,14 @@ function withForm(params) {
     }
 
     fetchOptions = async () => {
-      try {
+      try { 
         const optionPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').orderByChild('name').once('value'))
         const snap_arr = await Promise.all(optionPromise)
         snap_arr.forEach((snap,index) => {
           const keys = Object.keys(snap.val() || {})
           const options = keys.map(key => ({
             key,
-            name: snap.val()[key]['name'],
-            id: snap.val()[key]['id']
+            id_name: snap.val()[key]['id_name']
           }))
           this.options[belong[index]] = options
         })
@@ -63,15 +62,15 @@ function withForm(params) {
         event: '新增資料中'
       },async () => {
         try {
-          let attach_data = {}
           let user_id = uuidv1()
-          //belong.forEach(belongResource => {
-          //  const ele = this.options[belongResource].find(ele => ele.key === state[belongResource])
-          //  attach_data[belongResource + '_name'] = ele.name || null
-          //  attach_data[belongResource + '_id'] = ele.id || null
-          //})
-          const upload_data = Object.assign({},state,attach_data)
-          if (resource === 'referees' || resource === 'sales' || resource === 'employees' || resource === 'members') {
+          let id_name = state.id + '(' + state.name + ')'
+          let upload_data = Object.assign({},state,{ id_name })
+          if (resource === 'clubs') {
+             upload_data = Object.assign({},state,{ id_name, memberCount: 0, refereeCount: 0, saleCount: 0 })
+          } else if (resource === 'referees' || resource === 'sales') {
+             upload_data = Object.assign({},state,{ id_name, memberCount: 0 })
+          }
+          if (resource === 'clubs' || resource === 'referees' || resource === 'sales' || resource === 'employees' || resource === 'members') {
             if (state.id) {
               const id_snap = await firebase.database().ref(resource).orderByChild('id').equalTo(state.id).once('value')
               if (id_snap.val()) {
@@ -79,21 +78,45 @@ function withForm(params) {
               }
             }
             if (state.account) {
-              const user_snap = await firebase.database().ref('/users').orderByChild('account').equalTo(state.account).once('value')
+              const user_snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(state.account).once('value')
               if (user_snap.val()) {
                 throw "帳號重複"
               }
             }
             if (resource === 'referees' || resource === 'sales' || resource === 'employees') {
-              await firebase.database().ref('/users/' + user_id).set({
+              if (resource === 'employees') {
+                await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
+              }
+              await firebase.database().ref('/backends/' + user_id).set({
                 account: state.account,
                 password: state.password,
                 resource
               })
-              if (resource === 'employees') {
-                await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
+              if (resource === 'referees') {
+                await firebase.database().ref('clubs/' +  state['club'] + '/refereeCount').transaction(memberCount => {
+                  if (!memberCount) {
+                    return 1
+                  } else {
+                    return memberCount + 1
+                  }
+                })                
+              } else if (resource === 'sales') {
+                await firebase.database().ref('clubs/' +  state['club'] + '/saleCount').transaction(memberCount => {
+                  if (!memberCount) {
+                    return 1
+                  } else {
+                    return memberCount + 1
+                  }
+                })                
               }
             } else if (resource === 'members') {
+              await firebase.database().ref('clubs/' +  state['club'] + '/memberCount').transaction(memberCount => {
+                if (!memberCount) {
+                  return 1
+                } else {
+                  return memberCount + 1
+                }
+              })
               await firebase.database().ref('referees/' +  state['referee'] + '/memberCount').transaction(memberCount => {
                 if (!memberCount) {
                   return 1
@@ -109,15 +132,9 @@ function withForm(params) {
                 }
               })
             }
-          } else if (resource === 'clubs') {
-            if (state.name) {
-              const name_snap = await firebase.database().ref(resource).orderByChild('name').equalTo(state.name).once('value')
-              if (name_snap.val()) {
-                throw "俱樂部名稱重複"
-              }
-            }            
           }
           await firebase.database().ref(resource + '/' + user_id).set(upload_data)
+          await firebase.database().ref('id_names/' + user_id + '/').set(id_name)
           await sleep(500)
           successAlert(this.props.alert,'新增成功')
         } catch(err) {

@@ -11,7 +11,8 @@ function withTable(params) {
     title,
     resource,
     wrapperComponent,
-    auth
+    auth,
+    belong
   } = params ? params : {}
 
   return class extends PureComponent {
@@ -35,17 +36,33 @@ function withTable(params) {
     }
 
     fetchTableData = async (fetch) => {
-      let data = {}
+      let data = []
+      let id_names = {}
       try {
         const snap = fetch && (await fetch.once('value'))
-        data = (snap && snap.val()) || {}
+        const val = (snap && snap.val()) || {}
+        data = Object.values(val) || []
+        const resource_keys = belong.map(belongResource => {
+          return data.map(ele => {
+            return ele[belongResource]
+          })
+        }).flat()
+        const uniq_resource_keys = resource_keys.filter((elem, pos, arr) => {
+          return arr.indexOf(elem) == pos
+        }) // uniq
+        const id_names_promise = uniq_resource_keys.map(key => firebase.database().ref('id_names/' + key).once('value'))
+        const id_names_snap = await Promise.all(id_names_promise)
+        uniq_resource_keys.forEach((key,index) => {
+          id_names[key] = id_names_snap[index].val()
+        })
         await sleep(500)
       } catch(err) {
         errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
       } finally {
         this.setState({
           isLoading: false,
-          data 
+          data,
+          id_names
         })        
       }      
     }
@@ -75,8 +92,8 @@ function withTable(params) {
             :
             <Component
               {...this.props}
+              {...this.state}
               title={title}
-              data={this.state.data}
               onClickTableReturnButton={this.goBack}
               onClickEdit={this.goToEdit}
             />

@@ -12,5 +12,6 @@ const edit = {
 
 export default withNavigation(withAlert((withTable({
   title: ui.refereesTable.concat(edit),
-  resource: 'referees'
+  resource: 'referees',
+  belong: ['club']
 }))))

@@ -15,25 +15,34 @@ const PartialTable = (props) =>  {
     title,
     data,
     onClickTableReturnButton,
-    onClickEdit
+    onClickEdit,
+    id_names
   } = props ? props : {}
 
   const render = (data) => (
-    data && Object.values(data).map((n,index) => {
+    data.map((n,index) => {
       return (
         <TableRow key={index.toString()}>
           {
             title && title.map(ele => {
               const key = ele.key
               if (key !== 'edit') {
-                return (
-                  <TableCell style={styles.tableCell}>
-                    {n[key]}
-                  </TableCell>
-                )
+                if (belong.includes(key)) {
+                  return (
+                    <TableCell key={key} style={styles.tableCell}>
+                      {id_names[n[key]]}
+                    </TableCell>
+                  )
+                } else {
+                  return (
+                    <TableCell key={key} style={styles.tableCell}>
+                      {n[key]}
+                    </TableCell>
+                  )
+                }
               } else {
                 return (
-                  <TableCell style={styles.tableCell}>
+                  <TableCell key={key} style={styles.tableCell}>
                     <a style={styles.link} onClick={onClickEdit}>
                       {'編輯'}
                     </a>
@@ -79,6 +88,12 @@ const PartialTable = (props) =>  {
     </div>
   )
 }
+
+const belong = [
+  "club",
+  "referee",
+  "sale"
+]
 
 const styles = {
   root: {

@@ -6,6 +6,6 @@ import withMember from '../../../hocs/withMember'
 import ui from '../../../configs/ui'
 
 export default withNavigation(withAlert((withMember({
-  title: ui.specificMembersTable,
+  title: ui.memberCountTable,
   resource: 'sale',
 }))))

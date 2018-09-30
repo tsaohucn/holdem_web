@@ -13,5 +13,6 @@ const edit = {
 
 export default withNavigation(withAlert((withTable({
   title: ui.employeesTable.concat(edit),
-  resource: 'employees'
+  resource: 'employees',
+  belong: []
 }))))

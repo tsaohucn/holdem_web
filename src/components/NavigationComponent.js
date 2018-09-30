@@ -158,6 +158,9 @@ class NavigationComponent extends PureComponent {
         break
       case 'sales':
         return '業務'
+        break
+      case 'employees':
+        return '員工'
         break 
       default:
         return '匿名'
