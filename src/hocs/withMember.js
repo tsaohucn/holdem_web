@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import EditComponent from '../components/EditComponent'
 import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
-import { errorAlert, successAlert } from '../helpers'
+import { errorAlert, successAlert, sleep } from '../helpers'
 
 function withMember(params) {
   const {
@@ -22,8 +22,8 @@ function withMember(params) {
       this.id = this.props.match.params.id
       this.state = {
         isLoading: true,
-        event: '下載資料中',
-        data: {}
+        event: '載入中',
+        data: []
       }
     }
 
@@ -32,17 +32,18 @@ function withMember(params) {
     }
 
     fetchTableData = async (fetch) => {
-      let data = {}
+      let data_arr = []
       try {
         const snap = fetch && (await fetch.once('value'))
-        data = (snap && snap.val()) || {}
+        const data = (snap && snap.val()) || {}
+        data_arr = Object.values(data) || []
+        await sleep(500)
       } catch(err) {
-        errorAlert(this.props.alert,'下載失敗 : ' + err.toString())
+        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
       } finally {
         this.setState({
           isLoading: false,
-          event: '下載資料中',
-          data 
+          data: data_arr
         })        
       }      
     }
@@ -53,7 +54,7 @@ function withMember(params) {
 
     render() {
 
-      const Component = wrapperComponent ? wrapperComponent : PartialTable//EditComponent
+      const Component = wrapperComponent ? wrapperComponent : PartialTable
 
       return(
         <div 
@@ -68,8 +69,8 @@ function withMember(params) {
             :
             <Component
               {...this.props}
+              {...this.state}
               title={title}
-              data={this.state.data}
               onClickTableReturnButton={this.goBack}
             />
           }

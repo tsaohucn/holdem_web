@@ -23,7 +23,7 @@ function withTable(params) {
       this.state = {
         isLoading: true,
         event: '載入中',
-        data: {}
+        data: []
       }
     }
 

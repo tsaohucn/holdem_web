@@ -19,6 +19,7 @@ import RefereeIndexScreen from './screens/mains/referees/RefereeIndexScreen'
 import RefereeNewScreen from './screens/mains/referees/RefereeNewScreen'
 import RefereeTableScreen from './screens/mains/referees/RefereeTableScreen'
 import RefereeEditScreen from './screens/mains/referees/RefereeEditScreen'
+import RefereeIdScreen from './screens/mains/referees/RefereeIdScreen'
 import RefereeMemberScreen from './screens/mains/referees/RefereeMemberScreen'
 import RefereeAccountScreen from './screens/mains/referees/RefereeAccountScreen'
 import RefereePasswordScreen from './screens/mains/referees/RefereePasswordScreen'
@@ -111,6 +112,7 @@ const AuthAdmin = () => (
       <Route exact path='/referees/new' component={RefereeNewScreen}/>
       <Route exact path='/referees/table/:id' component={RefereeTableScreen}/>
       <Route exact path='/referees/edit/:id' component={RefereeEditScreen}/>
+      <Route exact path='/referees/id/:id' component={RefereeIdScreen}/>
       <Route exact path='/referees/member/:id' component={RefereeMemberScreen}/>
       <Route exact path='/referees/account/:id' component={RefereeAccountScreen}/>
       <Route exact path='/referees/password/:id' component={RefereePasswordScreen}/>
