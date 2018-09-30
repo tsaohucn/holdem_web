@@ -11,7 +11,8 @@ function withEdit(params) {
     title,
     resource,
     wrapperComponent,
-    auth
+    auth,
+    belong
   } = params ? params : {}
 
   return class extends PureComponent {
@@ -36,16 +37,32 @@ function withEdit(params) {
 
     fetchTableData = async (fetch) => {
       let data = {}
+      let id_names = {}
       try {
         const snap = fetch && (await fetch.once('value'))
         data = (snap && snap.val()) || {}
+        const data_arr = Object.values(data) || []
+        const resource_keys = belong.map(belongResource => {
+          return data_arr.map(ele => {
+            return ele[belongResource]
+          })
+        }).flat()
+        const uniq_resource_keys = resource_keys.filter((elem, pos, arr) => {
+          return arr.indexOf(elem) == pos
+        }) // uniq
+        const id_names_promise = uniq_resource_keys.map(key => firebase.database().ref('id_names/' + key).once('value'))
+        const id_names_snap = await Promise.all(id_names_promise)
+        uniq_resource_keys.forEach((key,index) => {
+          id_names[key] = id_names_snap[index].val()
+        })
         await sleep(500)
       } catch(err) {
         errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
       } finally {
         this.setState({
           isLoading: false,
-          data 
+          data,
+          id_names
         })        
       }      
     }
@@ -56,7 +73,17 @@ function withEdit(params) {
         event: '更新資料中'
       },async () => {
         try {
+          let id_names = {}
+          const keys = Object.keys(data)
+          keys.forEach(key => {
+            const id = data[key]['id']
+            const name = data[key]['name']
+            const id_name = id + '(' + name + ')'
+            data[key]['id_name'] = id_name
+            id_names[key] = id_name
+          })
           await firebase.database().ref(resource).update(data)
+          await firebase.database().ref('id_names').update(id_names)
           await sleep(500)
           successAlert(this.props.alert,'更新成功')
         } catch(err) {
@@ -85,7 +112,9 @@ function withEdit(params) {
         } catch(err) {
           errorAlert(this.props.alert,'刪除失敗 : ' + err.toString())
         } finally {
-          this.goBack()
+          this.setState({
+            isLoading: false
+          })
         }
       })      
     }
@@ -121,8 +150,8 @@ function withEdit(params) {
             :
             <Component
               {...this.props}
+              {...this.state}
               title={title}
-              data={this.state.data}
               onClickTableConfirmButton={this.onClickTableConfirmButton}
               onClickTableReturnButton={this.goBack}
               confirmDelete={this.confirmDelete}

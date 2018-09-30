@@ -12,5 +12,6 @@ const _delete = {
 
 export default withNavigation(withAlert((withEdit({
   title: ui.employeesTable.concat(_delete),
-  resource: 'employees'
+  resource: 'employees',
+  belong: []
 }))))

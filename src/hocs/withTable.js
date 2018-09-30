@@ -36,14 +36,14 @@ function withTable(params) {
     }
 
     fetchTableData = async (fetch) => {
-      let data = []
+      let data_arr = []
       let id_names = {}
       try {
         const snap = fetch && (await fetch.once('value'))
-        const val = (snap && snap.val()) || {}
-        data = Object.values(val) || []
+        const data = (snap && snap.val()) || {}
+        data_arr = Object.values(data) || []
         const resource_keys = belong.map(belongResource => {
-          return data.map(ele => {
+          return data_arr.map(ele => {
             return ele[belongResource]
           })
         }).flat()
@@ -61,7 +61,7 @@ function withTable(params) {
       } finally {
         this.setState({
           isLoading: false,
-          data,
+          data: data_arr,
           id_names
         })        
       }      

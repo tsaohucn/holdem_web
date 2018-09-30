@@ -12,5 +12,6 @@ const _delete = {
 
 export default withNavigation(withAlert((withEdit({
   title: ui.salesTable.concat(_delete),
-  resource: 'sales'
+  resource: 'sales',
+  belong: ['club']
 }))))

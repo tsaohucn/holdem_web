@@ -12,5 +12,6 @@ const _delete = {
 
 export default withNavigation(withAlert((withEdit({
   title: ui.refereesTable.concat(_delete),
-  resource: 'referees'
+  resource: 'referees',
+  belong: ['club']
 }))))
