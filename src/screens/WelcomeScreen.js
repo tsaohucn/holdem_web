@@ -9,6 +9,7 @@ import {
 } from 'react-bootstrap'
 import { inject, observer } from 'mobx-react'
 import Grid from '@material-ui/core/Grid'
+import validator from "email-validator"
 // local components
 import firebase from '../configs/firebase'
 
@@ -24,11 +25,16 @@ class WelcomeScreen extends Component {
   }
 
   getValidationState = () => {
-    const length = this.state.account.length
-    if (length > 10) return 'success'
-    else if (length > 5) return 'warning'
-    else if (length > 0) return 'error'
-    return null
+    const flag = validator.validate(this.state.account)
+    if (this.state.account.length > 0) {
+      if (flag) {
+        return 'success'
+      } else {
+        return 'error'
+      }
+    } else {
+      return null
+    }
   }
 
   setAccount = e => {
@@ -40,11 +46,10 @@ class WelcomeScreen extends Component {
   }
 
   login = () => {
-    //this.props.HoldemStore.setUser(true,'admin')
     this.setState({
       loadingState: '登入中'
     },() => {
-      firebase.database().ref('/users').orderByChild('account').equalTo(this.state.account).once('value')
+      firebase.database().ref('/backends').orderByChild('account').equalTo(this.state.account).once('value')
       .then((snap) => {
         const val = snap.val()
         if (val) {
@@ -80,7 +85,6 @@ class WelcomeScreen extends Component {
         <h4 style={styles.loadingState}>{this.state.loadingState}</h4>
 	      <form>
 	        <FormGroup
-	          controlId="formBasicText"
 	          validationState={this.getValidationState()}
 	        >
 	          <FormControl
@@ -90,14 +94,15 @@ class WelcomeScreen extends Component {
 	            onChange={this.setAccount}
 	          />
 	          <FormControl.Feedback />
-            <br/>
+	        </FormGroup>
+          <FormGroup>
             <FormControl
               type="text"
               value={this.state.password}
               placeholder="請輸入您的密碼"
               onChange={this.setPassword}
             />
-	        </FormGroup>
+          </FormGroup>
           <div style={styles.buttonView}>
             <Button onClick={this.login}>登入</Button>
           </div>

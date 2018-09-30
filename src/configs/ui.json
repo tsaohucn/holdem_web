@@ -8,18 +8,51 @@
     "tables": "桌次現況",
     "reports": "報表"
   },
+  "gender": [
+    {
+      "key": "女",
+      "name": "女"
+    },
+    {
+      "key": "男",
+      "name": "男"
+    }
+  ],
+  "education": [
+    {
+      "key": "國小",
+      "name": "國小"
+    },
+    {
+      "key": "國中",
+      "name": "國中"
+    },
+    {
+      "key": "高中職",
+      "name": "高中職"
+    },
+    {
+      "key": "大學科大",
+      "name": "大學科大"
+    },
+    {
+      "key": "研究所",
+      "name": "研究所"
+    },
+    {
+      "key": "博士",
+      "name": "博士"
+    }
+  ],
   "clubsField": [
+    {
+      "key": "id",
+      "label": "俱樂部代號",
+      "helperText": "俱樂部代號不能重複"
+    },
     {
       "key": "name",
       "label": "俱樂部名稱"
-    },
-    {
-      "key": "account",
-      "label": "俱樂部帳號"
-    },
-    {
-      "key": "password",
-      "label": "俱樂部密碼"
     }
   ],
   "refereesField": [
@@ -38,11 +71,13 @@
     },
     {
       "key": "account",
-      "label": "裁判帳號"
+      "label": "裁判帳號",
+      "helperText": "請輸入電子郵件格式"
     },
     {
       "key": "password",
-      "label": "裁判密碼"
+      "label": "裁判密碼",
+      "helperText": "請確認密碼安全強度"
     },
     {
       "key": "club",
@@ -135,30 +170,45 @@
   ],
   "employeesField": [
     {
+      "key": "id",
+      "label": "員工編號",
+      "helperText": "員工編號不能重複"
+    },
+    {
       "key": "name",
       "label": "員工名稱"
     },
     {
       "key": "account",
-      "label": "員工帳號"
+      "label": "員工帳號",
+      "helperText": "請輸入電子郵件格式"
     },
     {
       "key": "password",
-      "label": "員工密碼"
+      "label": "員工密碼",
+      "helperText": "請確認密碼安全強度"
     }
   ],
   "clubsTable": [
+    {
+      "key": "id",
+      "label": "俱樂部代號"
+    },
     {
       "key": "name",
       "label": "俱樂部名稱"
     },
     {
-      "key": "account",
-      "label": "俱樂部帳號"
+      "key": "memberCount",
+      "label": "所含成員數"
     },
     {
-      "key": "password",
-      "label": "俱樂部密碼"
+      "key": "refereeCount",
+      "label": "所含裁判數"
+    },
+    {
+      "key": "saleCount",
+      "label": "所含業務數"
     }
   ],
   "refereesTable": [
@@ -184,10 +234,10 @@
     },
     {
       "key": "memberCount",
-      "label": "所含會員成員"
+      "label": "所含成員數"
     },
     {
-      "key": "club_name",
+      "key": "club",
       "label": "所屬俱樂部"
     }
   ],
@@ -214,10 +264,10 @@
     },
     {
       "key": "memberCount",
-      "label": "所含會員成員"
+      "label": "所含成員數"
     },
     {
-      "key": "club_name",
+      "key": "club",
       "label": "所屬俱樂部"
     }
   ],
@@ -281,15 +331,15 @@
       "label": "會員抓馬額度"
     },
     {
-      "key": "club_name",
+      "key": "club",
       "label": "所屬俱樂部"      
     },
     {
-      "key": "referee_name",
+      "key": "referee",
       "label": "所屬裁判"      
     },
     {
-      "key": "sale_name",
+      "key": "sale",
       "label": "所屬業務" 
     }
   ],
@@ -347,7 +397,7 @@
       "label": "N個六分鐘"      
     }
   ],
-  "specificMembersTable": [
+  "memberCountTable": [
     {
       "key": "id",
       "label": "會員編號"      
@@ -355,42 +405,6 @@
     {
       "key": "name",
       "label": "會員名稱"      
-    }
-  ],
-  "gender": [
-    {
-      "key": "女",
-      "name": "女"
-    },
-    {
-      "key": "男",
-      "name": "男"
-    }
-  ],
-  "education": [
-    {
-      "key": "國小",
-      "name": "國小"
-    },
-    {
-      "key": "國中",
-      "name": "國中"
-    },
-    {
-      "key": "高中職",
-      "name": "高中職"
-    },
-    {
-      "key": "大學科大",
-      "name": "大學科大"
-    },
-    {
-      "key": "研究所",
-      "name": "研究所"
-    },
-    {
-      "key": "博士",
-      "name": "博士"
     }
   ]
 }

@@ -1,6 +1,7 @@
 // node_module
 import React from 'react'
 import TextField from '@material-ui/core/TextField'
+import Input from '@material-ui/core/Input'
 import Button from '@material-ui/core/Button'
 import MenuItem from '@material-ui/core/MenuItem'
 // local components
@@ -19,39 +20,37 @@ const PartialForm = (props) => {
   const renderSelect = (property) => {
     return props[property] && props[property].map(option => (
       <MenuItem key={option.key} value={option.key}>
-        {option.name}
+        { option.id_name || option.name || option.id }
       </MenuItem>
     ))
   }
 
   return(
-    <div>
+    <div style={styles.container}>
       {
         field.map(ele => 
           {
-            const { key, label } = ele ? ele : {}
+            const { key, label, helperText } = ele ? ele : {}
             const isSelect = key === 'club' || key === 'referee' || key === 'sale' || key === 'gender' || key === 'education'
             return(
-              <div key={key}>
-                <TextField
-                  select={isSelect}
-                  label={label}
-                  id="margin-normal"
-                  style={styles.textField}
-                  margin="normal"
-                  value={value[key]}
-                  onChange={(event) => { onChange(event,key) }}
-                > 
-                {
-                  isSelect ? renderSelect(key) : null
-                }
-                </TextField>
-              </div>
+              <TextField
+                select={isSelect}
+                label={label}
+                helperText={helperText}
+                variant="outlined"
+                style={styles.textField}
+                margin="normal"
+                value={value[key]}
+                onChange={(event) => { onChange(event,key) }}
+              > 
+              {
+                isSelect ? renderSelect(key) : null
+              }
+              </TextField>
             )
           }
         )
       }
-      <br/>
       <div style={styles.buttonView}>
         <PartialButton 
           style={styles.button} 
@@ -76,10 +75,16 @@ const PartialForm = (props) => {
 
 
 const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
   textField: {
-    width: '50%'
+    width: '50%',
+    display: 'flex'
   },
   buttonView: {
+    marginTop: 20,
     width: '50%',
     display: 'flex',
     flexDirection: 'row',
