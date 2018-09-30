@@ -25,7 +25,8 @@
   "refereesField": [
     {
       "key": "id",
-      "label": "裁判代號"
+      "label": "裁判代號",
+      "helperText": "裁判代號不能重複"
     },
     {
       "key": "name",

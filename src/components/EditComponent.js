@@ -47,8 +47,8 @@ class EditComponent extends PureComponent {
     })    
   }
 
-  onClickEditConfirmButton = () => {
-    this.props.onClickEditConfirmButton && this.props.onClickEditConfirmButton(this.data)
+  onClickTableConfirmButton = () => {
+    this.props.onClickTableConfirmButton && this.props.onClickTableConfirmButton(this.data)
   }
 
   onClickJumpPage = (key,_key) => {
@@ -61,6 +61,9 @@ class EditComponent extends PureComponent {
         break
       case 'id':
         this.props.onClickId && this.props.onClickId(_key)
+        break
+      case 'memberCount':
+        this.props.onClickMemberCount && this.props.onClickMemberCount(_key)
         break
       default:
         break
@@ -109,11 +112,7 @@ class EditComponent extends PureComponent {
                 {
                   title && title.map(ele => 
                     {
-                      if (ele.key !== 'memberCount') {
-                        return <TableCell style={styles.tableCell} key={ele.key}>{ele.label}</TableCell>
-                      } else {
-                        return null
-                      }
+                      return <TableCell style={styles.tableCell} key={ele.key}>{ele.label}</TableCell>
                     }
                   )
                 }
@@ -144,11 +143,27 @@ class EditComponent extends PureComponent {
                           )
                         } else {
                           if (options.includes(key)) {
-                            return <TableCell key={key} style={styles.tableCell}>{this.data[_key][key]}</TableCell> //選單
+                            return (
+                              <TableCell key={key} style={styles.tableCell}>
+                                {this.data[_key][key]}
+                              </TableCell>
+                            )//選單
                           } else if (jumpPage.includes(key)) {
-                            return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickJumpPage(key,_key)}>{this.data[_key][key]}</a></TableCell>
+                            return (
+                              <TableCell key={key} style={styles.tableCell}>
+                                <a style={styles.link} onClick={() => this.onClickJumpPage(key,_key)}>
+                                  {this.data[_key][key]}
+                                </a>
+                              </TableCell>
+                            )
                           } else if (key === 'delete') {
-                            return <TableCell key={key} style={styles.tableCell}><a onClick={() => this.onClickDelete(_key)}>{'刪除'}</a></TableCell>
+                            return (
+                              <TableCell key={key} style={styles.tableCell}>
+                                <a style={styles.link} onClick={() => this.onClickDelete(_key)}>
+                                  {'刪除'}
+                                </a>
+                              </TableCell>
+                            )
                           } else {
                             return null
                           }
@@ -169,7 +184,7 @@ class EditComponent extends PureComponent {
             返回
           </PartialButton> 
           <PartialButton 
-            onClick={this.onClickEditConfirmButton}
+            onClick={this.onClickTableConfirmButton}
           >
             確認
           </PartialButton>
@@ -201,7 +216,8 @@ const options = [
 const jumpPage = [
   'account',
   'password',
-  'id'
+  'id',
+  'memberCount'
 ]
 
 const styles = {
@@ -248,6 +264,9 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center'
+  },
+  link: {
+    textDecoration: 'none'
   }
 }
 export default EditComponent

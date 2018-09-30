@@ -6,7 +6,7 @@ import uuidv1 from 'uuid/v1'
 import FormComponent from '../components/FormComponent'
 import firebase from '../configs/firebase'
 import ui from '../configs/ui'
-import { errorAlert, successAlert } from '../helpers'
+import { errorAlert, successAlert, sleep } from '../helpers'
 
 function withForm(params) {
   const {
@@ -44,8 +44,9 @@ function withForm(params) {
           }))
           this.options[belong[index]] = options
         })
+        await sleep(500)
       } catch(err) {
-        errorAlert(this.props.alert,'下載資料錯誤 : ' + err.toString())
+        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
       } finally {
         this.setState({
           isLoading: false,
@@ -64,11 +65,11 @@ function withForm(params) {
         try {
           let attach_data = {}
           let user_id = uuidv1()
-          belong.forEach(belongResource => {
-            const ele = this.options[belongResource].find(ele => ele.key === state[belongResource])
-            attach_data[belongResource + '_name'] = ele.name || null
-            attach_data[belongResource + '_id'] = ele.id || null
-          })
+          //belong.forEach(belongResource => {
+          //  const ele = this.options[belongResource].find(ele => ele.key === state[belongResource])
+          //  attach_data[belongResource + '_name'] = ele.name || null
+          //  attach_data[belongResource + '_id'] = ele.id || null
+          //})
           const upload_data = Object.assign({},state,attach_data)
           if (resource === 'referees' || resource === 'sales' || resource === 'employees' || resource === 'members') {
             if (state.id) {
@@ -117,21 +118,20 @@ function withForm(params) {
             }            
           }
           await firebase.database().ref(resource + '/' + user_id).set(upload_data)
+          await sleep(500)
           successAlert(this.props.alert,'新增成功')
         } catch(err) {
           errorAlert(this.props.alert,'新增失敗 : ' + err.toString())
         } finally {
           this.setState({
             isLoading: false
-          },() => {
-            this.props.history.push('/' + resource + '/index')
           })
         }
       })
     }
 
     onClickNewPageReturn = () => {
-      this.props.history.push('/' + resource + '/index')
+      this.props.history.goBack()
     }
 
     render() {

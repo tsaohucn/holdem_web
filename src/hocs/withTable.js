@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
 import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
-import { errorAlert, successAlert } from '../helpers'
+import { errorAlert, successAlert, sleep } from '../helpers'
 
 function withTable(params) {
   const {
@@ -21,7 +21,7 @@ function withTable(params) {
       this.id = this.props.match.params.id
       this.state = {
         isLoading: true,
-        event: '下載資料中',
+        event: '載入中',
         data: {}
       }
     }
@@ -39,12 +39,12 @@ function withTable(params) {
       try {
         const snap = fetch && (await fetch.once('value'))
         data = (snap && snap.val()) || {}
+        await sleep(500)
       } catch(err) {
-        errorAlert(this.props.alert,'下載失敗 : ' + err.toString())
+        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
       } finally {
         this.setState({
           isLoading: false,
-          event: '下載資料中',
           data 
         })        
       }      
@@ -52,10 +52,6 @@ function withTable(params) {
 
     goBack = () => {
       this.props.history.goBack()
-    }
-
-    goToMember = (id) => {
-      this.props.history.push('/' + resource + '/member/' + id)
     }
 
     goToEdit = () => {
@@ -82,8 +78,7 @@ function withTable(params) {
               title={title}
               data={this.state.data}
               onClickTableReturnButton={this.goBack}
-              onClickMemberCountLink={this.goToMember}
-              onClickEditLink={this.goToEdit}
+              onClickEdit={this.goToEdit}
             />
           }
         </div>
