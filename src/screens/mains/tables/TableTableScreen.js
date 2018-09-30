@@ -12,5 +12,6 @@ const edit = {
 
 export default withNavigation(withAlert((withTable({
   title: ui.tablesTable.concat(edit),
-  resource: 'tables'
+  resource: 'tables',
+  belong: []
 }))))
