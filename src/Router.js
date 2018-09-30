@@ -48,13 +48,13 @@ import ReportIndexScreen from './screens/mains/reports/ReportIndexScreen'
 import TableIndexScreen from './screens/mains/tables/TableIndexScreen'
 import TableTableScreen from './screens/mains/tables/TableTableScreen'
 
-const Router = inject('HoldemStore')(observer(({HoldemStore,auth,user}) => {
+const Router = inject('HoldemStore')(observer(({HoldemStore}) => {
   switch(HoldemStore.isAuth) {
     case 'check':
       return <Init/>
       break
     case true:
-      switch(HoldemStore.user) {
+      switch(HoldemStore.resource) {
         case 'admin':
           return <AuthAdmin/>
           break
