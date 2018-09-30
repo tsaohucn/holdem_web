@@ -135,6 +135,10 @@ function withEdit(params) {
       this.props.history.push('/' + resource + '/member/' + key)
     }
 
+    gotToId = (key)=> {
+      this.props.history.push('/' + resource + '/id/' + key)
+    }
+
     render() {
       const Component = wrapperComponent ? wrapperComponent : EditComponent
       return(
