@@ -74,7 +74,8 @@ class EditComponent extends PureComponent {
 
     const { 
       title,
-      onClickTableReturnButton
+      onClickTableReturnButton,
+      id_names
     } = this.props ? this.props : {}
 
     return(
@@ -145,7 +146,7 @@ class EditComponent extends PureComponent {
                           if (options.includes(key)) {
                             return (
                               <TableCell key={key} style={styles.tableCell}>
-                                {this.data[_key][key]}
+                                {id_names[this.data[_key][key]]}
                               </TableCell>
                             )//選單
                           } else if (jumpPage.includes(key)) {
@@ -197,9 +198,9 @@ class EditComponent extends PureComponent {
 }
 
 const noTextInput = [
-  'club_name',
-  'referee_name',
-  'sale_name',
+  'club',
+  'referee',
+  'sale',
   'account',
   'password',
   'id',
@@ -208,9 +209,9 @@ const noTextInput = [
 ]
 
 const options = [
-  'club_name',
-  'referee_name',
-  'sale_name' 
+  'club',
+  'referee',
+  'sale' 
 ]
 
 const jumpPage = [
