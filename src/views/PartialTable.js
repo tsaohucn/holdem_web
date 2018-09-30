@@ -15,8 +15,7 @@ const PartialTable = (props) =>  {
     title,
     data,
     onClickTableReturnButton,
-    onClickMemberCountLink,
-    onClickEditLink
+    onClickEdit
   } = props ? props : {}
 
   const render = (data) => (
@@ -26,15 +25,20 @@ const PartialTable = (props) =>  {
           {
             title && title.map(ele => {
               const key = ele.key
-              if (key !== 'edit' && key !== 'memberCount') {
-                return <TableCell style={styles.tableCell}>{n[key]}</TableCell>
+              if (key !== 'edit') {
+                return (
+                  <TableCell style={styles.tableCell}>
+                    {n[key]}
+                  </TableCell>
+                )
               } else {
-                if (key === 'edit') {
-                  return <TableCell style={styles.tableCell}><a onClick={onClickEditLink}>{'編輯'}</a></TableCell>
-                } else if (key === 'memberCount') {
-                  const onClick = () => onClickMemberCountLink && onClickMemberCountLink(Object.keys(data)[index])
-                  return <TableCell style={styles.tableCell}><a onClick={onClick}>{n[key] || 0}</a></TableCell>
-                }
+                return (
+                  <TableCell style={styles.tableCell}>
+                    <a style={styles.link} onClick={onClickEdit}>
+                      {'編輯'}
+                    </a>
+                  </TableCell>
+                )
               }
             })
           }
@@ -44,35 +48,35 @@ const PartialTable = (props) =>  {
   )
 
   return(
-        <div>
-          <br/>
-          <Paper style={styles.root}>
-            <Table style={styles.table}>
-              <TableHead>
-                <TableRow>
-                  {
-                    title && title.map(ele => (
-                      <TableCell style={styles.tableCell} key={ele.key}>{ele.label}</TableCell>
-                    ))
-                  }
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                 { render(data) }
-              </TableBody>
-            </Table>
-          </Paper>
-          <br/>
-          <div style={styles.buttonView}>
-            <PartialButton 
-              onClick={onClickTableReturnButton}
-            >
-              返回
-            </PartialButton> 
-          </div>
-          <br/>
-          <br/>
-        </div>
+    <div>
+      <br/>
+      <Paper style={styles.root}>
+        <Table style={styles.table}>
+          <TableHead>
+            <TableRow>
+              {
+                title && title.map(ele => (
+                  <TableCell style={styles.tableCell} key={ele.key}>{ele.label}</TableCell>
+                ))
+              }
+            </TableRow>
+          </TableHead>
+          <TableBody>
+             { render(data) }
+          </TableBody>
+        </Table>
+      </Paper>
+      <br/>
+      <div style={styles.buttonView}>
+        <PartialButton 
+          onClick={onClickTableReturnButton}
+        >
+          {'返回'}
+        </PartialButton> 
+      </div>
+      <br/>
+      <br/>
+    </div>
   )
 }
 
@@ -92,6 +96,9 @@ const styles = {
   },
   tableCell: {
     fontSize: 13
+  },
+  link: {
+    textDecoration: 'none'
   }
 }
 

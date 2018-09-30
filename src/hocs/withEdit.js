@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
 import EditComponent from '../components/EditComponent'
 import firebase from '../configs/firebase'
-import { errorAlert, successAlert } from '../helpers'
+import { errorAlert, successAlert, sleep } from '../helpers'
 
 function withEdit(params) {
   const {
@@ -21,7 +21,7 @@ function withEdit(params) {
       this.id = this.props.match.params.id
       this.state = {
         isLoading: true,
-        event: '下載資料中',
+        event: '載入中',
         data: {}
       }
     }
@@ -39,28 +39,32 @@ function withEdit(params) {
       try {
         const snap = fetch && (await fetch.once('value'))
         data = (snap && snap.val()) || {}
+        await sleep(500)
       } catch(err) {
-        errorAlert(this.props.alert,'下載失敗 : ' + err.toString())
+        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
       } finally {
         this.setState({
           isLoading: false,
-          event: '下載資料中',
           data 
         })        
       }      
     }
 
-    onClickEditConfirmButton = (data) => {
+    onClickTableConfirmButton = (data) => {
       this.setState({
         isLoading: true,
         event: '更新資料中'
       },async () => {
         try {
           await firebase.database().ref(resource).update(data)
+          await sleep(500)
+          successAlert(this.props.alert,'更新成功')
         } catch(err) {
           errorAlert(this.props.alert,'更新失敗 : ' + err.toString())
         } finally {
-          this.goBack()
+          this.setState({
+            isLoading: false
+          })
         }
       })
     }
@@ -98,6 +102,10 @@ function withEdit(params) {
       this.props.history.push('/'+ resource + '/password/' + key)
     }
 
+    goToMemberCount = (key) => {
+      this.props.history.push('/' + resource + '/member/' + key)
+    }
+
     render() {
       const Component = wrapperComponent ? wrapperComponent : EditComponent
       return(
@@ -115,11 +123,13 @@ function withEdit(params) {
               {...this.props}
               title={title}
               data={this.state.data}
+              onClickTableConfirmButton={this.onClickTableConfirmButton}
               onClickTableReturnButton={this.goBack}
-              onClickEditConfirmButton={this.onClickEditConfirmButton}
+              confirmDelete={this.confirmDelete}
+              onClickId={this.gotToId}
               onClickAccount={this.gotToAccount}
               onClickPassword={this.gotToPassword}
-              confirmDelete={this.confirmDelete}
+              onClickMemberCount={this.goToMemberCount}
             />
           }
         </div>
