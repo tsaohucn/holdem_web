@@ -25,39 +25,29 @@ function withChangePassword(params) {
     }
 
     onClickConfirmButton = (value) => {
-      this.setState({
-        isLoading: true,
-        event: '更新中'        
-      },async () => {
-        try {
-          const snap = await firebase.database().ref(resource).orderByChild('id').equalTo(value).once('value')
-          if (snap.val()) {
-            throw '代號重複'
-          } else {
-            const snap = await firebase.database().ref(resource + '/' + this.id + '/name').once('value')
-            const name = snap.val()
-            const id_name = value + '(' + name + ')'
-            const resource_update = {
-              id: value,
-              id_name
+      if (resource !== 'employees') { //employees 再改
+        this.setState({
+          isLoading: true,
+          event: '更新中'        
+        },async () => {
+          try {
+            const backends_update = {
+              password: value
             }
-            const id_names_update = {
-              [this.id]: id_name
-            }
-            await firebase.database().ref(resource + '/' + this.id).update(resource_update)
-            await firebase.database().ref('/id_names').update(id_names_update)
+            await firebase.database().ref(resource + '/' + this.id).update(backends_update)
+            await firebase.database().ref('backends/' + this.id).update(backends_update)
+            await sleep(500)
+            successAlert(this.props.alert,'更新成功')
+            this.goBack()
+          } catch(err) {
+            errorAlert(this.props.alert,'更新失敗 : ' + err.toString())
+          } finally {
+            this.setState({
+              isLoading: false
+            })  
           }
-          await sleep(500)
-          successAlert(this.props.alert,'更新成功')
-          this.goBack()
-        } catch(err) {
-          errorAlert(this.props.alert,'更新失敗 : ' + err.toString())
-        } finally {
-          this.setState({
-            isLoading: false
-          })  
-        }
-      })
+        })
+      }
     }
 
     goBack = () => {
