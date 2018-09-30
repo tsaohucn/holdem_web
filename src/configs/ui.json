@@ -113,7 +113,7 @@
   "membersField": [
     {
       "key": "id",
-      "label": "會員編號"
+      "label": "會員代號"
     },
     {
       "key": "name",
@@ -171,8 +171,8 @@
   "employeesField": [
     {
       "key": "id",
-      "label": "員工編號",
-      "helperText": "員工編號不能重複"
+      "label": "員工代號",
+      "helperText": "員工代號不能重複"
     },
     {
       "key": "name",
@@ -273,6 +273,10 @@
   ],
   "employeesTable": [
     {
+      "key": "id",
+      "label": "員工代號"
+    },
+    {
       "key": "name",
       "label": "員工名稱"
     },
@@ -288,7 +292,7 @@
   "membersTable": [
     {
       "key": "id",
-      "label": "會員編號"
+      "label": "會員代號"
     },
     {
       "key": "name",
@@ -350,7 +354,7 @@
     },
     {
       "key": "table_id",
-      "label": "桌次編號"
+      "label": "桌次代號"
     },
     {
       "key": "table_referee",
@@ -400,7 +404,7 @@
   "memberCountTable": [
     {
       "key": "id",
-      "label": "會員編號"      
+      "label": "會員代號"      
     },
     {
       "key": "name",
