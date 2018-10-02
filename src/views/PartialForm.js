@@ -68,7 +68,6 @@ const PartialForm = (props) => {
           {buttonTitle}
         </PartialButton>
       </div>
-      <br/>
     </div>
   )  
 }
