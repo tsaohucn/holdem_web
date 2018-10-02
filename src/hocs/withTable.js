@@ -19,7 +19,7 @@ function withTable(params) {
 
     constructor(props) {
       super(props)
-      this.id = this.props.match.params.id
+      this.id = this.props.match.params.id || ''
       this.state = {
         isLoading: true,
         event: '載入中',

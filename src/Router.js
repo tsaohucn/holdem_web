@@ -48,6 +48,9 @@ import EmployeeAccountScreen from './screens/mains/employees/EmployeeAccountScre
 import EmployeePasswordScreen from './screens/mains/employees/EmployeePasswordScreen'
 // reports
 import ReportIndexScreen from './screens/mains/reports/ReportIndexScreen'
+import MemberReportScreen from './screens/mains/reports/MemberReportScreen'
+import RefereeReportScreen from './screens/mains/reports/RefereeReportScreen'
+import SaleReportScreen from './screens/mains/reports/SaleReportScreen'
 // tables
 import TableIndexScreen from './screens/mains/tables/TableIndexScreen'
 import TableTableScreen from './screens/mains/tables/TableTableScreen'
@@ -105,8 +108,8 @@ const NoAuth = () => (
 const AuthAdmin = () => (
   <BrowserRouter>
     <Switch>
-      {/*clubs*/}
       <Route exact path='/index' component={IndexScreen}/>
+      {/*clubs*/}
       <Route exact path='/clubs/index' component={ClubIndexScreen}/>
       <Route exact path='/clubs/new' component={ClubNewScreen}/>
       <Route exact path='/clubs/table/:id' component={ClubTableScreen}/>
@@ -147,6 +150,10 @@ const AuthAdmin = () => (
       <Route exact path='/tables/table/:id' component={TableTableScreen}/>
       {/*reports*/}
       <Route exact path='/reports/index' component={ReportIndexScreen}/>
+      <Route exact path='/reports/member/:startDate/:endDate/:id' component={MemberReportScreen}/>
+      <Route exact path='/reports/referee/:startDate/:endDate/:id' component={RefereeReportScreen}/>
+      <Route exact path='/reports/sale/:startDate/:endDate/:id/' component={SaleReportScreen}/>
+      {/*nomatch*/}
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>
@@ -155,38 +162,22 @@ const AuthAdmin = () => (
 const AuthOnlyReport = () => (
   <BrowserRouter>
     <Switch>
-      {/*clubs*/}
       <Route exact path='/index' component={IndexScreen}/>
+      {/*clubs*/}
       <Route exact path='/clubs/index' component={NoAuthScreen}/>
-      <Route exact path='/clubs/new' component={NoAuthScreen}/>
-      <Route exact path='/clubs/table/:id' component={NoAuthScreen}/>
       {/*referees*/}
       <Route exact path='/referees/index' component={NoAuthScreen}/>
-      <Route exact path='/referees/new' component={NoAuthScreen}/>
-      <Route exact path='/referees/table/:id' component={NoAuthScreen}/>
-      <Route exact path='/referees/edit/:id' component={NoAuthScreen}/>
-      <Route exact path='/referees/member/:id' component={NoAuthScreen}/>
       {/*sales*/}
       <Route exact path='/sales/index' component={NoAuthScreen}/>
-      <Route exact path='/sales/new' component={NoAuthScreen}/>
-      <Route exact path='/sales/table/:id' component={NoAuthScreen}/>
-      <Route exact path='/sales/edit/:id' component={NoAuthScreen}/>
-      <Route exact path='/sales/member/:id' component={NoAuthScreen}/>
       {/*members*/}
       <Route exact path='/members/index' component={NoAuthScreen}/>
-      <Route exact path='/members/new' component={NoAuthScreen}/>
-      <Route exact path='/members/table/:id' component={NoAuthScreen}/>
-      <Route exact path='/members/edit/:id' component={NoAuthScreen}/>
       {/*employees*/}
       <Route exact path='/employees/index' component={NoAuthScreen}/>
-      <Route exact path='/employees/new' component={NoAuthScreen}/>
-      <Route exact path='/employees/table/:id' component={NoAuthScreen}/>
-      <Route exact path='/employees/edit/:id' component={NoAuthScreen}/>
       {/*reports*/}
       <Route exact path='/reports/index' component={ReportIndexScreen}/>
       {/*tables*/}
       <Route exact path='/tables/index' component={NoAuthScreen}/>
-      <Route exact path='/tables/table/:id' component={NoAuthScreen}/>
+      {/*nomatch*/}
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>

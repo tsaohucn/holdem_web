@@ -6,14 +6,14 @@ import { errorAlert, successAlert, sleep } from '../helpers'
 
 function withReport(params) {
   const {
-    onClickButton
+    buttonTitle
   } = params ? params : {}
 
   return class extends PureComponent {
 
     search = (radio,searchContent,startDate,endDate) => {
-      if (radio !== null && searchContent !== null && startDate !== null && endDate !== null) {
-
+      if (radio !== null && searchContent !== null && startDate !== null && endDate !== null && searchContent.length > 0) {
+        this.props.history.push('/reports/' + radio + '/' + startDate + '/' + endDate + '/' + searchContent)
       } else {
         errorAlert(this.props.alert,'輸入資料不能為空')
       }
@@ -24,7 +24,7 @@ function withReport(params) {
       return(
         <ReportPageComponent
           {...this.props}
-          buttonTitle={'搜尋'}
+          buttonTitle={buttonTitle}
           onClickButton={this.search}
         />
       )
