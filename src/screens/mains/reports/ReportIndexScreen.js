@@ -2,10 +2,10 @@
 import React from 'react'
 import { withAlert } from 'react-alert'
 // local components
-import withReport from '../../../hocs/withReport'
+import withReportSearch from '../../../hocs/withReportSearch'
 import withNavigation from '../../../hocs/withNavigation'
 
 
-export default withNavigation(withAlert(withReport({
+export default withNavigation(withAlert(withReportSearch({
   buttonTitle: '搜尋'
 })))
