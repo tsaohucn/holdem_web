@@ -2,11 +2,10 @@
 import React from 'react'
 import { withAlert } from 'react-alert'
 // local components
-import withSearch from '../../../hocs/withSearch'
+import withReport from '../../../hocs/withReport'
 import withNavigation from '../../../hocs/withNavigation'
 
-const ReportIndexScreen = () => (
-  <h1>報表</h1>
-)
 
-export default withNavigation(withAlert((ReportIndexScreen)))
+export default withNavigation(withAlert(withReport({
+
+})))

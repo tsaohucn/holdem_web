@@ -1,5 +1,5 @@
 // node_module
-import React from 'react'
+import React, { PureComponent } from 'react'
 // local_module
 import SearchComponent from '../components/SearchComponent'
 
@@ -18,7 +18,7 @@ function withSearch(params) {
     secondPlaceholder
   } = params ? params : {}
 
-  return class extends React.PureComponent {
+  return class extends PureComponent {
 
     onClickSearchPageRightButton = () => {
       this.props.history.push('/' + resource + '/new')
