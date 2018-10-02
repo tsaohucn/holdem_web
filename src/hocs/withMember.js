@@ -34,17 +34,18 @@ function withMember(params) {
     fetchTableData = async (fetch) => {
       let data_arr = []
       try {
+        await sleep(500)
         const snap = fetch && (await fetch.once('value'))
         const data = (snap && snap.val()) || {}
         data_arr = Object.values(data) || []
-        await sleep(500)
-      } catch(err) {
-        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
-      } finally {
         this.setState({
           isLoading: false,
           data: data_arr
-        })        
+        })
+      } catch(err) {
+        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
+      } finally {
+        //       
       }      
     }
 

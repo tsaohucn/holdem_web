@@ -31,6 +31,7 @@ function withChangeAccount(params) {
           event: '更新中'        
         },async () => {
           try {
+            await sleep(500)
             const snap = await firebase.database().ref('backends').orderByChild('account').equalTo(value).once('value')
             if (snap.val()) {
               throw '帳號重複'
@@ -41,7 +42,6 @@ function withChangeAccount(params) {
               await firebase.database().ref(resource + '/' + this.id).update(backends_update)
               await firebase.database().ref('backends/' + this.id).update(backends_update)
             }
-            await sleep(500)
             successAlert(this.props.alert,'更新成功')
             this.goBack()
           } catch(err) {

@@ -349,8 +349,8 @@
   ],
   "tablesTable": [
     {
-      "key": "date",
-      "label": "日期"
+      "key": "table_date",
+      "label": "開桌日期"
     },
     {
       "key": "table_id",
@@ -358,35 +358,27 @@
     },
     {
       "key": "table_referee",
-      "label": "回桌裁判"
+      "label": "開桌裁判"
     },
     {
       "key": "referee",
       "label": "所屬裁判"      
     },
     {
-      "key": "member_id",
-      "label": "會員ID"      
+      "key": "id",
+      "label": "會員代號"      
     },
     {
-      "key": "member_name",
+      "key": "name",
       "label": "會員名稱"      
     },
     {
-      "key": "table_date",
-      "label": "上桌日期"      
+      "key": "date",
+      "label": "會員上桌日期"      
     },
     {
-      "key": "table_time",
-      "label": "上桌時間"      
-    },
-    {
-      "key": "open_date",
-      "label": "解碼日期"      
-    },
-    {
-      "key": "open_time",
-      "label": "解碼時間"      
+      "key": "time",
+      "label": "會員上桌時間"      
     },
     {
       "key": "level",

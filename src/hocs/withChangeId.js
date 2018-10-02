@@ -30,6 +30,7 @@ function withChangeId(params) {
         event: '更新中'        
       },async () => {
         try {
+          await sleep(500)
           const snap = await firebase.database().ref(resource).orderByChild('id').equalTo(value).once('value')
           if (snap.val()) {
             throw '代號重複'
@@ -47,7 +48,6 @@ function withChangeId(params) {
             await firebase.database().ref(resource + '/' + this.id).update(resource_update)
             await firebase.database().ref('/id_names').update(id_names_update)
           }
-          await sleep(500)
           successAlert(this.props.alert,'更新成功')
           this.goBack()
         } catch(err) {

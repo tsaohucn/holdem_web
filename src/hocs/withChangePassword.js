@@ -31,12 +31,12 @@ function withChangePassword(params) {
           event: '更新中'        
         },async () => {
           try {
+            await sleep(500)
             const backends_update = {
               password: value
             }
             await firebase.database().ref(resource + '/' + this.id).update(backends_update)
             await firebase.database().ref('backends/' + this.id).update(backends_update)
-            await sleep(500)
             successAlert(this.props.alert,'更新成功')
             this.goBack()
           } catch(err) {

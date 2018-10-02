@@ -92,7 +92,8 @@ const PartialTable = (props) =>  {
 const belong = [
   "club",
   "referee",
-  "sale"
+  "sale",
+  "table_referee"
 ]
 
 const styles = {
