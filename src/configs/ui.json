@@ -402,5 +402,127 @@
       "key": "name",
       "label": "會員名稱"      
     }
+  ],
+  "memberReportTable": [
+    {
+      "key": "table_date",
+      "label": "開桌日期"
+    },
+    {
+      "key": "table_id",
+      "label": "桌次代號"
+    },
+    {
+      "key": "table_referee",
+      "label": "開桌裁判"
+    },
+    {
+      "key": "referee",
+      "label": "所屬裁判"      
+    },
+    {
+      "key": "id",
+      "label": "會員代號"      
+    },
+    {
+      "key": "name",
+      "label": "會員名稱"      
+    },
+    {
+      "key": "date",
+      "label": "上桌日期"      
+    },
+    {
+      "key": "time",
+      "label": "上桌時間"      
+    },
+    {
+      "key": "decode_date",
+      "label": "解碼日期"      
+    },
+    {
+      "key": "decode_time",
+      "label": "解碼時間"      
+    },
+    {
+      "key": "level",
+      "label": "盲著級別"      
+    },
+    {
+      "key": "spend_time",
+      "label": "本局時數"      
+    },
+    {
+      "key": "10mins",
+      "label": "N個十分鐘"      
+    },
+    {
+      "key": "total_chip",
+      "label": "取碼總計"      
+    },
+    {
+      "key": "decode_chip",
+      "label": "解碼總計"      
+    },
+    {
+      "key": "money",
+      "label": "賽局餘額"       
+    },
+    {
+      "key": "rk",
+      "label": "會員貢獻度(RK)"       
+    }    
+  ],
+  "refereeReportTable": [
+    {
+      "key": "date",
+      "label": "日期"
+    },
+    {
+      "key": "rk",
+      "label": "裁判積分RK"
+    },
+    {
+      "key": "50rk",
+      "label": "50RK"
+    },
+    {
+      "key": "st",
+      "label": "裁判ST"
+    },
+    {
+      "key": "return_club",
+      "label": "退回協會"      
+    }
+  ],
+  "saleReportTable": [
+    {
+      "key": "date",
+      "label": "日期"
+    },
+    {
+      "key": "id",
+      "label": "業務代號"
+    },
+    {
+      "key": "member_name",
+      "label": "會員名稱"
+    },
+    {
+      "key": "referee",
+      "label": "所屬裁判"
+    },
+    {
+      "key": "g_time",
+      "label": "本局時數"      
+    },
+    {
+      "key": "c_time",
+      "label": "時數"      
+    },
+    {
+      "key": "score",
+      "label": "分數"      
+    }
   ]
 }

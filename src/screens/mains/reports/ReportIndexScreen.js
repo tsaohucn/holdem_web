@@ -7,5 +7,5 @@ import withNavigation from '../../../hocs/withNavigation'
 
 
 export default withNavigation(withAlert(withReport({
-
+  buttonTitle: '搜尋'
 })))
