@@ -72,7 +72,7 @@ function withLiveTable(params) {
             name: ele.name,
             date: ele.date,
             time: ele.time,
-            level: 'dsdsdsd',
+            level: table_data[ele.table]['chip'],
             spend_time: 'spend_time',
             '6mins': '6mins'
           })
