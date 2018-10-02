@@ -50,6 +50,7 @@ import EmployeePasswordScreen from './screens/mains/employees/EmployeePasswordSc
 import ReportIndexScreen from './screens/mains/reports/ReportIndexScreen'
 import MemberReportScreen from './screens/mains/reports/MemberReportScreen'
 import RefereeReportScreen from './screens/mains/reports/RefereeReportScreen'
+import RefereeDayReportScreen from './screens/mains/reports/RefereeDayReportScreen'
 import SaleReportScreen from './screens/mains/reports/SaleReportScreen'
 // tables
 import TableIndexScreen from './screens/mains/tables/TableIndexScreen'
@@ -152,6 +153,7 @@ const AuthAdmin = () => (
       <Route exact path='/reports/index' component={ReportIndexScreen}/>
       <Route exact path='/reports/member/:startDate/:endDate/:id' component={MemberReportScreen}/>
       <Route exact path='/reports/referee/:startDate/:endDate/:id' component={RefereeReportScreen}/>
+      <Route exact path='/reports/referee/day/:date' component={RefereeDayReportScreen}/>
       <Route exact path='/reports/sale/:startDate/:endDate/:id/' component={SaleReportScreen}/>
       {/*nomatch*/}
       <Route path='/' component={NoMatchScreen}/>
