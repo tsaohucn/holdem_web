@@ -33,6 +33,7 @@ function withForm(params) {
 
     fetchOptions = async () => {
       try { 
+        await sleep(500)
         const optionPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').orderByChild('name').once('value'))
         const snap_arr = await Promise.all(optionPromise)
         snap_arr.forEach((snap,index) => {
@@ -43,16 +44,16 @@ function withForm(params) {
           }))
           this.options[belong[index]] = options
         })
-        await sleep(500)
-      } catch(err) {
-        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
-      } finally {
         this.setState({
           isLoading: false,
           gender: ui.gender,
           education: ui.education,
           ...this.options
         })
+      } catch(err) {
+        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
+      } finally {
+        //
       }
     }
 

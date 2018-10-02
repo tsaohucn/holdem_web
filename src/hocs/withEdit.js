@@ -39,6 +39,7 @@ function withEdit(params) {
       let data = {}
       let id_names = {}
       try {
+        await sleep(500)
         const snap = fetch && (await fetch.once('value'))
         data = (snap && snap.val()) || {}
         const data_arr = Object.values(data) || []
@@ -55,15 +56,15 @@ function withEdit(params) {
         uniq_resource_keys.forEach((key,index) => {
           id_names[key] = id_names_snap[index].val()
         })
-        await sleep(500)
-      } catch(err) {
-        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
-      } finally {
         this.setState({
           isLoading: false,
           data,
           id_names
-        })        
+        }) 
+      } catch(err) {
+        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
+      } finally {
+        //
       }      
     }
 
