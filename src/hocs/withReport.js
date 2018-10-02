@@ -12,8 +12,12 @@ function withReport(params) {
   return class extends PureComponent {
 
     search = (radio,searchContent,startDate,endDate) => {
-      if (radio !== null && searchContent !== null && startDate !== null && endDate !== null && searchContent.length > 0) {
-        this.props.history.push('/reports/' + radio + '/' + startDate + '/' + endDate + '/' + searchContent)
+      if ((radio || radio === 0) && searchContent && startDate && endDate && searchContent.length > 0) {
+        if (new Date(startDate) >= new Date(endDate)) {
+          errorAlert(this.props.alert,'結束日期必須大於開始日期')
+        } else {
+          this.props.history.push('/reports/' + radio + '/' + startDate + '/' + endDate + '/' + searchContent)
+        }
       } else {
         errorAlert(this.props.alert,'輸入資料不能為空')
       }
