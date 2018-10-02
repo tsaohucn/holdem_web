@@ -69,6 +69,8 @@ function withForm(params) {
              upload_data = Object.assign({},state,{ id_name, memberCount: 0, refereeCount: 0, saleCount: 0 })
           } else if (resource === 'referees' || resource === 'sales') {
              upload_data = Object.assign({},state,{ id_name, memberCount: 0 })
+          } else if (resource === 'members') {
+            upload_data = Object.assign({},state,{ id_name, chip: 0, noLimit: false })
           }
           if (resource === 'clubs' || resource === 'referees' || resource === 'sales' || resource === 'employees' || resource === 'members') {
             if (state.id) {
