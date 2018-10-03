@@ -405,7 +405,7 @@
   ],
   "memberReportTable": [
     {
-      "key": "table_date",
+      "key": "date",
       "label": "開桌日期"
     },
     {
@@ -413,15 +413,15 @@
       "label": "桌次代號"
     },
     {
-      "key": "table_referee",
+      "key": "referee",
       "label": "開桌裁判"
     },
     {
-      "key": "referee",
+      "key": "memberReferee",
       "label": "所屬裁判"      
     },
     {
-      "key": "id",
+      "key": "memberId",
       "label": "會員代號"      
     },
     {
@@ -429,19 +429,19 @@
       "label": "會員名稱"      
     },
     {
-      "key": "date",
+      "key": "playDate",
       "label": "上桌日期"      
     },
     {
-      "key": "time",
+      "key": "playTime",
       "label": "上桌時間"      
     },
     {
-      "key": "decode_date",
+      "key": "decodeDate",
       "label": "解碼日期"      
     },
     {
-      "key": "decode_time",
+      "key": "decodeTime",
       "label": "解碼時間"      
     },
     {
@@ -449,27 +449,27 @@
       "label": "盲著級別"      
     },
     {
-      "key": "spend_time",
+      "key": "spendTime",
       "label": "本局時數"      
     },
     {
-      "key": "10mins",
+      "key": "n10",
       "label": "N個十分鐘"      
     },
     {
-      "key": "total_chip",
+      "key": "totalTakeChip",
       "label": "取碼總計"      
     },
     {
-      "key": "decode_chip",
+      "key": "totalTakeChip",
       "label": "解碼總計"      
     },
     {
-      "key": "money",
+      "key": "gameMoney",
       "label": "賽局餘額"       
     },
     {
-      "key": "rk",
+      "key": "memberRK",
       "label": "會員貢獻度(RK)"       
     }    
   ],

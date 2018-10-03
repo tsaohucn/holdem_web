@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
-import PartialTable from '../views/PartialTable'
+import PartialTableTwo from '../views/PartialTableTwo'
 import firebase from '../configs/firebase'
 import { errorAlert, successAlert, sleep } from '../helpers'
 
@@ -21,7 +21,7 @@ function withReport(params) {
       super(props)
       this.id = this.props.match.params.id || ''
       this.state = {
-        isLoading: false,
+        isLoading: true,
         event: '載入中',
         data: []
       }
@@ -29,12 +29,23 @@ function withReport(params) {
 
     componentDidMount() {
       this.setState({
-        isLoading: false,
-        data: [{
-          referee_report_date: '2018-07-20',
-          referee_day_report_table_id: 'T1234'
-        }],
-        id_names : []       
+        isLoading: true,      
+      },async () => {
+        try {
+          await sleep(500)
+          const snap = await firebase.database().ref('members_report/').once('value')
+          if (snap.val()) {
+            const data = Object.values(snap.val())
+            this.setState({
+              isLoading: false,
+              data
+            })     
+          }
+        } catch (error) {
+          errorAlert(this.props.alert,'載入失敗 : ' + error.toString())
+        } finally {
+          //
+        }
       })
       /*
       if (this.id === '$all') {
@@ -91,7 +102,7 @@ function withReport(params) {
 
     render() {
 
-      const Component = wrapperComponent ? wrapperComponent : PartialTable
+      const Component = wrapperComponent ? wrapperComponent : PartialTableTwo
 
       return(
         <div 
