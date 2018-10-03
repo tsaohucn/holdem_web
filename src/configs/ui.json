@@ -409,7 +409,7 @@
       "label": "開桌日期"
     },
     {
-      "key": "table_id",
+      "key": "id",
       "label": "桌次代號"
     },
     {
@@ -483,7 +483,7 @@
       "label": "裁判積分RK"
     },
     {
-      "key": "50rk",
+      "key": "rk50",
       "label": "50RK"
     },
     {
@@ -491,7 +491,7 @@
       "label": "裁判ST"
     },
     {
-      "key": "return_club",
+      "key": "returnClub",
       "label": "退回協會"      
     }
   ],
@@ -505,7 +505,7 @@
       "label": "業務代號"
     },
     {
-      "key": "member_name",
+      "key": "memberName",
       "label": "會員名稱"
     },
     {
@@ -513,11 +513,15 @@
       "label": "所屬裁判"
     },
     {
-      "key": "g_time",
+      "key": "level",
+      "label": "盲注級別"      
+    },
+    {
+      "key": "gameTime",
       "label": "本局時數"      
     },
     {
-      "key": "c_time",
+      "key": "time",
       "label": "時數"      
     },
     {
@@ -539,35 +543,35 @@
       "label": "桌次代號"
     },
     {
-      "key": "c",
+      "key": "totalC",
       "label": "總c"
     },
     {
-      "key": "g_total",
+      "key": "gameMoney",
       "label": "賽局總計"      
     },
     {
-      "key": "i",
+      "key": "totalI",
       "label": "總i"      
     },
     {
-      "key": "t",
+      "key": "totalT",
       "label": "總t"      
     },
     {
-      "key": "member_total_time",
+      "key": "totalMembersSpendTime",
       "label": "所有玩家上場總時間"      
     },
     {
-      "key": "referee_id",
+      "key": "refereeId",
       "label": "裁判代號"      
     },
     {
-      "key": "player_time",
+      "key": "totalPlayerTime",
       "label": "所含玩家上場總時間"      
     },
     {
-      "key": "player_g_time",
+      "key": "totalPlayerMoney",
       "label": "所含玩家賽局總計"      
     },
     {
@@ -575,11 +579,11 @@
       "label": "裁判積分RK"      
     },
     {
-      "key": "for_club",
+      "key": "forClub",
       "label": "給協會"      
     },    
     {
-      "key": "for_referee",
+      "key": "forReferee",
       "label": "給荷官"      
     },
     {

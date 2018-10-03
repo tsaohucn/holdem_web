@@ -8,6 +8,6 @@ import ui from '../../../configs/ui'
 
 export default withNavigation(withAlert(withReport({
   title: ui.saleReportTable,
-  resource: 'clubs',
+  resource: 'sales',
   belong: []
 })))

@@ -1,5 +1,5 @@
 // node module
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
 import { Provider } from 'mobx-react'

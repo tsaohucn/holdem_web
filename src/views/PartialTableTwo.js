@@ -40,7 +40,7 @@ const PartialTableTwo = (props) =>  {
                 } else if (key === 'referee_day_report_table_id') {
                   return (
                     <TableCell key={key} style={styles.tableCell}>
-                      <a style={styles.link} onClick={() => onClickTableId(n[key])}>
+                      <a style={styles.link} onClick={() => onClickTableId(n['date'],n[key])}>
                         {n[key]}
                       </a>
                     </TableCell>
