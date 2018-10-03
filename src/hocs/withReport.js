@@ -1,6 +1,8 @@
 // node_module
 import React, { PureComponent } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Moment from 'moment'
+import { extendMoment } from 'moment-range'
 // local_module
 import PartialTableTwo from '../views/PartialTableTwo'
 import firebase from '../configs/firebase'
@@ -12,7 +14,8 @@ function withReport(params) {
     resource,
     wrapperComponent,
     auth,
-    belong
+    belong,
+    router
   } = params ? params : {}
 
   return class extends PureComponent {
@@ -20,6 +23,9 @@ function withReport(params) {
     constructor(props) {
       super(props)
       this.id = this.props.match.params.id || ''
+      this.startDate = this.props.match.params.startDate || ''
+      this.endDate = this.props.match.params.endDate || ''
+      this.date = this.props.match.params.date || ''
       this.state = {
         isLoading: true,
         event: '載入中',
@@ -33,13 +39,73 @@ function withReport(params) {
       },async () => {
         try {
           await sleep(500)
-          const snap = await firebase.database().ref('members_report/').once('value')
-          if (snap.val()) {
-            const data = Object.values(snap.val())
+          if (router === 'day') {
+            const data = ['t','t'].map(ele =>({
+              date: this.date,
+              referee: '大笨蛋',
+              referee_day_report_table_id: 'A123',
+              totalC: '200',
+              gameMoney: '200',
+              totalI: '200',
+              totalT: '200',
+              totalMembersSpendTime: '200',
+              refereeId: 'A1233',
+              totalPlayerTime: '200',
+              totalPlayerMoney: '333',
+              rk: 4,
+              forClub: '200',
+              forReferee: '300',
+              st: 200
+            }))
             this.setState({
               isLoading: false,
               data
-            })     
+            })         
+          } else {
+            if (resource === 'members') {
+              const snap = await firebase.database().ref('members_report/').once('value')
+              if (snap.val()) {
+                const data = Object.values(snap.val())
+                this.setState({
+                  isLoading: false,
+                  data
+                })     
+              }
+            } else if (resource === 'referees') {
+              const moment = extendMoment(Moment)
+              const start = moment(this.startDate, 'YYYY-MM-DD')
+              const end   = moment(this.endDate, 'YYYY-MM-DD')
+              const range = moment.range(start, end)
+              const days = Array.from(range.by('day', { excludeEnd: true })).map(ele => ele.format('YYYY-MM-DD'))
+              const data = days.map(ele => ({
+                referee_report_date: ele,
+                rk: '10',
+                rk50: '200',
+                st: 'st',
+                returnClub: '中和俱樂部'
+              }))
+              this.setState({
+                isLoading: false,
+                data
+              }) 
+            } else if (resource === 'sales') {
+              const data = ['t','t'].map(ele =>({
+                date: this.startDate,
+                id: 'S123',
+                memberName: '大頭',
+                referee: '阿呆裁判',
+                level: '20/40',
+                gameTime: '200',
+                time: '1:11',
+                score: '200'
+              }))
+              this.setState({
+                isLoading: false,
+                data
+              })              
+            } else {
+              //
+            }
           }
         } catch (error) {
           errorAlert(this.props.alert,'載入失敗 : ' + error.toString())
@@ -96,8 +162,8 @@ function withReport(params) {
       this.props.history.push('/reports/referee/day/' + date)
     }
 
-    goToMemberReport = (date) => {
-      this.props.history.push('/reports/member/' + date + '/' + date + '/' + 'test')
+    goToMemberReport = (date,id) => {
+      this.props.history.push('/reports/member/' + date + '/' + date + '/' + id)
     }
 
     render() {

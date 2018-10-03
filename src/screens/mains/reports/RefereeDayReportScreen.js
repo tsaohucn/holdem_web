@@ -8,6 +8,7 @@ import ui from '../../../configs/ui'
 
 export default withNavigation(withAlert(withReport({
   title: ui.refereeDayReportTable,
-  resource: 'clubs',
-  belong: []
+  resource: 'referees',
+  belong: [],
+  router: 'day'
 })))
