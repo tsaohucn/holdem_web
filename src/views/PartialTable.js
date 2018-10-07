@@ -18,7 +18,7 @@ const PartialTable = (props) =>  {
     onClickEdit,
     onClickDate,
     onClickTableId,
-    id_names
+    //id_names
   } = props ? props : {}
 
   const render = (data) => (
@@ -29,13 +29,7 @@ const PartialTable = (props) =>  {
             title && title.map(ele => {
               const key = ele.key
               if (key !== 'edit') {
-                if (belong.includes(key)) {
-                  return (
-                    <TableCell key={key} style={styles.tableCell}>
-                      {id_names[n[key]]}
-                    </TableCell>
-                  )
-                } else if (key === 'referee_report_date') {
+                if (key === 'referee_report_date') {
                     return (
                       <TableCell key={key} style={styles.tableCell}>
                         <a style={styles.link} onClick={() => onClickDate(n[key])}>

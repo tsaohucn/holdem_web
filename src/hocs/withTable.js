@@ -11,8 +11,6 @@ function withTable(params) {
     title,
     resource,
     wrapperComponent,
-    auth,
-    belong
   } = params ? params : {}
 
   return class extends PureComponent {
@@ -36,30 +34,14 @@ function withTable(params) {
     }
 
     fetchTableData = async (fetch) => {
-      let data_arr = []
-      let id_names = {}
       try {
         await sleep(500)
         const snap = fetch && (await fetch.once('value'))
-        const data = (snap && snap.val()) || {}
-        data_arr = Object.values(data) || []
-        const resource_keys = belong.map(belongResource => {
-          return data_arr.map(ele => {
-            return ele[belongResource]
-          })
-        }).flat()
-        const uniq_resource_keys = resource_keys.filter(ele => ele).filter((elem, pos, arr) => {
-          return arr.indexOf(elem) == pos
-        }) // uniq
-        const id_names_promise = uniq_resource_keys.map(key => firebase.database().ref('id_names/' + key).once('value'))
-        const id_names_snap = await Promise.all(id_names_promise)
-        uniq_resource_keys.forEach((key,index) => {
-          id_names[key] = id_names_snap[index].val()
-        })
+        const val = (snap && snap.val()) || {}
+        const data = Object.values(val) || []
         this.setState({
           isLoading: false,
-          data: data_arr,
-          id_names
+          data
         }) 
       } catch(err) {
         errorAlert(this.props.alert,'載入失敗 : ' + err.toString())

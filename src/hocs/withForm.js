@@ -10,8 +10,8 @@ import { errorAlert, successAlert, sleep } from '../helpers'
 
 function withForm(params) {
   const {
-    field,
     buttonTitle,
+    field,
     resource,
     belong
   } = params ? params : {}
@@ -34,21 +34,30 @@ function withForm(params) {
     fetchOptions = async () => {
       try { 
         await sleep(500)
-        const optionPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').orderByChild('name').once('value'))
-        const snap_arr = await Promise.all(optionPromise)
-        snap_arr.forEach((snap,index) => {
-          const keys = Object.keys(snap.val() || {})
-          const options = keys.map(key => ({
-            key,
-            id_name: snap.val()[key]['id_name']
-          }))
-          this.options[belong[index]] = options
+        this.options = {}
+        const optionsPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').once('value'))
+        const optionsSnap = await Promise.all(optionsPromise)
+        let options = {}
+        optionsSnap.forEach((snap,index) => {
+          const val = snap.val()
+          const keys = Object.keys(val || [])
+          const option = keys.map(key => {
+            this.options[key] = {
+              id: val[key].id,
+              name: val[key].name
+            }
+            return({
+              key,
+              name: val[key].id + ' : ' + val[key].name
+            })
+          })
+          options[belong[index]] = option
         })
         this.setState({
           isLoading: false,
           gender: ui.gender,
           education: ui.education,
-          ...this.options
+          ...options
         })
       } catch(err) {
         errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
@@ -63,15 +72,32 @@ function withForm(params) {
         event: '新增資料中'
       },async () => {
         try {
+          await sleep(500)
           let user_id = uuidv1()
-          let id_name = state.id + '(' + state.name + ')'
-          let upload_data = Object.assign({},state,{ id_name })
+          let upload_data = Object.assign({},state)
           if (resource === 'clubs') {
-             upload_data = Object.assign({},state,{ id_name, memberCount: 0, refereeCount: 0, saleCount: 0 })
+             upload_data = Object.assign({},state,{ 
+              memberCount: 0, 
+              refereeCount: 0, 
+              saleCount: 0 
+            })
           } else if (resource === 'referees' || resource === 'sales') {
-             upload_data = Object.assign({},state,{ id_name, memberCount: 0 })
+             upload_data = Object.assign({},state,{ 
+              memberCount: 0, 
+              club: null,
+              club_id: this.options[state['club']].id
+            })
           } else if (resource === 'members') {
-            upload_data = Object.assign({},state,{ id_name, chip: 0, noLimit: false })
+            upload_data = Object.assign({},state,{ 
+              chip: 0, 
+              noLimit: false,
+              club: null,
+              club_id: this.options[state['club']].id, 
+              referee: null,
+              referee_id: this.options[state['referee']].id, 
+              sale: null,
+              sale_id: this.options[state['sale']].id
+            })
           }
           if (resource === 'clubs' || resource === 'referees' || resource === 'sales' || resource === 'employees' || resource === 'members') {
             if (state.id) {
@@ -137,15 +163,14 @@ function withForm(params) {
             }
           }
           await firebase.database().ref(resource + '/' + user_id).set(upload_data)
-          await firebase.database().ref('id_names/' + user_id + '/').set(id_name)
-          await sleep(500)
+          this.setState({
+            isLoading: false
+          })
           successAlert(this.props.alert,'新增成功')
         } catch(err) {
           errorAlert(this.props.alert,'新增失敗 : ' + err.toString())
         } finally {
-          this.setState({
-            isLoading: false
-          })
+          //
         }
       })
     }
