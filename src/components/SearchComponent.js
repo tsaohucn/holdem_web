@@ -14,13 +14,12 @@ class SearchComponent extends PureComponent {
   }
 
   onClickSearchPageLeftButton = () => {
-    this.props.onClickSearchPageLeftButton && this.props.onClickSearchPageLeftButton(this.searchValue || '$all')
+    const value = {
+      searchValue: this.searchValue,
+      secondSearchValue: this.secondSearchValue
+    }
+    this.props.onClickSearchPageLeftButton && this.props.onClickSearchPageLeftButton(value)
   }
-
-  onClickSecondSearchButton = () => {
-    this.props.onClickSecondSearchButton && this.props.onClickSecondSearchButton(this.secondSearchValue || '$all')
-  }
-
 
   render() {
     return(

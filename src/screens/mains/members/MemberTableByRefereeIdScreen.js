@@ -5,8 +5,13 @@ import withNavigation from '../../../hocs/withNavigation'
 import withTable from '../../../hocs/withTable'
 import ui from '../../../configs/ui'
 
+const edit = {
+  key: "edit",
+  label: "編輯"
+}
+
 export default withNavigation(withAlert((withTable({
-  title: ui.memberCountTable,
+  title: ui.membersTable.concat(edit),
   resource: 'members',
-  by: 'saleId'
+  by: 'refereeId'
 }))))

@@ -11,13 +11,14 @@ function withTable(params) {
     title,
     resource,
     wrapperComponent,
+    by
   } = params ? params : {}
 
   return class extends PureComponent {
 
     constructor(props) {
       super(props)
-      this.id = this.props.match.params.id || ''
+      this.search = this.props.match.params.search || ''
       this.state = {
         isLoading: true,
         event: '載入中',
@@ -26,10 +27,31 @@ function withTable(params) {
     }
 
     componentDidMount() {
-      if (this.id === '$all') {
-        this.fetchTableData(firebase.database().ref(resource))
+      if (resource === 'members') {
+        if (this.search === '$all') {
+          this.fetchTableData(firebase.database().ref(resource))
+        } else {
+          switch(by) {
+            case 'memberName':
+              this.fetchTableData(firebase.database().ref(resource).orderByChild('name').equalTo(this.search))
+              break
+            case 'refereeId':
+              this.fetchTableData(firebase.database().ref(resource).orderByChild('referee_id').equalTo(this.search))
+              break
+            case 'saleId':
+              this.fetchTableData(firebase.database().ref(resource).orderByChild('sale_id').equalTo(this.search))
+              break 
+            default:
+              this.fetchTableData(firebase.database().ref(resource).orderByChild('id').equalTo(this.search))
+              break           
+          }
+        } 
       } else {
-        this.fetchTableData(firebase.database().ref(resource).orderByChild('id').equalTo(this.id))
+        if (this.search === '$all') {
+          this.fetchTableData(firebase.database().ref(resource))
+        } else {
+          this.fetchTableData(firebase.database().ref(resource).orderByChild('id').equalTo(this.search))
+        }        
       }
     }
 
@@ -50,12 +72,16 @@ function withTable(params) {
       }      
     }
 
-    goBack = () => {
-      this.props.history.goBack()
+    goToMemberCountTable = (key) => {
+      this.props.history.push('/' + resource + '/member/' + key)
     }
 
-    goToEdit = () => {
-      this.props.history.push('/' + resource + '/edit/' + this.id)
+    goToEditPage = (key) => {
+      this.props.history.push('/' + resource + '/edit/' + key)
+    }
+
+    goBack = () => {
+      this.props.history.goBack()
     }
 
     render() {
@@ -78,7 +104,8 @@ function withTable(params) {
               {...this.state}
               title={title}
               onClickTableReturnButton={this.goBack}
-              onClickEdit={this.goToEdit}
+              onClickMemberCount={this.goToMemberCountTable}
+              onClickEdit={this.goToEditPage}
             />
           }
         </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import { withAlert } from 'react-alert'
 // local components
 import withNavigation from '../../../hocs/withNavigation'
-import withMember from '../../../hocs/withMember'
+import withTable from '../../../hocs/withTable'
 import ui from '../../../configs/ui'
 
 const _delete = {
@@ -10,7 +10,8 @@ const _delete = {
   label: "刪除"
 }
 
-export default withNavigation(withAlert((withMember({
-  title: ui.memberCountTable,//.concat(_delete),
-  resource: 'referee',
+export default withNavigation(withAlert((withTable({
+  title: ui.memberCountTable,
+  resource: 'members',
+  by: 'refereeId'
 }))))

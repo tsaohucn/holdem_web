@@ -36,6 +36,23 @@ const PartialSearch = (props) => {
           onRequestSearch={() => {}}
         />
       </div>
+      {
+        showSecondSearchBar ? 
+          <div>
+            <br/>
+            <div style={styles.searchBlock}>
+              <h4 style={styles.SearchTitle}>{secondBarTitle}</h4>
+              <SearchBar
+                style={styles.SearchBar}
+                value={''}
+                placeholder={secondPlaceholder}
+                onChange={onChangeSecondSearchValue}
+                onRequestSearch={() => {}}
+              /> 
+            </div>
+          </div>
+        : null
+      }
       <br/>
       <div style={styles.buttonView}>
         <PartialButton 
@@ -52,31 +69,6 @@ const PartialSearch = (props) => {
           </PartialButton>
         }
       </div>
-      <br/> 
-      {
-        showSecondSearchBar ? 
-        <div>
-          <div style={styles.searchBlock}>
-            <h4 style={styles.SearchTitle}>{secondBarTitle}</h4>
-            <SearchBar
-              style={styles.SearchBar}
-              value={''}
-              placeholder={secondPlaceholder}
-              onChange={onChangeSecondSearchValue}
-              onRequestSearch={() => {}}
-            /> 
-          </div>
-          <br/> 
-          <div style={styles.buttonView}>
-            <PartialButton 
-              onClick={onClickSecondSearchButton}
-            >
-              {secondButtonTitle}
-            </PartialButton>
-          </div>
-        </div>
-        : null
-      }
     </div>
   )  
 }

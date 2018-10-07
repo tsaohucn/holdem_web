@@ -233,10 +233,6 @@
       "label": "裁判密碼"
     },
     {
-      "key": "memberCount",
-      "label": "所含成員數"
-    },
-    {
       "key": "club_id",
       "label": "所屬俱樂部"
     }
@@ -261,10 +257,6 @@
     {
       "key": "password",
       "label": "業務密碼"
-    },
-    {
-      "key": "memberCount",
-      "label": "所含成員數"
     },
     {
       "key": "club_id",

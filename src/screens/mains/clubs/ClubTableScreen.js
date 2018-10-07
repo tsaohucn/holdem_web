@@ -8,8 +8,7 @@ import ui from '../../../configs/ui'
 
 const ClubTableScreen = withTable({
   title: ui.clubsTable,
-  resource: 'clubs',
-  belong: []
+  resource: 'clubs'
 })
 
 export default withNavigation(withAlert((ClubTableScreen)))

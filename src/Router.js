@@ -36,6 +36,8 @@ import SalePasswordScreen from './screens/mains/sales/SalePasswordScreen'
 import MemberIndexScreen from './screens/mains/members/MemberIndexScreen'
 import MemberNewScreen from './screens/mains/members/MemberNewScreen'
 import MemberTableScreen from './screens/mains/members/MemberTableScreen'
+import MemberTableByMemmberNameScreen from './screens/mains/members/MemberTableByMemmberNameScreen'
+import MemberTableByRefereeIdScreen from './screens/mains/members/MemberTableByRefereeIdScreen'
 import MemberEditScreen from './screens/mains/members/MemberEditScreen'
 import MemberIdScreen from './screens/mains/members/MemberIdScreen'
 // employees
@@ -113,36 +115,38 @@ const AuthAdmin = () => (
       {/*clubs*/}
       <Route exact path='/clubs/index' component={ClubIndexScreen}/>
       <Route exact path='/clubs/new' component={ClubNewScreen}/>
-      <Route exact path='/clubs/table/:id' component={ClubTableScreen}/>
+      <Route exact path='/clubs/table/:search' component={ClubTableScreen}/>
       {/*referees*/}
       <Route exact path='/referees/index' component={RefereeIndexScreen}/>
       <Route exact path='/referees/new' component={RefereeNewScreen}/>
-      <Route exact path='/referees/table/:id' component={RefereeTableScreen}/>
-      <Route exact path='/referees/edit/:id' component={RefereeEditScreen}/>
+      <Route exact path='/referees/table/:search' component={RefereeTableScreen}/>
+      <Route exact path='/referees/member/:search' component={RefereeMemberScreen}/>
+      <Route exact path='/referees/edit/:search' component={RefereeEditScreen}/>
       <Route exact path='/referees/id/:id' component={RefereeIdScreen}/>
-      <Route exact path='/referees/member/:id' component={RefereeMemberScreen}/>
       <Route exact path='/referees/account/:id' component={RefereeAccountScreen}/>
       <Route exact path='/referees/password/:id' component={RefereePasswordScreen}/>
       {/*sales*/}
       <Route exact path='/sales/index' component={SaleIndexScreen}/>
       <Route exact path='/sales/new' component={SaleNewScreen}/>
-      <Route exact path='/sales/table/:id' component={SaleTableScreen}/>
-      <Route exact path='/sales/edit/:id' component={SaleEditScreen}/>
+      <Route exact path='/sales/table/:search' component={SaleTableScreen}/>
+      <Route exact path='/sales/member/:search' component={SaleMemberScreen}/>
+      <Route exact path='/sales/edit/:search' component={SaleEditScreen}/>
       <Route exact path='/sales/id/:id' component={SaleIdScreen}/>
-      <Route exact path='/sales/member/:id' component={SaleMemberScreen}/>
       <Route exact path='/sales/account/:id' component={SaleAccountScreen}/>
       <Route exact path='/sales/password/:id' component={SalePasswordScreen}/>
       {/*members*/}
       <Route exact path='/members/index' component={MemberIndexScreen}/>
       <Route exact path='/members/new' component={MemberNewScreen}/>
-      <Route exact path='/members/table/:id' component={MemberTableScreen}/>
-      <Route exact path='/members/edit/:id' component={MemberEditScreen}/>
+      <Route exact path='/members/table/:search' component={MemberTableScreen}/>
+      <Route exact path='/members/table/memberName/:search' component={MemberTableByMemmberNameScreen}/>
+      <Route exact path='/members/table/refereeId/:search' component={MemberTableByRefereeIdScreen}/>
+      <Route exact path='/members/edit/:search' component={MemberEditScreen}/>
       <Route exact path='/members/id/:id' component={MemberIdScreen}/>
       {/*employees*/}
       <Route exact path='/employees/index' component={EmployeeIndexScreen}/>
       <Route exact path='/employees/new' component={EmployeeNewScreen}/>
-      <Route exact path='/employees/table/:id' component={EmployeeTableScreen}/>
-      <Route exact path='/employees/edit/:id' component={EmployeeEditScreen}/>
+      <Route exact path='/employees/table/:search' component={EmployeeTableScreen}/>
+      <Route exact path='/employees/edit/:search' component={EmployeeEditScreen}/>
       <Route exact path='/employees/id/:id' component={EmployeeIdScreen}/>
       <Route exact path='/employees/account/:id' component={EmployeeAccountScreen}/>
       <Route exact path='/employees/password/:id' component={EmployeePasswordScreen}/>

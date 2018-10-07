@@ -15,10 +15,10 @@ const PartialTable = (props) =>  {
     title,
     data,
     onClickTableReturnButton,
+    onClickMemberCount,
     onClickEdit,
     onClickDate,
-    onClickTableId,
-    //id_names
+    onClickTableId
   } = props ? props : {}
 
   const render = (data) => (
@@ -29,18 +29,10 @@ const PartialTable = (props) =>  {
             title && title.map(ele => {
               const key = ele.key
               if (key !== 'edit') {
-                if (key === 'referee_report_date') {
+                if (key === 'memberCount') {
                     return (
                       <TableCell key={key} style={styles.tableCell}>
-                        <a style={styles.link} onClick={() => onClickDate(n[key])}>
-                          {n[key]}
-                        </a>
-                      </TableCell>
-                    )
-                } else if (key === 'referee_day_report_table_id') {
-                    return (
-                      <TableCell key={key} style={styles.tableCell}>
-                        <a style={styles.link} onClick={() => onClickTableId(n[key])}>
+                        <a style={styles.link} onClick={() => onClickMemberCount && onClickMemberCount(n.id)}>
                           {n[key]}
                         </a>
                       </TableCell>
@@ -55,7 +47,7 @@ const PartialTable = (props) =>  {
               } else {
                 return (
                   <TableCell key={key} style={styles.tableCell}>
-                    <a style={styles.link} onClick={onClickEdit}>
+                    <a style={styles.link} onClick={() => onClickEdit && onClickEdit(n.id)}>
                       {'編輯'}
                     </a>
                   </TableCell>
@@ -101,13 +93,6 @@ const PartialTable = (props) =>  {
   )
 }
 
-const belong = [
-  "club",
-  "referee",
-  "sale",
-  "table_referee"
-]
-
 const styles = {
   root: {
     width: '100%',
@@ -131,3 +116,23 @@ const styles = {
 }
 
 export default PartialTable
+
+/*
+
+                if (key === 'referee_report_date') {
+                  return (
+                    <TableCell key={key} style={styles.tableCell}>
+                      <a style={styles.link} onClick={() => onClickDate(n[key])}>
+                        {n[key]}
+                      </a>
+                    </TableCell>
+                  )
+                } else if (key === 'referee_day_report_table_id') {
+                    return (
+                      <TableCell key={key} style={styles.tableCell}>
+                        <a style={styles.link} onClick={() => onClickTableId(n[key])}>
+                          {n[key]}
+                        </a>
+                      </TableCell>
+                    )
+                    */
