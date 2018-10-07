@@ -237,7 +237,7 @@
       "label": "所含成員數"
     },
     {
-      "key": "club",
+      "key": "club_id",
       "label": "所屬俱樂部"
     }
   ],
@@ -267,7 +267,7 @@
       "label": "所含成員數"
     },
     {
-      "key": "club",
+      "key": "club_id",
       "label": "所屬俱樂部"
     }
   ],
@@ -335,15 +335,15 @@
       "label": "會員抓馬額度"
     },
     {
-      "key": "club",
+      "key": "club_id",
       "label": "所屬俱樂部"      
     },
     {
-      "key": "referee",
+      "key": "referee_id",
       "label": "所屬裁判"      
     },
     {
-      "key": "sale",
+      "key": "sale_id",
       "label": "所屬業務" 
     }
   ],

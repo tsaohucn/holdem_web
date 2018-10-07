@@ -20,7 +20,7 @@ const PartialForm = (props) => {
   const renderSelect = (property) => {
     return props[property] && props[property].map(option => (
       <MenuItem key={option.key} value={option.key}>
-        { option.id_name || option.name || option.id }
+        { option.name }
       </MenuItem>
     ))
   }
