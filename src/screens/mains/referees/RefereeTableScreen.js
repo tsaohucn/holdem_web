@@ -5,13 +5,18 @@ import withNavigation from '../../../hocs/withNavigation'
 import withTable from '../../../hocs/withTable'
 import ui from '../../../configs/ui'
 
-const edit = {
-  key: "edit",
-  label: "編輯"
-}
+const more = [
+  {
+    "key": "memberCount",
+    "label": "所含成員數"
+  },
+  {
+    key: "edit",
+    label: "編輯"
+  }
+]
 
 export default withNavigation(withAlert((withTable({
-  title: ui.refereesTable.concat(edit),
-  resource: 'referees',
-  belong: ['club']
+  title: ui.refereesTable.concat(more),
+  resource: 'referees'
 }))))

@@ -59,13 +59,8 @@ class EditComponent extends PureComponent {
       case 'password':
         this.props.onClickAccount && this.props.onClickPassword(_key)
         break
-      case 'id':
-        this.props.onClickId && this.props.onClickId(_key)
-        break
       case 'memberCount':
         this.props.onClickMemberCount && this.props.onClickMemberCount(_key)
-        break
-      default:
         break
     }
   }
@@ -74,8 +69,7 @@ class EditComponent extends PureComponent {
 
     const { 
       title,
-      onClickTableReturnButton,
-      id_names
+      onClickTableReturnButton
     } = this.props ? this.props : {}
 
     return(
@@ -146,7 +140,7 @@ class EditComponent extends PureComponent {
                           if (options.includes(key)) {
                             return (
                               <TableCell key={key} style={styles.tableCell}>
-                                {id_names[this.data[_key][key]]}
+                                {this.data[_key][key]}
                               </TableCell>
                             )//選單
                           } else if (jumpPage.includes(key)) {
@@ -166,7 +160,11 @@ class EditComponent extends PureComponent {
                               </TableCell>
                             )
                           } else {
-                            return null
+                            return (
+                              <TableCell key={key} style={styles.tableCell}>
+                                {this.data[_key][key]}
+                              </TableCell>
+                            )// 固定
                           }
                         }
                       })
@@ -217,7 +215,6 @@ const options = [
 const jumpPage = [
   'account',
   'password',
-  'id',
   'memberCount'
 ]
 
@@ -270,4 +267,5 @@ const styles = {
     textDecoration: 'none'
   }
 }
+
 export default EditComponent

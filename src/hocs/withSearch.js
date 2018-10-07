@@ -24,8 +24,26 @@ function withSearch(params) {
       this.props.history.push('/' + resource + '/new')
     }
 
-    goToTable = (search) => {
-      this.props.history.push('/' + resource + '/table/' + search )
+    goToTable = (value) => {
+      const {
+        searchValue,
+        secondSearchValue
+      } = value ? value : {}
+      if (resource === 'members') {
+        if (!searchValue && !secondSearchValue) {
+          this.props.history.push('/' + resource + '/table/$all')
+        } else if (searchValue) {
+          this.props.history.push('/' + resource + '/table/memberName/' + searchValue)
+        } else if (secondSearchValue) {
+          this.props.history.push('/' + resource + '/table/refereeId/' + secondSearchValue)
+        }     
+      } else {
+        if (!searchValue && !secondSearchValue) {
+          this.props.history.push('/' + resource + '/table/$all')
+        } else {
+          this.props.history.push('/' + resource + '/table/' + searchValue)
+        }
+      }
     }
 
     render() {
@@ -44,7 +62,6 @@ function withSearch(params) {
           rightButtonTitle={rightButtonTitle || defaultRightButtonTitle}
           onClickSearchPageRightButton={this.onClickSearchPageRightButton}
           onClickSearchPageLeftButton={this.goToTable}
-          onClickSecondSearchButton={this.goToTable}
         />
       )
     }
