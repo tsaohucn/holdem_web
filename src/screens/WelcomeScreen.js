@@ -54,7 +54,7 @@ class WelcomeScreen extends Component {
         const val = snap.val()
         if (val) {
           const user = Object.values(val)[0]
-          if (user.password.toString() === this.state.password) {
+          if ((user.password.toString() === this.state.password) && (!user.nonuse)) {
             this.props.HoldemStore.setUser(true,user.resource,this.state.account)
           } else {
             this.loginError()

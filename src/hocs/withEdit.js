@@ -19,8 +19,7 @@ function withEdit(params) {
 
     constructor(props) {
       super(props)
-      this.id = this.props.match.params.id || ''
-      this.key = null
+      this.key = this.props.match.params.key || ''
       this.state = {
         isLoading: true,
         event: '載入中',
@@ -29,7 +28,7 @@ function withEdit(params) {
     }
 
     componentDidMount() {
-      this.fetchTableData(firebase.database().ref(resource).orderByChild('id').equalTo(this.id))
+      this.fetchTableData(firebase.database().ref(resource + '/' + this.key))
     }
 
 
@@ -51,16 +50,14 @@ function withEdit(params) {
           options[belong[index] + '_id'] = option
         })
         const snap = fetch && (await fetch.once('value'))
-        const val = (snap && snap.val()) || {}
-        const data = Object.values(val)[0] || {}
-        this.key = Object.keys(val)[0] || null
+        const data = (snap && snap.val()) || {}
         this.setState({
           isLoading: false,
           data,
           ...options
         }) 
       } catch(err) {
-        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
+        errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
       } finally {
         //
       }      
@@ -74,11 +71,16 @@ function withEdit(params) {
         try {
           await sleep(500)
           await firebase.database().ref(resource + '/' + this.key).update(data)
+          if (resource === 'referees' || resource === 'sales') {
+            await firebase.database().ref('/backends/' + this.key).update({
+              account: data.account,
+              password: data.password
+            })
+          } else if (resource === 'employees') {
+            // 較麻煩
+          }
           successAlert(this.props.alert,'更新成功')
-          this.setState({
-            isLoading: false,
-            data
-          })
+          this.goBack()
         } catch(err) {
           errorAlert(this.props.alert,'更新失敗 : ' + err.toString())
           this.setState({
@@ -89,20 +91,75 @@ function withEdit(params) {
         }
       })
     }
-/*
-    deleteTableData = (key) => {
+
+    deleteData = (data) => {
       this.setState({
         isLoading: true,
         event: '刪除資料中'
       },async () => {
         try {
-          const snap = await firebase.database().ref(resource + '/' + key + '/memberCount').once('value')
-          if (snap.val() === null || snap.val() === 0) {
-            // 刪除會員和資料
-            successAlert(this.props.alert,'刪除成功')
-          } else {
-            throw '此人底下存在會員'
+          await sleep(500)
+          if (resource === 'referees' || resource === 'sales') {
+            const memberCount = data.memberCount
+            if (memberCount > 0) {
+              throw '此人底下存在會員'
+            } else {
+              await firebase.database().ref('nonuse_' + resource + '/' + this.key).update(data)
+              await firebase.database().ref('/backends/' + this.key).update({
+                nonuse: true
+              })
+              await firebase.database().ref(resource + '/' + this.key).remove()
+              switch(resource) {
+                case 'referees':
+                await firebase.database().ref('clubs/' +  data['club_key'] + '/refereeCount').transaction(count => {
+                  if (!count) {
+                    return 0
+                  } else {
+                    return count - 1
+                  }
+                })                   
+                break
+                case 'sales':
+                await firebase.database().ref('clubs/' +  data['club_key'] + '/saleCount').transaction(count => {
+                  if (!count) {
+                    return 0
+                  } else {
+                    return count - 1
+                  }
+                }) 
+                break
+              }              
+            }
+          } else if (resource === 'members') {
+            await firebase.database().ref('nonuse_' + resource + '/' + this.key).update(data)
+            await firebase.database().ref(resource + '/' + this.key).remove()
+            await firebase.database().ref('clubs/' +  data['club_key'] + '/memberCount').transaction(count => {
+              if (!count) {
+                return 0
+              } else {
+                return count - 1
+              }
+            })
+            await firebase.database().ref('referees/' +  data['referee_key'] + '/memberCount').transaction(count => {
+              if (!count) {
+                return 0
+              } else {
+                return count - 1
+              }
+            })
+            await firebase.database().ref('sales/' +  data['sale_key'] + '/memberCount').transaction(count => {
+              if (!count) {
+                return 0
+              } else {
+                return count - 1
+              }
+            })   
           }
+          else if (resource === 'employees') {
+            // 較麻煩
+          }
+          successAlert(this.props.alert,'刪除成功')
+          this.goBack()
         } catch(err) {
           errorAlert(this.props.alert,'刪除失敗 : ' + err.toString())
         } finally {
@@ -110,8 +167,9 @@ function withEdit(params) {
             isLoading: false
           })
         }
-      })      
+      })       
     }
+/*
 
     gotToAccount = (key) => {
       this.props.history.push('/'+ resource + '/account/' + key)
@@ -135,7 +193,7 @@ function withEdit(params) {
             this.state.isLoading ? 
             <div style={styles.spinner}>
               <CircularProgress size={50}/>
-              <h3>{this.state.event}</h3>
+              {/*<h3>{this.state.event}</h3>*/}
             </div>
             :
             <Component
@@ -144,9 +202,9 @@ function withEdit(params) {
               title={title}
               onClickEditReturnButton={this.goBack}
               onClickEditConfirmButton={this.updateData}
+              confirmDelete={this.deleteData}
               //onClickAccount={this.gotToAccount}
               //onClickPassword={this.gotToPassword}
-              //confirmDelete={this.deleteTableData}
             />
           }
         </div>

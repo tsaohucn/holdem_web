@@ -11,37 +11,45 @@
   "gender": [
     {
       "key": "女",
-      "name": "女"
+      "id": "女",
+      "id_name": "女"
     },
     {
       "key": "男",
-      "name": "男"
+      "id": "男",
+      "id_name": "男"
     }
   ],
   "education": [
     {
       "key": "國小",
-      "name": "國小"
+      "id": "國小",
+      "id_name": "國小"
     },
     {
       "key": "國中",
-      "name": "國中"
+      "id": "國中",
+      "id_name": "國中"
     },
     {
       "key": "高中職",
-      "name": "高中職"
+      "id": "高中職",
+      "id_name": "高中職"
     },
     {
       "key": "大學科大",
-      "name": "大學科大"
+      "id": "大學科大",
+      "id_name": "大學科大"
     },
     {
       "key": "研究所",
-      "name": "研究所"
+      "id": "研究所",
+      "id_name": "研究所"
     },
     {
       "key": "博士",
-      "name": "博士"
+      "id": "博士",
+      "id_name": "博士"
     }
   ],
   "clubsField": [
