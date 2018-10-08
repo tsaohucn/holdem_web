@@ -47,7 +47,7 @@ const PartialTable = (props) =>  {
               } else {
                 return (
                   <TableCell key={key} style={styles.tableCell}>
-                    <a style={styles.link} onClick={() => onClickEdit && onClickEdit(n.id)}>
+                    <a style={styles.link} onClick={() => onClickEdit && onClickEdit(n.key)}>
                       {'編輯'}
                     </a>
                   </TableCell>

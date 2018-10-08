@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 // local components
 import PartialButton from './PartialButton'
+import ui from '../configs/ui'
 
 const PartialEdit = (props) =>  {
 
@@ -19,7 +20,9 @@ const PartialEdit = (props) =>  {
     title,
     onClickEditReturnButton,
     onClickEditConfirmButton,
-    onClickConfirmDelete,
+    onClickDelete,
+    cancelDelete,
+    confirmDelete,
     data,
     onChangeData
   } = props ? props : {}
@@ -29,8 +32,8 @@ const PartialEdit = (props) =>  {
         <Modal
           aria-labelledby="simple-modal-title"
           aria-describedby="simple-modal-description"
-          open={deleteModalIsShow || false}
-          //onClose={this.cancelDelete}
+          open={deleteModalIsShow}
+          onClose={cancelDelete}
           style={styles.modal}
         >
           <div style={styles.modalView}>
@@ -39,12 +42,12 @@ const PartialEdit = (props) =>  {
             </div>
             <div style={styles.modalButtonView}>
               <PartialButton 
-                //onClick={this.cancelDelete}
+                onClick={cancelDelete}
               >
                 否
               </PartialButton> 
               <PartialButton 
-                //onClick={this.confirmDelete}
+                onClick={confirmDelete}
               >
                 是
               </PartialButton>
@@ -103,11 +106,43 @@ const PartialEdit = (props) =>  {
                               { renderSelect(props[key]) }
                             </TextField>
                           </TableCell>
-                        )//選單
+                        )
+                      } else if (key === 'gender') {
+                        return (
+                          <TableCell key={key} style={styles.tableCell}>
+                            <TextField
+                              select
+                              style={styles.tableCell}
+                              value={data[key]}
+                              onChange={(event) => {
+                                const value = event.target.value
+                                onChangeData(key,value)}
+                              }                              
+                            > 
+                              { renderSelect(ui.gender) }
+                            </TextField>
+                          </TableCell>
+                        )
+                      } else if (key === 'education') {
+                        return (
+                          <TableCell key={key} style={styles.tableCell}>
+                            <TextField
+                              select
+                              style={styles.tableCell}
+                              value={data[key]}
+                              onChange={(event) => {
+                                const value = event.target.value
+                                onChangeData(key,value)}
+                              }                              
+                            > 
+                              { renderSelect(ui.education) }
+                            </TextField>
+                          </TableCell>
+                        )
                       } else if (key === 'delete') {
                         return (
                           <TableCell key={key} style={styles.tableCell}>
-                            <a style={styles.link} onClick={onClickConfirmDelete}>
+                            <a style={styles.link} onClick={onClickDelete}>
                               {'刪除'}
                             </a>
                           </TableCell>
@@ -159,7 +194,9 @@ const noTextInput = [
   'referee_id',
   'sale_id',
   'id',
-  'delete'
+  'delete',
+  'gender',
+  'education'
 ]
 
 const options = [

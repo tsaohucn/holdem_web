@@ -87,6 +87,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.default,
     paddingLeft: theme.spacing.unit * 3,
     paddingRight: theme.spacing.unit * 3,
+    paddingBottom: theme.spacing.unit * 3,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,

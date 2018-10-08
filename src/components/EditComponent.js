@@ -8,7 +8,7 @@ class EditComponent extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      open: false,
+      deleteModalIsShow: false,
       data: this.props.data || {}
     }
   }
@@ -17,12 +17,6 @@ class EditComponent extends PureComponent {
     this.data[_key][key] = value
   }
 
-  onClickDelete = (key) => {
-    this.key = key
-    this.setState({
-      open: true
-    })
-  }
 
   confirmDelete = () => {
     this.setState({
@@ -57,6 +51,26 @@ class EditComponent extends PureComponent {
   }
 */
 
+  confirmDelete = () => {
+    this.setState({
+      deleteModalIsShow: false
+    },() => {
+      this.props.confirmDelete && this.props.confirmDelete(this.state.data)
+    })
+  }
+
+  cancelDelete = () => {
+    this.setState({
+      deleteModalIsShow: false
+    })    
+  }
+
+  onClickDelete = () => {
+    this.setState({
+      deleteModalIsShow: true
+    })
+  }
+
   onChangeData = (key,value) => {
     const data = Object.assign({},this.state.data,{
       [key]: value
@@ -74,9 +88,13 @@ class EditComponent extends PureComponent {
     return(
       <PartialEdit
         {...this.props}
+        deleteModalIsShow={this.state.deleteModalIsShow}
         data={this.state.data}
         onChangeData={this.onChangeData}
         onClickEditConfirmButton={this.onClickEditConfirmButton}
+        onClickDelete={this.onClickDelete}
+        cancelDelete={this.cancelDelete}
+        confirmDelete={this.confirmDelete}
       />
     )
   }

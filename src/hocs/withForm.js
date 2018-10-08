@@ -60,7 +60,7 @@ function withForm(params) {
           ...options
         })
       } catch(err) {
-        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
+        errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
       } finally {
         //
       }
@@ -73,36 +73,44 @@ function withForm(params) {
       },async () => {
         try {
           await sleep(500)
-          let user_id = uuidv1()
+          let key = uuidv1()
           let upload_data = Object.assign({},state)
           if (resource === 'clubs') {
-             upload_data = Object.assign({},state,{ 
+             upload_data = Object.assign({},state,{
+              key,
               memberCount: 0, 
               refereeCount: 0, 
               saleCount: 0 
             })
           } else if (resource === 'referees' || resource === 'sales') {
-             upload_data = Object.assign({},state,{ 
+             upload_data = Object.assign({},state,{
+              key,
               memberCount: 0, 
-              club_key: null,
+              club_key: state['club_key'],
               club_id: this.options[state['club_key']].id
             })
           } else if (resource === 'members') {
-            upload_data = Object.assign({},state,{ 
+            upload_data = Object.assign({},state,{
+              key,
               chip: 0, 
               noLimit: false,
-              club_key: null,
+              club_key: state['club_key'],
               club_id: this.options[state['club_key']].id, 
-              referee_key: null,
+              referee_key: state['referee_key'],
               referee_id: this.options[state['referee_key']].id, 
-              sale_key: null,
+              sale_key: state['sale_key'],
               sale_id: this.options[state['sale_key']].id
             })
           }
           if (resource === 'clubs' || resource === 'referees' || resource === 'sales' || resource === 'employees' || resource === 'members') {
+            // 驗證
             if (state.id) {
               const id_snap = await firebase.database().ref(resource).orderByChild('id').equalTo(state.id).once('value')
               if (id_snap.val()) {
+                throw "代號重複"
+              }
+              const nonuse_id_snap = await firebase.database().ref('nonuse_' + resource).orderByChild('id').equalTo(state.id).once('value')
+              if (nonuse_id_snap.val()) {
                 throw "代號重複"
               }
             }
@@ -112,70 +120,74 @@ function withForm(params) {
                 throw "帳號重複"
               }
             }
+            // 寫資料
             if (resource === 'referees' || resource === 'sales' || resource === 'employees') {
               if (resource === 'employees') {
                 await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
               }
-              await firebase.database().ref('/backends/' + user_id).set({
+              await firebase.database().ref('/backends/' + key).set({
                 account: state.account,
                 password: state.password,
                 resource
               })
               if (resource === 'referees') {
-                await firebase.database().ref('clubs/' +  state['club_key'] + '/refereeCount').transaction(memberCount => {
-                  if (!memberCount) {
+                await firebase.database().ref('clubs/' +  state['club_key'] + '/refereeCount').transaction(count => {
+                  if (!count) {
                     return 1
                   } else {
-                    return memberCount + 1
+                    return count + 1
                   }
                 })                
               } else if (resource === 'sales') {
-                await firebase.database().ref('clubs/' +  state['club_key'] + '/saleCount').transaction(memberCount => {
-                  if (!memberCount) {
+                await firebase.database().ref('clubs/' +  state['club_key'] + '/saleCount').transaction(count => {
+                  if (!count) {
                     return 1
                   } else {
-                    return memberCount + 1
+                    return count + 1
                   }
                 })                
               }
             } else if (resource === 'members') {
-              await firebase.database().ref('clubs/' +  state['club_key'] + '/memberCount').transaction(memberCount => {
-                if (!memberCount) {
+              await firebase.database().ref('clubs/' +  state['club_key'] + '/memberCount').transaction(count => {
+                if (!count) {
                   return 1
                 } else {
-                  return memberCount + 1
+                  return count + 1
                 }
               })
-              await firebase.database().ref('referees/' +  state['referee_key'] + '/memberCount').transaction(memberCount => {
-                if (!memberCount) {
+              await firebase.database().ref('referees/' +  state['referee_key'] + '/memberCount').transaction(count => {
+                if (!count) {
                   return 1
                 } else {
-                  return memberCount + 1
+                  return count + 1
                 }
               })
-              await firebase.database().ref('sales/' +  state['sale_key'] + '/memberCount').transaction(memberCount => {
-                if (!memberCount) {
+              await firebase.database().ref('sales/' +  state['sale_key'] + '/memberCount').transaction(count => {
+                if (!count) {
                   return 1
                 } else {
-                  return memberCount + 1
+                  return count + 1
                 }
               })
             }
           }
-          await firebase.database().ref(resource + '/' + user_id).set(upload_data)
-          this.setState({
-            isLoading: false
-          })
+          await firebase.database().ref(resource + '/' + key).set(upload_data)
           successAlert(this.props.alert,'新增成功')
         } catch(err) {
           errorAlert(this.props.alert,'新增失敗 : ' + err.toString())
         } finally {
-          //
+          this.setState({
+            isLoading: false
+          })
         }
       })
     }
 
     onClickNewPageReturn = () => {
+      this.goBack()
+    }
+
+    goBack = () => {
       this.props.history.goBack()
     }
 
@@ -188,7 +200,7 @@ function withForm(params) {
             this.state.isLoading ? 
             <div style={styles.spinner}>
               <CircularProgress size={50}/>
-              <h3>{this.state.event}</h3>
+              {/*<h3>{this.state.event}</h3>*/}
             </div>
             :
             <FormComponent

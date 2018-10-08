@@ -7,15 +7,14 @@ import { Provider } from 'mobx-react'
 import Router from './Router'
 import firebase from './configs/firebase'
 import HoldemStore from './mobx/HoldemStore'
-
 // optional cofiguration
 const options = {
   position: 'bottom center',
-  offset: '30px',
+  offset: '30px'
 }
 
 const stores = {
-  HoldemStore: new HoldemStore(),
+  HoldemStore: new HoldemStore()
 }
 
 class App extends Component {
@@ -26,32 +25,6 @@ class App extends Component {
       isAuth: false,
       user: null
     }
-  }
-
-  componentDidMount() {
-    //firebase.database().ref('/users').orderByChild('account').equalTo()
-    /*
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        firebase.database().ref('/users/' + user.uid +'/resource').once('value').then((snap) => {
-          this.setState({
-            isAuth: true,
-            user: snap.val()
-          })
-        }).catch(err => {
-          this.setState({
-            isAuth: true,
-            user: null
-          })          
-        })
-      } else {
-        this.setState({
-          isAuth: false,
-          user: null
-        })
-      }
-    })
-    */
   }
 
   render() {
@@ -66,8 +39,8 @@ class App extends Component {
           />
         </Provider>
       </AlertProvider>
-    );
+    )
   }
 }
 
-export default App;
+export default App

@@ -45,18 +45,18 @@ function withTable(params) {
           data
         }) 
       } catch(err) {
-        errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
+        errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
       } finally {
         //
       }      
     }
 
-    goToCountTable = (key,id) => {
-      this.props.history.push('/' + resource + '/table/' + key + '/' + id)
+    goToCountTable = (path,id) => {
+      this.props.history.push('/' + resource + '/table/' + path + '/' + id)
     }
 
-    goToEditPage = (id) => {
-      this.props.history.push('/' + resource + '/table/edit/' + id)
+    goToEditPage = (key) => {
+      this.props.history.push('/' + resource + '/table/edit/' + key)
     }
 
     goBack = () => {
@@ -75,7 +75,7 @@ function withTable(params) {
             this.state.isLoading ? 
             <div style={styles.spinner}>
               <CircularProgress size={50}/>
-              <h3>{this.state.event}</h3>
+              {/*<h3>{this.state.event}</h3>*/}
             </div>
             :
             <Component
