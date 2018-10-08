@@ -11,14 +11,16 @@ function withEdit(params) {
     title,
     resource,
     wrapperComponent,
-    by
+    by,
+    belong
   } = params ? params : {}
 
   return class extends PureComponent {
 
     constructor(props) {
       super(props)
-      this.search = this.props.match.params.search || ''
+      this.id = this.props.match.params.id || ''
+      this.key = null
       this.state = {
         isLoading: true,
         event: '載入中',
@@ -27,43 +29,35 @@ function withEdit(params) {
     }
 
     componentDidMount() {
-      if (resource === 'members') {
-        if (this.search === '$all') {
-          this.fetchTableData(firebase.database().ref(resource))
-        } else {
-          switch(by) {
-            case 'memberName':
-              this.fetchTableData(firebase.database().ref(resource).orderByChild('name').equalTo(this.search))
-              break
-            case 'refereeId':
-              this.fetchTableData(firebase.database().ref(resource).orderByChild('referee_id').equalTo(this.search))
-              break
-            case 'saleId':
-              this.fetchTableData(firebase.database().ref(resource).orderByChild('sale_id').equalTo(this.search))
-              break 
-            default:
-              this.fetchTableData(firebase.database().ref(resource).orderByChild('id').equalTo(this.search))
-              break           
-          }
-        } 
-      } else {
-        if (this.search === '$all') {
-          this.fetchTableData(firebase.database().ref(resource))
-        } else {
-          this.fetchTableData(firebase.database().ref(resource).orderByChild('id').equalTo(this.search))
-        }        
-      }
+      this.fetchTableData(firebase.database().ref(resource).orderByChild('id').equalTo(this.id))
     }
+
 
     fetchTableData = async (fetch) => {
       try {
         await sleep(500)
+        const optionsPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').once('value'))
+        const optionsSnap = await Promise.all(optionsPromise)
+        let options = {}
+        optionsSnap.forEach((snap,index) => {
+          const val = snap.val()
+          const keys = Object.keys(val || [])
+          const option = keys.map(key => {
+            return({
+              id: val[key].id,
+              id_name: val[key].id + ' : ' + val[key].name
+            })
+          })
+          options[belong[index] + '_id'] = option
+        })
         const snap = fetch && (await fetch.once('value'))
         const val = (snap && snap.val()) || {}
-        //const data = Object.values(val) || []
+        const data = Object.values(val)[0] || {}
+        this.key = Object.keys(val)[0] || null
         this.setState({
           isLoading: false,
-          data: val
+          data,
+          ...options
         }) 
       } catch(err) {
         errorAlert(this.props.alert,'載入失敗 : ' + err.toString())
@@ -72,35 +66,30 @@ function withEdit(params) {
       }      
     }
 
-    updateTableData = (data) => {
+    updateData = (data) => {
       this.setState({
         isLoading: true,
         event: '更新資料中'
       },async () => {
         try {
-          let id_names = {}
-          const keys = Object.keys(data)
-          keys.forEach(key => {
-            const id = data[key]['id']
-            const name = data[key]['name']
-            const id_name = id + '(' + name + ')'
-            data[key]['id_name'] = id_name
-            id_names[key] = id_name
-          })
-          await firebase.database().ref(resource).update(data)
-          await firebase.database().ref('id_names').update(id_names)
           await sleep(500)
+          await firebase.database().ref(resource + '/' + this.key).update(data)
           successAlert(this.props.alert,'更新成功')
+          this.setState({
+            isLoading: false,
+            data
+          })
         } catch(err) {
           errorAlert(this.props.alert,'更新失敗 : ' + err.toString())
-        } finally {
           this.setState({
             isLoading: false
           })
+        } finally {
+          //
         }
       })
     }
-
+/*
     deleteTableData = (key) => {
       this.setState({
         isLoading: true,
@@ -131,7 +120,7 @@ function withEdit(params) {
     gotToPassword = (key) => {
       this.props.history.push('/'+ resource + '/password/' + key)
     }
-
+*/
     goBack = () => {
       this.props.history.goBack()
     }
@@ -153,11 +142,11 @@ function withEdit(params) {
               {...this.props}
               {...this.state}
               title={title}
-              onClickTableReturnButton={this.goBack}
-              onClickAccount={this.gotToAccount}
-              onClickPassword={this.gotToPassword}
-              onClickTableConfirmButton={this.updateTableData}
-              confirmDelete={this.deleteTableData}
+              onClickEditReturnButton={this.goBack}
+              onClickEditConfirmButton={this.updateData}
+              //onClickAccount={this.gotToAccount}
+              //onClickPassword={this.gotToPassword}
+              //confirmDelete={this.deleteTableData}
             />
           }
         </div>

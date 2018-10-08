@@ -48,10 +48,10 @@ function withForm(params) {
             }
             return({
               key,
-              name: val[key].id + ' : ' + val[key].name
+              id_name: val[key].id + ' : ' + val[key].name
             })
           })
-          options[belong[index]] = option
+          options[belong[index] + '_key'] = option
         })
         this.setState({
           isLoading: false,
@@ -84,19 +84,19 @@ function withForm(params) {
           } else if (resource === 'referees' || resource === 'sales') {
              upload_data = Object.assign({},state,{ 
               memberCount: 0, 
-              club: null,
-              club_id: this.options[state['club']].id
+              club_key: null,
+              club_id: this.options[state['club_key']].id
             })
           } else if (resource === 'members') {
             upload_data = Object.assign({},state,{ 
               chip: 0, 
               noLimit: false,
-              club: null,
-              club_id: this.options[state['club']].id, 
-              referee: null,
-              referee_id: this.options[state['referee']].id, 
-              sale: null,
-              sale_id: this.options[state['sale']].id
+              club_key: null,
+              club_id: this.options[state['club_key']].id, 
+              referee_key: null,
+              referee_id: this.options[state['referee_key']].id, 
+              sale_key: null,
+              sale_id: this.options[state['sale_key']].id
             })
           }
           if (resource === 'clubs' || resource === 'referees' || resource === 'sales' || resource === 'employees' || resource === 'members') {
@@ -122,7 +122,7 @@ function withForm(params) {
                 resource
               })
               if (resource === 'referees') {
-                await firebase.database().ref('clubs/' +  state['club'] + '/refereeCount').transaction(memberCount => {
+                await firebase.database().ref('clubs/' +  state['club_key'] + '/refereeCount').transaction(memberCount => {
                   if (!memberCount) {
                     return 1
                   } else {
@@ -130,7 +130,7 @@ function withForm(params) {
                   }
                 })                
               } else if (resource === 'sales') {
-                await firebase.database().ref('clubs/' +  state['club'] + '/saleCount').transaction(memberCount => {
+                await firebase.database().ref('clubs/' +  state['club_key'] + '/saleCount').transaction(memberCount => {
                   if (!memberCount) {
                     return 1
                   } else {
@@ -139,21 +139,21 @@ function withForm(params) {
                 })                
               }
             } else if (resource === 'members') {
-              await firebase.database().ref('clubs/' +  state['club'] + '/memberCount').transaction(memberCount => {
+              await firebase.database().ref('clubs/' +  state['club_key'] + '/memberCount').transaction(memberCount => {
                 if (!memberCount) {
                   return 1
                 } else {
                   return memberCount + 1
                 }
               })
-              await firebase.database().ref('referees/' +  state['referee'] + '/memberCount').transaction(memberCount => {
+              await firebase.database().ref('referees/' +  state['referee_key'] + '/memberCount').transaction(memberCount => {
                 if (!memberCount) {
                   return 1
                 } else {
                   return memberCount + 1
                 }
               })
-              await firebase.database().ref('sales/' +  state['sale'] + '/memberCount').transaction(memberCount => {
+              await firebase.database().ref('sales/' +  state['sale_key'] + '/memberCount').transaction(memberCount => {
                 if (!memberCount) {
                   return 1
                 } else {
