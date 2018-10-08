@@ -20,7 +20,7 @@ const PartialForm = (props) => {
   const renderSelect = (property) => {
     return props[property] && props[property].map(option => (
       <MenuItem key={option.key} value={option.key}>
-        { option.name }
+        { option.id_name }
       </MenuItem>
     ))
   }
@@ -31,7 +31,7 @@ const PartialForm = (props) => {
         field.map(ele => 
           {
             const { key, label, helperText } = ele ? ele : {}
-            const isSelect = key === 'club' || key === 'referee' || key === 'sale' || key === 'gender' || key === 'education'
+            const isSelect = options.includes(key)
             return(
               <TextField
                 select={isSelect}
@@ -72,6 +72,13 @@ const PartialForm = (props) => {
   )  
 }
 
+const options = [
+  'club_key',
+  'referee_key',
+  'sale_key',
+  'gender',
+  'education' 
+]
 
 const styles = {
   container: {

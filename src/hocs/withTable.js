@@ -55,8 +55,8 @@ function withTable(params) {
       this.props.history.push('/' + resource + '/table/' + key + '/' + id)
     }
 
-    goToEditPage = (key) => {
-      this.props.history.push('/' + resource + '/table/edit/' + key)
+    goToEditPage = (id) => {
+      this.props.history.push('/' + resource + '/table/edit/' + id)
     }
 
     goBack = () => {

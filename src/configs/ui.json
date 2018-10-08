@@ -80,7 +80,7 @@
       "helperText": "請確認密碼安全強度"
     },
     {
-      "key": "club",
+      "key": "club_key",
       "label": "所屬俱樂部"
     }
   ],
@@ -106,7 +106,7 @@
       "label": "業務密碼"
     },
     {
-      "key": "club",
+      "key": "club_key",
       "label": "所屬俱樂部"
     }
   ],
@@ -156,15 +156,15 @@
       "label": "會員抓馬額度"
     },
     {
-      "key": "club",
+      "key": "club_key",
       "label": "所屬俱樂部"      
     },
     {
-      "key": "referee",
+      "key": "referee_key",
       "label": "所屬裁判"      
     },
     {
-      "key": "sale",
+      "key": "sale_key",
       "label": "所屬業務" 
     }
   ],
