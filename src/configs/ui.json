@@ -395,6 +395,26 @@
       "label": "會員名稱"      
     }
   ],
+  "refereeCountTable": [
+    {
+      "key": "id",
+      "label": "裁判代號"      
+    },
+    {
+      "key": "name",
+      "label": "裁判名稱"      
+    }
+  ],
+  "saleCountTable": [
+    {
+      "key": "id",
+      "label": "業務代號"      
+    },
+    {
+      "key": "name",
+      "label": "業務名稱"      
+    }
+  ],
   "memberReportTable": [
     {
       "key": "date",

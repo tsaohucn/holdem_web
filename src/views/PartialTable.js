@@ -15,7 +15,7 @@ const PartialTable = (props) =>  {
     title,
     data,
     onClickTableReturnButton,
-    onClickMemberCount,
+    onClickCount,
     onClickEdit,
     onClickDate,
     onClickTableId
@@ -29,10 +29,10 @@ const PartialTable = (props) =>  {
             title && title.map(ele => {
               const key = ele.key
               if (key !== 'edit') {
-                if (key === 'memberCount') {
+                if (count.includes(key)) {
                     return (
                       <TableCell key={key} style={styles.tableCell}>
-                        <a style={styles.link} onClick={() => onClickMemberCount && onClickMemberCount(n.id)}>
+                        <a style={styles.link} onClick={() => onClickCount && onClickCount(key,n.id)}>
                           {n[key]}
                         </a>
                       </TableCell>
@@ -92,6 +92,12 @@ const PartialTable = (props) =>  {
     </div>
   )
 }
+
+const count = [
+  'memberCount',
+  'refereeCount',
+  'saleCount'
+]
 
 const styles = {
   root: {
