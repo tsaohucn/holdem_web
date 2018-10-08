@@ -27,31 +27,10 @@ function withTable(params) {
     }
 
     componentDidMount() {
-      if (resource === 'members') {
-        if (this.search === '$all') {
-          this.fetchTableData(firebase.database().ref(resource))
-        } else {
-          switch(by) {
-            case 'memberName':
-              this.fetchTableData(firebase.database().ref(resource).orderByChild('name').equalTo(this.search))
-              break
-            case 'refereeId':
-              this.fetchTableData(firebase.database().ref(resource).orderByChild('referee_id').equalTo(this.search))
-              break
-            case 'saleId':
-              this.fetchTableData(firebase.database().ref(resource).orderByChild('sale_id').equalTo(this.search))
-              break 
-            default:
-              this.fetchTableData(firebase.database().ref(resource).orderByChild('id').equalTo(this.search))
-              break           
-          }
-        } 
+      if (this.search === '$all') {
+        this.fetchTableData(firebase.database().ref(resource))
       } else {
-        if (this.search === '$all') {
-          this.fetchTableData(firebase.database().ref(resource))
-        } else {
-          this.fetchTableData(firebase.database().ref(resource).orderByChild('id').equalTo(this.search))
-        }        
+        this.fetchTableData(firebase.database().ref(resource).orderByChild(by || 'id').equalTo(this.search))
       }
     }
 
@@ -72,12 +51,12 @@ function withTable(params) {
       }      
     }
 
-    goToMemberCountTable = (key) => {
-      this.props.history.push('/' + resource + '/member/' + key)
+    goToCountTable = (key,id) => {
+      this.props.history.push('/' + resource + '/table/' + key + '/' + id)
     }
 
     goToEditPage = (key) => {
-      this.props.history.push('/' + resource + '/edit/' + key)
+      this.props.history.push('/' + resource + '/table/edit/' + key)
     }
 
     goBack = () => {
@@ -104,7 +83,7 @@ function withTable(params) {
               {...this.state}
               title={title}
               onClickTableReturnButton={this.goBack}
-              onClickMemberCount={this.goToMemberCountTable}
+              onClickCount={this.goToCountTable}
               onClickEdit={this.goToEditPage}
             />
           }

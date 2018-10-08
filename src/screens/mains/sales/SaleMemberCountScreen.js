@@ -8,5 +8,5 @@ import ui from '../../../configs/ui'
 export default withNavigation(withAlert((withTable({
   title: ui.memberCountTable,
   resource: 'members',
-  by: 'saleId'
+  by: 'sale_id'
 }))))
