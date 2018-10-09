@@ -73,7 +73,25 @@ function withForm(params) {
       },async () => {
         try {
           await sleep(500)
-          let key = uuidv1()
+          // 驗證
+          if (state.account) {
+            const user_snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(state.account).once('value')
+            if (user_snap.val()) {
+              throw "帳號重複"
+            }
+          }
+          if (state.id) {
+            const id_snap = await firebase.database().ref(resource).orderByChild('id').equalTo(state.id).once('value')
+            if (id_snap.val()) {
+              throw "代號重複"
+            }
+            const nonuse_id_snap = await firebase.database().ref('nonuse_' + resource).orderByChild('id').equalTo(state.id).once('value')
+            if (nonuse_id_snap.val()) {
+              throw "代號重複"
+            }
+          }
+          // 整理上傳資料
+          const key = uuidv1()
           let upload_data = Object.assign({},state)
           if (resource === 'clubs') {
              upload_data = Object.assign({},state,{
@@ -101,75 +119,60 @@ function withForm(params) {
               sale_key: state['sale_key'],
               sale_id: this.options[state['sale_key']].id
             })
-          }
-          if (resource === 'clubs' || resource === 'referees' || resource === 'sales' || resource === 'employees' || resource === 'members') {
-            // 驗證
-            if (state.id) {
-              const id_snap = await firebase.database().ref(resource).orderByChild('id').equalTo(state.id).once('value')
-              if (id_snap.val()) {
-                throw "代號重複"
-              }
-              const nonuse_id_snap = await firebase.database().ref('nonuse_' + resource).orderByChild('id').equalTo(state.id).once('value')
-              if (nonuse_id_snap.val()) {
-                throw "代號重複"
-              }
+          } else if (resource === 'employees') {
+            upload_data = Object.assign({},state,{
+              key
+            })            
+          }           
+          // 寫資料
+          if (resource === 'referees' || resource === 'sales' || resource === 'employees') {
+            if (resource === 'employees') {
+              await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
             }
-            if (state.account) {
-              const user_snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(state.account).once('value')
-              if (user_snap.val()) {
-                throw "帳號重複"
-              }
-            }
-            // 寫資料
-            if (resource === 'referees' || resource === 'sales' || resource === 'employees') {
-              if (resource === 'employees') {
-                await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
-              }
-              await firebase.database().ref('/backends/' + key).set({
-                account: state.account,
-                password: state.password,
-                resource
-              })
-              if (resource === 'referees') {
-                await firebase.database().ref('clubs/' +  state['club_key'] + '/refereeCount').transaction(count => {
-                  if (!count) {
-                    return 1
-                  } else {
-                    return count + 1
-                  }
-                })                
-              } else if (resource === 'sales') {
-                await firebase.database().ref('clubs/' +  state['club_key'] + '/saleCount').transaction(count => {
-                  if (!count) {
-                    return 1
-                  } else {
-                    return count + 1
-                  }
-                })                
-              }
-            } else if (resource === 'members') {
-              await firebase.database().ref('clubs/' +  state['club_key'] + '/memberCount').transaction(count => {
+            await firebase.database().ref('/backends/' + key).set({
+              account: state.account,
+              password: state.password,
+              resource
+            })
+            if (resource === 'referees') {
+              await firebase.database().ref('clubs/' +  state['club_key'] + '/refereeCount').transaction(count => {
                 if (!count) {
                   return 1
                 } else {
                   return count + 1
                 }
-              })
-              await firebase.database().ref('referees/' +  state['referee_key'] + '/memberCount').transaction(count => {
+              })                
+            } else if (resource === 'sales') {
+              await firebase.database().ref('clubs/' +  state['club_key'] + '/saleCount').transaction(count => {
                 if (!count) {
                   return 1
                 } else {
                   return count + 1
                 }
-              })
-              await firebase.database().ref('sales/' +  state['sale_key'] + '/memberCount').transaction(count => {
-                if (!count) {
-                  return 1
-                } else {
-                  return count + 1
-                }
-              })
+              })                
             }
+          } else if (resource === 'members') {
+            await firebase.database().ref('clubs/' +  state['club_key'] + '/memberCount').transaction(count => {
+              if (!count) {
+                return 1
+              } else {
+                return count + 1
+              }
+            })
+            await firebase.database().ref('referees/' +  state['referee_key'] + '/memberCount').transaction(count => {
+              if (!count) {
+                return 1
+              } else {
+                return count + 1
+              }
+            })
+            await firebase.database().ref('sales/' +  state['sale_key'] + '/memberCount').transaction(count => {
+              if (!count) {
+                return 1
+              } else {
+                return count + 1
+              }
+            })
           }
           await firebase.database().ref(resource + '/' + key).set(upload_data)
           successAlert(this.props.alert,'新增成功')

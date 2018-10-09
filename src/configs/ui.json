@@ -85,7 +85,7 @@
     {
       "key": "password",
       "label": "裁判密碼",
-      "helperText": "請確認密碼安全強度"
+      "helperText": "請輸入密碼大於六位並包含小寫字母"
     },
     {
       "key": "club_key",
@@ -194,7 +194,7 @@
     {
       "key": "password",
       "label": "員工密碼",
-      "helperText": "請確認密碼安全強度"
+      "helperText": "請輸入密碼大於六位並包含小寫字母"
     }
   ],
   "clubsTable": [
