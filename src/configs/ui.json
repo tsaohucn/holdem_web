@@ -349,10 +349,6 @@
   ],
   "tablesTable": [
     {
-      "key": "table_date",
-      "label": "開桌日期"
-    },
-    {
       "key": "table_id",
       "label": "桌次代號"
     },
@@ -361,8 +357,8 @@
       "label": "開桌裁判"
     },
     {
-      "key": "referee",
-      "label": "所屬裁判"      
+      "key": "table_level",
+      "label": "盲著級別"      
     },
     {
       "key": "id",
@@ -373,24 +369,16 @@
       "label": "會員名稱"      
     },
     {
-      "key": "date",
+      "key": "referee",
+      "label": "所屬裁判"      
+    },
+    {
+      "key": "playDate",
       "label": "會員上桌日期"      
     },
     {
-      "key": "time",
+      "key": "playTime",
       "label": "會員上桌時間"      
-    },
-    {
-      "key": "level",
-      "label": "盲著級別"      
-    },
-    {
-      "key": "spend_time",
-      "label": "本局時數"      
-    },
-    {
-      "key": "6mins",
-      "label": "N個六分鐘"      
     }
   ],
   "memberCountTable": [
