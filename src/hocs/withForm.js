@@ -31,39 +31,43 @@ function withForm(params) {
       this.fetchOptions()
     }
 
-    fetchOptions = async () => {
-      try { 
-        await sleep(500)
-        this.options = {}
-        const optionsPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').once('value'))
-        const optionsSnap = await Promise.all(optionsPromise)
-        let options = {}
-        optionsSnap.forEach((snap,index) => {
-          const val = snap.val()
-          const keys = Object.keys(val || [])
-          const option = keys.map(key => {
-            this.options[key] = {
-              id: val[key].id,
-              name: val[key].name
-            }
-            return({
-              key,
-              id_name: val[key].id + ' : ' + val[key].name
+    fetchOptions = () => {
+      this.setState({
+        isLoading: true
+      },async () => {
+        try { 
+          await sleep(500)
+          this.options = {}
+          const optionsPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').once('value'))
+          const optionsSnap = await Promise.all(optionsPromise)
+          let options = {}
+          optionsSnap.forEach((snap,index) => {
+            const val = snap.val()
+            const keys = Object.keys(val || [])
+            const option = keys.map(key => {
+              this.options[key] = {
+                id: val[key].id,
+                name: val[key].name
+              }
+              return({
+                key,
+                id_name: val[key].id + ' : ' + val[key].name
+              })
             })
+            options[belong[index] + '_key'] = option
           })
-          options[belong[index] + '_key'] = option
-        })
-        this.setState({
-          isLoading: false,
-          gender: ui.gender,
-          education: ui.education,
-          ...options
-        })
-      } catch(err) {
-        errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
-      } finally {
-        //
-      }
+          this.setState({
+            isLoading: false,
+            gender: ui.gender,
+            education: ui.education,
+            ...options
+          })
+        } catch(err) {
+          errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
+        } finally {
+          //
+        }
+      })
     }
 
     onClickNewPageButton = (state) => {
@@ -73,13 +77,14 @@ function withForm(params) {
       },async () => {
         try {
           await sleep(500)
-          // 驗證
+          // 先檢查帳號有無重複
           if (state.account) {
             const user_snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(state.account).once('value')
             if (user_snap.val()) {
               throw "帳號重複"
             }
           }
+          // 先檢查代號有無重複
           if (state.id) {
             const id_snap = await firebase.database().ref(resource).orderByChild('id').equalTo(state.id).once('value')
             if (id_snap.val()) {

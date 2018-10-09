@@ -161,7 +161,8 @@
     },
     {
       "key": "limit",
-      "label": "會員抓馬額度"
+      "label": "會員抓馬額度",
+      "helperText": "請輸入數字"
     },
     {
       "key": "club_key",

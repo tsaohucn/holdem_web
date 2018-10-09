@@ -22,23 +22,45 @@ class FormComponent extends PureComponent {
   }
 
   checkEmailFormat = () => {
-    if (EmailValidator.validate(this.state.account)) {
-      return true
+    if (this.state.account) {
+      if (EmailValidator.validate(this.state.account)) {
+        return true
+      } else {
+        const message = '帳號格式錯誤'
+        errorAlert(this.props.alert,message)
+        return false        
+      }
     } else {
-      const message = '帳號格式錯誤'
-      errorAlert(this.props.alert,message)
-      return false        
+      return true
     }
   }
 
   checkPasswordFormat = () => {
-    if (passwordSchema.validate(this.state.password)) {
-      return true
+    if (this.state.password) {
+      if (passwordSchema.validate(this.state.password)) {
+        return true
+      } else {
+        const message = '密碼格式錯誤'
+        errorAlert(this.props.alert,message)
+        return false       
+      }
     } else {
-      const message = '密碼格式錯誤'
-      errorAlert(this.props.alert,message)
-      return false       
-    } 
+      return true
+    }
+  }
+
+  checkLimitFormat = () => {
+    if (this.state.limit) {
+      if (Number.isInteger(parseInt(this.state.limit))) {
+        return true
+      } else {
+        const message = '抓馬額度格式錯誤'
+        errorAlert(this.props.alert,message)
+        return false         
+      }
+    } else {
+      return true
+    }
   }
 
   onChange = (event,key) => {
@@ -52,7 +74,9 @@ class FormComponent extends PureComponent {
     if (this.checkDataIntegrity()) {
       if (this.checkEmailFormat()) {
         if (this.checkPasswordFormat()) {
-          this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state)
+          if (this.checkLimitFormat()) {
+            this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state)
+          }
         }
       }
     }
