@@ -72,7 +72,7 @@ const Router = inject('HoldemStore')(observer(({HoldemStore}) => {
           return <AuthAdmin/>
           break
         case 'employees':
-          return <AuthAdmin/>
+          return <AuthOnlyReport/>
           break
         case 'referees':
           return <AuthOnlyReport/>

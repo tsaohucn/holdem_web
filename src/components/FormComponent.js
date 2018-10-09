@@ -1,16 +1,17 @@
 // node_module
 import React, { PureComponent } from 'react'
+import * as EmailValidator from 'email-validator'
 // local components
 import PartialForm from '../views/PartialForm'
-import { errorAlert } from '../helpers'
+import { errorAlert, passwordSchema } from '../helpers'
 
 class FormComponent extends PureComponent {
 
   state = this.props.field.reduce(function(o, ele) { o[ele.key] = ''; return o; }, {})
 
-  checkDataIntegrity() {
+  checkDataIntegrity = () => {
     const values =  Object.values(this.state)
-    const index = values.findIndex(value => (!value || value === ''))
+    const index = values.findIndex(value => (value === null || value === undefined || value === ''))
     if (index < 0) {
       return true
     } else {
@@ -18,6 +19,26 @@ class FormComponent extends PureComponent {
       errorAlert(this.props.alert,message)
       return false      
     }
+  }
+
+  checkEmailFormat = () => {
+    if (EmailValidator.validate(this.state.account)) {
+      return true
+    } else {
+      const message = '帳號格式錯誤'
+      errorAlert(this.props.alert,message)
+      return false        
+    }
+  }
+
+  checkPasswordFormat = () => {
+    if (passwordSchema.validate(this.state.password)) {
+      return true
+    } else {
+      const message = '密碼格式錯誤'
+      errorAlert(this.props.alert,message)
+      return false       
+    } 
   }
 
   onChange = (event,key) => {
@@ -28,9 +49,12 @@ class FormComponent extends PureComponent {
   }
 
   onClickNewPageButton = () => {
-    const dataIsIntegrity = this.checkDataIntegrity()
-    if (dataIsIntegrity) {
-      this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state)
+    if (this.checkDataIntegrity()) {
+      if (this.checkEmailFormat()) {
+        if (this.checkPasswordFormat()) {
+          this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state)
+        }
+      }
     }
   }
  

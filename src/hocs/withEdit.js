@@ -20,6 +20,8 @@ function withEdit(params) {
     constructor(props) {
       super(props)
       this.key = this.props.match.params.key || ''
+      this.account = null
+      this.password = null
       this.state = {
         isLoading: true,
         event: '載入中',
@@ -51,6 +53,8 @@ function withEdit(params) {
         })
         const snap = fetch && (await fetch.once('value'))
         const data = (snap && snap.val()) || {}
+        this.account = data.account
+        this.password = data.password
         this.setState({
           isLoading: false,
           data,
@@ -70,15 +74,28 @@ function withEdit(params) {
       },async () => {
         try {
           await sleep(500)
-          await firebase.database().ref(resource + '/' + this.key).update(data)
+          // 先檢查帳號有無重複
+          const snap = await firebase.database().ref('/backends/').orderByChild('account').equalTo(data.account).once('value')
+          const val = snap.val()
+          if (val && (this.account != data.account)) {
+            throw '此帳號已存在'
+          }
           if (resource === 'referees' || resource === 'sales') {
             await firebase.database().ref('/backends/' + this.key).update({
               account: data.account,
               password: data.password
             })
           } else if (resource === 'employees') {
-            // 較麻煩
+            await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
+            const user = firebase.auth().currentUser
+            await user.updateEmail(data.account)
+            await user.updatePassword(data.password)
+            await firebase.database().ref('/backends/' + this.key).update({
+              account: data.account,
+              password: data.password
+            })         
           }
+          await firebase.database().ref(resource + '/' + this.key).update(data)
           successAlert(this.props.alert,'更新成功')
           this.goBack()
         } catch(err) {
@@ -156,7 +173,11 @@ function withEdit(params) {
             })   
           }
           else if (resource === 'employees') {
-            // 較麻煩
+            await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
+            const user = firebase.auth().currentUser
+            await user.delete()
+            await firebase.database().ref('/backends/' + this.key).remove()
+            await firebase.database().ref(resource + '/' + this.key).remove()
           }
           successAlert(this.props.alert,'刪除成功')
           this.goBack()
@@ -169,16 +190,7 @@ function withEdit(params) {
         }
       })       
     }
-/*
 
-    gotToAccount = (key) => {
-      this.props.history.push('/'+ resource + '/account/' + key)
-    }
-
-    gotToPassword = (key) => {
-      this.props.history.push('/'+ resource + '/password/' + key)
-    }
-*/
     goBack = () => {
       this.props.history.goBack()
     }
@@ -203,8 +215,6 @@ function withEdit(params) {
               onClickEditReturnButton={this.goBack}
               onClickEditConfirmButton={this.updateData}
               confirmDelete={this.deleteData}
-              //onClickAccount={this.gotToAccount}
-              //onClickPassword={this.gotToPassword}
             />
           }
         </div>

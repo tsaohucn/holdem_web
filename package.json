@@ -12,6 +12,7 @@
     "mobx-react": "^5.2.3",
     "moment": "^2.22.2",
     "moment-range": "^4.0.1",
+    "password-validator": "^4.1.1",
     "react": "^16.4.1",
     "react-alert": "^4.0.4",
     "react-alert-template-basic": "^1.0.0",

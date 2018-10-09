@@ -1,7 +1,9 @@
 // node_module
 import React, { PureComponent } from 'react'
+import * as EmailValidator from 'email-validator'
 // local components
 import PartialEdit from '../views/PartialEdit'
+import { errorAlert, passwordSchema } from '../helpers'
 
 class EditComponent extends PureComponent {
 
@@ -12,44 +14,38 @@ class EditComponent extends PureComponent {
       data: this.props.data || {}
     }
   }
-/*
-  onChange = (_key,key,value) => {
-    this.data[_key][key] = value
-  }
 
-
-  confirmDelete = () => {
-    this.setState({
-      open: false
-    },() => {
-      this.props.confirmDelete && this.props.confirmDelete(this.key)
-    })
-  }
-
-  cancelDelete = () => {
-    this.setState({
-      open: false
-    })    
-  }
-
-  onClickTableConfirmButton = () => {
-    this.props.onClickTableConfirmButton && this.props.onClickTableConfirmButton(this.data)
-  }
-
-  onClickJumpPage = (key,_key) => {
-    switch(key) {
-      case 'account':
-        this.props.onClickAccount && this.props.onClickAccount(_key)
-        break
-      case 'password':
-        this.props.onClickAccount && this.props.onClickPassword(_key)
-        break
-      case 'memberCount':
-        this.props.onClickMemberCount && this.props.onClickMemberCount(_key)
-        break
+  checkDataIntegrity = () => {
+    const values =  Object.values(this.state.data)
+    const index = values.findIndex(value => (value === null || value === undefined || value === ''))
+    if (index < 0) {
+      return true
+    } else {
+      const message = this.props.title[index].label + '不能為空'
+      errorAlert(this.props.alert,message)
+      return false      
     }
   }
-*/
+
+  checkEmailFormat = () => {
+    if (EmailValidator.validate(this.state.data.account)) {
+      return true
+    } else {
+      const message = '帳號格式錯誤'
+      errorAlert(this.props.alert,message)
+      return false        
+    }
+  }
+
+  checkPasswordFormat = () => {
+    if (passwordSchema.validate(this.state.data.password)) {
+      return true
+    } else {
+      const message = '密碼格式錯誤'
+      errorAlert(this.props.alert,message)
+      return false       
+    } 
+  }
 
   confirmDelete = () => {
     this.setState({
@@ -81,7 +77,13 @@ class EditComponent extends PureComponent {
   }
 
   onClickEditConfirmButton = () => {
-    this.props.onClickEditConfirmButton && this.props.onClickEditConfirmButton(this.state.data)
+    if (this.checkDataIntegrity()) {
+      if (this.checkEmailFormat()) {
+        if (this.checkPasswordFormat()) {
+          this.props.onClickEditConfirmButton && this.props.onClickEditConfirmButton(this.state.data)
+        }
+      }
+    }
   }
 
   render() {
