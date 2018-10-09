@@ -35,36 +35,40 @@ function withEdit(params) {
 
 
     fetchTableData = async (fetch) => {
-      try {
-        await sleep(500)
-        const optionsPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').once('value'))
-        const optionsSnap = await Promise.all(optionsPromise)
-        let options = {}
-        optionsSnap.forEach((snap,index) => {
-          const val = snap.val()
-          const keys = Object.keys(val || [])
-          const option = keys.map(key => {
-            return({
-              id: val[key].id,
-              id_name: val[key].id + ' : ' + val[key].name
+      this.setState({
+        isLoading: true
+      },async () => {
+        try {
+          await sleep(500)
+          const optionsPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').once('value'))
+          const optionsSnap = await Promise.all(optionsPromise)
+          let options = {}
+          optionsSnap.forEach((snap,index) => {
+            const val = snap.val()
+            const keys = Object.keys(val || [])
+            const option = keys.map(key => {
+              return({
+                id: val[key].id,
+                id_name: val[key].id + ' : ' + val[key].name
+              })
             })
+            options[belong[index] + '_id'] = option
           })
-          options[belong[index] + '_id'] = option
-        })
-        const snap = fetch && (await fetch.once('value'))
-        const data = (snap && snap.val()) || {}
-        this.account = data.account
-        this.password = data.password
-        this.setState({
-          isLoading: false,
-          data,
-          ...options
-        }) 
-      } catch(err) {
-        errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
-      } finally {
-        //
-      }      
+          const snap = fetch && (await fetch.once('value'))
+          const data = (snap && snap.val()) || {}
+          this.account = data.account
+          this.password = data.password
+          this.setState({
+            isLoading: false,
+            data,
+            ...options
+          }) 
+        } catch(err) {
+          errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
+        } finally {
+          //
+        }
+      })     
     }
 
     updateData = (data) => {
@@ -75,10 +79,12 @@ function withEdit(params) {
         try {
           await sleep(500)
           // 先檢查帳號有無重複
-          const snap = await firebase.database().ref('/backends/').orderByChild('account').equalTo(data.account).once('value')
-          const val = snap.val()
-          if (val && (this.account != data.account)) {
-            throw '此帳號已存在'
+          if (data.account) {
+            const snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(data.account).once('value')
+            const val = snap.val()
+            if (val && (this.account != data.account)) {
+              throw '此帳號已存在'
+            }
           }
           if (resource === 'referees' || resource === 'sales') {
             await firebase.database().ref('/backends/' + this.key).update({

@@ -16,35 +16,64 @@ class EditComponent extends PureComponent {
   }
 
   checkDataIntegrity = () => {
-    const values =  Object.values(this.state.data)
-    const index = values.findIndex(value => (value === null || value === undefined || value === ''))
-    if (index < 0) {
+    const keys =  Object.keys(this.state.data)
+    let key = keys.find(key => this.state.data[key] === null || this.state.data[key] === undefined || this.state.data[key] === '')
+    if (!key) {
       return true
     } else {
-      const message = this.props.title[index].label + '不能為空'
-      errorAlert(this.props.alert,message)
+      const ele = this.props.title.find(ele => ele.key === key)
+      if (ele) {
+        const label = ele.label
+        const message =  label + '不能為空'
+        errorAlert(this.props.alert,message)
+      } else {
+        const message = '不明錯誤'
+        errorAlert(this.props.alert,message)
+      }
       return false      
     }
   }
 
   checkEmailFormat = () => {
-    if (EmailValidator.validate(this.state.data.account)) {
-      return true
+    if (this.state.data.account) {
+      if (EmailValidator.validate(this.state.data.account)) {
+        return true
+      } else {
+        const message = '帳號格式錯誤'
+        errorAlert(this.props.alert,message)
+        return false        
+      }
     } else {
-      const message = '帳號格式錯誤'
-      errorAlert(this.props.alert,message)
-      return false        
+      return true
     }
   }
 
   checkPasswordFormat = () => {
-    if (passwordSchema.validate(this.state.data.password)) {
-      return true
+    if (this.state.data.password) {
+      if (passwordSchema.validate(this.state.data.password)) {
+        return true
+      } else {
+        const message = '密碼格式錯誤'
+        errorAlert(this.props.alert,message)
+        return false       
+      }
     } else {
-      const message = '密碼格式錯誤'
-      errorAlert(this.props.alert,message)
-      return false       
-    } 
+      return true
+    }
+  }
+
+  checkLimitFormat = () => {
+    if (this.state.data.limit) {
+      if (Number.isInteger(parseInt(this.state.data.limit))) {
+        return true
+      } else {
+        const message = '抓馬額度格式錯誤'
+        errorAlert(this.props.alert,message)
+        return false         
+      }
+    } else {
+      return true
+    }
   }
 
   confirmDelete = () => {
@@ -80,7 +109,9 @@ class EditComponent extends PureComponent {
     if (this.checkDataIntegrity()) {
       if (this.checkEmailFormat()) {
         if (this.checkPasswordFormat()) {
-          this.props.onClickEditConfirmButton && this.props.onClickEditConfirmButton(this.state.data)
+          if (this.checkLimitFormat()) {
+            this.props.onClickEditConfirmButton && this.props.onClickEditConfirmButton(this.state.data)
+          }
         }
       }
     }

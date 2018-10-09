@@ -34,21 +34,25 @@ function withTable(params) {
       }
     }
 
-    fetchTableData = async (fetch) => {
-      try {
-        await sleep(500)
-        const snap = fetch && (await fetch.once('value'))
-        const val = (snap && snap.val()) || {}
-        const data = Object.values(val) || []
-        this.setState({
-          isLoading: false,
-          data
-        }) 
-      } catch(err) {
-        errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
-      } finally {
-        //
-      }      
+    fetchTableData = (fetch) => {
+      this.setState({
+        isLoading: true
+      },async () => {
+        try {
+          await sleep(500)
+          const snap = fetch && (await fetch.once('value'))
+          const val = (snap && snap.val()) || {}
+          const data = Object.values(val) || []
+          this.setState({
+            isLoading: false,
+            data
+          }) 
+        } catch(err) {
+          errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
+        } finally {
+          //
+        }         
+      })     
     }
 
     goToCountTable = (path,id) => {
