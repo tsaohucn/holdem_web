@@ -6,7 +6,7 @@ import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
 import { errorAlert, successAlert, sleep } from '../helpers'
 
-function withLiveTable(params) {
+function withLive(params) {
   const {
     title,
     resource,
@@ -141,4 +141,4 @@ const styles = {
   }
 }
 
-export default withLiveTable
+export default withLive
