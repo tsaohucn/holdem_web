@@ -94,6 +94,7 @@ const PartialTable = (props) =>  {
 }
 
 const count = [
+  'employeeCount',
   'memberCount',
   'refereeCount',
   'saleCount'

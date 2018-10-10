@@ -102,6 +102,7 @@ function withForm(params) {
             if (resource === 'clubs') {
               upload_data = Object.assign({},state,{
                 key,
+                employeeCount: 0,
                 memberCount: 0, 
                 refereeCount: 0, 
                 saleCount: 0 
@@ -141,7 +142,15 @@ function withForm(params) {
                 id: state.id,
                 resource
               })
-              if (resource === 'referees') {
+              if (resource === 'employees') {
+                await firebase.database().ref('clubs/' +  state['club_key'] + '/employeeCount').transaction(count => {
+                  if (!count) {
+                    return 1
+                  } else {
+                    return count + 1
+                  }
+                }) 
+              } else if (resource === 'referees') {
                 await firebase.database().ref('clubs/' +  state['club_key'] + '/refereeCount').transaction(count => {
                   if (!count) {
                     return 1

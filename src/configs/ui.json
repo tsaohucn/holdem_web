@@ -398,14 +398,14 @@
       "label": "會員上桌時間"      
     }
   ],
-  "memberCountTable": [
+  "employeeCountTable": [
     {
       "key": "id",
-      "label": "會員代號"      
+      "label": "員工代號"      
     },
     {
       "key": "name",
-      "label": "會員名稱"      
+      "label": "員工名稱"      
     }
   ],
   "refereeCountTable": [
@@ -426,6 +426,16 @@
     {
       "key": "name",
       "label": "業務名稱"      
+    }
+  ],
+  "memberCountTable": [
+    {
+      "key": "id",
+      "label": "會員代號"      
+    },
+    {
+      "key": "name",
+      "label": "會員名稱"      
     }
   ],
   "memberReportTable": [
