@@ -24,7 +24,6 @@ function withEdit(params) {
       this.password = null
       this.state = {
         isLoading: true,
-        event: '載入中',
         data: {}
       }
     }
@@ -40,7 +39,7 @@ function withEdit(params) {
       },async () => {
         try {
           await sleep(500)
-          const optionsPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').once('value'))
+          const optionsPromise = belong && belong.map(belongResource => firebase.database().ref(belongResource + 's').once('value'))
           const optionsSnap = await Promise.all(optionsPromise)
           let options = {}
           optionsSnap.forEach((snap,index) => {
@@ -78,30 +77,31 @@ function withEdit(params) {
       },async () => {
         try {
           await sleep(500)
-          // 先檢查帳號有無重複
-          if (data.account) {
-            const snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(data.account).once('value')
-            const val = snap.val()
-            if (val && (this.account != data.account)) {
-              throw '此帳號已存在'
+          if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
+            // 先檢查帳號有無重複
+            if (data.account) {
+              const snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(data.account).once('value')
+              const val = snap.val()
+              if (val && (this.account != data.account)) {
+                throw '此帳號已有人使用'
+              }
             }
+            if (resource === 'employees') {
+              await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
+              const user = firebase.auth().currentUser
+              await user.updateEmail(data.account)
+              await user.updatePassword(data.password)
+            }
+            if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales') {
+              await firebase.database().ref('/backends/' + this.key).update({
+                account: data.account,
+                password: data.password
+              })
+            }
+            await firebase.database().ref(resource + '/' + this.key).update(data)
+          } else {
+            throw '資源錯誤'
           }
-          if (resource === 'referees' || resource === 'sales') {
-            await firebase.database().ref('/backends/' + this.key).update({
-              account: data.account,
-              password: data.password
-            })
-          } else if (resource === 'employees') {
-            await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
-            const user = firebase.auth().currentUser
-            await user.updateEmail(data.account)
-            await user.updatePassword(data.password)
-            await firebase.database().ref('/backends/' + this.key).update({
-              account: data.account,
-              password: data.password
-            })         
-          }
-          await firebase.database().ref(resource + '/' + this.key).update(data)
           successAlert(this.props.alert,'更新成功')
           this.goBack()
         } catch(err) {
@@ -122,18 +122,31 @@ function withEdit(params) {
       },async () => {
         try {
           await sleep(500)
-          if (resource === 'referees' || resource === 'sales') {
+          if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
+            const refereeCount = data.refereeCount
+            const saleCount = data.saleCount
             const memberCount = data.memberCount
-            if (memberCount > 0) {
+            const employeeCount = data.employeeCount
+            if (employeeCount > 0 || refereeCount > 0 || saleCount > 0 || memberCount > 0) {
               throw '此人底下存在會員'
             } else {
+              // 刪資料
+              if (resource === 'employees') {
+                await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
+                const user = firebase.auth().currentUser
+                await user.delete()              
+              } 
               await firebase.database().ref('nonuse_' + resource + '/' + this.key).update(data)
-              await firebase.database().ref('/backends/' + this.key).update({
-                nonuse: true
-              })
+              if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales') {
+                await firebase.database().ref('/backends/' + this.key).update({
+                  nonuse: true
+                })
+              }
               await firebase.database().ref(resource + '/' + this.key).remove()
-              switch(resource) {
-                case 'referees':
+            }
+            // 更新count
+            switch(resource) {
+              case 'referees': {
                 await firebase.database().ref('clubs/' +  data['club_key'] + '/refereeCount').transaction(count => {
                   if (!count) {
                     return 0
@@ -142,7 +155,8 @@ function withEdit(params) {
                   }
                 })                   
                 break
-                case 'sales':
+              }
+              case 'sales': {
                 await firebase.database().ref('clubs/' +  data['club_key'] + '/saleCount').transaction(count => {
                   if (!count) {
                     return 0
@@ -151,39 +165,33 @@ function withEdit(params) {
                   }
                 }) 
                 break
-              }              
+              }
+              case 'members': {
+                await firebase.database().ref('clubs/' +  data['club_key'] + '/memberCount').transaction(count => {
+                  if (!count) {
+                    return 0
+                  } else {
+                    return count - 1
+                  }
+                })
+                await firebase.database().ref('referees/' +  data['referee_key'] + '/memberCount').transaction(count => {
+                  if (!count) {
+                    return 0
+                  } else {
+                    return count - 1
+                  }
+                })
+                await firebase.database().ref('sales/' +  data['sale_key'] + '/memberCount').transaction(count => {
+                  if (!count) {
+                    return 0
+                  } else {
+                    return count - 1
+                  }
+                })
+              }
             }
-          } else if (resource === 'members') {
-            await firebase.database().ref('nonuse_' + resource + '/' + this.key).update(data)
-            await firebase.database().ref(resource + '/' + this.key).remove()
-            await firebase.database().ref('clubs/' +  data['club_key'] + '/memberCount').transaction(count => {
-              if (!count) {
-                return 0
-              } else {
-                return count - 1
-              }
-            })
-            await firebase.database().ref('referees/' +  data['referee_key'] + '/memberCount').transaction(count => {
-              if (!count) {
-                return 0
-              } else {
-                return count - 1
-              }
-            })
-            await firebase.database().ref('sales/' +  data['sale_key'] + '/memberCount').transaction(count => {
-              if (!count) {
-                return 0
-              } else {
-                return count - 1
-              }
-            })   
-          }
-          else if (resource === 'employees') {
-            await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
-            const user = firebase.auth().currentUser
-            await user.delete()
-            await firebase.database().ref('/backends/' + this.key).remove()
-            await firebase.database().ref(resource + '/' + this.key).remove()
+          } else {
+            throw '資源錯誤'
           }
           successAlert(this.props.alert,'刪除成功')
           this.goBack()
@@ -211,7 +219,6 @@ function withEdit(params) {
             this.state.isLoading ? 
             <div style={styles.spinner}>
               <CircularProgress size={50}/>
-              {/*<h3>{this.state.event}</h3>*/}
             </div>
             :
             <Component

@@ -1,20 +1,9 @@
 {
-	"bossRouter": {
-    "clubs": "俱樂部資料表",
-    "referees": "裁判資料表",
-    "sales": "業務資料表",
-    "members": "會員資料表",
-    "employees": "員工資料表",
-    "tables": "桌次現況",
-    "reports": "報表"
+	"adminsRouter": {
+    "clubs": "俱樂部資料表"
   },
-  "adminRouter": {
-    "referees": "裁判資料表",
-    "sales": "業務資料表",
-    "members": "會員資料表",
-    "employees": "員工資料表",
-    "tables": "桌次現況",
-    "reports": "報表"
+  "clubsRouter": {
+    "employees": "員工資料表"
   },
   "employeesRouter": {
     "referees": "裁判資料表",
@@ -82,7 +71,17 @@
     {
       "key": "name",
       "label": "俱樂部名稱"
-    }
+    },
+    {
+      "key": "account",
+      "label": "俱樂部管理員帳號",
+      "helperText": "請輸入電子郵件格式"
+    },
+    {
+      "key": "password",
+      "label": "俱樂部管理員密碼",
+      "helperText": "請輸入密碼大於六位並包含小寫字母"
+    }    
   ],
   "refereesField": [
     {
@@ -229,16 +228,12 @@
       "label": "俱樂部名稱"
     },
     {
-      "key": "memberCount",
-      "label": "所含成員數"
+      "key": "account",
+      "label": "俱樂部管理員帳號"
     },
     {
-      "key": "refereeCount",
-      "label": "所含裁判數"
-    },
-    {
-      "key": "saleCount",
-      "label": "所含業務數"
+      "key": "password",
+      "label": "俱樂部管理員密碼"
     }
   ],
   "refereesTable": [

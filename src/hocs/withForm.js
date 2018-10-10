@@ -77,109 +77,114 @@ function withForm(params) {
       },async () => {
         try {
           await sleep(500)
-          // 先檢查帳號有無重複
-          if (state.account) {
-            const user_snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(state.account).once('value')
-            if (user_snap.val()) {
-              throw "帳號重複"
+          if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
+            // 先檢查帳號有無重複
+            if (state.account) {
+              const user_snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(state.account).once('value')
+              if (user_snap.val()) {
+                throw "帳號重複"
+              }
             }
-          }
-          // 先檢查代號有無重複
-          if (state.id) {
-            const id_snap = await firebase.database().ref(resource).orderByChild('id').equalTo(state.id).once('value')
-            if (id_snap.val()) {
-              throw "代號重複"
+            // 先檢查代號有無重複
+            if (state.id) {
+              const id_snap = await firebase.database().ref(resource).orderByChild('id').equalTo(state.id).once('value')
+              if (id_snap.val()) {
+                throw "代號重複"
+              }
+              const nonuse_id_snap = await firebase.database().ref('nonuse_' + resource).orderByChild('id').equalTo(state.id).once('value')
+              if (nonuse_id_snap.val()) {
+                throw "代號重複"
+              }
             }
-            const nonuse_id_snap = await firebase.database().ref('nonuse_' + resource).orderByChild('id').equalTo(state.id).once('value')
-            if (nonuse_id_snap.val()) {
-              throw "代號重複"
-            }
-          }
-          // 整理上傳資料
-          const key = uuidv1()
-          let upload_data = Object.assign({},state)
-          if (resource === 'clubs') {
-             upload_data = Object.assign({},state,{
-              key,
-              memberCount: 0, 
-              refereeCount: 0, 
-              saleCount: 0 
-            })
-          } else if (resource === 'referees' || resource === 'sales') {
-             upload_data = Object.assign({},state,{
-              key,
-              memberCount: 0, 
-              club_key: state['club_key'],
-              club_id: this.options[state['club_key']].id
-            })
-          } else if (resource === 'members') {
-            upload_data = Object.assign({},state,{
-              key,
-              chip: 0, 
-              noLimit: false,
-              club_key: state['club_key'],
-              club_id: this.options[state['club_key']].id, 
-              referee_key: state['referee_key'],
-              referee_id: this.options[state['referee_key']].id, 
-              sale_key: state['sale_key'],
-              sale_id: this.options[state['sale_key']].id
-            })
-          } else if (resource === 'employees') {
-            upload_data = Object.assign({},state,{
-              key
-            })            
-          }           
-          // 寫資料
-          if (resource === 'referees' || resource === 'sales' || resource === 'employees') {
-            if (resource === 'employees') {
-              await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
-            }
-            await firebase.database().ref('/backends/' + key).set({
-              account: state.account,
-              password: state.password,
-              resource
-            })
-            if (resource === 'referees') {
-              await firebase.database().ref('clubs/' +  state['club_key'] + '/refereeCount').transaction(count => {
+            // 整理上傳資料
+            const key = uuidv1()
+            let upload_data = Object.assign({},state)
+            if (resource === 'clubs') {
+              upload_data = Object.assign({},state,{
+                key,
+                memberCount: 0, 
+                refereeCount: 0, 
+                saleCount: 0 
+              })
+            } else if (resource === 'employees') {
+              upload_data = Object.assign({},state,{
+                key
+              })            
+            } else if (resource === 'referees' || resource === 'sales') {
+              upload_data = Object.assign({},state,{
+                key,
+                memberCount: 0, 
+                club_key: state['club_key'],
+                club_id: this.options[state['club_key']].id
+              })
+            } else if (resource === 'members') {
+              upload_data = Object.assign({},state,{
+                key,
+                chip: 0, 
+                noLimit: false,
+                club_key: state['club_key'],
+                club_id: this.options[state['club_key']].id, 
+                referee_key: state['referee_key'],
+                referee_id: this.options[state['referee_key']].id, 
+                sale_key: state['sale_key'],
+                sale_id: this.options[state['sale_key']].id
+              })
+            }        
+            // 寫資料
+            if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales') {
+              if (resource === 'employees') {
+                await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
+              }
+              await firebase.database().ref('/backends/' + key).set({
+                account: state.account,
+                password: state.password,
+                id: state.id,
+                resource
+              })
+              if (resource === 'referees') {
+                await firebase.database().ref('clubs/' +  state['club_key'] + '/refereeCount').transaction(count => {
+                  if (!count) {
+                    return 1
+                  } else {
+                    return count + 1
+                  }
+                })                
+              } else if (resource === 'sales') {
+                await firebase.database().ref('clubs/' +  state['club_key'] + '/saleCount').transaction(count => {
+                  if (!count) {
+                    return 1
+                  } else {
+                    return count + 1
+                  }
+                })                
+              }
+            } else if (resource === 'members') {
+              await firebase.database().ref('clubs/' +  state['club_key'] + '/memberCount').transaction(count => {
                 if (!count) {
                   return 1
                 } else {
                   return count + 1
                 }
-              })                
-            } else if (resource === 'sales') {
-              await firebase.database().ref('clubs/' +  state['club_key'] + '/saleCount').transaction(count => {
+              })
+              await firebase.database().ref('referees/' +  state['referee_key'] + '/memberCount').transaction(count => {
                 if (!count) {
                   return 1
                 } else {
                   return count + 1
                 }
-              })                
+              })
+              await firebase.database().ref('sales/' +  state['sale_key'] + '/memberCount').transaction(count => {
+                if (!count) {
+                  return 1
+                } else {
+                  return count + 1
+                }
+              })
             }
-          } else if (resource === 'members') {
-            await firebase.database().ref('clubs/' +  state['club_key'] + '/memberCount').transaction(count => {
-              if (!count) {
-                return 1
-              } else {
-                return count + 1
-              }
-            })
-            await firebase.database().ref('referees/' +  state['referee_key'] + '/memberCount').transaction(count => {
-              if (!count) {
-                return 1
-              } else {
-                return count + 1
-              }
-            })
-            await firebase.database().ref('sales/' +  state['sale_key'] + '/memberCount').transaction(count => {
-              if (!count) {
-                return 1
-              } else {
-                return count + 1
-              }
-            })
+            await firebase.database().ref(resource + '/' + key).set(upload_data)
+          } else {
+            throw '使用者身份錯誤'
           }
-          await firebase.database().ref(resource + '/' + key).set(upload_data)
           successAlert(this.props.alert,'新增成功')
         } catch(err) {
           errorAlert(this.props.alert,'新增失敗 : ' + err.toString())

@@ -17,6 +17,7 @@ import ClubTableScreen  from './screens/mains/clubs/ClubTableScreen'
 import ClubMemberCountScreen from './screens/mains/clubs/ClubMemberCountScreen'
 import ClubRefereeCountScreen from './screens/mains/clubs/ClubRefereeCountScreen'
 import ClubSaleCountScreen from './screens/mains/clubs/ClubSaleCountScreen'
+import ClubEditScreen from './screens/mains/clubs/ClubEditScreen'
 // referees
 import RefereeIndexScreen from './screens/mains/referees/RefereeIndexScreen'
 import RefereeNewScreen from './screens/mains/referees/RefereeNewScreen'
@@ -58,14 +59,14 @@ const Router = inject('HoldemStore')(observer(({HoldemStore}) => {
       break
     case true:
       switch(HoldemStore.resource) {
-        case 'boss':
-          return <AuthBoss/>
+        case 'admins':
+          return <AuthAdmins/>
           break
-        case 'admin':
-          return <AuthAdmin/>
+        case 'clubs':
+          return <AuthClubs/>
           break
         case 'employees':
-          return <AuthOnlyReport/>
+          return <AuthEmployees/>
           break
         case 'referees':
           return <AuthOnlyReport/>
@@ -104,7 +105,7 @@ const NoAuth = () => (
   </BrowserRouter>
 )
 
-const AuthBoss = () => (
+const AuthAdmins = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
@@ -115,46 +116,27 @@ const AuthBoss = () => (
       <Route exact path='/clubs/table/memberCount/:search' component={ClubMemberCountScreen}/>
       <Route exact path='/clubs/table/refereeCount/:search' component={ClubRefereeCountScreen}/>
       <Route exact path='/clubs/table/saleCount/:search' component={ClubSaleCountScreen}/>
-      {/*referees*/}
-      <Route exact path='/referees/index' component={RefereeIndexScreen}/>
-      <Route exact path='/referees/new' component={RefereeNewScreen}/>
-      <Route exact path='/referees/table/:search' component={RefereeTableScreen}/>
-      <Route exact path='/referees/table/memberCount/:search' component={RefereeMemberCountScreen}/>
-      <Route exact path='/referees/table/edit/:key' component={RefereeEditScreen}/>
-      {/*sales*/}
-      <Route exact path='/sales/index' component={SaleIndexScreen}/>
-      <Route exact path='/sales/new' component={SaleNewScreen}/>
-      <Route exact path='/sales/table/:search' component={SaleTableScreen}/>
-      <Route exact path='/sales/table/memberCount/:search' component={SaleMemberCountScreen}/>
-      <Route exact path='/sales/table/edit/:key' component={SaleEditScreen}/>
-      {/*members*/}
-      <Route exact path='/members/index' component={MemberIndexScreen}/>
-      <Route exact path='/members/new' component={MemberNewScreen}/>
-      <Route exact path='/members/table/:search' component={MemberTableScreen}/>
-      <Route exact path='/members/table/memberName/:search' component={MemberMemmberNameScreen}/>
-      <Route exact path='/members/table/refereeId/:search' component={MemberRefereeIdScreen}/>
-      <Route exact path='/members/table/edit/:key' component={MemberEditScreen}/>
-      {/*employees*/}
+      <Route exact path='/clubs/table/edit/:key' component={ClubEditScreen}/>
+      <Route path='/' component={NoMatchScreen}/>
+    </Switch>
+  </BrowserRouter>
+)
+
+const AuthClubs = () => (
+  <BrowserRouter>
+    <Switch>
+      <Route exact path='/index' component={IndexScreen}/>
       <Route exact path='/employees/index' component={EmployeeIndexScreen}/>
       <Route exact path='/employees/new' component={EmployeeNewScreen}/>
       <Route exact path='/employees/table/:search' component={EmployeeTableScreen}/>
       <Route exact path='/employees/table/edit/:key' component={EmployeeEditScreen}/>
-      {/*tables*/}
-      <Route exact path='/tables/index' component={TableIndexScreen}/>
-      <Route exact path='/tables/table/:id' component={TableTableScreen}/>
-      {/*reports*/}
-      <Route exact path='/reports/index' component={ReportIndexScreen}/>
-      <Route exact path='/reports/member/:startDate/:endDate/:id' component={MemberReportScreen}/>
-      <Route exact path='/reports/referee/:startDate/:endDate/:id' component={RefereeReportScreen}/>
-      <Route exact path='/reports/referee/day/:date' component={RefereeDayReportScreen}/>
-      <Route exact path='/reports/sale/:startDate/:endDate/:id/' component={SaleReportScreen}/>
       {/*nomatch*/}
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>
 )
 
-const AuthAdmin = () => (
+const AuthEmployees = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>

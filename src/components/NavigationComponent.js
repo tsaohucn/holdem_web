@@ -151,10 +151,10 @@ class NavigationComponent extends PureComponent {
 
   getUserResource = (user) => {
      switch(user) {
-      case 'boss':
-        return '老闆'
+      case 'admins':
+        return '最高權限管理員'
         break
-      case 'admin':
+      case 'clubs':
         return '俱樂部管理員'
         break
       case 'employees':
@@ -174,12 +174,12 @@ class NavigationComponent extends PureComponent {
 
   getRouter = (user) => {
     switch(user) {
-      case 'boss': {
-        return ui.bossRouter
+      case 'admins': {
+        return ui.adminsRouter
         break
       }
-      case 'admin': {
-        return ui.adminRouter
+      case 'clubs': {
+        return ui.clubsRouter
         break
       }
       case 'employees': {
