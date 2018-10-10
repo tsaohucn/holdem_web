@@ -151,22 +151,74 @@ class NavigationComponent extends PureComponent {
 
   getUserResource = (user) => {
      switch(user) {
-      case 'admin':
-        return '管理員'
+      case 'boss':
+        return '老闆'
         break
+      case 'admin':
+        return '俱樂部管理員'
+        break
+      case 'employees':
+        return '員工'
+        break 
       case 'referees':
         return '裁判'
         break
       case 'sales':
         return '業務'
         break
-      case 'employees':
-        return '員工'
-        break 
       default:
         return '匿名'
         break     
      }
+  }
+
+  getRouter = (user) => {
+    switch(user) {
+      case 'boss': {
+        return ui.bossRouter
+        break
+      }
+      case 'admin': {
+        return ui.adminRouter
+        break
+      }
+      case 'employees': {
+        return ui.employeesRouter
+        break
+      }
+      case 'referees': {
+        return ui.refereesRouter
+        break
+      }
+      case 'sales': {
+        return ui.salesRouter
+        break        
+      }
+      default: {
+        return {}
+        break 
+      }    
+    }    
+  }
+
+  renderSilderBar = () => {       
+    const router = this.getRouter(this.props.HoldemStore.resource)
+    const router_path = Object.keys(router)
+    const router_name = Object.values(router)
+    return(
+      router_path.map((path,index) => (
+        <ListItem key={path} button onClick={() => this.props.history.push('/' + path + '/index')}>
+        {
+          /*
+          <ListItemIcon>
+            <Icon tag={ele.icon}/>
+          </ListItemIcon>
+          */
+        }
+          <ListItemText primary={router_name[index]} />
+        </ListItem>
+      ))
+    )     
   }
 
   render() {
@@ -189,20 +241,7 @@ class NavigationComponent extends PureComponent {
         </div>
         <Divider />
         <List>
-          {
-            router_path.map((path,index) => (
-              <ListItem key={path} button onClick={() => this.props.history.push('/' + path + '/index')}>
-              {
-                /*
-                <ListItemIcon>
-                  <Icon tag={ele.icon}/>
-                </ListItemIcon>
-                */
-              }
-                <ListItemText primary={router_name[index]} />
-              </ListItem>
-            ))
-          }
+          { this.renderSilderBar() }
         </List>
       </Drawer>
     )
@@ -225,9 +264,6 @@ class NavigationComponent extends PureComponent {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="title" color="inherit" noWrap>
-                {router[this.props.location.pathname.split("/")[1]]}
-              </Typography>
               <p className={classNames(classes.title)}>{this.getUserResource(this.props.HoldemStore.resource)}</p>
               <p className={classNames(classes.id)}>{'(' + this.props.HoldemStore.account +')'}</p>
               <IconButton
@@ -260,9 +296,5 @@ NavigationComponent.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
 }
-
-const router = ui.router
-const router_path = Object.keys(router)
-const router_name = Object.values(router)
 
 export default inject("HoldemStore")(withStyles(styles, { withTheme: true })(NavigationComponent))
