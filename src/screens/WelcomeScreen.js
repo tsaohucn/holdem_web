@@ -7,11 +7,13 @@ import {
 	HelpBlock,
   Button
 } from 'react-bootstrap'
+import { withAlert } from 'react-alert'
 import { inject, observer } from 'mobx-react'
 import Grid from '@material-ui/core/Grid'
 import validator from "email-validator"
 // local components
 import firebase from '../configs/firebase'
+import { errorAlert, successAlert } from '../helpers'
 
 class WelcomeScreen extends Component {
 
@@ -20,7 +22,7 @@ class WelcomeScreen extends Component {
     this.state = {
       account: '',
       password:'',
-      loadingState: ''
+      loadingState: '登入'
     }
   }
 
@@ -48,21 +50,31 @@ class WelcomeScreen extends Component {
   login = () => {
     this.setState({
       loadingState: '登入中'
-    },() => {
-      firebase.database().ref('/backends').orderByChild('account').equalTo(this.state.account).once('value')
-      .then((snap) => {
+    },async () => {
+      try {
+        const snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(this.state.account).once('value')
         const val = snap.val()
         if (val) {
           const user = Object.values(val)[0]
-          if ((user.password.toString() === this.state.password) && (!user.nonuse)) {
-            this.props.HoldemStore.setUser(true,user.resource,this.state.account)
+          if (user.password.toString() === this.state.password) {
+            if (!user.nonuse) {
+              this.props.HoldemStore.setUser(true,user.resource,this.state.account)
+            } else {
+              throw '此使用者已不再使用'
+            }
           } else {
-            this.loginError()
+            throw '密碼錯誤'
           }
         } else {
-          this.loginError()
+          throw '無此使用者'
         }
-      })      
+      } catch (err) {
+        errorAlert(this.props.alert,'登入錯誤 : ' + err.toString())
+      } finally {
+        this.setState({
+          loadingState: '登入'
+        })
+      }    
     })
   }
 
@@ -82,7 +94,6 @@ class WelcomeScreen extends Component {
         direction={'column'}
        >
         <h1 style={styles.title}>德州舖克後台管理系統</h1>
-        <h4 style={styles.loadingState}>{this.state.loadingState}</h4>
 	      <form>
 	        <FormGroup
 	          validationState={this.getValidationState()}
@@ -104,7 +115,7 @@ class WelcomeScreen extends Component {
             />
           </FormGroup>
           <div style={styles.buttonView}>
-            <Button onClick={this.login}>登入</Button>
+            <Button onClick={this.login}>{this.state.loadingState}</Button>
           </div>
 	      </form>
       </Grid>
@@ -112,7 +123,7 @@ class WelcomeScreen extends Component {
   }
 }
 
-export default inject("HoldemStore")(WelcomeScreen)
+export default inject("HoldemStore")(withAlert(WelcomeScreen))
 
 const height = window.innerHeight
 
