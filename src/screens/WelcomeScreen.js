@@ -58,7 +58,14 @@ class WelcomeScreen extends Component {
           const user = Object.values(val)[0]
           if (user.password.toString() === this.state.password) {
             if (!user.nonuse) {
-              this.props.HoldemStore.setUser(true,user.resource,user.id)
+              this.props.HoldemStore.setUser({
+                isAuth: true,
+                resource: user.resource,
+                id: user.id,
+                account: user.account,
+                password: user.password,
+                clubId: user.club_id
+              })
             } else {
               throw '此使用者已不再使用'
             }

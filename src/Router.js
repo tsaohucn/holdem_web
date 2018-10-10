@@ -8,6 +8,7 @@ import WelcomeScreen from './screens/WelcomeScreen'
 import NoMatchScreen from './screens/NoMatchScreen'
 import SessionScreen from './screens/SessionScreen'
 import NoAuthScreen from './screens/NoAuthScreen'
+import InformationScreen from './screens/InformationScreen'
 // mains
 // clubs
 import IndexScreen from './screens/mains/IndexScreen'
@@ -111,10 +112,11 @@ const AuthAdmins = () => (
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
       {/*clubs*/}
+      <Route exact path='/information/index' component={InformationScreen}/>
       <Route exact path='/clubs/index' component={ClubIndexScreen}/>
       <Route exact path='/clubs/new' component={ClubNewScreen}/>
       <Route exact path='/clubs/table/:search' component={ClubTableScreen}/>
-       <Route exact path='/clubs/table/employeeCount/:search' component={ClubEmployeeCountScreen}/>
+      <Route exact path='/clubs/table/employeeCount/:search' component={ClubEmployeeCountScreen}/>
       <Route exact path='/clubs/table/refereeCount/:search' component={ClubRefereeCountScreen}/>
       <Route exact path='/clubs/table/saleCount/:search' component={ClubSaleCountScreen}/>
       <Route exact path='/clubs/table/memberCount/:search' component={ClubMemberCountScreen}/>
