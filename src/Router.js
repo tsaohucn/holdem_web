@@ -14,6 +14,7 @@ import IndexScreen from './screens/mains/IndexScreen'
 import ClubIndexScreen from './screens/mains/clubs/ClubIndexScreen'
 import ClubNewScreen from './screens/mains/clubs/ClubNewScreen'
 import ClubTableScreen  from './screens/mains/clubs/ClubTableScreen'
+import ClubEmployeeCountScreen from './screens/mains/clubs/ClubEmployeeCountScreen'
 import ClubMemberCountScreen from './screens/mains/clubs/ClubMemberCountScreen'
 import ClubRefereeCountScreen from './screens/mains/clubs/ClubRefereeCountScreen'
 import ClubSaleCountScreen from './screens/mains/clubs/ClubSaleCountScreen'
@@ -113,9 +114,10 @@ const AuthAdmins = () => (
       <Route exact path='/clubs/index' component={ClubIndexScreen}/>
       <Route exact path='/clubs/new' component={ClubNewScreen}/>
       <Route exact path='/clubs/table/:search' component={ClubTableScreen}/>
-      <Route exact path='/clubs/table/memberCount/:search' component={ClubMemberCountScreen}/>
+       <Route exact path='/clubs/table/employeeCount/:search' component={ClubEmployeeCountScreen}/>
       <Route exact path='/clubs/table/refereeCount/:search' component={ClubRefereeCountScreen}/>
       <Route exact path='/clubs/table/saleCount/:search' component={ClubSaleCountScreen}/>
+      <Route exact path='/clubs/table/memberCount/:search' component={ClubMemberCountScreen}/>
       <Route exact path='/clubs/table/edit/:key' component={ClubEditScreen}/>
       <Route path='/' component={NoMatchScreen}/>
     </Switch>

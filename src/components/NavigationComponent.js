@@ -122,6 +122,13 @@ const styles = theme => ({
     marginTop: 'auto',
     marginBottom: 'auto',
     lineHeight: 1
+  },
+  separate: {
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    lineHeight: 1,
+    marginLeft: 5,
+    color: '#000000'
   }
 })
 
@@ -265,7 +272,8 @@ class NavigationComponent extends PureComponent {
                 <MenuIcon />
               </IconButton>
               <p className={classNames(classes.title)}>{this.getUserResource(this.props.HoldemStore.resource)}</p>
-              <p className={classNames(classes.id)}>{'(' + this.props.HoldemStore.account +')'}</p>
+              <p className={classNames(classes.separate)}>{' | '}</p>
+              <p className={classNames(classes.id)}>{this.props.HoldemStore.id}</p>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"

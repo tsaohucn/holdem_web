@@ -8,6 +8,10 @@ import ui from '../../../configs/ui'
 
 const more = [
   {
+    "key": "employeeCount",
+    "label": "所含員工數"
+  },
+  {
     "key": "refereeCount",
     "label": "所含裁判數"
   },

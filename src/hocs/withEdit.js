@@ -146,6 +146,16 @@ function withEdit(params) {
             }
             // 更新count
             switch(resource) {
+              case 'employees': {
+                await firebase.database().ref('clubs/' +  data['club_key'] + '/employeeCount').transaction(count => {
+                  if (!count) {
+                    return 0
+                  } else {
+                    return count - 1
+                  }
+                })                   
+                break
+              }
               case 'referees': {
                 await firebase.database().ref('clubs/' +  data['club_key'] + '/refereeCount').transaction(count => {
                   if (!count) {
