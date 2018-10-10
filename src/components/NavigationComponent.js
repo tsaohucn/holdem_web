@@ -20,6 +20,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew'
 // local components
 import Icon from '../views/Icon'
 import firebase from '../configs/firebase'
@@ -129,6 +130,13 @@ const styles = theme => ({
     lineHeight: 1,
     marginLeft: 5,
     color: '#000000'
+  },
+  logOutListItem: {
+    marginTop: 'auto'
+  },
+  silderBarText: {
+    marginTop: 'auto',
+    marginBottom: 'auto'
   }
 })
 
@@ -154,6 +162,10 @@ class NavigationComponent extends PureComponent {
 
   logout = () => {
     this.props.HoldemStore.setUser(false,null) 
+  }
+
+  goToInformationPage = () => {
+    this.props.history.push('/information/index')
   }
 
   getUserResource = (user) => {
@@ -215,14 +227,7 @@ class NavigationComponent extends PureComponent {
     return(
       router_path.map((path,index) => (
         <ListItem key={path} button onClick={() => this.props.history.push('/' + path + '/index')}>
-        {
-          /*
-          <ListItemIcon>
-            <Icon tag={ele.icon}/>
-          </ListItemIcon>
-          */
-        }
-          <ListItemText primary={router_name[index]} />
+          <p class={this.props.classes.silderBarText}>{router_name[index]}</p>
         </ListItem>
       ))
     )     
@@ -250,6 +255,12 @@ class NavigationComponent extends PureComponent {
         <List>
           { this.renderSilderBar() }
         </List>
+        <ListItem className={classes.logOutListItem} button onClick={this.logout}>
+          <ListItemIcon>
+            <PowerSettingsNew/>
+          </ListItemIcon>
+          <p class={classes.silderBarText}>{'登出'}</p>
+        </ListItem>
       </Drawer>
     )
 
@@ -277,7 +288,7 @@ class NavigationComponent extends PureComponent {
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
-                onClick={this.logout}
+                onClick={this.goToInformationPage}
                 className={classNames(classes.logoutButton)}
               >
                 <PersonIcon />
