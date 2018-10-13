@@ -1,5 +1,6 @@
 import React from 'react'
 import { withAlert } from 'react-alert'
+import { inject, observer } from 'mobx-react'
 // local components
 import withNavigation from '../../../hocs/withNavigation'
 import withForm from '../../../hocs/withForm'
@@ -12,4 +13,4 @@ const SalesNewScreen = withForm({
   belong: ['club']
 })
 
-export default withNavigation(withAlert((SalesNewScreen)))
+export default inject("HoldemStore")(withNavigation(withAlert((SalesNewScreen))))

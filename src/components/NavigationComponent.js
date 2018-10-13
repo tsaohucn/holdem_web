@@ -21,6 +21,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew'
+import Search from '@material-ui/icons/Search'
 // local components
 import Icon from '../views/Icon'
 import firebase from '../configs/firebase'
@@ -115,28 +116,33 @@ const styles = theme => ({
   id: {
     marginTop: 'auto',
     marginBottom: 'auto',
-    lineHeight: 1,
-    marginLeft: 5
+    marginLeft: 5,
+    lineHeight: 'normal'
   },
   title: {
-    marginLeft: 'auto',
     marginTop: 'auto',
     marginBottom: 'auto',
-    lineHeight: 1
+    lineHeight: 'normal'
   },
   separate: {
     marginTop: 'auto',
     marginBottom: 'auto',
-    lineHeight: 1,
+    lineHeight: 'normal',
     marginLeft: 5,
     color: '#000000'
   },
-  logOutListItem: {
+  ListItem: {
     marginTop: 'auto'
   },
   silderBarText: {
     marginTop: 'auto',
-    marginBottom: 'auto'
+    marginBottom: 'auto',
+    lineHeight: 'normal'
+  },
+  information: {
+    marginLeft: 'auto',
+    display: 'flex',
+    flexDirection: 'row'
   }
 })
 
@@ -161,7 +167,14 @@ class NavigationComponent extends PureComponent {
   }
 
   logout = () => {
-    this.props.HoldemStore.setUser(false,null) 
+    this.props.HoldemStore.setUser({
+      isAuth: false,
+      resource: null,
+      id: null,
+      account: null,
+      password: null,
+      clubId: null
+    }) 
   }
 
   goToInformationPage = () => {
@@ -226,7 +239,10 @@ class NavigationComponent extends PureComponent {
     const router_name = Object.values(router)
     return(
       router_path.map((path,index) => (
-        <ListItem key={path} button onClick={() => this.props.history.push('/' + path + '/index')}>
+        <ListItem className={this.props.classes.ListItem} key={path} button onClick={() => this.props.history.push('/' + path + '/index')}>
+          <ListItemIcon>
+            <Search/>
+          </ListItemIcon>
           <p class={this.props.classes.silderBarText}>{router_name[index]}</p>
         </ListItem>
       ))
@@ -255,7 +271,7 @@ class NavigationComponent extends PureComponent {
         <List>
           { this.renderSilderBar() }
         </List>
-        <ListItem className={classes.logOutListItem} button onClick={this.logout}>
+        <ListItem className={classes.ListItem} button onClick={this.logout}>
           <ListItemIcon>
             <PowerSettingsNew/>
           </ListItemIcon>
@@ -282,9 +298,11 @@ class NavigationComponent extends PureComponent {
               >
                 <MenuIcon />
               </IconButton>
-              <p className={classNames(classes.title)}>{this.getUserResource(this.props.HoldemStore.resource)}</p>
-              <p className={classNames(classes.separate)}>{' | '}</p>
-              <p className={classNames(classes.id)}>{this.props.HoldemStore.id}</p>
+              <div className={classNames(classes.information)}>
+                <p className={classNames(classes.title)}>{this.getUserResource(this.props.HoldemStore.resource)}</p>
+                <p className={classNames(classes.separate)}>{' | '}</p>
+                <p className={classNames(classes.id)}>{this.props.HoldemStore.id}</p>
+              </div>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"

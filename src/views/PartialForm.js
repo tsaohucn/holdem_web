@@ -14,7 +14,8 @@ const PartialForm = (props) => {
     onClickNewPageButton,
     onClickNewPageReturn,
     onChange,
-    value
+    value,
+    clubId
   } = props ? props : {}
 
   const renderSelect = (property) => {
@@ -32,22 +33,47 @@ const PartialForm = (props) => {
           {
             const { key, label, helperText } = ele ? ele : {}
             const isSelect = options.includes(key)
-            return(
-              <TextField
-                select={isSelect}
-                label={label}
-                helperText={helperText}
-                variant="outlined"
-                style={styles.textField}
-                margin="normal"
-                value={value[key]}
-                onChange={(event) => { onChange(event,key) }}
-              > 
-              {
-                isSelect ? renderSelect(key) : null
-              }
-              </TextField>
-            )
+            const isFix = fixs.includes(key)
+            if (isSelect) {
+              return(
+                <TextField
+                  select={isSelect}
+                  label={label}
+                  helperText={helperText}
+                  variant="outlined"
+                  style={styles.textField}
+                  margin="normal"
+                  value={value[key]}
+                  onChange={(event) => { onChange(event,key) }}
+                > 
+                  { renderSelect(key) }
+                </TextField>
+              )
+            } else if (isFix) {
+              return(
+                <TextField
+                  disabled
+                  label={label}
+                  helperText={helperText}
+                  variant="outlined"
+                  style={styles.textField}
+                  margin="normal"
+                  value={clubId}
+                />
+              )
+            } else {
+              return(
+                <TextField
+                  label={label}
+                  helperText={helperText}
+                  variant="outlined"
+                  style={styles.textField}
+                  margin="normal"
+                  value={value[key]}
+                  onChange={(event) => { onChange(event,key) }}
+                /> 
+              )              
+            }
           }
         )
       }
@@ -73,11 +99,14 @@ const PartialForm = (props) => {
 }
 
 const options = [
-  'club_key',
   'referee_key',
   'sale_key',
   'gender',
   'education' 
+]
+
+const fixs = [
+  'club_key'
 ]
 
 const styles = {

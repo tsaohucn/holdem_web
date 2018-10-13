@@ -7,9 +7,17 @@ import { errorAlert, passwordSchema } from '../helpers'
 
 class FormComponent extends PureComponent {
 
-  state = this.props.field.reduce(function(o, ele) { o[ele.key] = ''; return o; }, {})
+  state = this.props.field.reduce((o, ele) => { 
+    if (ele.key === 'club_key') {
+      o[ele.key] = this.props.clubKey
+    } else {
+      o[ele.key] = ''
+    }
+    return o
+  }, {})
 
   checkDataIntegrity = () => {
+    console.log(this.state)
     const values =  Object.values(this.state)
     const index = values.findIndex(value => (value === null || value === undefined || value === ''))
     if (index < 0) {

@@ -29,9 +29,7 @@ const more = [
   }
 ]
 
-const ClubTableScreen = withTable({
+export default withNavigation(withAlert((withTable({
   title: ui.clubsTable.concat(more),
   resource: 'clubs'
-})
-
-export default withNavigation(withAlert((ClubTableScreen)))
+}))))

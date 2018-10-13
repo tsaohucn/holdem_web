@@ -62,9 +62,10 @@ class WelcomeScreen extends Component {
                 isAuth: true,
                 resource: user.resource,
                 id: user.id,
+                clubKey: user.club_key,
+                clubId: user.club_id,
                 account: user.account,
-                password: user.password,
-                clubId: user.club_id
+                password: user.password
               })
             } else {
               throw '此使用者已不再使用'
