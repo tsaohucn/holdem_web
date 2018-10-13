@@ -200,7 +200,6 @@ const noTextInput = [
 ]
 
 const options = [
-  'club_id',
   'referee_id',
   'sale_id' 
 ]

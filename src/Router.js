@@ -15,36 +15,32 @@ import IndexScreen from './screens/mains/IndexScreen'
 import ClubIndexScreen from './screens/mains/clubs/ClubIndexScreen'
 import ClubNewScreen from './screens/mains/clubs/ClubNewScreen'
 import ClubTableScreen  from './screens/mains/clubs/ClubTableScreen'
-import ClubEmployeeCountScreen from './screens/mains/clubs/ClubEmployeeCountScreen'
-import ClubMemberCountScreen from './screens/mains/clubs/ClubMemberCountScreen'
-import ClubRefereeCountScreen from './screens/mains/clubs/ClubRefereeCountScreen'
-import ClubSaleCountScreen from './screens/mains/clubs/ClubSaleCountScreen'
 import ClubEditScreen from './screens/mains/clubs/ClubEditScreen'
+// employees
+import EmployeeIndexScreen from './screens/mains/employees/EmployeeIndexScreen'
+import EmployeeNewScreen from './screens/mains/employees/EmployeeNewScreen'
+import EmployeeTableScreen from './screens/mains/employees/EmployeeTableScreen'
+import EmployeeSimpleTableScreen from './screens/mains/employees/EmployeeSimpleTableScreen'
+import EmployeeEditScreen from './screens/mains/employees/EmployeeEditScreen'
 // referees
 import RefereeIndexScreen from './screens/mains/referees/RefereeIndexScreen'
 import RefereeNewScreen from './screens/mains/referees/RefereeNewScreen'
 import RefereeTableScreen from './screens/mains/referees/RefereeTableScreen'
-import RefereeMemberCountScreen from './screens/mains/referees/RefereeMemberCountScreen'
+import RefereeSimpleTableScreen from './screens/mains/referees/RefereeSimpleTableScreen'
 import RefereeEditScreen from './screens/mains/referees/RefereeEditScreen'
 // sales
 import SaleIndexScreen from './screens/mains/sales/SaleIndexScreen'
 import SaleNewScreen from './screens/mains/sales/SaleNewScreen'
 import SaleTableScreen from './screens/mains/sales/SaleTableScreen'
-import SaleMemberCountScreen from './screens/mains/sales/SaleMemberCountScreen'
+import SaleSimpleTableScreen from './screens/mains/sales/SaleSimpleTableScreen'
 import SaleEditScreen from './screens/mains/sales/SaleEditScreen'
 // members
 import MemberIndexScreen from './screens/mains/members/MemberIndexScreen'
 import MemberNewScreen from './screens/mains/members/MemberNewScreen'
 import MemberTableScreen from './screens/mains/members/MemberTableScreen'
-import MemberMemmberNameScreen from './screens/mains/members/MemberMemmberNameScreen'
-import MemberRefereeIdScreen from './screens/mains/members/MemberRefereeIdScreen'
+import MemberSimpleTableScreen from './screens/mains/members/MemberSimpleTableScreen'
 import MemberEditScreen from './screens/mains/members/MemberEditScreen'
-// employees
-import EmployeeIndexScreen from './screens/mains/employees/EmployeeIndexScreen'
-import EmployeeNewScreen from './screens/mains/employees/EmployeeNewScreen'
-import EmployeeTableScreen from './screens/mains/employees/EmployeeTableScreen'
-import EmployeeEditScreen from './screens/mains/employees/EmployeeEditScreen'
-// tables
+// games
 import TableIndexScreen from './screens/mains/tables/TableIndexScreen'
 import TableTableScreen from './screens/mains/tables/TableTableScreen'
 // reports
@@ -111,16 +107,22 @@ const AuthAdmins = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
+      {/*infomation*/}
       <Route exact path='/information/index' component={InformationScreen}/>
       {/*clubs*/}
       <Route exact path='/clubs/index' component={ClubIndexScreen}/>
       <Route exact path='/clubs/new' component={ClubNewScreen}/>
-      <Route exact path='/clubs/table/:search' component={ClubTableScreen}/>
-      <Route exact path='/clubs/table/employeeCount/:search' component={ClubEmployeeCountScreen}/>
-      <Route exact path='/clubs/table/refereeCount/:search' component={ClubRefereeCountScreen}/>
-      <Route exact path='/clubs/table/saleCount/:search' component={ClubSaleCountScreen}/>
-      <Route exact path='/clubs/table/memberCount/:search' component={ClubMemberCountScreen}/>
-      <Route exact path='/clubs/table/edit/:key' component={ClubEditScreen}/>
+      <Route exact path='/clubs/table' component={ClubTableScreen}/>
+      <Route exact path='/clubs/table/:by/:searchValue' component={ClubTableScreen}/>
+      {/*employees*/}
+      <Route exact path='/employees/simpleTable/:by/:searchValue' component={EmployeeSimpleTableScreen}/>
+      {/*referees*/}
+      <Route exact path='/referees/simpleTable/:by/:searchValue' component={RefereeSimpleTableScreen}/>
+      {/*sales*/}
+      <Route exact path='/sales/simpleTable/:by/:searchValue' component={SaleSimpleTableScreen}/>
+      {/*members*/}
+      <Route exact path='/members/simpleTable/:by/:searchValue' component={MemberSimpleTableScreen}/>
+      {/*nomatch*/}
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>
@@ -134,8 +136,9 @@ const AuthClubs = () => (
       {/*employees*/}
       <Route exact path='/employees/index' component={EmployeeIndexScreen}/>
       <Route exact path='/employees/new' component={EmployeeNewScreen}/>
-      <Route exact path='/employees/table/:search' component={EmployeeTableScreen}/>
-      <Route exact path='/employees/table/edit/:key' component={EmployeeEditScreen}/>
+      <Route exact path='/employees/table' component={EmployeeTableScreen}/>
+      <Route exact path='/employees/table/:by/:searchValue' component={EmployeeTableScreen}/>
+      <Route exact path='/employees/edit/:key' component={EmployeeEditScreen}/>
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>
@@ -145,38 +148,27 @@ const AuthEmployees = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
-      {/*clubs*/}
-      <Route exact path='/clubs/index' component={ClubIndexScreen}/>
-      <Route exact path='/clubs/new' component={ClubNewScreen}/>
-      <Route exact path='/clubs/table/:search' component={ClubTableScreen}/>
-      <Route exact path='/clubs/table/memberCount/:search' component={ClubMemberCountScreen}/>
-      <Route exact path='/clubs/table/refereeCount/:search' component={ClubRefereeCountScreen}/>
-      <Route exact path='/clubs/table/saleCount/:search' component={ClubSaleCountScreen}/>
+      <Route exact path='/information/index' component={InformationScreen}/>
       {/*referees*/}
       <Route exact path='/referees/index' component={RefereeIndexScreen}/>
       <Route exact path='/referees/new' component={RefereeNewScreen}/>
-      <Route exact path='/referees/table/:search' component={RefereeTableScreen}/>
-      <Route exact path='/referees/table/memberCount/:search' component={RefereeMemberCountScreen}/>
-      <Route exact path='/referees/table/edit/:key' component={RefereeEditScreen}/>
+      <Route exact path='/referees/table' component={RefereeTableScreen}/>
+      <Route exact path='/referees/table/:by/:searchValue' component={RefereeTableScreen}/>
+      <Route exact path='/referees/edit/:key' component={RefereeEditScreen}/>
       {/*sales*/}
       <Route exact path='/sales/index' component={SaleIndexScreen}/>
       <Route exact path='/sales/new' component={SaleNewScreen}/>
-      <Route exact path='/sales/table/:search' component={SaleTableScreen}/>
-      <Route exact path='/sales/table/memberCount/:search' component={SaleMemberCountScreen}/>
-      <Route exact path='/sales/table/edit/:key' component={SaleEditScreen}/>
+      <Route exact path='/sales/table' component={SaleTableScreen}/>
+      <Route exact path='/sales/table/:by/:searchValue' component={SaleTableScreen}/>
+      <Route exact path='/sales/edit/:key' component={SaleEditScreen}/>
       {/*members*/}
       <Route exact path='/members/index' component={MemberIndexScreen}/>
       <Route exact path='/members/new' component={MemberNewScreen}/>
-      <Route exact path='/members/table/:search' component={MemberTableScreen}/>
-      <Route exact path='/members/table/memberName/:search' component={MemberMemmberNameScreen}/>
-      <Route exact path='/members/table/refereeId/:search' component={MemberRefereeIdScreen}/>
-      <Route exact path='/members/table/edit/:key' component={MemberEditScreen}/>
-      {/*employees*/}
-      <Route exact path='/employees/index' component={EmployeeIndexScreen}/>
-      <Route exact path='/employees/new' component={EmployeeNewScreen}/>
-      <Route exact path='/employees/table/:search' component={EmployeeTableScreen}/>
-      <Route exact path='/employees/table/edit/:key' component={EmployeeEditScreen}/>
-      {/*tables*/}
+      <Route exact path='/members/table' component={MemberTableScreen}/>
+      <Route exact path='/members/table/:by/:searchValue' component={MemberTableScreen}/>
+      <Route exact path='/members/simpleTable/:by/:searchValue' component={MemberSimpleTableScreen}/>
+      <Route exact path='/members/edit/:key' component={MemberEditScreen}/>
+      {/*games*/}
       <Route exact path='/tables/index' component={TableIndexScreen}/>
       <Route exact path='/tables/table/:id' component={TableTableScreen}/>
       {/*reports*/}

@@ -1,6 +1,7 @@
 // node_module
 import React from 'react'
 import { withAlert } from 'react-alert'
+import { inject, observer } from 'mobx-react'
 // local components
 import withNavigation from '../../../hocs/withNavigation'
 import withTable from '../../../hocs/withTable'
@@ -17,7 +18,7 @@ const more = [
   }
 ]
 
-export default withNavigation(withAlert((withTable({
+export default inject("HoldemStore")(withNavigation(withAlert((withTable({
   title: ui.salesTable.concat(more),
   resource: 'sales'
-}))))
+})))))

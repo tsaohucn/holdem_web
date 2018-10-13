@@ -48,7 +48,7 @@ function withEdit(params) {
             const option = keys.map(key => {
               return({
                 id: val[key].id,
-                id_name: val[key].id + ' : ' + val[key].name
+                id_name: val[key].id// + ' : ' + val[key].name
               })
             })
             options[belong[index] + '_id'] = option

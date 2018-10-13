@@ -25,10 +25,6 @@
       "helperText": "俱樂部代號不能重複"
     },
     {
-      "key": "name",
-      "label": "俱樂部名稱"
-    },
-    {
       "key": "account",
       "label": "俱樂部管理員帳號",
       "helperText": "請輸入電子郵件格式"
@@ -37,7 +33,11 @@
       "key": "password",
       "label": "俱樂部管理員密碼",
       "helperText": "請輸入密碼大於六位並包含小寫字母"
-    }    
+    },
+    {
+      "key": "name",
+      "label": "俱樂部名稱"
+    }   
   ],
   "employeesField": [
     {
@@ -50,10 +50,6 @@
       "helperText": "員工代號不能重複"
     },
     {
-      "key": "name",
-      "label": "員工名稱"
-    },
-    {
       "key": "account",
       "label": "員工帳號",
       "helperText": "請輸入電子郵件格式"
@@ -62,21 +58,21 @@
       "key": "password",
       "label": "員工密碼",
       "helperText": "請輸入密碼大於六位並包含小寫字母"
+    },
+    {
+      "key": "name",
+      "label": "員工名稱"
     }
   ],
   "refereesField": [
     {
+      "key": "club_key",
+      "label": "所屬俱樂部"
+    },
+    {
       "key": "id",
       "label": "裁判代號",
       "helperText": "裁判代號不能重複"
-    },
-    {
-      "key": "name",
-      "label": "裁判姓名"
-    },
-    {
-      "key": "telephone",
-      "label": "裁判電話"
     },
     {
       "key": "account",
@@ -89,14 +85,32 @@
       "helperText": "請輸入密碼大於六位並包含小寫字母"
     },
     {
-      "key": "club_key",
-      "label": "所屬俱樂部"
+      "key": "name",
+      "label": "裁判姓名"
+    },
+    {
+      "key": "telephone",
+      "label": "裁判電話"
     }
   ],
   "salesField": [
     {
+      "key": "club_key",
+      "label": "所屬俱樂部"
+    },
+    {
       "key": "id",
       "label": "業務代號"
+    },
+    {
+      "key": "account",
+      "label": "業務帳號",
+      "helperText": "請輸入電子郵件格式"
+    },
+    {
+      "key": "password",
+      "label": "業務密碼",
+      "helperText": "請輸入密碼大於六位並包含小寫字母"
     },
     {
       "key": "name",
@@ -105,21 +119,25 @@
     {
       "key": "telephone",
       "label": "業務電話"
-    },
-    {
-      "key": "account",
-      "label": "業務帳號"
-    },
-    {
-      "key": "password",
-      "label": "業務密碼"
-    },
-    {
-      "key": "club_key",
-      "label": "所屬俱樂部"
     }
   ],
   "membersField": [
+    {
+      "key": "club_key",
+      "label": "所屬俱樂部"
+    },
+    {
+      "key": "joinDate",
+      "label": "入會日期"
+    },
+    {
+      "key": "referee_key",
+      "label": "所屬裁判"      
+    },
+    {
+      "key": "sale_key",
+      "label": "所屬業務" 
+    },
     {
       "key": "id",
       "label": "會員代號"
@@ -127,10 +145,6 @@
     {
       "key": "name",
       "label": "會員姓名"
-    },
-    {
-      "key": "joinDate",
-      "label": "入會日期"
     },
     {
       "key": "gender",
@@ -164,18 +178,6 @@
       "key": "limit",
       "label": "會員抓馬額度",
       "helperText": "請輸入數字"
-    },
-    {
-      "key": "club_key",
-      "label": "所屬俱樂部"      
-    },
-    {
-      "key": "referee_key",
-      "label": "所屬裁判"      
-    },
-    {
-      "key": "sale_key",
-      "label": "所屬業務" 
     }
   ],
   "clubsTable": [
@@ -184,16 +186,16 @@
       "label": "俱樂部代號"
     },
     {
-      "key": "name",
-      "label": "俱樂部名稱"
-    },
-    {
       "key": "account",
       "label": "俱樂部管理員帳號"
     },
     {
       "key": "password",
       "label": "俱樂部管理員密碼"
+    },
+    {
+      "key": "name",
+      "label": "俱樂部名稱"
     }
   ],
   "employeesTable": [
@@ -206,30 +208,26 @@
       "label": "員工代號"
     },
     {
-      "key": "name",
-      "label": "員工名稱"
-    },
-    {
       "key": "account",
       "label": "員工帳號"
     },
     {
       "key": "password",
       "label": "員工密碼"
+    },
+    {
+      "key": "name",
+      "label": "員工名稱"
     }
   ],
   "refereesTable": [
     {
+      "key": "club_id",
+      "label": "所屬俱樂部"
+    },
+    {
       "key": "id",
       "label": "裁判代號"
-    },
-    {
-      "key": "name",
-      "label": "裁判姓名"
-    },
-    {
-      "key": "telephone",
-      "label": "裁判電話"
     },
     {
       "key": "account",
@@ -240,22 +238,22 @@
       "label": "裁判密碼"
     },
     {
-      "key": "club_id",
-      "label": "所屬俱樂部"
+      "key": "name",
+      "label": "裁判姓名"
+    },
+    {
+      "key": "telephone",
+      "label": "裁判電話"
     }
   ],
   "salesTable": [
     {
+      "key": "club_id",
+      "label": "所屬俱樂部"
+    },
+    {
       "key": "id",
       "label": "業務代號"
-    },
-    {
-      "key": "name",
-      "label": "業務姓名"
-    },
-    {
-      "key": "telephone",
-      "label": "業務電話"
     },
     {
       "key": "account",
@@ -266,14 +264,30 @@
       "label": "業務密碼"
     },
     {
-      "key": "club_id",
-      "label": "所屬俱樂部"
+      "key": "name",
+      "label": "業務姓名"
+    },
+    {
+      "key": "telephone",
+      "label": "業務電話"
     }
   ],
   "membersTable": [
     {
+      "key": "club_id",
+      "label": "所屬俱樂部"      
+    },
+    {
       "key": "id",
       "label": "會員代號"
+    },
+    {
+      "key": "referee_id",
+      "label": "所屬裁判"      
+    },
+    {
+      "key": "sale_id",
+      "label": "所屬業務" 
     },
     {
       "key": "name",
@@ -314,18 +328,6 @@
     {
       "key": "limit",
       "label": "會員抓馬額度"
-    },
-    {
-      "key": "club_id",
-      "label": "所屬俱樂部"      
-    },
-    {
-      "key": "referee_id",
-      "label": "所屬裁判"      
-    },
-    {
-      "key": "sale_id",
-      "label": "所屬業務" 
     }
   ],
   "tablesTable": [
@@ -362,7 +364,11 @@
       "label": "會員上桌時間"      
     }
   ],
-  "employeeCountTable": [
+  "employeeSimpleTable": [
+    {
+      "key": "club_id",
+      "label": "所屬俱樂部"      
+    },
     {
       "key": "id",
       "label": "員工代號"      
@@ -372,7 +378,11 @@
       "label": "員工名稱"      
     }
   ],
-  "refereeCountTable": [
+  "refereeSimpleTable": [
+    {
+      "key": "club_id",
+      "label": "所屬俱樂部"      
+    },
     {
       "key": "id",
       "label": "裁判代號"      
@@ -382,7 +392,11 @@
       "label": "裁判名稱"      
     }
   ],
-  "saleCountTable": [
+  "saleSimpleTable": [
+    {
+      "key": "club_id",
+      "label": "所屬俱樂部"      
+    },
     {
       "key": "id",
       "label": "業務代號"      
@@ -392,7 +406,11 @@
       "label": "業務名稱"      
     }
   ],
-  "memberCountTable": [
+  "memberSimpleTable": [
+    {
+      "key": "club_id",
+      "label": "所屬俱樂部"      
+    },
     {
       "key": "id",
       "label": "會員代號"      
