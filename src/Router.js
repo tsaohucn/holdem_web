@@ -41,50 +41,14 @@ import MemberTableScreen from './screens/mains/members/MemberTableScreen'
 import MemberSimpleTableScreen from './screens/mains/members/MemberSimpleTableScreen'
 import MemberEditScreen from './screens/mains/members/MemberEditScreen'
 // games
-import TableIndexScreen from './screens/mains/tables/TableIndexScreen'
-import TableTableScreen from './screens/mains/tables/TableTableScreen'
+import GameIndexScreen from './screens/mains/games/GameIndexScreen'
+import GameLiveScreen from './screens/mains/games/GameLiveScreen'
 // reports
 import ReportIndexScreen from './screens/mains/reports/ReportIndexScreen'
 import MemberReportScreen from './screens/mains/reports/MemberReportScreen'
 import RefereeReportScreen from './screens/mains/reports/RefereeReportScreen'
 import RefereeDayReportScreen from './screens/mains/reports/RefereeDayReportScreen'
 import SaleReportScreen from './screens/mains/reports/SaleReportScreen'
-
-const Router = inject('HoldemStore')(observer(({HoldemStore}) => {
-    switch(HoldemStore.isAuth) {
-    case 'check':
-        return <Init/>
-        break
-    case true:
-        switch(HoldemStore.resource) {
-        case 'admins':
-            return <AuthAdmins/>
-            break
-        case 'clubs':
-            return <AuthClubs/>
-            break
-        case 'employees':
-            return <AuthEmployees/>
-            break
-        case 'referees':
-            return <AuthOnlyReport/>
-            break
-        case 'sales' :
-            return <AuthOnlyReport/>
-            break
-        default:
-            return <h1>Error</h1>
-            break
-        }
-        break
-    case false:
-        return <NoAuth/>
-        break
-    default:
-        return <h1>Error</h1>
-        break
-    }
-}))
 
 const Init = () => (
     <BrowserRouter>
@@ -114,6 +78,7 @@ const AuthAdmins = () => (
             <Route exact path='/clubs/new' component={ClubNewScreen}/>
             <Route exact path='/clubs/table' component={ClubTableScreen}/>
             <Route exact path='/clubs/table/:by/:searchValue' component={ClubTableScreen}/>
+            <Route exact path='/clubs/edit/:key' component={ClubEditScreen}/>
             {/*employees*/}
             <Route exact path='/employees/simpleTable/:by/:searchValue' component={EmployeeSimpleTableScreen}/>
             {/*referees*/}
@@ -169,8 +134,8 @@ const AuthEmployees = () => (
             <Route exact path='/members/simpleTable/:by/:searchValue' component={MemberSimpleTableScreen}/>
             <Route exact path='/members/edit/:key' component={MemberEditScreen}/>
             {/*games*/}
-            <Route exact path='/tables/index' component={TableIndexScreen}/>
-            <Route exact path='/tables/table/:id' component={TableTableScreen}/>
+            <Route exact path='/games/index' component={GameIndexScreen}/>
+            <Route exact path='/games/live' component={GameLiveScreen}/>
             {/*reports*/}
             <Route exact path='/reports/index' component={ReportIndexScreen}/>
             <Route exact path='/reports/member/:startDate/:endDate/:id' component={MemberReportScreen}/>
@@ -206,5 +171,31 @@ const AuthOnlyReport = () => (
         </Switch>
     </BrowserRouter>
 )
+
+const Router = inject('HoldemStore')(observer(({HoldemStore}) => {
+    switch(HoldemStore.isAuth) {
+    case 'check':
+        return <Init/>
+    case true:
+        switch(HoldemStore.resource) {
+        case 'admins':
+            return <AuthAdmins/>
+        case 'clubs':
+            return <AuthClubs/>
+        case 'employees':
+            return <AuthEmployees/>
+        case 'referees':
+            return <AuthOnlyReport/>
+        case 'sales' :
+            return <AuthOnlyReport/>
+        default:
+            return <h1>Error</h1>
+        }
+    case false:
+        return <NoAuth/>
+    default:
+        return <h1>Error</h1>
+    }
+}))
 
 export default Router

@@ -6,5 +6,6 @@ import withLive from '../../../hocs/withLive'
 import ui from '../../../configs/ui'
 
 export default withNavigation(withAlert((withLive({
+    resource: 'games',
     title: ui.tablesTable
 }))))
