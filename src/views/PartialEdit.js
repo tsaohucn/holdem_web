@@ -15,243 +15,243 @@ import ui from '../configs/ui'
 
 const PartialEdit = (props) =>  {
 
-    const { 
-        deleteModalIsShow,
-        title,
-        onClickEditReturnButton,
-        onClickEditConfirmButton,
-        onClickDelete,
-        cancelDelete,
-        confirmDelete,
-        data,
-        onChangeData
-    } = props ? props : {}
+  const { 
+    deleteModalIsShow,
+    title,
+    onClickEditReturnButton,
+    onClickEditConfirmButton,
+    onClickDelete,
+    cancelDelete,
+    confirmDelete,
+    data,
+    onChangeData
+  } = props ? props : {}
 
-    return(
-        <div>
-            <Modal
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-                open={deleteModalIsShow}
-                onClose={cancelDelete}
-                style={styles.modal}
+  return(
+    <div>
+      <Modal
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        open={deleteModalIsShow}
+        onClose={cancelDelete}
+        style={styles.modal}
+      >
+        <div style={styles.modalView}>
+          <div style={styles.modalTitle}>
+            <p>是否確定刪除</p>
+          </div>
+          <div style={styles.modalButtonView}>
+            <PartialButton 
+              onClick={cancelDelete}
             >
-                <div style={styles.modalView}>
-                    <div style={styles.modalTitle}>
-                        <p>是否確定刪除</p>
-                    </div>
-                    <div style={styles.modalButtonView}>
-                        <PartialButton 
-                            onClick={cancelDelete}
-                        >
                 否
-                        </PartialButton> 
-                        <PartialButton 
-                            onClick={confirmDelete}
-                        >
+            </PartialButton> 
+            <PartialButton 
+              onClick={confirmDelete}
+            >
                 是
-                        </PartialButton>
-                    </div>
-                </div>
-            </Modal>
-            <br/>
-            <Paper style={styles.root}>
-                <Table style={styles.table}>
-                    <TableHead>
-                        <TableRow>
-                            {
-                                title && title.map(ele => 
-                                {
-                                    return <TableCell style={styles.tableCell} key={ele.key}>{ele.label}</TableCell>
-                                }
-                                )
-                            }
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        <TableRow>
-                            {
-                                title && title.map((ele) => {
-                                    const key = ele.key
-                                    if (!noTextInput.includes(key)) {
-                                        return (
-                                            <TableCell
-                                                key={key}
-                                                style={styles.tableCell}
-                                            >
-                                                <TextField
-                                                    style={styles.tableCell}
-                                                    defaultValue={data[key]}
-                                                    value={data[key]}
-                                                    onChange={(event) => {
-                                                        const value = event.target.value
-                                                        onChangeData(key,value)}
-                                                    }
-                                                />
-                                            </TableCell>
-                                        )
-                                    } else {
-                                        if (options.includes(key)) {
-                                            return (
-                                                <TableCell key={key} style={styles.tableCell}>
-                                                    <TextField
-                                                        select
-                                                        style={styles.tableCell}
-                                                        value={data[key]}
-                                                        onChange={(event) => {
-                                                            const value = event.target.value
-                                                            onChangeData(key,value)}
-                                                        }                              
-                                                    > 
-                                                        { renderSelect(props[key]) }
-                                                    </TextField>
-                                                </TableCell>
-                                            )
-                                        } else if (key === 'gender') {
-                                            return (
-                                                <TableCell key={key} style={styles.tableCell}>
-                                                    <TextField
-                                                        select
-                                                        style={styles.tableCell}
-                                                        value={data[key]}
-                                                        onChange={(event) => {
-                                                            const value = event.target.value
-                                                            onChangeData(key,value)}
-                                                        }                              
-                                                    > 
-                                                        { renderSelect(ui.gender) }
-                                                    </TextField>
-                                                </TableCell>
-                                            )
-                                        } else if (key === 'education') {
-                                            return (
-                                                <TableCell key={key} style={styles.tableCell}>
-                                                    <TextField
-                                                        select
-                                                        style={styles.tableCell}
-                                                        value={data[key]}
-                                                        onChange={(event) => {
-                                                            const value = event.target.value
-                                                            onChangeData(key,value)}
-                                                        }                              
-                                                    > 
-                                                        { renderSelect(ui.education) }
-                                                    </TextField>
-                                                </TableCell>
-                                            )
-                                        } else if (key === 'delete') {
-                                            return (
-                                                <TableCell key={key} style={styles.tableCell}>
-                                                    <a style={styles.link} onClick={onClickDelete}>
-                                                        {'刪除'}
-                                                    </a>
-                                                </TableCell>
-                                            )
-                                        } else {
-                                            return (
-                                                <TableCell key={key} style={styles.tableCell}>
-                                                    {data[key]}
-                                                </TableCell>
-                                            )// 固定
-                                        }
-                                    }
-                                })
-                            }
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </Paper>
-            <br/>
-            <div style={styles.buttonView}>
-                <PartialButton 
-                    onClick={onClickEditReturnButton}
-                >
-            返回
-                </PartialButton> 
-                <PartialButton 
-                    onClick={onClickEditConfirmButton}
-                >
-            確認
-                </PartialButton>
-            </div>
-            <br/>
-            <br/>
+            </PartialButton>
+          </div>
         </div>
-    )
+      </Modal>
+      <br/>
+      <Paper style={styles.root}>
+        <Table style={styles.table}>
+          <TableHead>
+            <TableRow>
+              {
+                title && title.map(ele => 
+                {
+                  return <TableCell style={styles.tableCell} key={ele.key}>{ele.label}</TableCell>
+                }
+                )
+              }
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              {
+                title && title.map((ele) => {
+                  const key = ele.key
+                  if (!noTextInput.includes(key)) {
+                    return (
+                      <TableCell
+                        key={key}
+                        style={styles.tableCell}
+                      >
+                        <TextField
+                          style={styles.tableCell}
+                          defaultValue={data[key]}
+                          value={data[key]}
+                          onChange={(event) => {
+                            const value = event.target.value
+                            onChangeData(key,value)}
+                          }
+                        />
+                      </TableCell>
+                    )
+                  } else {
+                    if (options.includes(key)) {
+                      return (
+                        <TableCell key={key} style={styles.tableCell}>
+                          <TextField
+                            select
+                            style={styles.tableCell}
+                            value={data[key]}
+                            onChange={(event) => {
+                              const value = event.target.value
+                              onChangeData(key,value)}
+                            }                              
+                          > 
+                            { renderSelect(props[key]) }
+                          </TextField>
+                        </TableCell>
+                      )
+                    } else if (key === 'gender') {
+                      return (
+                        <TableCell key={key} style={styles.tableCell}>
+                          <TextField
+                            select
+                            style={styles.tableCell}
+                            value={data[key]}
+                            onChange={(event) => {
+                              const value = event.target.value
+                              onChangeData(key,value)}
+                            }                              
+                          > 
+                            { renderSelect(ui.gender) }
+                          </TextField>
+                        </TableCell>
+                      )
+                    } else if (key === 'education') {
+                      return (
+                        <TableCell key={key} style={styles.tableCell}>
+                          <TextField
+                            select
+                            style={styles.tableCell}
+                            value={data[key]}
+                            onChange={(event) => {
+                              const value = event.target.value
+                              onChangeData(key,value)}
+                            }                              
+                          > 
+                            { renderSelect(ui.education) }
+                          </TextField>
+                        </TableCell>
+                      )
+                    } else if (key === 'delete') {
+                      return (
+                        <TableCell key={key} style={styles.tableCell}>
+                          <a style={styles.link} onClick={onClickDelete}>
+                            {'刪除'}
+                          </a>
+                        </TableCell>
+                      )
+                    } else {
+                      return (
+                        <TableCell key={key} style={styles.tableCell}>
+                          {data[key]}
+                        </TableCell>
+                      )// 固定
+                    }
+                  }
+                })
+              }
+            </TableRow>
+          </TableBody>
+        </Table>
+      </Paper>
+      <br/>
+      <div style={styles.buttonView}>
+        <PartialButton 
+          onClick={onClickEditReturnButton}
+        >
+            返回
+        </PartialButton> 
+        <PartialButton 
+          onClick={onClickEditConfirmButton}
+        >
+            確認
+        </PartialButton>
+      </div>
+      <br/>
+      <br/>
+    </div>
+  )
 
 }
 
 const renderSelect = (data) => (
-    data.map(option => (
-        <MenuItem key={option.id} value={option.id}>
-            { option.id_name }
-        </MenuItem>
-    ))
+  data.map(option => (
+    <MenuItem key={option.id} value={option.id}>
+      { option.id_name }
+    </MenuItem>
+  ))
 )
 
 const noTextInput = [
-    'club_id',
-    'referee_id',
-    'sale_id',
-    'id',
-    'delete',
-    'gender',
-    'education'
+  'club_id',
+  'referee_id',
+  'sale_id',
+  'id',
+  'delete',
+  'gender',
+  'education'
 ]
 
 const options = [
-    'referee_id',
-    'sale_id' 
+  'referee_id',
+  'sale_id' 
 ]
 
 const styles = {
-    root: {
-        width: '100%',
-        overflowX: 'auto'
-    },
-    table: {
-        minWidth: 700
-    },
-    buttonView: {
-        width: '50%',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    tableCell: {
-        fontSize: 13
-    },
-    modal: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    modalView: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        alignSelf: 'center',
-        width: '20vw',
-        height: '20vw',
-        backgroundColor: '#FFFFFF',
-        boxShadow: 5,
-        borderRadius: 5
-    },
-    modalTitle: {
-        flex: 1,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    modalButtonView: {
-        flex: 1,
-        display: 'flex',
-        justifyContent: 'space-around',
-        alignItems: 'center'
-    },
-    link: {
-        textDecoration: 'none'
-    }
+  root: {
+    width: '100%',
+    overflowX: 'auto'
+  },
+  table: {
+    minWidth: 700
+  },
+  buttonView: {
+    width: '50%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  tableCell: {
+    fontSize: 13
+  },
+  modal: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalView: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: '20vw',
+    height: '20vw',
+    backgroundColor: '#FFFFFF',
+    boxShadow: 5,
+    borderRadius: 5
+  },
+  modalTitle: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  modalButtonView: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  link: {
+    textDecoration: 'none'
+  }
 }
 
 export default PartialEdit

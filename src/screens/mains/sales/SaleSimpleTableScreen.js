@@ -7,6 +7,6 @@ import withTable from '../../../hocs/withTable'
 import ui from '../../../configs/ui'
 
 export default inject('HoldemStore')(withNavigation(withAlert((withTable({
-    title: ui.saleSimpleTable,
-    resource: 'sales'
+  title: ui.saleSimpleTable,
+  resource: 'sales'
 })))))

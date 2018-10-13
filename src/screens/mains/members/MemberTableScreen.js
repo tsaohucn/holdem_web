@@ -7,11 +7,11 @@ import withTable from '../../../hocs/withTable'
 import ui from '../../../configs/ui'
 
 const edit = {
-    key: 'edit',
-    label: '編輯'
+  key: 'edit',
+  label: '編輯'
 }
 
 export default inject('HoldemStore')(withNavigation(withAlert((withTable({
-    title: ui.membersTable.concat(edit),
-    resource: 'members'
+  title: ui.membersTable.concat(edit),
+  resource: 'members'
 })))))

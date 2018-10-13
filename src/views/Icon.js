@@ -8,22 +8,22 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import ReportIcon from '@material-ui/icons/Report'
 
 const Icon = (props) => {
-    const components = {
-        InboxIcon,
-        DraftsIcon,
-        StarIcon,
-        SendIcon,
-        MailIcon,
-        DeleteIcon,
-        ReportIcon
-    }
+  const components = {
+    InboxIcon,
+    DraftsIcon,
+    StarIcon,
+    SendIcon,
+    MailIcon,
+    DeleteIcon,
+    ReportIcon
+  }
 
-    const {
-        tag
-    } = props ? props : {}
+  const {
+    tag
+  } = props ? props : {}
 
-    const TagName = components[tag || 'InboxIcon']
-    return <TagName/>
+  const TagName = components[tag || 'InboxIcon']
+  return <TagName/>
 }
 /*
 class Icon extends Component {
