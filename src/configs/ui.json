@@ -9,7 +9,7 @@
     "referees": "裁判資料表",
     "sales": "業務資料表",
     "members": "會員資料表",
-    "tables": "桌次現況",
+    "games": "桌次現況",
     "reports": "報表"
   },
   "refereesRouter": {
