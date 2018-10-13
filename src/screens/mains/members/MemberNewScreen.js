@@ -7,8 +7,8 @@ import withForm from '../../../hocs/withForm'
 import ui from '../../../configs/ui'
 
 export default inject('HoldemStore')(withNavigation(withAlert((withForm({
-    field: ui.membersField,
-    buttonTitle: '送出',
-    resource: 'members',
-    belong: ['club','referee','sale']
+  field: ui.membersField,
+  buttonTitle: '送出',
+  resource: 'members',
+  belong: ['club','referee','sale']
 })))))

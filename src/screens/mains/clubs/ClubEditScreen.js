@@ -7,12 +7,12 @@ import withEdit from '../../../hocs/withEdit'
 import ui from '../../../configs/ui'
 
 const _delete = {
-    key: 'delete',
-    label: '刪除'
+  key: 'delete',
+  label: '刪除'
 }
 
 export default inject('HoldemStore')(withNavigation(withAlert((withEdit({
-    title: ui.clubsTable.concat(_delete),
-    resource: 'clubs',
-    belong: []
+  title: ui.clubsTable.concat(_delete),
+  resource: 'clubs',
+  belong: []
 })))))
