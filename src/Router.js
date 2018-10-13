@@ -111,8 +111,8 @@ const AuthAdmins = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
-      {/*clubs*/}
       <Route exact path='/information/index' component={InformationScreen}/>
+      {/*clubs*/}
       <Route exact path='/clubs/index' component={ClubIndexScreen}/>
       <Route exact path='/clubs/new' component={ClubNewScreen}/>
       <Route exact path='/clubs/table/:search' component={ClubTableScreen}/>
@@ -130,11 +130,12 @@ const AuthClubs = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
+      <Route exact path='/information/index' component={InformationScreen}/>
+      {/*employees*/}
       <Route exact path='/employees/index' component={EmployeeIndexScreen}/>
       <Route exact path='/employees/new' component={EmployeeNewScreen}/>
       <Route exact path='/employees/table/:search' component={EmployeeTableScreen}/>
       <Route exact path='/employees/table/edit/:key' component={EmployeeEditScreen}/>
-      {/*nomatch*/}
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>

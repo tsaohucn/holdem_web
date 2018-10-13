@@ -18,50 +18,6 @@
   "salesRouter": {
     "reports": "報表"
   },
-  "gender": [
-    {
-      "key": "女",
-      "id": "女",
-      "id_name": "女"
-    },
-    {
-      "key": "男",
-      "id": "男",
-      "id_name": "男"
-    }
-  ],
-  "education": [
-    {
-      "key": "國小",
-      "id": "國小",
-      "id_name": "國小"
-    },
-    {
-      "key": "國中",
-      "id": "國中",
-      "id_name": "國中"
-    },
-    {
-      "key": "高中職",
-      "id": "高中職",
-      "id_name": "高中職"
-    },
-    {
-      "key": "大學科大",
-      "id": "大學科大",
-      "id_name": "大學科大"
-    },
-    {
-      "key": "研究所",
-      "id": "研究所",
-      "id_name": "研究所"
-    },
-    {
-      "key": "博士",
-      "id": "博士",
-      "id_name": "博士"
-    }
-  ],
   "clubsField": [
     {
       "key": "id",
@@ -82,6 +38,31 @@
       "label": "俱樂部管理員密碼",
       "helperText": "請輸入密碼大於六位並包含小寫字母"
     }    
+  ],
+  "employeesField": [
+    {
+      "key": "club_key",
+      "label": "所屬俱樂部"
+    },
+    {
+      "key": "id",
+      "label": "員工代號",
+      "helperText": "員工代號不能重複"
+    },
+    {
+      "key": "name",
+      "label": "員工名稱"
+    },
+    {
+      "key": "account",
+      "label": "員工帳號",
+      "helperText": "請輸入電子郵件格式"
+    },
+    {
+      "key": "password",
+      "label": "員工密碼",
+      "helperText": "請輸入密碼大於六位並包含小寫字母"
+    }
   ],
   "refereesField": [
     {
@@ -197,27 +178,6 @@
       "label": "所屬業務" 
     }
   ],
-  "employeesField": [
-    {
-      "key": "id",
-      "label": "員工代號",
-      "helperText": "員工代號不能重複"
-    },
-    {
-      "key": "name",
-      "label": "員工名稱"
-    },
-    {
-      "key": "account",
-      "label": "員工帳號",
-      "helperText": "請輸入電子郵件格式"
-    },
-    {
-      "key": "password",
-      "label": "員工密碼",
-      "helperText": "請輸入密碼大於六位並包含小寫字母"
-    }
-  ],
   "clubsTable": [
     {
       "key": "id",
@@ -234,6 +194,28 @@
     {
       "key": "password",
       "label": "俱樂部管理員密碼"
+    }
+  ],
+  "employeesTable": [
+    {
+      "key": "club_id",
+      "label": "所屬俱樂部"
+    },
+    {
+      "key": "id",
+      "label": "員工代號"
+    },
+    {
+      "key": "name",
+      "label": "員工名稱"
+    },
+    {
+      "key": "account",
+      "label": "員工帳號"
+    },
+    {
+      "key": "password",
+      "label": "員工密碼"
     }
   ],
   "refereesTable": [
@@ -286,24 +268,6 @@
     {
       "key": "club_id",
       "label": "所屬俱樂部"
-    }
-  ],
-  "employeesTable": [
-    {
-      "key": "id",
-      "label": "員工代號"
-    },
-    {
-      "key": "name",
-      "label": "員工名稱"
-    },
-    {
-      "key": "account",
-      "label": "員工帳號"
-    },
-    {
-      "key": "password",
-      "label": "員工密碼"
     }
   ],
   "membersTable": [
@@ -624,6 +588,50 @@
     {
       "key": "st",
       "label": "裁判ST"      
-    }  
+    } 
+  ],
+  "gender": [
+    {
+      "key": "女",
+      "id": "女",
+      "id_name": "女"
+    },
+    {
+      "key": "男",
+      "id": "男",
+      "id_name": "男"
+    }
+  ],
+  "education": [
+    {
+      "key": "國小",
+      "id": "國小",
+      "id_name": "國小"
+    },
+    {
+      "key": "國中",
+      "id": "國中",
+      "id_name": "國中"
+    },
+    {
+      "key": "高中職",
+      "id": "高中職",
+      "id_name": "高中職"
+    },
+    {
+      "key": "大學科大",
+      "id": "大學科大",
+      "id_name": "大學科大"
+    },
+    {
+      "key": "研究所",
+      "id": "研究所",
+      "id_name": "研究所"
+    },
+    {
+      "key": "博士",
+      "id": "博士",
+      "id_name": "博士"
+    }
   ]
 }

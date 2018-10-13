@@ -51,7 +51,15 @@ const PartialInformation = (props) =>  {
           <TableBody>
               <TableRow>
                  <TableCell style={styles.tableCell}>
-                  {'權限'}
+                  {'所屬俱樂部'}
+                 </TableCell>
+                 <TableCell style={styles.tableCell}>
+                  {clubId}
+                 </TableCell>
+              </TableRow>
+              <TableRow>
+                 <TableCell style={styles.tableCell}>
+                  {'身份'}
                  </TableCell>
                  <TableCell style={styles.tableCell}>
                   {getUserResource(resource)}
@@ -79,14 +87,6 @@ const PartialInformation = (props) =>  {
                  </TableCell>
                  <TableCell style={styles.tableCell}>
                   {password}
-                 </TableCell>
-              </TableRow>
-              <TableRow>
-                 <TableCell style={styles.tableCell}>
-                  {'所屬俱樂部'}
-                 </TableCell>
-                 <TableCell style={styles.tableCell}>
-                  {clubId}
                  </TableCell>
               </TableRow>
           </TableBody>

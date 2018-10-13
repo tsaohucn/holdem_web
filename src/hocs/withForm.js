@@ -102,29 +102,33 @@ function withForm(params) {
             if (resource === 'clubs') {
               upload_data = Object.assign({},state,{
                 key,
+                club_key: key,
+                club_id: state.id,
                 employeeCount: 0,
-                memberCount: 0, 
                 refereeCount: 0, 
-                saleCount: 0 
+                saleCount: 0,
+                memberCount: 0
               })
             } else if (resource === 'employees') {
               upload_data = Object.assign({},state,{
-                key
+                key,
+                club_key: this.props.HoldemStore.clubKey,
+                club_id: this.props.HoldemStore.clubId
               })            
             } else if (resource === 'referees' || resource === 'sales') {
               upload_data = Object.assign({},state,{
                 key,
-                memberCount: 0, 
-                club_key: state['club_key'],
-                club_id: this.options[state['club_key']].id
+                club_key: this.props.HoldemStore.clubKey,
+                club_id: this.props.HoldemStore.clubId,
+                memberCount: 0
               })
             } else if (resource === 'members') {
               upload_data = Object.assign({},state,{
                 key,
                 chip: 0, 
                 noLimit: false,
-                club_key: state['club_key'],
-                club_id: this.options[state['club_key']].id, 
+                club_key: this.props.HoldemStore.clubKey,
+                club_id: this.props.HoldemStore.clubId,
                 referee_key: state['referee_key'],
                 referee_id: this.options[state['referee_key']].id, 
                 sale_key: state['sale_key'],
@@ -136,14 +140,29 @@ function withForm(params) {
               if (resource === 'employees') {
                 await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
               }
-              await firebase.database().ref('/backends/' + key).set({
-                account: state.account,
-                password: state.password,
-                id: state.id,
-                resource
-              })
+              if (resource === 'clubs') {
+                key && await firebase.database().ref('/backends/' + key).set({
+                  key,
+                  id: state.id,
+                  club_id: state.id,
+                  club_key: key,
+                  account: state.account,
+                  password: state.password,
+                  resource
+                })
+              } else {
+                key && await firebase.database().ref('/backends/' + key).set({
+                  key,
+                  id: state.id,
+                  club_key: this.props.HoldemStore.clubKey,
+                  club_id: this.props.HoldemStore.clubId,
+                  account: state.account,
+                  password: state.password,
+                  resource 
+                })               
+              }
               if (resource === 'employees') {
-                await firebase.database().ref('clubs/' +  state['club_key'] + '/employeeCount').transaction(count => {
+                state['club_key'] && await firebase.database().ref('clubs/' +  state['club_key'] + '/employeeCount').transaction(count => {
                   if (!count) {
                     return 1
                   } else {
@@ -151,7 +170,7 @@ function withForm(params) {
                   }
                 }) 
               } else if (resource === 'referees') {
-                await firebase.database().ref('clubs/' +  state['club_key'] + '/refereeCount').transaction(count => {
+                state['club_key'] && await firebase.database().ref('clubs/' +  state['club_key'] + '/refereeCount').transaction(count => {
                   if (!count) {
                     return 1
                   } else {
@@ -159,7 +178,7 @@ function withForm(params) {
                   }
                 })                
               } else if (resource === 'sales') {
-                await firebase.database().ref('clubs/' +  state['club_key'] + '/saleCount').transaction(count => {
+                state['club_key'] && await firebase.database().ref('clubs/' +  state['club_key'] + '/saleCount').transaction(count => {
                   if (!count) {
                     return 1
                   } else {
@@ -168,21 +187,21 @@ function withForm(params) {
                 })                
               }
             } else if (resource === 'members') {
-              await firebase.database().ref('clubs/' +  state['club_key'] + '/memberCount').transaction(count => {
+              state['club_key'] && await firebase.database().ref('clubs/' +  state['club_key'] + '/memberCount').transaction(count => {
                 if (!count) {
                   return 1
                 } else {
                   return count + 1
                 }
               })
-              await firebase.database().ref('referees/' +  state['referee_key'] + '/memberCount').transaction(count => {
+              state['referee_key'] && await firebase.database().ref('referees/' +  state['referee_key'] + '/memberCount').transaction(count => {
                 if (!count) {
                   return 1
                 } else {
                   return count + 1
                 }
               })
-              await firebase.database().ref('sales/' +  state['sale_key'] + '/memberCount').transaction(count => {
+              state['sale_key'] && await firebase.database().ref('sales/' +  state['sale_key'] + '/memberCount').transaction(count => {
                 if (!count) {
                   return 1
                 } else {
@@ -190,7 +209,7 @@ function withForm(params) {
                 }
               })
             }
-            await firebase.database().ref(resource + '/' + key).set(upload_data)
+            resource && key && await firebase.database().ref(resource + '/' + key).set(upload_data)
           } else {
             throw '使用者身份錯誤'
           }
@@ -222,12 +241,13 @@ function withForm(params) {
             this.state.isLoading ? 
             <div style={styles.spinner}>
               <CircularProgress size={50}/>
-              {/*<h3>{this.state.event}</h3>*/}
             </div>
             :
             <FormComponent
               {...this.props}
               {...this.state}
+              clubId={this.props.HoldemStore.clubId}
+              clubKey={this.props.HoldemStore.clubKey}
               field={field}
               buttonTitle={buttonTitle}
               onClickNewPageButton={this.onClickNewPageButton}

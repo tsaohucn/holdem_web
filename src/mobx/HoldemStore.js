@@ -14,15 +14,17 @@ class HoldemStore {
     this.account = null
     this.password = null
     this.clubId = null
+    this.clubKey = null
   }
 
-  setUser = action(({isAuth,resource,id,account,password,clubId}) => {
+  setUser = action(({isAuth,resource,id,account,password,clubId,clubKey}) => {
     this.isAuth = isAuth
     this.resource = resource
     this.id = id
     this.password = password
     this.account = account
     this.clubId = clubId
+    this.clubKey = clubKey
   })
 
 }
@@ -33,7 +35,8 @@ decorate(HoldemStore, {
   id: observable,
   account: observable,
   password: observable,
-  clubId: observable
+  clubId: observable,
+  clubKey: observable
 })
 
 export default HoldemStore
