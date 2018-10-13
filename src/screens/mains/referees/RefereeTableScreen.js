@@ -7,17 +7,17 @@ import withTable from '../../../hocs/withTable'
 import ui from '../../../configs/ui'
 
 const more = [
-  {
-    "key": "memberCount",
-    "label": "所含成員數"
-  },
-  {
-    key: "edit",
-    label: "編輯"
-  }
+    {
+        'key': 'memberCount',
+        'label': '所含成員數'
+    },
+    {
+        key: 'edit',
+        label: '編輯'
+    }
 ]
 
-export default inject("HoldemStore")(withNavigation(withAlert((withTable({
-  title: ui.refereesTable.concat(more),
-  resource: 'referees'
+export default inject('HoldemStore')(withNavigation(withAlert((withTable({
+    title: ui.refereesTable.concat(more),
+    resource: 'referees'
 })))))

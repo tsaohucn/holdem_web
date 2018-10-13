@@ -4,18 +4,18 @@ import ChangeAccount from '../views/ChangeAccount'
 
 class AccountComponent extends PureComponent {
 
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
+    constructor(props) {
+        super(props)
+        this.state = {}
+    }
 
-  render() {
-    return(
-      <ChangeAccount
-        {...this.props}
-      />
-    )
-  }
+    render() {
+        return(
+            <ChangeAccount
+                {...this.props}
+            />
+        )
+    }
 }
 
 export default AccountComponent

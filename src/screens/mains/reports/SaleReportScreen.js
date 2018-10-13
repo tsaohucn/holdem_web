@@ -7,7 +7,7 @@ import withNavigation from '../../../hocs/withNavigation'
 import ui from '../../../configs/ui'
 
 export default withNavigation(withAlert(withReport({
-  title: ui.saleReportTable,
-  resource: 'sales',
-  belong: []
+    title: ui.saleReportTable,
+    resource: 'sales',
+    belong: []
 })))

@@ -9,38 +9,38 @@ import firebase from './configs/firebase'
 import HoldemStore from './mobx/HoldemStore'
 // optional cofiguration
 const options = {
-  position: 'bottom center',
-  offset: '30px'
+    position: 'bottom center',
+    offset: '30px'
 }
 
 const stores = {
-  HoldemStore: new HoldemStore()
+    HoldemStore: new HoldemStore()
 }
 
 class App extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isAuth: false,
-      user: null
+    constructor(props) {
+        super(props)
+        this.state = {
+            isAuth: false,
+            user: null
+        }
     }
-  }
 
-  render() {
-    return (
+    render() {
+        return (
  	    <AlertProvider template={AlertTemplate} {...options}>
-        <Provider
-          {...stores}
-          >
-          <Router 
-            auth={this.state.isAuth}
-            user={this.state.user}
-          />
-        </Provider>
-      </AlertProvider>
-    )
-  }
+                <Provider
+                    {...stores}
+                >
+                    <Router 
+                        auth={this.state.isAuth}
+                        user={this.state.user}
+                    />
+                </Provider>
+            </AlertProvider>
+        )
+    }
 }
 
 export default App

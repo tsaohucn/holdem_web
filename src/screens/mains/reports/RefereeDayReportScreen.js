@@ -7,8 +7,8 @@ import withNavigation from '../../../hocs/withNavigation'
 import ui from '../../../configs/ui'
 
 export default withNavigation(withAlert(withReport({
-  title: ui.refereeDayReportTable,
-  resource: 'referees',
-  belong: [],
-  router: 'day'
+    title: ui.refereeDayReportTable,
+    resource: 'referees',
+    belong: [],
+    router: 'day'
 })))
