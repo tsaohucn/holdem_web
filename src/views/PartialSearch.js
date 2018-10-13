@@ -1,5 +1,12 @@
 // node_module
 import React from 'react'
+import FormLabel from '@material-ui/core/FormLabel'
+import FormControl from '@material-ui/core/FormControl'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import Checkbox from '@material-ui/core/Checkbox'
+import Radio from '@material-ui/core/Radio'
 import SearchBar from 'material-ui-search-bar'
 import SearchIcon from '@material-ui/icons/Search'
 // local components
@@ -9,23 +16,51 @@ const PartialSearch = (props) => {
   const { 
     onClickSearchPageLeftButton,
     onClickSearchPageRightButton, 
-    onClickSecondSearchButton,
     onChangeSearchValue,
-    onChangeSecondSearchValue,
     leftButtonTitle, 
     rightButtonTitle,
     title,
     placeholder,
-    secondPlaceholder,
-    showSecondSearchBar,
     showRightButton,
-    secondBarTitle,
-    secondButtonTitle
+    showRadioBox,
+    radioOneTitle,
+    radioTwoTitle,
+    onClickRadio,
+    radio
   } = props
 
   return(
     <div>
       <br/>
+      {
+        showRadioBox &&       
+        <div>
+          <div style={styles.radioView}>
+            <FormControlLabel
+              control={
+                <Radio
+                  checked={radio['name']}
+                  onChange={onClickRadio}
+                  value="name"
+                />
+              }
+            />
+            <h4 style={styles.SearchTitle}>{radioOneTitle}</h4>
+          </div>
+          <div style={styles.radioView}>
+            <FormControlLabel
+              control={
+                <Radio
+                  checked={radio['referee_id']}
+                  onChange={onClickRadio}
+                  value="referee_id"
+                />
+              }
+            />
+            <h4 style={styles.SearchTitle}>{radioTwoTitle}</h4>
+          </div>
+        </div>
+      }
       <div style={styles.searchBlock}>
         <h4 style={styles.SearchTitle}>{title}</h4>
         <SearchBar
@@ -36,23 +71,6 @@ const PartialSearch = (props) => {
           onRequestSearch={() => {}}
         />
       </div>
-      {
-        showSecondSearchBar ? 
-          <div>
-            <br/>
-            <div style={styles.searchBlock}>
-              <h4 style={styles.SearchTitle}>{secondBarTitle}</h4>
-              <SearchBar
-                style={styles.SearchBar}
-                value={''}
-                placeholder={secondPlaceholder}
-                onChange={onChangeSecondSearchValue}
-                onRequestSearch={() => {}}
-              /> 
-            </div>
-          </div>
-        : null
-      }
       <br/>
       <div style={styles.buttonView}>
         <PartialButton 
@@ -77,8 +95,8 @@ const PartialSearch = (props) => {
 const styles = {
   searchBlock: {
     display: 'flex', 
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: 'column',
+    width: '50%'
   },
   SearchBar: {
     flex: 6
@@ -96,6 +114,11 @@ const styles = {
     width: '33%',
     minWidth: 0,
     fontSize: 15
+  },
+  radioView: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 }
 

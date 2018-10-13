@@ -54,7 +54,7 @@ const PartialInformation = (props) =>  {
                   {'所屬俱樂部'}
                  </TableCell>
                  <TableCell style={styles.tableCell}>
-                  {clubId}
+                  {clubId || '此帳號可管轄所有俱樂部'}
                  </TableCell>
               </TableRow>
               <TableRow>

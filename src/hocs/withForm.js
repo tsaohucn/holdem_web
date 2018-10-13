@@ -38,7 +38,7 @@ function withForm(params) {
         try { 
           await sleep(500)
           this.options = {}
-          const optionsPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').once('value'))
+          const optionsPromise = belong.map(belongResource => firebase.database().ref(belongResource + 's').orderByChild('club_id').equalTo(this.props.HoldemStore.clubId).once('value'))
           const optionsSnap = await Promise.all(optionsPromise)
           let options = {}
           optionsSnap.forEach((snap,index) => {
@@ -51,7 +51,7 @@ function withForm(params) {
               }
               return({
                 key,
-                id_name: val[key].id + ' : ' + val[key].name
+                id_name: val[key].id// + ' : ' + val[key].name
               })
             })
             options[belong[index] + '_key'] = option
@@ -104,6 +104,8 @@ function withForm(params) {
                 key,
                 club_key: key,
                 club_id: state.id,
+                club_id_id: state.id + '_' + state.id,
+                club_id_name: state.id + '_' + state.name,
                 employeeCount: 0,
                 refereeCount: 0, 
                 saleCount: 0,
@@ -113,13 +115,17 @@ function withForm(params) {
               upload_data = Object.assign({},state,{
                 key,
                 club_key: this.props.HoldemStore.clubKey,
-                club_id: this.props.HoldemStore.clubId
+                club_id: this.props.HoldemStore.clubId,
+                club_id_id: this.props.HoldemStore.clubId + '_' + state.id,
+                club_id_name: this.props.HoldemStore.clubId + '_' + state.name
               })            
             } else if (resource === 'referees' || resource === 'sales') {
               upload_data = Object.assign({},state,{
                 key,
                 club_key: this.props.HoldemStore.clubKey,
                 club_id: this.props.HoldemStore.clubId,
+                club_id_id: this.props.HoldemStore.clubId + '_' + state.id,
+                club_id_name: this.props.HoldemStore.clubId + '_' + state.name,
                 memberCount: 0
               })
             } else if (resource === 'members') {
@@ -129,6 +135,8 @@ function withForm(params) {
                 noLimit: false,
                 club_key: this.props.HoldemStore.clubKey,
                 club_id: this.props.HoldemStore.clubId,
+                club_id_id: this.props.HoldemStore.clubId + '_' + state.id,
+                club_id_name: this.props.HoldemStore.clubId + '_' + state.name,
                 referee_key: state['referee_key'],
                 referee_id: this.options[state['referee_key']].id, 
                 sale_key: state['sale_key'],
@@ -162,50 +170,50 @@ function withForm(params) {
                 })               
               }
               if (resource === 'employees') {
-                state['club_key'] && await firebase.database().ref('clubs/' +  state['club_key'] + '/employeeCount').transaction(count => {
-                  if (!count) {
-                    return 1
-                  } else {
+                state['club_key'] && await firebase.database().ref('/clubs/' +  state['club_key'] + '/employeeCount').transaction(count => {
+                  if (count) {
                     return count + 1
+                  } else {
+                    return 1
                   }
                 }) 
               } else if (resource === 'referees') {
-                state['club_key'] && await firebase.database().ref('clubs/' +  state['club_key'] + '/refereeCount').transaction(count => {
-                  if (!count) {
-                    return 1
-                  } else {
+                state['club_key'] && await firebase.database().ref('/clubs/' +  state['club_key'] + '/refereeCount').transaction(count => {
+                  if (count) {
                     return count + 1
+                  } else {
+                    return 1
                   }
                 })                
               } else if (resource === 'sales') {
-                state['club_key'] && await firebase.database().ref('clubs/' +  state['club_key'] + '/saleCount').transaction(count => {
-                  if (!count) {
-                    return 1
-                  } else {
+                state['club_key'] && await firebase.database().ref('/clubs/' +  state['club_key'] + '/saleCount').transaction(count => {
+                  if (count) {
                     return count + 1
+                  } else {
+                    return 1
                   }
                 })                
               }
             } else if (resource === 'members') {
-              state['club_key'] && await firebase.database().ref('clubs/' +  state['club_key'] + '/memberCount').transaction(count => {
-                if (!count) {
-                  return 1
-                } else {
+              state['club_key'] && await firebase.database().ref('/clubs/' +  state['club_key'] + '/memberCount').transaction(count => {
+                if (count) {
                   return count + 1
+                } else {
+                  return 1
                 }
               })
-              state['referee_key'] && await firebase.database().ref('referees/' +  state['referee_key'] + '/memberCount').transaction(count => {
-                if (!count) {
-                  return 1
-                } else {
+              state['referee_key'] && await firebase.database().ref('/referees/' +  state['referee_key'] + '/memberCount').transaction(count => {
+                if (count) {
                   return count + 1
+                } else {
+                  return 1
                 }
               })
-              state['sale_key'] && await firebase.database().ref('sales/' +  state['sale_key'] + '/memberCount').transaction(count => {
-                if (!count) {
-                  return 1
-                } else {
+              state['sale_key'] && await firebase.database().ref('/sales/' +  state['sale_key'] + '/memberCount').transaction(count => {
+                if (count) {
                   return count + 1
+                } else {
+                  return 1
                 }
               })
             }

@@ -5,30 +5,56 @@ import PartialSearch from '../views/PartialSearch'
 
 class SearchComponent extends PureComponent {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      radio: {
+        name: true,
+        referee_id: false,
+      }
+    }
+  }
+
   onChangeSearchValue = (value) => {
     this.searchValue = value
   }
 
-  onChangeSecondSearchValue = (value) => {
-    this.secondSearchValue = value
+  onClickRadio = (event,checked) => {
+    switch(event.target.value) {
+    case 'name':
+      this.setState({
+        radio: {
+          name: true,
+          referee_id: false
+        }
+      })
+      break
+    case 'referee_id':
+      this.setState({
+        radio: {
+          name: false,
+          referee_id: true
+        }
+      })
+      break
+    default:
+      break
+    }
   }
 
   onClickSearchPageLeftButton = () => {
-    const value = {
-      searchValue: this.searchValue,
-      secondSearchValue: this.secondSearchValue
-    }
-    this.props.onClickSearchPageLeftButton && this.props.onClickSearchPageLeftButton(value)
+    const by = this.props.showRadioBox ? Object.keys(this.state.radio).find(key => this.state.radio[key]) : 'id'
+    this.props.onClickSearchPageLeftButton && this.props.onClickSearchPageLeftButton(by,this.searchValue)
   }
 
   render() {
     return(
       <PartialSearch
         {...this.props}
+        radio={this.state.radio}
+        onClickRadio={this.onClickRadio}
         onClickSearchPageLeftButton={this.onClickSearchPageLeftButton}
-        onClickSecondSearchButton={this.onClickSecondSearchButton}
         onChangeSearchValue={this.onChangeSearchValue}
-        onChangeSecondSearchValue={this.onChangeSecondSearchValue}
       />
     )
   }

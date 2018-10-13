@@ -1,6 +1,7 @@
 // node_module
 import React, { PureComponent } from 'react'
 import * as EmailValidator from 'email-validator'
+import Moment from 'moment'
 // local components
 import PartialForm from '../views/PartialForm'
 import { errorAlert, passwordSchema } from '../helpers'
@@ -10,6 +11,8 @@ class FormComponent extends PureComponent {
   state = this.props.field.reduce((o, ele) => { 
     if (ele.key === 'club_key') {
       o[ele.key] = this.props.clubKey
+    } else if (ele.key === 'joinDate') {
+      o[ele.key] = Moment(new Date()).format('l')
     } else {
       o[ele.key] = ''
     }
@@ -94,6 +97,7 @@ class FormComponent extends PureComponent {
     return(
       <PartialForm
         {...this.props}
+        joinDate={this.state.joinDate}
         value={this.state}
         onChange={this.onChange}
         onClickNewPageButton={this.onClickNewPageButton}

@@ -10,27 +10,38 @@ function withTable(params) {
   const {
     title,
     resource,
-    wrapperComponent,
-    by
+    wrapperComponent
   } = params ? params : {}
 
   return class extends PureComponent {
 
     constructor(props) {
       super(props)
-      this.search = this.props.match.params.search || ''
       this.state = {
         isLoading: true,
-        event: '載入中',
         data: []
       }
     }
 
     componentDidMount() {
-      if (this.search === '$all') {
-        this.fetchTableData(firebase.database().ref(resource))
+      const searchValue = this.props.match.params.searchValue
+      const by = this.props.match.params.by
+      if (resource === 'clubs') {
+        if (!searchValue) {
+          this.fetchTableData(firebase.database().ref(resource))
+        } else {
+          by && this.fetchTableData(firebase.database().ref(resource).orderByChild(by).equalTo(searchValue))
+        }
       } else {
-        this.fetchTableData(firebase.database().ref(resource).orderByChild(by || 'id').equalTo(this.search))
+        if (!searchValue) {
+          this.fetchTableData(firebase.database().ref(resource).orderByChild('club_id').equalTo(this.props.HoldemStore.clubId))
+        } else {
+          if (by === 'club_id') {
+            this.fetchTableData(firebase.database().ref(resource).orderByChild(by).equalTo(searchValue))
+          } else {
+            by && this.fetchTableData(firebase.database().ref(resource).orderByChild('club_id_' + by).equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
+          }
+        }
       }
     }
 
@@ -55,12 +66,37 @@ function withTable(params) {
       })     
     }
 
-    goToCountTable = (path,id) => {
-      this.props.history.push('/' + resource + '/table/' + path + '/' + id)
+    goToCountTable = (key,id) => {
+      switch(key) {
+      case 'employeeCount':
+        if (resource === 'clubs') {
+          this.props.history.push('/employees/simpleTable/club_id/' + id)
+        }
+        break
+      case 'refereeCount':
+        if (resource === 'clubs') {
+          this.props.history.push('/referees/simpleTable/club_id/' + id)
+        }
+        break
+      case 'saleCount':
+        if (resource === 'clubs') {
+          this.props.history.push('/sales/simpleTable/club_id/' + id)
+        }
+        break
+      case 'memberCount':
+        if (resource === 'clubs') {
+          this.props.history.push('/members/simpleTable/club_id/' + id)
+        } else if (resource === 'referees') {
+          this.props.history.push('/members/simpleTable/referee_id/' + id)
+        } else if (resource === 'sales') {
+          this.props.history.push('/members/simpleTable/sale_id/' + id)
+        }
+        break
+      }
     }
 
     goToEditPage = (key) => {
-      this.props.history.push('/' + resource + '/table/edit/' + key)
+      this.props.history.push('/' + resource + '/edit/' + key)
     }
 
     goBack = () => {
@@ -79,7 +115,6 @@ function withTable(params) {
             this.state.isLoading ? 
             <div style={styles.spinner}>
               <CircularProgress size={50}/>
-              {/*<h3>{this.state.event}</h3>*/}
             </div>
             :
             <Component

@@ -10,12 +10,11 @@ function withSearch(params) {
     leftButtonTitle,
     rightButtonTitle,
     showRightButton,
-    showSecondSearchBar,
-    secondBarTitle,
-    secondButtonTitle,
     wrapperComponent,
     placeholder,
-    secondPlaceholder
+    showRadioBox,
+    radioOneTitle,
+    radioTwoTitle
   } = params ? params : {}
 
   return class extends PureComponent {
@@ -24,25 +23,11 @@ function withSearch(params) {
       this.props.history.push('/' + resource + '/new')
     }
 
-    goToTable = (value) => {
-      const {
-        searchValue,
-        secondSearchValue
-      } = value ? value : {}
-      if (resource === 'members') {
-        if (!searchValue && !secondSearchValue) {
-          this.props.history.push('/' + resource + '/table/$all')
-        } else if (searchValue) {
-          this.props.history.push('/' + resource + '/table/memberName/' + searchValue)
-        } else if (secondSearchValue) {
-          this.props.history.push('/' + resource + '/table/refereeId/' + secondSearchValue)
-        }     
+    goToTable = (by,searchValue) => {
+      if (!searchValue) {
+        this.props.history.push('/' + resource + '/table')
       } else {
-        if (!searchValue && !secondSearchValue) {
-          this.props.history.push('/' + resource + '/table/$all')
-        } else {
-          this.props.history.push('/' + resource + '/table/' + searchValue)
-        }
+        this.props.history.push('/' + resource + '/table/' + by + '/' + searchValue)
       }
     }
 
@@ -53,13 +38,12 @@ function withSearch(params) {
           {...this.props}
           title={searchTitle}
           placeholder={placeholder}
-          secondPlaceholder={secondPlaceholder}
           showRightButton={showRightButton}
-          showSecondSearchBar={showSecondSearchBar}
-          secondBarTitle={secondBarTitle}
-          secondButtonTitle={secondButtonTitle}
           leftButtonTitle={leftButtonTitle || defaultLeftButtonTitle}
           rightButtonTitle={rightButtonTitle || defaultRightButtonTitle}
+          showRadioBox={showRadioBox}
+          radioOneTitle={radioOneTitle}
+          radioTwoTitle={radioTwoTitle}
           onClickSearchPageRightButton={this.onClickSearchPageRightButton}
           onClickSearchPageLeftButton={this.goToTable}
         />

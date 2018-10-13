@@ -129,6 +129,7 @@ const styles = theme => ({
     marginBottom: 'auto',
     lineHeight: 'normal',
     marginLeft: 5,
+    marginRight: 5,
     color: '#000000'
   },
   ListItem: {
@@ -243,7 +244,7 @@ class NavigationComponent extends PureComponent {
           <ListItemIcon>
             <Search/>
           </ListItemIcon>
-          <p class={this.props.classes.silderBarText}>{router_name[index]}</p>
+          <p className={this.props.classes.silderBarText}>{router_name[index]}</p>
         </ListItem>
       ))
     )     
@@ -275,7 +276,7 @@ class NavigationComponent extends PureComponent {
           <ListItemIcon>
             <PowerSettingsNew/>
           </ListItemIcon>
-          <p class={classes.silderBarText}>{'登出'}</p>
+          <p className={classes.silderBarText}>{'登出'}</p>
         </ListItem>
       </Drawer>
     )
@@ -299,6 +300,8 @@ class NavigationComponent extends PureComponent {
                 <MenuIcon />
               </IconButton>
               <div className={classNames(classes.information)}>
+                <p className={classNames(classes.title)}>{this.props.HoldemStore.clubId || '此帳號可管轄所有俱樂部'}</p>
+                <p className={classNames(classes.separate)}>{' | '}</p>
                 <p className={classNames(classes.title)}>{this.getUserResource(this.props.HoldemStore.resource)}</p>
                 <p className={classNames(classes.separate)}>{' | '}</p>
                 <p className={classNames(classes.id)}>{this.props.HoldemStore.id}</p>

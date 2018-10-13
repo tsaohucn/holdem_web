@@ -15,7 +15,8 @@ const PartialForm = (props) => {
     onClickNewPageReturn,
     onChange,
     value,
-    clubId
+    clubId,
+    joinDate
   } = props ? props : {}
 
   const renderSelect = (property) => {
@@ -33,42 +34,58 @@ const PartialForm = (props) => {
           {
             const { key, label, helperText } = ele ? ele : {}
             const isSelect = options.includes(key)
-            const isFix = fixs.includes(key)
+
             if (isSelect) {
               return(
                 <TextField
+                  margin="normal"
+                  variant="outlined"
                   select={isSelect}
                   label={label}
                   helperText={helperText}
-                  variant="outlined"
                   style={styles.textField}
-                  margin="normal"
+                  select
                   value={value[key]}
                   onChange={(event) => { onChange(event,key) }}
                 > 
                   { renderSelect(key) }
                 </TextField>
               )
-            } else if (isFix) {
+            } else if (key === 'club_key') {
               return(
                 <TextField
-                  disabled
+                  margin="normal"
+                  variant="outlined"
+                  select={isSelect}
                   label={label}
                   helperText={helperText}
-                  variant="outlined"
                   style={styles.textField}
-                  margin="normal"
+                  disabled
                   value={clubId}
+                />
+              )
+            } else if (key === 'joinDate') {
+              return(
+                <TextField
+                  margin="normal"
+                  variant="outlined"
+                  select={isSelect}
+                  label={label}
+                  helperText={helperText}
+                  style={styles.textField}
+                  disabled
+                  value={joinDate}
                 />
               )
             } else {
               return(
                 <TextField
+                  margin="normal"
+                  variant="outlined"
+                  select={isSelect}
                   label={label}
                   helperText={helperText}
-                  variant="outlined"
                   style={styles.textField}
-                  margin="normal"
                   value={value[key]}
                   onChange={(event) => { onChange(event,key) }}
                 /> 
@@ -103,10 +120,6 @@ const options = [
   'sale_key',
   'gender',
   'education' 
-]
-
-const fixs = [
-  'club_key'
 ]
 
 const styles = {
