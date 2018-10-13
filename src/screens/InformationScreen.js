@@ -6,6 +6,6 @@ import { inject, observer } from 'mobx-react'
 import withInformation from '../hocs/withInformation'
 import withNavigation from '../hocs/withNavigation'
 
-export default inject("HoldemStore")(withNavigation(withAlert((withInformation({
-  resource: 'clubs'
+export default inject('HoldemStore')(withNavigation(withAlert((withInformation({
+    resource: 'clubs'
 })))))

@@ -11,123 +11,123 @@ import PartialButton from './PartialButton'
 
 const PartialTableTwo = (props) =>  {
 
-  const { 
-    title,
-    data,
-    onClickTableReturnButton,
-    onClickEdit,
-    onClickDate,
-    onClickTableId,
-    id_names
-  } = props ? props : {}
+    const { 
+        title,
+        data,
+        onClickTableReturnButton,
+        onClickEdit,
+        onClickDate,
+        onClickTableId,
+        id_names
+    } = props ? props : {}
 
-  const render = (data) => (
-    data.map((n,index) => {
-      return (
-        <TableRow key={index.toString()}>
-          {
-            title && title.map(ele => {
-              const key = ele.key
-              if (key !== 'edit') {
-                if (key === 'referee_report_date') {
-                  return (
-                    <TableCell key={key} style={styles.tableCell}>
-                      <a style={styles.link} onClick={() => onClickDate(n[key])}>
-                        {n[key]}
-                      </a>
-                    </TableCell>
-                  )
-                } else if (key === 'referee_day_report_table_id') {
-                  return (
-                    <TableCell key={key} style={styles.tableCell}>
-                      <a style={styles.link} onClick={() => onClickTableId(n['date'],n[key])}>
-                        {n[key]}
-                      </a>
-                    </TableCell>
-                  )
-                } else {
-                  return (
-                    <TableCell key={key} style={styles.tableCell}>
-                      {n[key]}
-                    </TableCell>
-                  )
-                }
-              } else {
-                return (
-                  <TableCell key={key} style={styles.tableCell}>
-                    <a style={styles.link} onClick={onClickEdit}>
-                      {'編輯'}
-                    </a>
-                  </TableCell>
-                )
-              }
-            })
-          }
-        </TableRow>
-      )
-    })
-  )
+    const render = (data) => (
+        data.map((n,index) => {
+            return (
+                <TableRow key={index.toString()}>
+                    {
+                        title && title.map(ele => {
+                            const key = ele.key
+                            if (key !== 'edit') {
+                                if (key === 'referee_report_date') {
+                                    return (
+                                        <TableCell key={key} style={styles.tableCell}>
+                                            <a style={styles.link} onClick={() => onClickDate(n[key])}>
+                                                {n[key]}
+                                            </a>
+                                        </TableCell>
+                                    )
+                                } else if (key === 'referee_day_report_table_id') {
+                                    return (
+                                        <TableCell key={key} style={styles.tableCell}>
+                                            <a style={styles.link} onClick={() => onClickTableId(n['date'],n[key])}>
+                                                {n[key]}
+                                            </a>
+                                        </TableCell>
+                                    )
+                                } else {
+                                    return (
+                                        <TableCell key={key} style={styles.tableCell}>
+                                            {n[key]}
+                                        </TableCell>
+                                    )
+                                }
+                            } else {
+                                return (
+                                    <TableCell key={key} style={styles.tableCell}>
+                                        <a style={styles.link} onClick={onClickEdit}>
+                                            {'編輯'}
+                                        </a>
+                                    </TableCell>
+                                )
+                            }
+                        })
+                    }
+                </TableRow>
+            )
+        })
+    )
 
-  return(
-    <div>
-      <br/>
-      <Paper style={styles.root}>
-        <Table style={styles.table}>
-          <TableHead>
-            <TableRow>
-              {
-                title && title.map(ele => (
-                  <TableCell style={styles.tableCell} key={ele.key}>{ele.label}</TableCell>
-                ))
-              }
-            </TableRow>
-          </TableHead>
-          <TableBody>
-             { render(data) }
-          </TableBody>
-        </Table>
-      </Paper>
-      <br/>
-      <div style={styles.buttonView}>
-        <PartialButton 
-          onClick={onClickTableReturnButton}
-        >
-          {'返回'}
-        </PartialButton> 
-      </div>
-      <br/>
-      <br/>
-    </div>
-  )
+    return(
+        <div>
+            <br/>
+            <Paper style={styles.root}>
+                <Table style={styles.table}>
+                    <TableHead>
+                        <TableRow>
+                            {
+                                title && title.map(ele => (
+                                    <TableCell style={styles.tableCell} key={ele.key}>{ele.label}</TableCell>
+                                ))
+                            }
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        { render(data) }
+                    </TableBody>
+                </Table>
+            </Paper>
+            <br/>
+            <div style={styles.buttonView}>
+                <PartialButton 
+                    onClick={onClickTableReturnButton}
+                >
+                    {'返回'}
+                </PartialButton> 
+            </div>
+            <br/>
+            <br/>
+        </div>
+    )
 }
 
 const belong = [
-  "club",
-  "referee",
-  "sale",
-  "table_referee"
+    'club',
+    'referee',
+    'sale',
+    'table_referee'
 ]
 
 const styles = {
-  root: {
-    width: '100%',
-    overflowX: 'auto'
-  },
-  table: {
-    minWidth: 700,
-  },
-  buttonView: {
-    width: '50%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  tableCell: {
-    fontSize: 13
-  },
-  link: {
-    textDecoration: 'none'
-  }
+    root: {
+        width: '100%',
+        overflowX: 'auto'
+    },
+    table: {
+        minWidth: 700,
+    },
+    buttonView: {
+        width: '50%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    tableCell: {
+        fontSize: 13
+    },
+    link: {
+        textDecoration: 'none'
+    }
 }
 
 export default PartialTableTwo
