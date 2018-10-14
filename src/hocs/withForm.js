@@ -70,7 +70,7 @@ function withForm(params) {
       })
     }
 
-    onClickNewPageButton = (state) => {
+    onClickNewPageButton = (data) => {
       this.setState({
         isLoading: true,
         event: '新增資料中'
@@ -79,95 +79,95 @@ function withForm(params) {
           await sleep(500)
           if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
             // 先檢查代號有無重複
-            if (state.id) {
-              const id_snap = await firebase.database().ref('/ids').orderByChild('id').equalTo(state.id).once('value')
+            if (data.id) {
+              const id_snap = await firebase.database().ref('/ids').orderByChild('id').equalTo(data.id).once('value')
               if (id_snap.val()) {
                 throw "代號重複"
               }
             }
             // 先檢查帳號有無重複
-            if (state.account) {
-              const account_snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(state.account).once('value')
+            if (data.account) {
+              const account_snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(data.account).once('value')
               if (account_snap.val()) {
                 throw "帳號重複"
               }
             }
             // 整理資料
             const key = uuidv1()
-            let upload_data = Object.assign({},state)
+            let upload_data = Object.assign({},data)
             if (resource === 'clubs') {
-              upload_data = Object.assign({},state,{
+              upload_data = Object.assign({},data,{
                 key,
                 club_key: key,
-                club_id: state.id,
-                club_id_id: state.id + '_' + state.id,
-                club_id_name: state.id + '_' + state.name,
-                club_id_club_id: state.id + '_' + state.id,
+                club_id: data.id,
+                club_id_id: data.id + '_' + data.id,
+                club_id_name: data.id + '_' + data.name,
+                club_id_club_id: data.id + '_' + data.id,
                 employeeCount: 0,
                 refereeCount: 0, 
                 saleCount: 0,
                 memberCount: 0
               })
             } else if (resource === 'employees') {
-              upload_data = Object.assign({},state,{
+              upload_data = Object.assign({},data,{
                 key,
                 club_key: this.props.HoldemStore.clubKey,
                 club_id: this.props.HoldemStore.clubId,
-                club_id_id: this.props.HoldemStore.clubId + '_' + state.id,
-                club_id_name: this.props.HoldemStore.clubId + '_' + state.name,
+                club_id_id: this.props.HoldemStore.clubId + '_' + data.id,
+                club_id_name: this.props.HoldemStore.clubId + '_' + data.name,
                 club_id_club_id: this.props.HoldemStore.clubId + '_' + this.props.HoldemStore.clubId
               })            
             } else if (resource === 'referees' || resource === 'sales') {
-              upload_data = Object.assign({},state,{
+              upload_data = Object.assign({},data,{
                 key,
                 club_key: this.props.HoldemStore.clubKey,
                 club_id: this.props.HoldemStore.clubId,
-                club_id_id: this.props.HoldemStore.clubId + '_' + state.id,
-                club_id_name: this.props.HoldemStore.clubId + '_' + state.name,
+                club_id_id: this.props.HoldemStore.clubId + '_' + data.id,
+                club_id_name: this.props.HoldemStore.clubId + '_' + data.name,
                 club_id_club_id: this.props.HoldemStore.clubId + '_' + this.props.HoldemStore.clubId,
                 memberCount: 0
               })
             } else if (resource === 'members') {
-              upload_data = Object.assign({},state,{
+              upload_data = Object.assign({},data,{
                 key,
                 chip: 0, 
                 noLimit: false,
                 club_key: this.props.HoldemStore.clubKey,
                 club_id: this.props.HoldemStore.clubId,
-                club_id_id: this.props.HoldemStore.clubId + '_' + state.id,
-                club_id_name: this.props.HoldemStore.clubId + '_' + state.name,
+                club_id_id: this.props.HoldemStore.clubId + '_' + data.id,
+                club_id_name: this.props.HoldemStore.clubId + '_' + data.name,
                 club_id_club_id: this.props.HoldemStore.clubId + '_' + this.props.HoldemStore.clubId,
-                club_id_referee_id: this.props.HoldemStore.clubId + '_' + this.options[state['referee_key']].id,
-                club_id_sale_id: this.props.HoldemStore.clubId + '_' + this.options[state['sale_key']].id,
-                referee_key: state['referee_key'],
-                referee_id: this.options[state['referee_key']].id, 
-                sale_key: state['sale_key'],
-                sale_id: this.options[state['sale_key']].id
+                club_id_referee_id: this.props.HoldemStore.clubId + '_' + this.options[data['referee_key']].id,
+                club_id_sale_id: this.props.HoldemStore.clubId + '_' + this.options[data['sale_key']].id,
+                referee_key: data['referee_key'],
+                referee_id: this.options[data['referee_key']].id, 
+                sale_key: data['sale_key'],
+                sale_id: this.options[data['sale_key']].id
               })
             }        
             // backends
             if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales') {
               if (resource === 'employees') {
-                await firebase.auth().createUserWithEmailAndPassword(state.account,state.password)
+                await firebase.auth().createUserWithEmailAndPassword(data.account,data.password)
               }
               if (resource === 'clubs') {
                 key && await firebase.database().ref('/backends/' + key).set({
                   key,
-                  id: state.id,
-                  club_id: state.id,
+                  id: data.id,
+                  club_id: data.id,
                   club_key: key,
-                  account: state.account,
-                  password: state.password,
+                  account: data.account,
+                  password: data.password,
                   resource
                 })
               } else {
                 key && await firebase.database().ref('/backends/' + key).set({
                   key,
-                  id: state.id,
+                  id: data.id,
                   club_key: this.props.HoldemStore.clubKey,
                   club_id: this.props.HoldemStore.clubId,
-                  account: state.account,
-                  password: state.password,
+                  account: data.account,
+                  password: data.password,
                   resource 
                 })               
               }
@@ -175,12 +175,12 @@ function withForm(params) {
             // upload_data
             resource && key && await firebase.database().ref(resource + '/' + key).set(upload_data)
             // ids
-            state.id && await firebase.database().ref('/ids/' + key + '/id').set(state.id)
+            data.id && await firebase.database().ref('/ids/' + key + '/id').set(data.id)
             // count
             if (resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
               switch(resource) { 
               case 'employees':
-                state['club_key'] && await firebase.database().ref('/clubs/' +  state['club_key'] + '/employeeCount').transaction(count => {
+                data['club_key'] && await firebase.database().ref('/clubs/' +  data['club_key'] + '/employeeCount').transaction(count => {
                   if (count) {
                     return count + 1
                   } else {
@@ -189,7 +189,7 @@ function withForm(params) {
                 })
                 break
               case 'referees':
-                state['club_key'] && await firebase.database().ref('/clubs/' +  state['club_key'] + '/refereeCount').transaction(count => {
+                data['club_key'] && await firebase.database().ref('/clubs/' +  data['club_key'] + '/refereeCount').transaction(count => {
                   if (count) {
                     return count + 1
                   } else {
@@ -198,7 +198,7 @@ function withForm(params) {
                 })
                 break
               case 'sales':
-                state['club_key'] && await firebase.database().ref('/clubs/' +  state['club_key'] + '/saleCount').transaction(count => {
+                data['club_key'] && await firebase.database().ref('/clubs/' +  data['club_key'] + '/saleCount').transaction(count => {
                   if (count) {
                     return count + 1
                   } else {
@@ -207,21 +207,21 @@ function withForm(params) {
                 })
                 break
               case 'members':
-                state['club_key'] && await firebase.database().ref('/clubs/' +  state['club_key'] + '/memberCount').transaction(count => {
+                data['club_key'] && await firebase.database().ref('/clubs/' +  data['club_key'] + '/memberCount').transaction(count => {
                   if (count) {
                     return count + 1
                   } else {
                     return 1
                   }
                 })
-                state['referee_key'] && await firebase.database().ref('/referees/' +  state['referee_key'] + '/memberCount').transaction(count => {
+                data['referee_key'] && await firebase.database().ref('/referees/' +  data['referee_key'] + '/memberCount').transaction(count => {
                   if (count) {
                     return count + 1
                   } else {
                     return 1
                   }
                 })
-                state['sale_key'] && await firebase.database().ref('/sales/' +  state['sale_key'] + '/memberCount').transaction(count => {
+                data['sale_key'] && await firebase.database().ref('/sales/' +  data['sale_key'] + '/memberCount').transaction(count => {
                   if (count) {
                     return count + 1
                   } else {

@@ -14,9 +14,11 @@ const PartialForm = (props) => {
     onClickNewPageButton,
     onClickNewPageReturn,
     onChange,
-    value,
+    data,
     clubId,
-    joinDate
+    onFocusBirthday,
+    onBlurBirthday,
+    focusBirthday
   } = props ? props : {}
 
   const renderSelect = (property) => {
@@ -45,7 +47,7 @@ const PartialForm = (props) => {
                 helperText={helperText}
                 style={styles.textField}
                 select
-                value={value[key]}
+                value={data[key]}
                 onChange={(event) => { onChange(event,key) }}
               > 
                 { renderSelect(key) }
@@ -74,7 +76,26 @@ const PartialForm = (props) => {
                 helperText={helperText}
                 style={styles.textField}
                 disabled
-                value={joinDate}
+                value={data[key]}
+              />
+            )
+          } else if (key === 'birthday') {
+            return(
+              <TextField
+                margin="normal"
+                variant="outlined"
+                label={label}
+                helperText={helperText}
+                style={styles.textField}
+                id="date"
+                type="date"
+                InputProps={{
+                  onBlur: onBlurBirthday,
+                  onFocus: onFocusBirthday,
+                  style: focusBirthday ? {} : data[key] === '' ? styles.date : {}
+                }}
+                onChange={(event) => { onChange(event,key) }}
+                value={data[key]}
               />
             )
           } else {
@@ -86,7 +107,7 @@ const PartialForm = (props) => {
                 label={label}
                 helperText={helperText}
                 style={styles.textField}
-                value={value[key]}
+                value={data[key]}
                 onChange={(event) => { onChange(event,key) }}
               /> 
             )              
@@ -141,6 +162,9 @@ const styles = {
   button: {
     width: '33%',
     minWidth: 0
+  },
+  date: {
+    color: 'transparent'
   }
 }
 
