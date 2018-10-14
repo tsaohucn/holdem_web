@@ -80,25 +80,28 @@ function withEdit(params) {
           if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
             // 先檢查帳號有無重複
             if (data.account) {
-              const snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(data.account).once('value')
-              const val = snap.val()
-              if (val && (this.account != data.account)) {
+              const account_snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(data.account).once('value')
+              if (account_snap.val() && (this.account != data.account)) {
                 throw '此帳號已有人使用'
               }
             }
             if (resource === 'employees') {
               await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
               const user = firebase.auth().currentUser
-              await user.updateEmail(data.account)
-              await user.updatePassword(data.password)
+              if (this.account != data.account) {
+                await user.updateEmail(data.account)
+              }
+              if (this.password != data.password) {
+                await user.updatePassword(data.password)
+              }
             }
             if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales') {
-              await firebase.database().ref('/backends/' + this.key).update({
+              this.key && await firebase.database().ref('/backends/' + this.key).update({
                 account: data.account,
                 password: data.password
               })
             }
-            await firebase.database().ref(resource + '/' + this.key).update(data)
+            this.key && await firebase.database().ref(resource + '/' + this.key).update(data)
           } else {
             throw '資源錯誤'
           }
@@ -127,77 +130,81 @@ function withEdit(params) {
             const saleCount = data.saleCount
             const memberCount = data.memberCount
             const employeeCount = data.employeeCount
+            // 檢查底下有無人
             if (employeeCount > 0 || refereeCount > 0 || saleCount > 0 || memberCount > 0) {
               throw '此人底下存在會員'
-            } else {
-              // 刪資料
-              if (resource === 'employees') {
-                await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
-                const user = firebase.auth().currentUser
-                await user.delete()              
-              } 
-              await firebase.database().ref('nonuse_' + resource + '/' + this.key).update(data)
-              if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales') {
-                await firebase.database().ref('/backends/' + this.key).update({
-                  nonuse: true
-                })
-              }
-              await firebase.database().ref(resource + '/' + this.key).remove()
+            } 
+            // 刪資料
+            if (resource === 'employees') {
+              await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
+              const user = firebase.auth().currentUser
+              await user.delete()              
             }
-            // 更新count
-            switch(resource) {
-              case 'employees': {
-                await firebase.database().ref('clubs/' +  data['club_key'] + '/employeeCount').transaction(count => {
-                  if (!count) {
-                    return 0
-                  } else {
-                    return count - 1
-                  }
-                })                   
-                break
-              }
-              case 'referees': {
-                await firebase.database().ref('clubs/' +  data['club_key'] + '/refereeCount').transaction(count => {
-                  if (!count) {
-                    return 0
-                  } else {
-                    return count - 1
-                  }
-                })                   
-                break
-              }
-              case 'sales': {
-                await firebase.database().ref('clubs/' +  data['club_key'] + '/saleCount').transaction(count => {
-                  if (!count) {
-                    return 0
-                  } else {
-                    return count - 1
-                  }
-                }) 
-                break
-              }
-              case 'members': {
-                await firebase.database().ref('clubs/' +  data['club_key'] + '/memberCount').transaction(count => {
-                  if (!count) {
-                    return 0
-                  } else {
-                    return count - 1
-                  }
-                })
-                await firebase.database().ref('referees/' +  data['referee_key'] + '/memberCount').transaction(count => {
-                  if (!count) {
-                    return 0
-                  } else {
-                    return count - 1
-                  }
-                })
-                await firebase.database().ref('sales/' +  data['sale_key'] + '/memberCount').transaction(count => {
-                  if (!count) {
-                    return 0
-                  } else {
-                    return count - 1
-                  }
-                })
+            // non_use
+            //await firebase.database().ref('nonuse_' + resource + '/' + this.key).update(data)
+            //if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales') {
+            //  await firebase.database().ref('/backends/' + this.key).update({
+            //    nonuse: true
+            //  })
+            //}
+            this.key && await firebase.database().ref('/backends/' + this.key).remove()
+            resource && this.key && await firebase.database().ref(resource + '/' + this.key).remove()
+            // count
+            if (resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
+              switch(resource) {
+                case 'employees': {
+                  await firebase.database().ref('clubs/' +  data['club_key'] + '/employeeCount').transaction(count => {
+                    if (!count) {
+                      return 0
+                    } else {
+                      return count - 1
+                    }
+                  })                   
+                  break
+                }
+                case 'referees': {
+                  await firebase.database().ref('clubs/' +  data['club_key'] + '/refereeCount').transaction(count => {
+                    if (!count) {
+                      return 0
+                    } else {
+                      return count - 1
+                    }
+                  })                   
+                  break
+                }
+                case 'sales': {
+                  await firebase.database().ref('clubs/' +  data['club_key'] + '/saleCount').transaction(count => {
+                    if (!count) {
+                      return 0
+                    } else {
+                      return count - 1
+                    }
+                  }) 
+                  break
+                }
+                case 'members': {
+                  await firebase.database().ref('clubs/' +  data['club_key'] + '/memberCount').transaction(count => {
+                    if (!count) {
+                      return 0
+                    } else {
+                      return count - 1
+                    }
+                  })
+                  await firebase.database().ref('referees/' +  data['referee_key'] + '/memberCount').transaction(count => {
+                    if (!count) {
+                      return 0
+                    } else {
+                      return count - 1
+                    }
+                  })
+                  await firebase.database().ref('sales/' +  data['sale_key'] + '/memberCount').transaction(count => {
+                    if (!count) {
+                      return 0
+                    } else {
+                      return count - 1
+                    }
+                  })
+                }
               }
             }
           } else {
