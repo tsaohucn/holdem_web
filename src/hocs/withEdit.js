@@ -39,7 +39,7 @@ function withEdit(params) {
       },async () => {
         try {
           await sleep(500)
-          const optionsPromise = belong && belong.map(belongResource => firebase.database().ref(belongResource + 's').once('value'))
+          const optionsPromise = belong && belong.map(belongResource => firebase.database().ref(belongResource + 's').orderByChild('club_id').equalTo(this.props.HoldemStore.clubId).once('value'))
           const optionsSnap = await Promise.all(optionsPromise)
           let options = {}
           optionsSnap.forEach((snap,index) => {
@@ -101,7 +101,10 @@ function withEdit(params) {
                 password: data.password
               })
             }
-            this.key && await firebase.database().ref(resource + '/' + this.key).update(data)
+            const upload_data = Object.assign({},data,{
+              club_id_name: data.club_id + '_' + data.name
+            })
+            this.key && await firebase.database().ref(resource + '/' + this.key).update(upload_data)
           } else {
             throw '資源錯誤'
           }
@@ -152,59 +155,56 @@ function withEdit(params) {
             // count
             if (resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
               switch(resource) {
-                case 'employees': {
-                  await firebase.database().ref('clubs/' +  data['club_key'] + '/employeeCount').transaction(count => {
-                    if (!count) {
-                      return 0
-                    } else {
-                      return count - 1
-                    }
-                  })                   
-                  break
-                }
-                case 'referees': {
-                  await firebase.database().ref('clubs/' +  data['club_key'] + '/refereeCount').transaction(count => {
-                    if (!count) {
-                      return 0
-                    } else {
-                      return count - 1
-                    }
-                  })                   
-                  break
-                }
-                case 'sales': {
-                  await firebase.database().ref('clubs/' +  data['club_key'] + '/saleCount').transaction(count => {
-                    if (!count) {
-                      return 0
-                    } else {
-                      return count - 1
-                    }
-                  }) 
-                  break
-                }
-                case 'members': {
-                  await firebase.database().ref('clubs/' +  data['club_key'] + '/memberCount').transaction(count => {
-                    if (!count) {
-                      return 0
-                    } else {
-                      return count - 1
-                    }
-                  })
-                  await firebase.database().ref('referees/' +  data['referee_key'] + '/memberCount').transaction(count => {
-                    if (!count) {
-                      return 0
-                    } else {
-                      return count - 1
-                    }
-                  })
-                  await firebase.database().ref('sales/' +  data['sale_key'] + '/memberCount').transaction(count => {
-                    if (!count) {
-                      return 0
-                    } else {
-                      return count - 1
-                    }
-                  })
-                }
+                case 'employees':
+                await firebase.database().ref('clubs/' +  data['club_key'] + '/employeeCount').transaction(count => {
+                  if (count) {
+                    return count - 1
+                  } else {
+                    return 0
+                  }
+                })
+                break
+                case 'referees':
+                await firebase.database().ref('clubs/' +  data['club_key'] + '/refereeCount').transaction(count => {
+                  if (count) {
+                    return count - 1
+                  } else {
+                    return 0
+                  }
+                })
+                break
+                case 'sales':
+                await firebase.database().ref('clubs/' +  data['club_key'] + '/saleCount').transaction(count => {
+                  if (count) {
+                    return count - 1
+                  } else {
+                    return 0
+                  }
+                })
+                break
+                case 'members':
+                await firebase.database().ref('clubs/' +  data['club_key'] + '/memberCount').transaction(count => {
+                  if (count) {
+                    return count - 1
+                  } else {
+                    return 0
+                  }
+                })
+                await firebase.database().ref('referees/' +  data['referee_key'] + '/memberCount').transaction(count => {
+                  if (count) {
+                    return count - 1
+                  } else {
+                    return 0
+                  }
+                })
+                await firebase.database().ref('sales/' +  data['sale_key'] + '/memberCount').transaction(count => {
+                  if (count) {
+                    return count - 1
+                  } else {
+                    return 0
+                  }
+                })
+                break
               }
             }
           } else {

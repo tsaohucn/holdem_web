@@ -30,17 +30,13 @@ function withTable(params) {
         if (!searchValue) {
           this.fetchTableData(firebase.database().ref(resource))
         } else {
-          by && this.fetchTableData(firebase.database().ref(resource).orderByChild(by).equalTo(searchValue))
+          this.fetchTableData(firebase.database().ref(resource).orderByChild('id').equalTo(searchValue))
         }
       } else {
         if (!searchValue) {
           this.fetchTableData(firebase.database().ref(resource).orderByChild('club_id').equalTo(this.props.HoldemStore.clubId))
         } else {
-          if (by === 'club_id') {
-            this.fetchTableData(firebase.database().ref(resource).orderByChild(by).equalTo(searchValue))
-          } else {
-            by && this.fetchTableData(firebase.database().ref(resource).orderByChild('club_id_' + by).equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
-          }
+          by && this.fetchTableData(firebase.database().ref(resource).orderByChild('club_id_' + by).equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
         }
       }
     }
