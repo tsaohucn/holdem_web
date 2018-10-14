@@ -8,20 +8,26 @@ import { errorAlert, passwordSchema } from '../helpers'
 
 class FormComponent extends PureComponent {
 
-  state = this.props.field.reduce((o, ele) => { 
-    if (ele.key === 'club_key') {
-      o[ele.key] = this.props.clubKey
-    } else if (ele.key === 'joinDate') {
-      o[ele.key] = Moment(new Date()).format('l')
-    } else {
-      o[ele.key] = ''
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+      data: this.props.field.reduce((o, ele) => { 
+        if (ele.key === 'club_key') {
+          o[ele.key] = this.props.clubKey
+        } else if (ele.key === 'joinDate') {
+          o[ele.key] = Moment(new Date()).format('l')
+        } else {
+          o[ele.key] = ''
+        }
+        return o
+      }, {}),
+      focusBirthday: false
     }
-    return o
-  }, {})
+  }
 
   checkDataIntegrity = () => {
-    console.log(this.state)
-    const values =  Object.values(this.state)
+    const values =  Object.values(this.state.data)
     const index = values.findIndex(value => (value === null || value === undefined || value === ''))
     if (index < 0) {
       return true
@@ -33,8 +39,8 @@ class FormComponent extends PureComponent {
   }
 
   checkEmailFormat = () => {
-    if (this.state.account) {
-      if (EmailValidator.validate(this.state.account)) {
+    if (this.state.data.account) {
+      if (EmailValidator.validate(this.state.data.account)) {
         return true
       } else {
         const message = '帳號格式錯誤'
@@ -47,8 +53,8 @@ class FormComponent extends PureComponent {
   }
 
   checkPasswordFormat = () => {
-    if (this.state.password) {
-      if (passwordSchema.validate(this.state.password)) {
+    if (this.state.data.password) {
+      if (passwordSchema.validate(this.state.data.password)) {
         return true
       } else {
         const message = '密碼格式錯誤'
@@ -61,8 +67,8 @@ class FormComponent extends PureComponent {
   }
 
   checkLimitFormat = () => {
-    if (this.state.limit) {
-      if (Number.isInteger(parseInt(this.state.limit))) {
+    if (this.state.data.limit) {
+      if (Number.isInteger(parseInt(this.state.data.limit))) {
         return true
       } else {
         const message = '抓馬額度格式錯誤'
@@ -75,10 +81,12 @@ class FormComponent extends PureComponent {
   }
 
   onChange = (event,key) => {
-    const state = {
+    const data = Object.assign({},this.state.data,{
       [key]: event.target.value
-    }
-    this.setState(state)
+    })
+    this.setState({
+      data
+    })
   }
 
   onClickNewPageButton = () => {
@@ -86,19 +94,33 @@ class FormComponent extends PureComponent {
       if (this.checkEmailFormat()) {
         if (this.checkPasswordFormat()) {
           if (this.checkLimitFormat()) {
-            this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state)
+            this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state.data)
           }
         }
       }
     }
+  }
+
+  onFocusBirthday = () => {
+    this.setState({
+      focusBirthday: true
+    })
+  }
+
+  onBlurBirthday = () => {
+    this.setState({
+      focusBirthday: false
+    })
   }
  
   render() {
     return(
       <PartialForm
         {...this.props}
-        joinDate={this.state.joinDate}
-        value={this.state}
+        focusBirthday={this.state.focusBirthday}
+        onBlurBirthday={this.onBlurBirthday}
+        onFocusBirthday={this.onFocusBirthday}
+        data={this.state.data}
         onChange={this.onChange}
         onClickNewPageButton={this.onClickNewPageButton}
       />

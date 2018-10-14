@@ -282,6 +282,10 @@
       "label": "會員代號"
     },
     {
+      "key": "joinDate",
+      "label": "入會日期"
+    },
+    {
       "key": "referee_id",
       "label": "所屬裁判"      
     },
@@ -292,10 +296,6 @@
     {
       "key": "name",
       "label": "會員姓名"
-    },
-    {
-      "key": "joinDate",
-      "label": "入會日期"
     },
     {
       "key": "gender",
@@ -610,14 +610,14 @@
   ],
   "gender": [
     {
-      "key": "女",
-      "id": "女",
-      "id_name": "女"
-    },
-    {
       "key": "男",
       "id": "男",
       "id_name": "男"
+    },
+    {
+      "key": "女",
+      "id": "女",
+      "id_name": "女"
     }
   ],
   "education": [

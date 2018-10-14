@@ -139,6 +139,26 @@ const PartialEdit = (props) =>  {
                           </TextField>
                         </TableCell>
                       )
+                    } else if (key === 'birthday') {
+                      return(
+                        <TableCell key={key} style={styles.tableCell}>
+                          <TextField
+                            style={styles.tableCell}
+                            id="date"
+                            type="date"
+                            InputProps={{
+                              //onBlur: onBlurBirthday,
+                              //onFocus: onFocusBirthday,
+                              //style: focusBirthday ? {} : data[key] === '' ? styles.date : {}
+                            }}
+                            value={data[key]}
+                            onChange={(event) => {
+                              const value = event.target.value
+                              onChangeData(key,value)}
+                            } 
+                          />
+                        </TableCell>
+                      )
                     } else if (key === 'delete') {
                       return (
                         <TableCell key={key} style={styles.tableCell}>
@@ -196,7 +216,9 @@ const noTextInput = [
   'id',
   'delete',
   'gender',
-  'education'
+  'education',
+  'birthday',
+  'joinDate'
 ]
 
 const options = [
