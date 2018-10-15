@@ -42,7 +42,7 @@ import MemberSimpleTableScreen from './screens/mains/members/MemberSimpleTableSc
 import MemberEditScreen from './screens/mains/members/MemberEditScreen'
 // games
 import GameIndexScreen from './screens/mains/games/GameIndexScreen'
-import GameLiveScreen from './screens/mains/games/GameLiveScreen'
+import GameTableScreen from './screens/mains/games/GameTableScreen'
 // reports
 import ReportIndexScreen from './screens/mains/reports/ReportIndexScreen'
 import MemberReportScreen from './screens/mains/reports/MemberReportScreen'
@@ -135,7 +135,8 @@ const AuthEmployees = () => (
       <Route exact path='/members/edit/:key' component={MemberEditScreen}/>
       {/*games*/}
       <Route exact path='/games/index' component={GameIndexScreen}/>
-      <Route exact path='/games/live' component={GameLiveScreen}/>
+      <Route exact path='/games/table' component={GameTableScreen}/>
+      <Route exact path='/games/table/:by/:searchValue' component={GameTableScreen}/>
       {/*reports*/}
       <Route exact path='/reports/index' component={ReportIndexScreen}/>
       <Route exact path='/reports/member/:startDate/:endDate/:id' component={MemberReportScreen}/>

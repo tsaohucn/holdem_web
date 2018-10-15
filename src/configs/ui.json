@@ -330,13 +330,13 @@
       "label": "會員抓馬額度"
     }
   ],
-  "tablesTable": [
+  "gamesTable": [
     {
       "key": "table_id",
       "label": "桌次代號"
     },
     {
-      "key": "table_referee",
+      "key": "table_referee_id",
       "label": "開桌裁判"
     },
     {
@@ -352,15 +352,15 @@
       "label": "會員名稱"      
     },
     {
-      "key": "referee",
+      "key": "referee_id",
       "label": "所屬裁判"      
     },
     {
-      "key": "playDate",
+      "key": "game_date",
       "label": "會員上桌日期"      
     },
     {
-      "key": "playTime",
+      "key": "game_time",
       "label": "會員上桌時間"      
     }
   ],
