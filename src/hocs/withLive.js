@@ -18,41 +18,39 @@ function withLive(params) {
 
     constructor(props) {
       super(props)
-      this.id = this.props.match.params.id
       this.state = {
-        isLoading: true,
-        event: '載入中',
+        isLoading: false,
         data: []
       }
     }
 
     componentDidMount() {
-      if (this.id === '$all') {
-        this.fetchTableData(firebase.database().ref('members').orderByChild('onTable').equalTo(true))
+      const searchValue = this.props.match.params.searchValue
+      const by = this.props.match.params.by
+      if (!searchValue) {
+        //this.fetchTableData(firebase.database().ref('members').orderByChild('onTable').equalTo(true))
       } else {
-        this.fetchTableData(firebase.database().ref('members').orderByChild('table_id').equalTo(this.id))
+        this.fetchTableData(firebase.database().ref('members').orderByChild('club_id_table_id').equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
       }
     }
 
     fetchTableData = (fetch) => {
-      this.setState({
-        isLoading: true
-      },async () => {
-        try {
+      fetch.on('value',(snap) => {
+        this.setState({
+          isLoading: true
+        },async () => {
           await sleep(500)
-          const snap = fetch && (await fetch.once('value'))
-          const val = (snap && snap.val()) || {}
-          const data = Object.values(val) || []
+          let data = []
+          const val = snap.val()
+          if (val) {
+            data = Object.values(val) || []
+          }
           this.setState({
             isLoading: false,
             data
-          }) 
-        } catch(err) {
-          errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
-        } finally {
-          //
-        }         
-      })     
+          })
+        })
+      })   
     }
 
     goBack = () => {
@@ -71,7 +69,6 @@ function withLive(params) {
             this.state.isLoading ? 
             <div style={styles.spinner}>
               <CircularProgress size={50}/>
-              {/*<h3>{this.state.event}</h3>*/}
             </div>
             :
             <Component
