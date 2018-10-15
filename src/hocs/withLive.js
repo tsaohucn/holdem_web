@@ -28,7 +28,7 @@ function withLive(params) {
       const searchValue = this.props.match.params.searchValue
       const by = this.props.match.params.by
       if (!searchValue) {
-        //this.fetchTableData(firebase.database().ref('members').orderByChild('onTable').equalTo(true))
+        this.fetchTableData(firebase.database().ref('members').orderByChild('club_id_onTable').equalTo(this.props.HoldemStore.clubId + '_' + true))
       } else {
         this.fetchTableData(firebase.database().ref('members').orderByChild('club_id_table_id').equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
       }
