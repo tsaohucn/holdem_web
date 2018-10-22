@@ -131,7 +131,7 @@ function withForm(params) {
               upload_data = Object.assign({},data,{
                 key,
                 chip: 0, 
-                noLimit: false,
+                chipNoLimit: false,
                 club_key: this.props.HoldemStore.clubKey,
                 club_id: this.props.HoldemStore.clubId,
                 club_id_id: this.props.HoldemStore.clubId + '_' + data.id,
