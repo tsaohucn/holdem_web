@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import Moment from 'moment'
 import { extendMoment } from 'moment-range'
 // local_module
-import PartialTableTwo from '../views/PartialTableTwo'
+import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
 import { errorAlert, successAlert, sleep } from '../helpers'
 
@@ -12,59 +12,53 @@ function withReport(params) {
   const {
     title,
     resource,
-    wrapperComponent,
-    auth,
-    belong,
-    router
+    wrapperComponent
   } = params ? params : {}
 
   return class extends PureComponent {
 
     constructor(props) {
       super(props)
-      this.id = this.props.match.params.id || ''
-      this.startDate = this.props.match.params.startDate || ''
-      this.endDate = this.props.match.params.endDate || ''
-      this.date = this.props.match.params.date || ''
       this.state = {
         isLoading: true,
-        event: '載入中',
         data: []
       }
     }
 
     componentDidMount() {
+      const searchValue = this.props.match.params.searchValue
+      //this.fetchTableData(firebase.database().ref(resource).orderByChild('member_id').equalTo(searchValue))
+      this.fetchTableData(firebase.database().ref(resource))
+    }
+
+    fetchTableData = (fetch) => {
       this.setState({
-        isLoading: true,      
+        isLoading: true
       },async () => {
         try {
           await sleep(500)
+          const snap = fetch && (await fetch.once('value'))
+          const val = (snap && snap.val()) || {}
+          const data = Object.values(val) || []
           this.setState({
-            isLoading: false     
-          })
-        } catch (error) {
-          errorAlert(this.props.alert,'載入失敗 : ' + error.toString())
+            isLoading: false,
+            data
+          }) 
+        } catch(err) {
+          errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
         } finally {
           //
-        }
-      })
+        }         
+      })     
     }
 
     goBack = () => {
       this.props.history.goBack()
     }
-/*
-    goToDateReport = (date) => {
-      this.props.history.push('/reports/referee/day/' + date)
-    }
 
-    goToMemberReport = (date,id) => {
-      this.props.history.push('/reports/member/' + date + '/' + date + '/' + id)
-    }
-*/
     render() {
 
-      const Component = wrapperComponent ? wrapperComponent : PartialTableTwo
+      const Component = wrapperComponent ? wrapperComponent : PartialTable
 
       return(
         <div 
@@ -74,7 +68,6 @@ function withReport(params) {
             this.state.isLoading ? 
             <div style={styles.spinner}>
               <CircularProgress size={50}/>
-              <h3>{this.state.event}</h3>
             </div>
             :
             <Component
@@ -82,8 +75,6 @@ function withReport(params) {
               {...this.state}
               title={title}
               onClickTableReturnButton={this.goBack}
-              //onClickDate={this.goToDateReport}
-              //onClickTableId={this.goToMemberReport}
             />
           }
         </div>
