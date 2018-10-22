@@ -330,7 +330,7 @@
       "label": "會員抓馬額度"
     }
   ],
-  "gamesTable": [
+  "playersTable": [
     {
       "key": "table_id",
       "label": "桌次代號"
@@ -356,11 +356,11 @@
       "label": "所屬裁判"      
     },
     {
-      "key": "game_date",
+      "key": "playerDate",
       "label": "會員上桌日期"      
     },
     {
-      "key": "game_time",
+      "key": "playerTime",
       "label": "會員上桌時間"      
     }
   ],
