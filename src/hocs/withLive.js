@@ -18,6 +18,7 @@ function withLive(params) {
       super(props)
       this.playerListener = null
       this.state = {
+        modalIsShow: false,
         isLoading: false,
         data: []
       }
@@ -68,6 +69,18 @@ function withLive(params) {
       this.props.history.goBack()
     }
 
+    showModal = () => {
+      this.setState({
+        modalIsShow: true
+      })
+    }
+
+    closeModal = () => {
+      this.setState({
+        modalIsShow: false
+      })      
+    }
+
     render() {
 
       const Component = wrapperComponent ? wrapperComponent : PartialTable
@@ -86,7 +99,10 @@ function withLive(params) {
               {...this.props}
               {...this.state}
               title={title}
+              onClickChipGrap={this.showModal}
+              onClickModal={this.closeModal}
               onClickTableReturnButton={this.goBack}
+              modalIsShow={this.state.modalIsShow}
             />
           }
         </div>

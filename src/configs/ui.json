@@ -362,6 +362,10 @@
     {
       "key": "playerTime",
       "label": "會員上桌時間"      
+    },
+    {
+      "key": "chipGrap",
+      "label": "取籌碼"
     }
   ],
   "employeeSimpleTable": [

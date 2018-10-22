@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import ReactTooltip from 'react-tooltip'
 // local components
 import PartialButton from './PartialButton'
 
@@ -16,12 +17,10 @@ const PartialTable = (props) =>  {
     data,
     onClickTableReturnButton,
     onClickCount,
-    onClickEdit,
-    onClickDate,
-    onClickTableId
+    onClickEdit
   } = props ? props : {}
 
-  const render = (data) => (
+  const renderData = (data) => (
     data.map((n,index) => {
       return (
         <TableRow key={index.toString()}>
@@ -35,6 +34,19 @@ const PartialTable = (props) =>  {
                       <a style={styles.link} onClick={() => onClickCount && onClickCount(key,n.id)}>
                         {n[key]}
                       </a>
+                    </TableCell>
+                  )
+                } else if (key === 'chipGrap') {
+                  return (
+                    <TableCell key={key} style={styles.tableCell}>
+                      <a data-tip data-for='happyFace'>{'明細'}</a>
+                      <ReactTooltip id='happyFace' type='error' effect='solid'>
+                        <ol style={styles.ol}>
+                          { Object.values(n[key] || {}).map((ele) =>
+                            <li>{ele}</li>
+                          )}
+                        </ol>
+                      </ReactTooltip> 
                     </TableCell>
                   )
                 } else {
@@ -75,7 +87,7 @@ const PartialTable = (props) =>  {
             </TableRow>
           </TableHead>
           <TableBody>
-            { render(data) }
+            { renderData(data) }
           </TableBody>
         </Table>
       </Paper>
@@ -101,9 +113,30 @@ const count = [
 ]
 
 const styles = {
+  ol: {
+    paddingLeft: '0', 
+    listStylePosition: 'inside'
+  },
+  tooltip: {
+    color: 'red',
+    fontSize: '50px'
+  },
+  modal: {
+    position: 'absolute',
+    top: '25%',
+    left: '25%',
+    width: '50%',
+    height: '50%',
+    backgroundColor: '#FFFFFF',
+    boxShadow: 5,
+    padding: 4
+  },
   root: {
     width: '100%',
     overflowX: 'auto'
+  },
+  chipGrapTable: {
+    minWidth: '50%',
   },
   table: {
     minWidth: 700,
