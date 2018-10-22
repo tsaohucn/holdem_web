@@ -7,6 +7,6 @@ import withLive from '../../../hocs/withLive'
 import ui from '../../../configs/ui'
 
 export default inject('HoldemStore')(withNavigation(withAlert((withLive({
-  resource: 'games',
-  title: ui.gamesTable
+  resource: 'players',
+  title: ui.playersTable
 })))))

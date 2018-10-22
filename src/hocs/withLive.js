@@ -9,9 +9,7 @@ import { errorAlert, successAlert, sleep } from '../helpers'
 function withLive(params) {
   const {
     title,
-    resource,
-    wrapperComponent,
-    by
+    wrapperComponent
   } = params ? params : {}
 
   return class extends PureComponent {
