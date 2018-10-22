@@ -155,7 +155,7 @@
       "label": "出生日期"
     },
     {
-      "key": "place",
+      "key": "birthplace",
       "label": "出生地"
     },
     {
@@ -175,7 +175,7 @@
       "label": "聯絡電話"      
     },
     {
-      "key": "limit",
+      "key": "chipLimit",
       "label": "會員抓馬額度",
       "helperText": "請輸入數字"
     }
@@ -306,7 +306,7 @@
       "label": "出生日期"
     },
     {
-      "key": "place",
+      "key": "birthplace",
       "label": "出生地"
     },
     {
@@ -326,7 +326,7 @@
       "label": "聯絡電話"      
     },
     {
-      "key": "limit",
+      "key": "chipLimit",
       "label": "會員抓馬額度"
     }
   ],
