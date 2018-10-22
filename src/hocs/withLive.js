@@ -16,6 +16,7 @@ function withLive(params) {
 
     constructor(props) {
       super(props)
+      this.playerListener = null
       this.state = {
         isLoading: false,
         data: []
@@ -26,10 +27,15 @@ function withLive(params) {
       const searchValue = this.props.match.params.searchValue
       const by = this.props.match.params.by
       if (!searchValue) {
-        this.fetchTableData(firebase.database().ref('members').orderByChild('club_id_onTable').equalTo(this.props.HoldemStore.clubId + '_' + true))
+        this.playerListener = firebase.database().ref('members').orderByChild('club_id_onTable').equalTo(this.props.HoldemStore.clubId + '_' + true)
       } else {
-        this.fetchTableData(firebase.database().ref('members').orderByChild('club_id_table_id').equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
+        this.playerListener = firebase.database().ref('members').orderByChild('club_id_table_id').equalTo(this.props.HoldemStore.clubId + '_' + searchValue)
       }
+      this.fetchTableData(this.playerListener)
+    }
+
+    componentWillUnmount() {
+      this.removePlayerListener()
     }
 
     fetchTableData = (fetch) => {
@@ -49,6 +55,13 @@ function withLive(params) {
           })
         })
       })   
+    }
+
+    removePlayerListener = () => {
+      if (this.playerListener) {
+        this.playerListener.off()
+        this.playerListener = null
+      }
     }
 
     goBack = () => {
