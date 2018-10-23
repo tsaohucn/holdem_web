@@ -12,7 +12,8 @@ function withReport(params) {
   const {
     title,
     resource,
-    wrapperComponent
+    wrapperComponent,
+    by
   } = params ? params : {}
 
   return class extends PureComponent {
@@ -27,8 +28,13 @@ function withReport(params) {
 
     componentDidMount() {
       const searchValue = this.props.match.params.searchValue
-      //this.fetchTableData(firebase.database().ref(resource).orderByChild('member_id').equalTo(searchValue))
-      this.fetchTableData(firebase.database().ref(resource))
+      const startDate = this.props.match.params.startDate
+      const endDate = this.props.match.params.endDate
+      if (searchValue) {
+        this.fetchTableData(firebase.database().ref('reports').orderByChild('club_id_member_id').equalTo(searchValue))
+      } else {
+        errorAlert(this.props.alert,'載入資料發生錯誤')
+      }
     }
 
     fetchTableData = (fetch) => {

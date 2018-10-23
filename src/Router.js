@@ -139,10 +139,9 @@ const AuthEmployees = () => (
       <Route exact path='/players/table/:by/:searchValue' component={PlayerTableScreen}/>
       {/*reports*/}
       <Route exact path='/reports/index' component={ReportIndexScreen}/>
-      <Route exact path='/reports/member/:startDate/:endDate/:id' component={MemberReportScreen}/>
-      <Route exact path='/reports/referee/:startDate/:endDate/:id' component={RefereeReportScreen}/>
-      <Route exact path='/reports/referee/day/:date' component={RefereeDayReportScreen}/>
-      <Route exact path='/reports/sale/:startDate/:endDate/:id/' component={SaleReportScreen}/>
+      <Route exact path='/reports/member/:startDate/:endDate/:searchValue' component={MemberReportScreen}/>
+      <Route exact path='/reports/referee/:startDate/:endDate/:searchValue' component={RefereeReportScreen}/>
+      <Route exact path='/reports/sale/:startDate/:endDate/:searchValue' component={SaleReportScreen}/>
       {/*nomatch*/}
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
