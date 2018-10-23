@@ -1,6 +1,5 @@
-import React from 'react'
 import { withAlert } from 'react-alert'
-import { inject, observer } from 'mobx-react'
+import { inject } from 'mobx-react'
 // local components
 import withSearch from '../../../hocs/withSearch'
 import withNavigation from '../../../hocs/withNavigation'

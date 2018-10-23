@@ -1,4 +1,3 @@
-import React from 'react'
 import { withAlert } from 'react-alert'
 import { inject } from 'mobx-react'
 // local components

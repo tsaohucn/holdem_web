@@ -1,7 +1,6 @@
 // node_module
-import React from 'react'
 import { withAlert } from 'react-alert'
-import { inject, observer } from 'mobx-react'
+import { inject } from 'mobx-react'
 // local components
 import withNavigation from '../../../hocs/withNavigation'
 import withTable from '../../../hocs/withTable'
