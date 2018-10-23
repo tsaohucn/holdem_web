@@ -35,7 +35,7 @@ function withSearch(params) {
 
     search = (radio,searchContent,startDate,endDate) => {
       if ((radio || radio === 0) && searchContent && startDate && endDate && searchContent.length > 0) {
-        if (new Date(startDate) >= new Date(endDate)) {
+        if (new Date(startDate) > new Date(endDate)) {
           errorAlert(this.props.alert,'結束日期必須大於開始日期')
         } else {
           this.props.history.push('/reports/' + radio + '/' + startDate + '/' + endDate + '/' + searchContent)
