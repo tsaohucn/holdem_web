@@ -9,5 +9,5 @@ import ui from '../../../configs/ui'
 export default inject('HoldemStore')(withNavigation(withAlert(withReport({
   title: ui.refereeReportTable,
   resource: 'reports',
-  by: 'club_id_referee_id'
+  by: 'club_id_member_referee_id'
 }))))
