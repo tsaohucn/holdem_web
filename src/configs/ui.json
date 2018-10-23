@@ -426,8 +426,24 @@
   ],
   "memberReportTable": [
     {
-      "key": "table_date",
-      "label": "開桌日期"
+      "key": "member_id",
+      "label": "會員代號"      
+    },
+    {
+      "key": "member_name",
+      "label": "會員名稱"      
+    },
+    {
+      "key": "member_referee_id",
+      "label": "所屬裁判"      
+    },
+    {
+      "key": "playerDate",
+      "label": "上桌日期"      
+    },
+    {
+      "key": "playerTime",
+      "label": "上桌時間"      
     },
     {
       "key": "table_id",
@@ -440,26 +456,6 @@
     {
       "key": "table_level",
       "label": "盲著級別"      
-    },
-    {
-      "key": "member_id",
-      "label": "會員代號"      
-    },
-    {
-      "key": "member_referee_id",
-      "label": "所屬裁判"      
-    },
-    {
-      "key": "member_name",
-      "label": "會員名稱"      
-    },
-    {
-      "key": "playerDate",
-      "label": "上桌日期"      
-    },
-    {
-      "key": "playerTime",
-      "label": "上桌時間"      
     },
     {
       "key": "decodeDate",
@@ -518,31 +514,35 @@
   ],
   "saleReportTable": [
     {
-      "key": "date",
-      "label": "日期"
-    },
-    {
-      "key": "id",
+      "key": "sale_id",
       "label": "業務代號"
     },
     {
-      "key": "memberName",
+      "key": "playerDate",
+      "label": "上桌日期"
+    },
+    {
+      "key": "member_id",
+      "label": "會員代號"
+    },
+    {
+      "key": "member_name",
       "label": "會員名稱"
     },
     {
-      "key": "referee",
+      "key": "member_referee_id",
       "label": "所屬裁判"
     },
     {
-      "key": "level",
+      "key": "table_level",
       "label": "盲注級別"      
     },
     {
-      "key": "gameTime",
+      "key": "spendTime",
       "label": "本局時數"      
     },
     {
-      "key": "time",
+      "key": "?",
       "label": "時數"      
     },
     {
