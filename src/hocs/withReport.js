@@ -29,7 +29,7 @@ function withReport(params) {
     componentDidMount() {
       const searchValue = this.props.match.params.searchValue
       if (searchValue) {
-        this.fetchTableData(firebase.database().ref('reports').orderByChild('club_id_member_id').equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
+        this.fetchTableData(firebase.database().ref('reports').orderByChild(by).equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
       } else {
         errorAlert(this.props.alert,'載入資料發生錯誤')
       }
