@@ -87,16 +87,11 @@ function withEdit(params) {
                 }
               }
               // 檢查是否真的有此使用者
-              /*
               const snap = await firebase.database().ref(resource + '/' + this.key).once('value')
               const val = snap.val()
-              if (val) {
-                if (val.table_id) {
-                  throw '此使用者正在遊戲中'
-                }
-              } else {
+              if (!val) {
                 throw '查無此使用者'
-              }*/
+              }
               // 更新資料
               if (resource === 'employees') {
                 await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
@@ -155,17 +150,11 @@ function withEdit(params) {
                 throw '此人底下存在會員'
               } 
               // 檢查是否真的有此使用者
-              /*
               const snap = await firebase.database().ref(resource + '/' + this.key).once('value')
               const val = snap.val()
-              if (val) {
-                if (val.table_id) {
-                  throw '此使用者正在遊戲中'
-                }
-              } else {
+              if (!val) {
                 throw '查無此使用者'
               }
-              */
               // 刪資料
               if (resource === 'employees') {
                 await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
