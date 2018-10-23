@@ -512,44 +512,6 @@
       "label": "退回協會"      
     }
   ],
-  "saleReportTable": [
-    {
-      "key": "sale_id",
-      "label": "業務代號"
-    },
-    {
-      "key": "playerDate",
-      "label": "上桌日期"
-    },
-    {
-      "key": "member_id",
-      "label": "會員代號"
-    },
-    {
-      "key": "member_name",
-      "label": "會員名稱"
-    },
-    {
-      "key": "member_referee_id",
-      "label": "所屬裁判"
-    },
-    {
-      "key": "table_level",
-      "label": "盲注級別"      
-    },
-    {
-      "key": "spendTime",
-      "label": "本局時數"      
-    },
-    {
-      "key": "?",
-      "label": "時數"      
-    },
-    {
-      "key": "score",
-      "label": "分數"      
-    }
-  ],
   "refereeDayReportTable": [
     {
       "key": "date",
@@ -611,6 +573,44 @@
       "key": "st",
       "label": "裁判ST"      
     } 
+  ],
+  "saleReportTable": [
+    {
+      "key": "member_sale_id",
+      "label": "業務代號"
+    },
+    {
+      "key": "playerDate",
+      "label": "上桌日期"
+    },
+    {
+      "key": "member_id",
+      "label": "會員代號"
+    },
+    {
+      "key": "member_name",
+      "label": "會員名稱"
+    },
+    {
+      "key": "member_referee_id",
+      "label": "所屬裁判"
+    },
+    {
+      "key": "table_level",
+      "label": "盲注級別"      
+    },
+    {
+      "key": "spendTime",
+      "label": "本局時數"      
+    },
+    {
+      "key": "?",
+      "label": "時數"      
+    },
+    {
+      "key": "score",
+      "label": "分數"      
+    }
   ],
   "gender": [
     {
