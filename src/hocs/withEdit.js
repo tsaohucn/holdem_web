@@ -86,12 +86,6 @@ function withEdit(params) {
                   throw '此帳號已有人使用'
                 }
               }
-              // 檢查是否真的有此使用者
-              const snap = await firebase.database().ref(resource + '/' + this.key).once('value')
-              const val = snap.val()
-              if (!val) {
-                throw '查無此使用者'
-              }
               // 更新資料
               if (resource === 'employees') {
                 await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
@@ -149,31 +143,19 @@ function withEdit(params) {
               if (employeeCount > 0 || refereeCount > 0 || saleCount > 0 || memberCount > 0) {
                 throw '此人底下存在會員'
               } 
-              // 檢查是否真的有此使用者
-              const snap = await firebase.database().ref(resource + '/' + this.key).once('value')
-              const val = snap.val()
-              if (!val) {
-                throw '查無此使用者'
-              }
               // 刪資料
               if (resource === 'employees') {
                 await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
                 const user = firebase.auth().currentUser
                 await user.delete()              
               }
-              // non_use
-              //await firebase.database().ref('nonuse_' + resource + '/' + this.key).update(data)
-              //if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales') {
-              //  await firebase.database().ref('/backends/' + this.key).update({
-              //    nonuse: true
-              //  })
-              //}
-              await firebase.database().ref('/backends/' + this.key).remove()
+              await firebase.database().ref('/backends/' + this.key).update({
+                quit: true
+              })
               // 改成加已刪除標記
               await firebase.database().ref(resource + '/' + this.key).update({
                 quit: true
               })
-              //await firebase.database().ref(resource + '/' + this.key).remove()
               // count
               if (resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
                 switch(resource) {
