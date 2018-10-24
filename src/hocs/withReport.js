@@ -28,7 +28,7 @@ function withReport(params) {
 
     componentDidMount() {
       const searchValue = this.props.match.params.searchValue
-      if (searchValue) {
+      if (searchValue && by) {
         this.fetchTableData(firebase.database().ref('reports').orderByChild(by).equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
       } else {
         errorAlert(this.props.alert,'載入資料發生錯誤')
@@ -50,12 +50,21 @@ function withReport(params) {
           const snap = fetch && (await fetch.once('value'))
           const val = (snap && snap.val()) || {}
           const data = Object.values(val) || []
-          const in_range_data = data.filter(ele => range.includes(ele.playerDate))
-          const totalSpendTime = {}
-          in_range_data.forEach(ele => {
-            const spendTime = totalSpendTime[ele.playerDate + '_' + ele.member_referee_id] || 0
-            totalSpendTime[ele.playerDate + '_' + ele.member_referee_id] = spendTime + ele.spendTime
-          })
+          let in_range_data = data.filter(ele => range.includes(ele.playerDate))
+          let totalSpendTime = {}
+          if (by === 'club_id_member_referee_id') {
+            in_range_data = range.map(date => ({
+              referee_report_date: date,
+              referee_rk: 0,
+              referee_rk50: 0,
+              referee_st: 0
+            }))
+          } else if (by === 'club_id_member_sale_id') {
+            in_range_data.forEach(ele => {
+              const spendTime = totalSpendTime[ele.playerDate + '_' + ele.member_referee_id] || 0
+              totalSpendTime[ele.playerDate + '_' + ele.member_referee_id] = spendTime + ele.spendTime
+            })
+          }
           this.setState({
             isLoading: false,
             data: in_range_data,
@@ -67,6 +76,12 @@ function withReport(params) {
           //
         }         
       })     
+    }
+
+    goToRefereeDayReport = (date) => {
+      const _date = date.split('/').join('-')
+      const searchValue = this.props.match.params.searchValue
+      this.props.history.push('/reports/day/referee/' + _date + '/' + searchValue)
     }
 
     goBack = () => {
@@ -92,6 +107,7 @@ function withReport(params) {
               {...this.state}
               title={title}
               onClickTableReturnButton={this.goBack}
+              onClickRefereeReportDate={this.goToRefereeDayReport}
             />
           }
         </div>
