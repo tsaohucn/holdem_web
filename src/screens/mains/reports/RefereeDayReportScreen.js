@@ -9,5 +9,6 @@ import ui from '../../../configs/ui'
 export default inject('HoldemStore')(withNavigation(withAlert(withReport({
   title: ui.refereeDayReportTable,
   resource: 'reports',
-  by: 'club_id_member_referee_id'
+  by: 'club_id_member_referee_id',
+  router: 'reports/day/referee'
 }))))

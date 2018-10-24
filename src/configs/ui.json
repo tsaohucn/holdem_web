@@ -514,39 +514,11 @@
   ],
   "refereeDayReportTable": [
     {
-      "key": "date",
+      "key": "playerDate",
       "label": "日期"
     },
     {
-      "key": "referee",
-      "label": "開桌裁判"
-    },
-    {
-      "key": "referee_day_report_table_id",
-      "label": "桌次代號"
-    },
-    {
-      "key": "totalC",
-      "label": "總c"
-    },
-    {
-      "key": "gameMoney",
-      "label": "賽局總計"      
-    },
-    {
-      "key": "totalI",
-      "label": "總i"      
-    },
-    {
-      "key": "totalT",
-      "label": "總t"      
-    },
-    {
-      "key": "totalMembersSpendTime",
-      "label": "所有玩家上場總時間"      
-    },
-    {
-      "key": "refereeId",
+      "key": "member_referee_id",
       "label": "裁判代號"      
     },
     {
@@ -572,7 +544,39 @@
     {
       "key": "st",
       "label": "裁判ST"      
-    } 
+    },
+    {
+      "key": "referee_id",
+      "label": "桌次代號"
+    },
+    {
+      "key": "table_referee",
+      "label": "開桌裁判"
+    },
+    {
+      "key": "totalC",
+      "label": "總c"
+    },
+    {
+      "key": "gameMoney",
+      "label": "賽局總計"      
+    },
+    {
+      "key": "totalI",
+      "label": "總i"      
+    },
+    {
+      "key": "totalT",
+      "label": "總t"      
+    },
+    {
+      "key": "totalMembersSpendTime",
+      "label": "所有玩家上場總時間"      
+    },
+    {
+      "key": "average",
+      "label": "平均數"      
+    }
   ],
   "saleReportTable": [
     {
