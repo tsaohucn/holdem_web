@@ -11,7 +11,9 @@ import ReactTooltip from 'react-tooltip'
 import PartialButton from './PartialButton'
 import {   
   getSpendTime,
-  getTenMinutes
+  getTenMinutes,
+  getTotalSpendTime,
+  getScore
 } from '../helpers'
 
 const PartialTable = (props) =>  {
@@ -21,7 +23,8 @@ const PartialTable = (props) =>  {
     data,
     onClickTableReturnButton,
     onClickCount,
-    onClickEdit
+    onClickEdit,
+    totalSpendTime
   } = props ? props : {}
 
   const renderData = (data) => (
@@ -63,6 +66,18 @@ const PartialTable = (props) =>  {
                   return (
                     <TableCell key={key} style={styles.tableCell}>
                       {getTenMinutes(n['spendTime'])}
+                    </TableCell>
+                  )
+                } else if (key === 'totalSpendTime') {
+                  return (
+                    <TableCell key={key} style={styles.tableCell}>
+                      {getTotalSpendTime(totalSpendTime[n['playerDate'] + '_' + n['member_referee_id']])}
+                    </TableCell>
+                  )
+                } else if (key === 'score') {
+                  return(
+                    <TableCell key={key} style={styles.tableCell}>
+                      {getScore(totalSpendTime[n['playerDate'] + '_' + n['member_referee_id']],n['table_level'])}
                     </TableCell>
                   )
                 } else {
