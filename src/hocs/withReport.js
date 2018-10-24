@@ -51,9 +51,15 @@ function withReport(params) {
           const val = (snap && snap.val()) || {}
           const data = Object.values(val) || []
           const in_range_data = data.filter(ele => range.includes(ele.playerDate))
+          const totalSpendTime = {}
+          in_range_data.forEach(ele => {
+            const spendTime = totalSpendTime[ele.playerDate + '_' + ele.member_referee_id] || 0
+            totalSpendTime[ele.playerDate + '_' + ele.member_referee_id] = spendTime + ele.spendTime
+          })
           this.setState({
             isLoading: false,
-            data: in_range_data
+            data: in_range_data,
+            totalSpendTime
           }) 
         } catch(err) {
           errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())

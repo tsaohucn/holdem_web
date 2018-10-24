@@ -584,6 +584,14 @@
       "label": "上桌日期"
     },
     {
+      "key": "member_referee_id",
+      "label": "所屬裁判"
+    },
+    {
+      "key": "totalSpendTime",
+      "label": "總時數"      
+    },
+    {
       "key": "member_id",
       "label": "會員代號"
     },
@@ -592,20 +600,12 @@
       "label": "會員名稱"
     },
     {
-      "key": "member_referee_id",
-      "label": "所屬裁判"
-    },
-    {
       "key": "table_level",
       "label": "盲注級別"      
     },
     {
       "key": "spendTime",
       "label": "本局時數"      
-    },
-    {
-      "key": "totalTime",
-      "label": "總時數"      
     },
     {
       "key": "score",
