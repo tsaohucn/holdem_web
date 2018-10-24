@@ -77,7 +77,7 @@ function withEdit(params) {
       },async () => {
         try {
           await sleep(500)
-          if (this.key && this.account && this.password) {
+          if (this.key) {
             if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
               // 先檢查帳號有無重複
               if (data.account) {
@@ -133,7 +133,7 @@ function withEdit(params) {
       },async () => {
         try {
           await sleep(500)
-          if (this.key && this.account && this.password) {
+          if (this.key) {
             if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
               const refereeCount = data.refereeCount
               const saleCount = data.saleCount
@@ -149,9 +149,11 @@ function withEdit(params) {
                 const user = firebase.auth().currentUser
                 await user.delete()              
               }
-              await firebase.database().ref('/backends/' + this.key).update({
-                quit: true
-              })
+              if (resource !== 'members') {
+                await firebase.database().ref('/backends/' + this.key).update({
+                  quit: true
+                })
+              }
               // 改成加已刪除標記
               await firebase.database().ref(resource + '/' + this.key).update({
                 quit: true
