@@ -23,6 +23,7 @@ const PartialTable = (props) =>  {
     data,
     onClickTableReturnButton,
     onClickRefereeReportDate,
+    onClickRefereeDayReportTableId,
     onClickCount,
     onClickEdit,
     totalSpendTime
@@ -85,6 +86,14 @@ const PartialTable = (props) =>  {
                   return(
                     <TableCell key={key} style={styles.tableCell}>
                       <a style={styles.link} onClick={() => onClickRefereeReportDate && onClickRefereeReportDate(n[key])}>
+                        {n[key]}
+                      </a>
+                    </TableCell>
+                  )
+                } else if (key === 'referee_day_report_table_id') {
+                  return(
+                    <TableCell key={key} style={styles.tableCell}>
+                      <a style={styles.link} onClick={() => onClickRefereeDayReportTableId && onClickRefereeDayReportTableId(n[key])}>
                         {n[key]}
                       </a>
                     </TableCell>
