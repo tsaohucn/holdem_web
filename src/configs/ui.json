@@ -604,8 +604,8 @@
       "label": "本局時數"      
     },
     {
-      "key": "?",
-      "label": "時數"      
+      "key": "totalTime",
+      "label": "總時數"      
     },
     {
       "key": "score",
