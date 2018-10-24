@@ -22,6 +22,7 @@ const PartialTable = (props) =>  {
     title,
     data,
     onClickTableReturnButton,
+    onClickRefereeReportDate,
     onClickCount,
     onClickEdit,
     totalSpendTime
@@ -78,6 +79,14 @@ const PartialTable = (props) =>  {
                   return(
                     <TableCell key={key} style={styles.tableCell}>
                       {getScore(totalSpendTime[n['playerDate'] + '_' + n['member_referee_id']],n['table_level'])}
+                    </TableCell>
+                  )
+                } else if (key === 'referee_report_date') {
+                  return(
+                    <TableCell key={key} style={styles.tableCell}>
+                      <a style={styles.link} onClick={() => onClickRefereeReportDate && onClickRefereeReportDate(n[key])}>
+                        {n[key]}
+                      </a>
                     </TableCell>
                   )
                 } else {

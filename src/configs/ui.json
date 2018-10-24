@@ -496,15 +496,15 @@
       "label": "日期"
     },
     {
-      "key": "rk",
+      "key": "referee_rk",
       "label": "裁判積分RK"
     },
     {
-      "key": "rk50",
+      "key": "referee_rk50",
       "label": "50RK"
     },
     {
-      "key": "st",
+      "key": "referee_st",
       "label": "裁判ST"
     },
     {
