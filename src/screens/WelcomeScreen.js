@@ -55,23 +55,28 @@ class WelcomeScreen extends Component {
         const snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(this.state.account).once('value')
         const val = snap.val()
         if (val) {
-          const user = Object.values(val)[0]
-          if (user.password.toString() === this.state.password) {
-            if (!user.nonuse) {
-              this.props.HoldemStore.setUser({
-                isAuth: true,
-                resource: user.resource,
-                id: user.id,
-                clubKey: user.club_key,
-                clubId: user.club_id,
-                account: user.account,
-                password: user.password
-              })
-            } else {
-              throw '此使用者已不再使用'
-            }
+          const users = Object.values(val)
+          if (users.length > 1) {
+            throw '出現重複使用者'
           } else {
-            throw '密碼錯誤'
+            const user = users[0]
+            if (user.password.toString() === this.state.password) {
+              if (user.quit) {
+                throw '此使用者已不再使用'
+              } else {
+                this.props.HoldemStore.setUser({
+                  isAuth: true,
+                  resource: user.resource,
+                  id: user.id,
+                  clubKey: user.club_key,
+                  clubId: user.club_id,
+                  account: user.account,
+                  password: user.password
+                })                
+              }
+            } else {
+              throw '密碼錯誤'
+            }
           }
         } else {
           throw '無此使用者'

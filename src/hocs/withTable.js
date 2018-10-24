@@ -54,9 +54,10 @@ function withTable(params) {
           const snap = fetch && (await fetch.once('value'))
           const val = (snap && snap.val()) || {}
           const data = Object.values(val) || []
+          const non_quit_data = data.filter(ele => !ele.quit)
           this.setState({
             isLoading: false,
-            data
+            data: non_quit_data
           }) 
         } catch(err) {
           errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())

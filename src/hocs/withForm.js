@@ -44,7 +44,8 @@ function withForm(params) {
           optionsSnap.forEach((snap,index) => {
             const val = snap.val()
             const keys = Object.keys(val || [])
-            const option = keys.map(key => {
+            const non_quit_keys = keys.filter(key => !val[key].quit)
+            const option = non_quit_keys.map(key => {
               this.options[key] = {
                 id: val[key].id,
                 name: val[key].name
@@ -103,10 +104,14 @@ function withForm(params) {
                 club_id_id: data.id + '_' + data.id,
                 club_id_name: data.id + '_' + data.name,
                 club_id_club_id: data.id + '_' + data.id,
+                //club_id_id_quit: data.id + '_' + data.id + '_' + false,
+                //club_id_name_quit: data.id + '_' + data.name + '_' + false,
+                //club_id_club_id_quit: data.id + '_' + data.id + '_' + false,
                 employeeCount: 0,
                 refereeCount: 0, 
                 saleCount: 0,
-                memberCount: 0
+                memberCount: 0,
+                quit: false
               })
             } else if (resource === 'employees') {
               upload_data = Object.assign({},data,{
@@ -115,7 +120,11 @@ function withForm(params) {
                 club_id: this.props.HoldemStore.clubId,
                 club_id_id: this.props.HoldemStore.clubId + '_' + data.id,
                 club_id_name: this.props.HoldemStore.clubId + '_' + data.name,
-                club_id_club_id: this.props.HoldemStore.clubId + '_' + this.props.HoldemStore.clubId
+                club_id_club_id: this.props.HoldemStore.clubId + '_' + this.props.HoldemStore.clubId,
+                //club_id_id_quit: this.props.HoldemStore.clubId + '_' + data.id + '_' + false,
+                //club_id_name_quit: this.props.HoldemStore.clubId + '_' + data.name + '_' + false,
+                //club_id_club_id_quit: this.props.HoldemStore.clubId + '_' + this.props.HoldemStore.clubId + '_' + false,
+                quit: false
               })            
             } else if (resource === 'referees' || resource === 'sales') {
               upload_data = Object.assign({},data,{
@@ -125,7 +134,11 @@ function withForm(params) {
                 club_id_id: this.props.HoldemStore.clubId + '_' + data.id,
                 club_id_name: this.props.HoldemStore.clubId + '_' + data.name,
                 club_id_club_id: this.props.HoldemStore.clubId + '_' + this.props.HoldemStore.clubId,
-                memberCount: 0
+                //club_id_id_quit: this.props.HoldemStore.clubId + '_' + data.id + '_' + false,
+                //club_id_name_quit: this.props.HoldemStore.clubId + '_' + data.name + '_' + false,
+                //club_id_club_id_quit: this.props.HoldemStore.clubId + '_' + this.props.HoldemStore.clubId + '_' + false,
+                memberCount: 0,
+                quit: false
               })
             } else if (resource === 'members') {
               upload_data = Object.assign({},data,{
@@ -139,10 +152,16 @@ function withForm(params) {
                 club_id_club_id: this.props.HoldemStore.clubId + '_' + this.props.HoldemStore.clubId,
                 club_id_referee_id: this.props.HoldemStore.clubId + '_' + this.options[data['referee_key']].id,
                 club_id_sale_id: this.props.HoldemStore.clubId + '_' + this.options[data['sale_key']].id,
+                //club_id_id_quit: this.props.HoldemStore.clubId + '_' + data.id + '_' + false,
+                //club_id_name_quit: this.props.HoldemStore.clubId + '_' + data.name + '_' + false,
+                //club_id_club_id_quit: this.props.HoldemStore.clubId + '_' + this.props.HoldemStore.clubId + '_' + false,
+                //club_id_referee_id_quit: this.props.HoldemStore.clubId + '_' + this.options[data['referee_key']].id + '_' + false,
+                //club_id_sale_id_quit: this.props.HoldemStore.clubId + '_' + this.options[data['sale_key']].id + '_' + false,
                 referee_key: data['referee_key'],
                 referee_id: this.options[data['referee_key']].id, 
                 sale_key: data['sale_key'],
-                sale_id: this.options[data['sale_key']].id
+                sale_id: this.options[data['sale_key']].id,
+                quit: false
               })
             }        
             // backends
@@ -158,6 +177,7 @@ function withForm(params) {
                   club_key: key,
                   account: data.account,
                   password: data.password,
+                  quit: false,
                   resource
                 })
               } else {
@@ -168,6 +188,7 @@ function withForm(params) {
                   club_id: this.props.HoldemStore.clubId,
                   account: data.account,
                   password: data.password,
+                  quit: false,
                   resource 
                 })               
               }
