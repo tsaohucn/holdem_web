@@ -13,7 +13,8 @@ function withReport(params) {
     title,
     resource,
     wrapperComponent,
-    by
+    by,
+    router
   } = params ? params : {}
 
   return class extends PureComponent {
@@ -41,8 +42,8 @@ function withReport(params) {
       },async () => {
         try {
           await sleep(500)
-          const startDate = this.props.match.params.startDate
-          const endDate = this.props.match.params.endDate
+          const startDate = this.props.match.params.startDate || this.props.match.params.date
+          const endDate = this.props.match.params.endDate || this.props.match.params.date
           const moment = extendMoment(Moment)
           const start = moment(startDate, 'YYYY-MM-DD')
           const end   = moment(endDate, 'YYYY-MM-DD')
@@ -52,14 +53,14 @@ function withReport(params) {
           const data = Object.values(val) || []
           let in_range_data = data.filter(ele => range.includes(ele.playerDate))
           let totalSpendTime = {}
-          if (by === 'club_id_member_referee_id') {
+          if (router === 'reports/referee') {
             in_range_data = range.map(date => ({
               referee_report_date: date,
               referee_rk: 0,
               referee_rk50: 0,
               referee_st: 0
             }))
-          } else if (by === 'club_id_member_sale_id') {
+          } else if (router === 'reports/sale') {
             in_range_data.forEach(ele => {
               const spendTime = totalSpendTime[ele.playerDate + '_' + ele.member_referee_id] || 0
               totalSpendTime[ele.playerDate + '_' + ele.member_referee_id] = spendTime + ele.spendTime
