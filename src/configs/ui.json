@@ -546,11 +546,11 @@
       "label": "裁判ST"      
     },
     {
-      "key": "referee_id",
+      "key": "referee_day_report_table_id",
       "label": "桌次代號"
     },
     {
-      "key": "table_referee",
+      "key": "table_referee_id",
       "label": "開桌裁判"
     },
     {
@@ -615,6 +615,72 @@
       "key": "score",
       "label": "分數"      
     }
+  ],
+  "tableReportTable": [
+    {
+      "key": "playerDate",
+      "label": "上桌日期"      
+    },
+    {
+      "key": "table_id",
+      "label": "桌次代號"
+    },
+    {
+      "key": "table_referee_id",
+      "label": "開桌裁判"
+    },
+    {
+      "key": "table_level",
+      "label": "盲著級別"      
+    },
+    {
+      "key": "member_id",
+      "label": "會員代號"      
+    },
+    {
+      "key": "member_name",
+      "label": "會員名稱"      
+    },
+    {
+      "key": "member_referee_id",
+      "label": "所屬裁判"      
+    },
+    {
+      "key": "playerTime",
+      "label": "上桌時間"      
+    },
+    {
+      "key": "decodeDate",
+      "label": "解碼日期"      
+    },
+    {
+      "key": "decodeTime",
+      "label": "解碼時間"      
+    },
+    {
+      "key": "spendTime",
+      "label": "本局時數"      
+    },
+    {
+      "key": "tenMinutes",
+      "label": "N個十分鐘"      
+    },
+    {
+      "key": "totalChipGrap",
+      "label": "取碼總計"      
+    },
+    {
+      "key": "totalDecodeChip",
+      "label": "解碼總計"      
+    },
+    {
+      "key": "finallyChip",
+      "label": "賽局餘額"       
+    },
+    {
+      "key": "member_rk",
+      "label": "會員貢獻度(RK)"       
+    } 
   ],
   "gender": [
     {

@@ -60,6 +60,11 @@ function withReport(params) {
               referee_rk50: 0,
               referee_st: 0
             }))
+          } else if (router === 'reports/day/referee') {
+            in_range_data = in_range_data.map(ele => ({
+              ...ele,
+              referee_day_report_table_id: ele.table_id
+            }))
           } else if (router === 'reports/sale') {
             in_range_data.forEach(ele => {
               const spendTime = totalSpendTime[ele.playerDate + '_' + ele.member_referee_id] || 0
@@ -83,6 +88,11 @@ function withReport(params) {
       const _date = date.split('/').join('-')
       const searchValue = this.props.match.params.searchValue
       this.props.history.push('/reports/day/referee/' + _date + '/' + searchValue)
+    }
+
+    goToTableReport = (table_id) => {
+      const date = this.props.match.params.date
+      this.props.history.push('/reports/table/' + date + '/' + table_id)
     }
 
     goBack = () => {
@@ -109,6 +119,7 @@ function withReport(params) {
               title={title}
               onClickTableReturnButton={this.goBack}
               onClickRefereeReportDate={this.goToRefereeDayReport}
+              onClickRefereeDayReportTableId={this.goToTableReport}
             />
           }
         </div>

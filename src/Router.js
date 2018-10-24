@@ -49,6 +49,7 @@ import MemberReportScreen from './screens/mains/reports/MemberReportScreen'
 import RefereeReportScreen from './screens/mains/reports/RefereeReportScreen'
 import RefereeDayReportScreen from './screens/mains/reports/RefereeDayReportScreen'
 import SaleReportScreen from './screens/mains/reports/SaleReportScreen'
+import TableReportScreen from './screens/mains/reports/TableReportScreen'
 
 const Init = () => (
   <BrowserRouter>
@@ -143,6 +144,7 @@ const AuthEmployees = () => (
       <Route exact path='/reports/referee/:startDate/:endDate/:searchValue' component={RefereeReportScreen}/>
       <Route exact path='/reports/day/referee/:date/:searchValue' component={RefereeDayReportScreen}/>
       <Route exact path='/reports/sale/:startDate/:endDate/:searchValue' component={SaleReportScreen}/>
+      <Route exact path='/reports/table/:date/:searchValue' component={TableReportScreen}/>
       {/*nomatch*/}
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
