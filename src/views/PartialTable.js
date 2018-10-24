@@ -9,6 +9,10 @@ import Paper from '@material-ui/core/Paper'
 import ReactTooltip from 'react-tooltip'
 // local components
 import PartialButton from './PartialButton'
+import {   
+  getSpendTime,
+  getTenMinutes
+} from '../helpers'
 
 const PartialTable = (props) =>  {
 
@@ -47,6 +51,18 @@ const PartialTable = (props) =>  {
                           )}
                         </ol>
                       </ReactTooltip> 
+                    </TableCell>
+                  )
+                } else if (key === 'spendTime') {
+                  return (
+                    <TableCell key={key} style={styles.tableCell}>
+                      {getSpendTime(n['spendTime'])}
+                    </TableCell>
+                  )
+                } else if (key === 'tenMinutes') {
+                  return (
+                    <TableCell key={key} style={styles.tableCell}>
+                      {getTenMinutes(n['spendTime'])}
                     </TableCell>
                   )
                 } else {
