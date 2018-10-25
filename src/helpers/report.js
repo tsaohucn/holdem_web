@@ -35,4 +35,8 @@ const getScore = (spendTime,table_level) => {
   }
 }
 
-export { getSpendTime, getTenMinutes, getTotalSpendTime, getScore }
+const getC = (totalFinallyChip,t,i) => {
+  return totalFinallyChip - t - i
+}
+
+export { getSpendTime, getTenMinutes, getTotalSpendTime, getScore, getC }

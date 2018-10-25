@@ -13,7 +13,8 @@ import {
   getSpendTime,
   getTenMinutes,
   getTotalSpendTime,
-  getScore
+  getScore,
+  getC
 } from '../helpers'
 
 const PartialTable = (props) =>  {
@@ -77,7 +78,7 @@ const PartialTable = (props) =>  {
                       {getTotalSpendTime(saleReportTotalPlayerSpendTime[n['playerDate'] + '_' + n['member_referee_id']])}
                     </TableCell>
                   )
-                } else if (key === 'refereeDayReportTotalPlayerSpendTime') {
+                } else if (key === 'refereeDayReportTotalPlayerSpendTime' || key === 'totalSpendTime') {
                   return (
                     <TableCell key={key} style={styles.tableCell}>
                       {getTotalSpendTime(n[key])}
@@ -103,6 +104,12 @@ const PartialTable = (props) =>  {
                       <a style={styles.link} onClick={() => onClickRefereeDayReportTableId && onClickRefereeDayReportTableId(n[key])}>
                         {n[key]}
                       </a>
+                    </TableCell>
+                  )
+                } else if (key === 'c') {
+                  return(
+                    <TableCell key={key} style={styles.tableCell}>
+                      {getC(n['totalFinallyChip'],n['t'],n['i'])}
                     </TableCell>
                   )
                 } else {
