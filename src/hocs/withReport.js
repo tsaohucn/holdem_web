@@ -57,7 +57,7 @@ function withReport(params) {
           let saleReportTotalPlayerSpendTime = {}
           let Title = null
           if (router === 'reports/referee') {
-            Title = '裁判代號：' + searchValue + '  ' + '日期：' + startDate + ' ~ ' +  endDate
+            Title = '裁判代號：' + searchValue + '   ' + '會員上桌日期：' + startDate + ' ~ ' +  endDate
             in_range_data = range.map(date => ({
               referee_report_date: date,
               referee_rk: 0,
@@ -65,15 +65,17 @@ function withReport(params) {
               referee_st: 0
             }))
           } else if (router === 'reports/sale') {
-            Title = '業務代號：' + searchValue + '  ' + '日期：' + startDate + ' ~ ' +  endDate
+            Title = '業務代號：' + searchValue + '   ' + '會員上桌日期：' + startDate + ' ~ ' +  endDate
             in_range_data.forEach(ele => {
               const spendTime = saleReportTotalPlayerSpendTime[ele.playerDate + '_' + ele.member_referee_id] || 0
               saleReportTotalPlayerSpendTime[ele.playerDate + '_' + ele.member_referee_id] = spendTime + ele.spendTime
             })
           } else if (router === 'reports/member') {
-            Title = '會員代號：' + searchValue + '  ' + '日期：' + startDate + ' ~ ' +  endDate  
+            Title = '會員代號：' + searchValue + '   ' + '會員上桌日期：' + startDate + ' ~ ' +  endDate  
+          } else if (router === 'reports/table') {
+            Title = '桌次代號：' + searchValue + '   ' + '會員上桌日期：' + date
           } else if (router === 'reports/day/referee') { 
-            Title = '裁判代號：' + searchValue + '  ' + '日期：' + date
+            Title = '裁判代號：' + searchValue + '   ' + '會員上桌日期：' + date
             let temp_data = {}
             in_range_data.forEach((ele) => {
               if (temp_data[ele.table_id]) {

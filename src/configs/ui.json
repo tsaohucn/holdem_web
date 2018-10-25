@@ -606,12 +606,8 @@
   ],
   "tableReportTable": [
     {
-      "key": "playerDate",
-      "label": "上桌日期"      
-    },
-    {
-      "key": "table_id",
-      "label": "桌次代號"
+      "key": "playerTime",
+      "label": "會員上桌時間"      
     },
     {
       "key": "table_referee_id",
@@ -632,10 +628,6 @@
     {
       "key": "member_referee_id",
       "label": "所屬裁判"      
-    },
-    {
-      "key": "playerTime",
-      "label": "上桌時間"      
     },
     {
       "key": "decodeDate",
