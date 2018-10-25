@@ -8,11 +8,13 @@ import {
   getSpendTime, 
   getTenMinutes, 
   getTotalSpendTime,
-  getScore
+  getScore,
+  getC
 } from './report'
 
 
 export {
+  getC,
   getScore,
   getTotalSpendTime,
   getSpendTime,

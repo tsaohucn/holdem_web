@@ -564,7 +564,7 @@
       "label": "賽局總計"      
     },
     {
-      "key": "totalSpendTimeOfOneTable",
+      "key": "totalSpendTime",
       "label": "此桌次所有玩家上場總時間"      
     },
     {
@@ -580,7 +580,7 @@
       "label": "總t"      
     },
     {
-      "key": "table_referee_id",
+      "key": "referee_id",
       "label": "開桌裁判"
     },
     {
