@@ -568,15 +568,15 @@
       "label": "此桌次所有玩家上場總時間"      
     },
     {
-      "key": "totalC",
+      "key": "c",
       "label": "總c"
     },
     {
-      "key": "totalI",
+      "key": "i",
       "label": "總i"      
     },
     {
-      "key": "totalT",
+      "key": "t",
       "label": "總t"      
     },
     {

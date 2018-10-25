@@ -78,18 +78,22 @@ function withReport(params) {
             Title = '裁判代號：' + searchValue + '   ' + '會員上桌日期：' + date
             let temp_data = {}
             in_range_data.forEach((ele) => {
-              if (temp_data[ele.table_id]) {
-                temp_data[ele.table_id]['refereeDayReportTotalPlayerSpendTime'] += ele.spendTime
-                temp_data[ele.table_id]['refereeDayReportTotalFinallyChip'] += ele.finallyChip
+              if (temp_data[ele.table_key]) {
+                temp_data[ele.table_key]['refereeDayReportTotalPlayerSpendTime'] += ele.spendTime
+                temp_data[ele.table_key]['refereeDayReportTotalFinallyChip'] += ele.finallyChip
               } else {
-                temp_data[ele.table_id] = {
+                temp_data[ele.table_key] = {
                   referee_day_report_table_id: ele.table_id,
                   refereeDayReportTotalPlayerSpendTime: ele.spendTime,
                   refereeDayReportTotalFinallyChip: ele.finallyChip
                 }
               } 
             })
-            in_range_data = Object.values(temp_data)
+            const keys = Object.keys(temp_data)
+            const tables_promise = keys.map(key => firebase.database().ref('/table_reports/' + key).once('value'))
+            const tables_promise_snap_arr = await Promise.all(tables_promise)
+            const tables_val_arr = tables_promise_snap_arr.map(snap => snap.val())
+            in_range_data = Object.values(temp_data).map((ele,index) => Object.assign({},ele,tables_val_arr[index]))
           }
           this.setState({
             isLoading: false,
