@@ -61,23 +61,6 @@ const ReportPage = (props) => {
             <FormControlLabel
               control={
                 <Radio
-                  checked={radio['member']}
-                  onChange={onClickRadio}
-                  value="member"
-                />
-              }
-              label="會員代號"
-            />
-            <TextField
-              style={styles.textField}
-              id="margin-none"
-              onChange={onChangeMemberText}
-            />
-          </div>
-          <div>
-            <FormControlLabel
-              control={
-                <Radio
                   checked={radio['referee']}
                   onChange={onClickRadio}
                   value="referee"
@@ -106,6 +89,23 @@ const ReportPage = (props) => {
               style={styles.textField}
               id="margin-none"
               onChange={onChangeSaleText}
+            />
+          </div>
+          <div>
+            <FormControlLabel
+              control={
+                <Radio
+                  checked={radio['member']}
+                  onChange={onClickRadio}
+                  value="member"
+                />
+              }
+              label="會員代號"
+            />
+            <TextField
+              style={styles.textField}
+              id="margin-none"
+              onChange={onChangeMemberText}
             />
           </div>
         </FormGroup>
