@@ -42,8 +42,10 @@ function withReport(params) {
       },async () => {
         try {
           await sleep(500)
-          const startDate = this.props.match.params.startDate || this.props.match.params.date
-          const endDate = this.props.match.params.endDate || this.props.match.params.date
+          const searchValue = this.props.match.params.searchValue
+          const date = this.props.match.params.date
+          const startDate = this.props.match.params.startDate || date
+          const endDate = this.props.match.params.endDate || date
           const moment = extendMoment(Moment)
           const start = moment(startDate, 'YYYY-MM-DD')
           const end   = moment(endDate, 'YYYY-MM-DD')
@@ -52,29 +54,46 @@ function withReport(params) {
           const val = (snap && snap.val()) || {}
           const data = Object.values(val) || []
           let in_range_data = data.filter(ele => range.includes(ele.playerDate))
-          let totalSpendTime = {}
+          let saleReportTotalPlayerSpendTime = {}
+          let Title = null
           if (router === 'reports/referee') {
+            Title = '裁判代號：' + searchValue + '  ' + '日期：' + startDate + ' ~ ' +  endDate
             in_range_data = range.map(date => ({
               referee_report_date: date,
               referee_rk: 0,
               referee_rk50: 0,
               referee_st: 0
             }))
-          } else if (router === 'reports/day/referee') {
-            in_range_data = in_range_data.map(ele => ({
-              ...ele,
-              referee_day_report_table_id: ele.table_id
-            }))
           } else if (router === 'reports/sale') {
+            Title = '業務代號：' + searchValue + '  ' + '日期：' + startDate + ' ~ ' +  endDate
             in_range_data.forEach(ele => {
-              const spendTime = totalSpendTime[ele.playerDate + '_' + ele.member_referee_id] || 0
-              totalSpendTime[ele.playerDate + '_' + ele.member_referee_id] = spendTime + ele.spendTime
+              const spendTime = saleReportTotalPlayerSpendTime[ele.playerDate + '_' + ele.member_referee_id] || 0
+              saleReportTotalPlayerSpendTime[ele.playerDate + '_' + ele.member_referee_id] = spendTime + ele.spendTime
             })
+          } else if (router === 'reports/member') {
+            Title = '會員代號：' + searchValue + '  ' + '日期：' + startDate + ' ~ ' +  endDate  
+          } else if (router === 'reports/day/referee') { 
+            Title = '裁判代號：' + searchValue + '  ' + '日期：' + date
+            let temp_data = {}
+            in_range_data.forEach((ele) => {
+              if (temp_data[ele.table_id]) {
+                temp_data[ele.table_id]['refereeDayReportTotalPlayerSpendTime'] += ele.spendTime
+                temp_data[ele.table_id]['refereeDayReportTotalFinallyChip'] += ele.finallyChip
+              } else {
+                temp_data[ele.table_id] = {
+                  referee_day_report_table_id: ele.table_id,
+                  refereeDayReportTotalPlayerSpendTime: ele.spendTime,
+                  refereeDayReportTotalFinallyChip: ele.finallyChip
+                }
+              } 
+            })
+            in_range_data = Object.values(temp_data)
           }
           this.setState({
             isLoading: false,
             data: in_range_data,
-            totalSpendTime
+            saleReportTotalPlayerSpendTime,
+            Title
           }) 
         } catch(err) {
           errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
@@ -116,6 +135,7 @@ function withReport(params) {
             <Component
               {...this.props}
               {...this.state}
+              Title={this.state.Title}
               title={title}
               onClickTableReturnButton={this.goBack}
               onClickRefereeReportDate={this.goToRefereeDayReport}

@@ -9,8 +9,8 @@
     "referees": "裁判資料表",
     "sales": "業務資料表",
     "members": "會員資料表",
-    "players": "桌次現況",
-    "reports": "報表"
+    "reports": "賽局報表",
+    "players": "桌次現況"
   },
   "refereesRouter": {
     "reports": "報表"
@@ -424,11 +424,67 @@
       "label": "會員名稱"      
     }
   ],
-  "memberReportTable": [
+  "refereeReportTable": [
+    {
+      "key": "referee_report_date",
+      "label": "日期"
+    },
+    {
+      "key": "referee_rk",
+      "label": "裁判積分RK"
+    },
+    {
+      "key": "referee_rk50",
+      "label": "50RK"
+    },
+    {
+      "key": "referee_st",
+      "label": "裁判ST"
+    },
+    {
+      "key": "returnClub",
+      "label": "退回協會"      
+    }
+  ],
+  "saleReportTable": [
+    {
+      "key": "playerDate",
+      "label": "會員上桌日期"
+    },
+    {
+      "key": "playerTime",
+      "label": "會員上桌時間"
+    },
+    {
+      "key": "member_referee_id",
+      "label": "會員所屬裁判"
+    },
+    {
+      "key": "saleReportTotalPlayerSpendTime",
+      "label": "總時數"      
+    },
     {
       "key": "member_id",
-      "label": "會員代號"      
+      "label": "會員代號"
     },
+    {
+      "key": "member_name",
+      "label": "會員名稱"
+    },
+    {
+      "key": "table_level",
+      "label": "盲注級別"      
+    },
+    {
+      "key": "spendTime",
+      "label": "本局時數"      
+    },
+    {
+      "key": "score",
+      "label": "分數"      
+    }
+  ],
+  "memberReportTable": [
     {
       "key": "member_name",
       "label": "會員名稱"      
@@ -490,76 +546,30 @@
       "label": "會員貢獻度(RK)"       
     }    
   ],
-  "refereeReportTable": [
-    {
-      "key": "referee_report_date",
-      "label": "日期"
-    },
-    {
-      "key": "referee_rk",
-      "label": "裁判積分RK"
-    },
-    {
-      "key": "referee_rk50",
-      "label": "50RK"
-    },
-    {
-      "key": "referee_st",
-      "label": "裁判ST"
-    },
-    {
-      "key": "returnClub",
-      "label": "退回協會"      
-    }
-  ],
   "refereeDayReportTable": [
-    {
-      "key": "playerDate",
-      "label": "日期"
-    },
-    {
-      "key": "member_referee_id",
-      "label": "裁判代號"      
-    },
-    {
-      "key": "totalPlayerTime",
-      "label": "所含玩家上場總時間"      
-    },
-    {
-      "key": "totalPlayerMoney",
-      "label": "所含玩家賽局總計"      
-    },
-    {
-      "key": "rk",
-      "label": "裁判積分RK"      
-    },
-    {
-      "key": "forClub",
-      "label": "給協會"      
-    },    
-    {
-      "key": "forReferee",
-      "label": "給荷官"      
-    },
-    {
-      "key": "st",
-      "label": "裁判ST"      
-    },
     {
       "key": "referee_day_report_table_id",
       "label": "桌次代號"
     },
     {
-      "key": "table_referee_id",
-      "label": "開桌裁判"
+      "key": "refereeDayReportTotalPlayerSpendTime",
+      "label": "此裁判所含玩家在此桌次上場總時間"      
+    },
+    {
+      "key": "refereeDayReportTotalFinallyChip",
+      "label": "此裁判所含玩家在此桌次賽局總計"      
+    },
+    {
+      "key": "totalFinallyChip",
+      "label": "賽局總計"      
+    },
+    {
+      "key": "totalSpendTimeOfOneTable",
+      "label": "此桌次所有玩家上場總時間"      
     },
     {
       "key": "totalC",
       "label": "總c"
-    },
-    {
-      "key": "gameMoney",
-      "label": "賽局總計"      
     },
     {
       "key": "totalI",
@@ -570,50 +580,28 @@
       "label": "總t"      
     },
     {
-      "key": "totalMembersSpendTime",
-      "label": "所有玩家上場總時間"      
+      "key": "table_referee_id",
+      "label": "開桌裁判"
+    },
+    {
+      "key": "returnClub",
+      "label": "給協會保險費"      
+    },    
+    {
+      "key": "returnReferee",
+      "label": "給荷官小費"      
+    },
+    {
+      "key": "referee_rk",
+      "label": "裁判積分RK"      
+    },
+    {
+      "key": "referee_st",
+      "label": "裁判ST"      
     },
     {
       "key": "average",
       "label": "平均數"      
-    }
-  ],
-  "saleReportTable": [
-    {
-      "key": "member_sale_id",
-      "label": "業務代號"
-    },
-    {
-      "key": "playerDate",
-      "label": "上桌日期"
-    },
-    {
-      "key": "member_referee_id",
-      "label": "所屬裁判"
-    },
-    {
-      "key": "totalSpendTime",
-      "label": "總時數"      
-    },
-    {
-      "key": "member_id",
-      "label": "會員代號"
-    },
-    {
-      "key": "member_name",
-      "label": "會員名稱"
-    },
-    {
-      "key": "table_level",
-      "label": "盲注級別"      
-    },
-    {
-      "key": "spendTime",
-      "label": "本局時數"      
-    },
-    {
-      "key": "score",
-      "label": "分數"      
     }
   ],
   "tableReportTable": [

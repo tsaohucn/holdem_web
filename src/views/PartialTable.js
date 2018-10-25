@@ -18,7 +18,8 @@ import {
 
 const PartialTable = (props) =>  {
 
-  const { 
+  const {
+    Title, 
     title,
     data,
     onClickTableReturnButton,
@@ -26,7 +27,7 @@ const PartialTable = (props) =>  {
     onClickRefereeDayReportTableId,
     onClickCount,
     onClickEdit,
-    totalSpendTime
+    saleReportTotalPlayerSpendTime
   } = props ? props : {}
 
   const renderData = (data) => (
@@ -70,16 +71,22 @@ const PartialTable = (props) =>  {
                       {getTenMinutes(n['spendTime'])}
                     </TableCell>
                   )
-                } else if (key === 'totalSpendTime') {
+                } else if (key === 'saleReportTotalPlayerSpendTime') {
                   return (
                     <TableCell key={key} style={styles.tableCell}>
-                      {getTotalSpendTime(totalSpendTime[n['playerDate'] + '_' + n['member_referee_id']])}
+                      {getTotalSpendTime(saleReportTotalPlayerSpendTime[n['playerDate'] + '_' + n['member_referee_id']])}
+                    </TableCell>
+                  )
+                } else if (key === 'refereeDayReportTotalPlayerSpendTime') {
+                  return (
+                    <TableCell key={key} style={styles.tableCell}>
+                      {getTotalSpendTime(n[key])}
                     </TableCell>
                   )
                 } else if (key === 'score') {
                   return(
                     <TableCell key={key} style={styles.tableCell}>
-                      {getScore(totalSpendTime[n['playerDate'] + '_' + n['member_referee_id']],n['table_level'])}
+                      {getScore(saleReportTotalPlayerSpendTime[n['playerDate'] + '_' + n['member_referee_id']],n['table_level'])}
                     </TableCell>
                   )
                 } else if (key === 'referee_report_date') {
@@ -123,7 +130,9 @@ const PartialTable = (props) =>  {
 
   return(
     <div>
-      <br/>
+      {
+        Title ? <h4>{Title}</h4> : <br/> 
+      }
       <Paper style={styles.root}>
         <Table style={styles.table}>
           <TableHead>

@@ -300,10 +300,10 @@ class NavigationComponent extends PureComponent {
                 <MenuIcon />
               </IconButton>
               <div className={classNames(classes.information)}>
-                <p className={classNames(classes.title)}>{this.props.HoldemStore.clubId || '此帳號可管轄所有俱樂部'}</p>
-                <p className={classNames(classes.separate)}>{' | '}</p>
-                <p className={classNames(classes.title)}>{this.getUserResource(this.props.HoldemStore.resource)}</p>
-                <p className={classNames(classes.separate)}>{' | '}</p>
+                {/*<p className={classNames(classes.title)}>{this.props.HoldemStore.clubId || '此帳號可管轄所有俱樂部'}</p>*/}
+                {/*<p className={classNames(classes.separate)}>{' | '}</p>*/}
+                {/*<p className={classNames(classes.title)}>{this.getUserResource(this.props.HoldemStore.resource)}</p>*/}
+                {/*<p className={classNames(classes.separate)}>{' | '}</p>*/}
                 <p className={classNames(classes.id)}>{this.props.HoldemStore.id}</p>
               </div>
               <IconButton
