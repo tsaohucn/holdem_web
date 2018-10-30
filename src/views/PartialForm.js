@@ -40,6 +40,7 @@ const PartialForm = (props) => {
           if (isSelect) {
             return(
               <TextField
+                key={key}
                 margin="normal"
                 variant="outlined"
                 select={isSelect}
@@ -56,6 +57,7 @@ const PartialForm = (props) => {
           } else if (key === 'club_key') {
             return(
               <TextField
+                key={key}
                 margin="normal"
                 variant="outlined"
                 select={isSelect}
@@ -69,6 +71,7 @@ const PartialForm = (props) => {
           } else if (key === 'joinDate') {
             return(
               <TextField
+                key={key}
                 margin="normal"
                 variant="outlined"
                 select={isSelect}
@@ -82,6 +85,7 @@ const PartialForm = (props) => {
           } else if (key === 'birthday') {
             return(
               <TextField
+                key={key}
                 margin="normal"
                 variant="outlined"
                 label={label}
@@ -101,6 +105,7 @@ const PartialForm = (props) => {
           } else {
             return(
               <TextField
+                key={key}
                 margin="normal"
                 variant="outlined"
                 select={isSelect}

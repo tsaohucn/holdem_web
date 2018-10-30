@@ -24,7 +24,6 @@ import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew'
 import Search from '@material-ui/icons/Search'
 // local components
 import Icon from '../views/Icon'
-import firebase from '../configs/firebase'
 import ui from '../configs/ui'
 
 const drawerWidth = 240
