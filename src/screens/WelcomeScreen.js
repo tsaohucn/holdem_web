@@ -52,6 +52,12 @@ class WelcomeScreen extends Component {
       loadingState: '登入中'
     },async () => {
       try {
+        const querySnapshot = await firebase.firestore().collection("backends").where("account", "==", this.state.account).get()
+        console.log(querySnapshot.empty)
+        console.log(querySnapshot.size)
+        console.log(querySnapshot.docs.map(doc => doc.data()))
+        querySnapshot.forEach(doc => console.log(doc.data()))
+        /*
         const snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(this.state.account).once('value')
         const val = snap.val()
         if (val) {
@@ -80,7 +86,7 @@ class WelcomeScreen extends Component {
           }
         } else {
           throw '無此使用者'
-        }
+        }*/
       } catch (err) {
         errorAlert(this.props.alert,'登入錯誤 : ' + err.toString())
       } finally {
