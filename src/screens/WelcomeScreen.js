@@ -52,41 +52,30 @@ class WelcomeScreen extends Component {
       loadingState: '登入中'
     },async () => {
       try {
-        const querySnapshot = await firebase.firestore().collection("backends").where("account", "==", this.state.account).get()
-        console.log(querySnapshot.empty)
-        console.log(querySnapshot.size)
-        console.log(querySnapshot.docs.map(doc => doc.data()))
-        querySnapshot.forEach(doc => console.log(doc.data()))
-        /*
-        const snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(this.state.account).once('value')
-        const val = snap.val()
-        if (val) {
-          const users = Object.values(val)
-          if (users.length > 1) {
-            throw '出現重複使用者'
-          } else {
-            const user = users[0]
-            if (user.password.toString() === this.state.password) {
-              if (user.quit) {
-                throw '此使用者已不再使用'
-              } else {
-                this.props.HoldemStore.setUser({
-                  isAuth: true,
-                  resource: user.resource,
-                  id: user.id,
-                  clubKey: user.club_key,
-                  clubId: user.club_id,
-                  account: user.account,
-                  password: user.password
-                })                
-              }
-            } else {
-              throw '密碼錯誤'
-            }
-          }
-        } else {
+        const account_snap = await firebase.firestore().collection("backends")
+          .where("account", "==", this.state.account)
+          .where("password", "==", this.state.password)
+          .where("quit", "==", false)
+          .get()
+        const account_size = account_snap.size
+        if (account_size === 1) {
+          const user = account_snap.docs.map(doc => doc.data())[0]
+          this.props.HoldemStore.setUser({
+            isAuth: true,
+            resource: user.resource,
+            id: user.id,
+            account: user.account,
+            password: user.password,
+            clubKey: user.club_key,
+            clubId: user.club_id
+          })
+        } else if (account_size === 0) {
           throw '無此使用者'
-        }*/
+        } else if (account_size > 1) {
+          throw '出現重複使用者'
+        } else {
+          throw '系統錯誤'
+        }
       } catch (err) {
         errorAlert(this.props.alert,'登入錯誤 : ' + err.toString())
       } finally {
