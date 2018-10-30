@@ -5,7 +5,6 @@ import AlertTemplate from 'react-alert-template-basic'
 import { Provider } from 'mobx-react'
 // local components
 import Router from './Router'
-import firebase from './configs/firebase'
 import HoldemStore from './mobx/HoldemStore'
 // optional cofiguration
 const options = {
@@ -29,7 +28,7 @@ class App extends Component {
 
   render() {
     return (
- 	    <AlertProvider template={AlertTemplate} {...options}>
+      <AlertProvider template={AlertTemplate} {...options}>
         <Provider
           {...stores}
         >

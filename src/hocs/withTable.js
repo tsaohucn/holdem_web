@@ -27,19 +27,34 @@ function withTable(params) {
       const searchValue = this.props.match.params.searchValue
       const by = this.props.match.params.by
       if (resource === 'clubs') {
-        if (!searchValue) {
-          this.fetchTableData(firebase.database().ref(resource))
+        if (searchValue) {
+          this.fetchTableData(firebase.firestore().collection(resource)
+            .where("id", "==", searchValue)
+            .where("quit", "==", false)
+          )
         } else {
-          this.fetchTableData(firebase.database().ref(resource).orderByChild('id').equalTo(searchValue))
+          this.fetchTableData(firebase.firestore().collection(resource))
         }
       } else {
         if (by === 'club_id') {
-          searchValue && this.fetchTableData(firebase.database().ref(resource).orderByChild('club_id').equalTo(searchValue))
+          if (searchValue) {
+            this.fetchTableData(firebase.firestore().collection(resource)
+              .where("club_id", "==", searchValue)
+              .where("quit", "==", false)
+            )
+          }
         } else {
-          if (!searchValue) {
-            this.fetchTableData(firebase.database().ref(resource).orderByChild('club_id').equalTo(this.props.HoldemStore.clubId))
+          if (searchValue) {
+            by && this.fetchTableData(firebase.firestore().collection(resource)
+              .where("club_id", "==", this.props.HoldemStore.clubId)
+              .where(by, "==", searchValue)
+              .where("quit", "==", false)
+            )
           } else {
-            by && this.fetchTableData(firebase.database().ref(resource).orderByChild('club_id_' + by).equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
+            this.fetchTableData(firebase.firestore().collection(resource)
+              .where("club_id", "==", this.props.HoldemStore.clubId)
+              .where("quit", "==", false)
+            )
           }
         }
       }
@@ -51,14 +66,12 @@ function withTable(params) {
       },async () => {
         try {
           await sleep(500)
-          const snap = fetch && (await fetch.once('value'))
-          const val = (snap && snap.val()) || {}
-          const data = Object.values(val) || []
-          const non_quit_data = data.filter(ele => !ele.quit)
+          const snap = fetch && (await fetch.get())
+          const data = snap.docs.map(doc => doc.data())
           this.setState({
             isLoading: false,
-            data: non_quit_data
-          }) 
+            data
+          })
         } catch(err) {
           errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
         } finally {
