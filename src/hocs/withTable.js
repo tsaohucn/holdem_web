@@ -65,7 +65,7 @@ function withTable(params) {
         isLoading: true
       },async () => {
         try {
-          await sleep(500)
+          await sleep(300)
           const snap = fetch && (await fetch.get())
           const data = snap.docs.map(doc => doc.data())
           this.setState({
