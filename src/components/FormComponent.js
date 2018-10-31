@@ -67,8 +67,8 @@ class FormComponent extends PureComponent {
   }
 
   checkLimitFormat = () => {
-    if (this.state.data.limit) {
-      if (Number.isInteger(parseInt(this.state.data.limit))) {
+    if (this.state.data.chipLimit) {
+      if (Number.isInteger(this.state.data.chipLimit)) {
         return true
       } else {
         const message = '抓馬額度格式錯誤'
@@ -81,9 +81,9 @@ class FormComponent extends PureComponent {
   }
 
   onChange = (event,key) => {
-    const data = Object.assign({},this.state.data,{
-      [key]: event.target.value
-    })
+    let value = event.target.value
+    if (key === 'chipLimit') { value = parseInt(event.target.value) }
+    const data = Object.assign({},this.state.data,{ [key]: value })
     this.setState({
       data
     })
