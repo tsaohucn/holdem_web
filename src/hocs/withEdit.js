@@ -75,46 +75,44 @@ function withEdit(params) {
         event: '更新資料中'
       },async () => {
         try {
-          await sleep(500)
-          if (this.key) {
-            if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
-              // 先檢查帳號有無重複
-              if (data.account) {
-                const account_snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(data.account).once('value')
-                if (account_snap.val() && (this.account != data.account)) {
-                  throw '此帳號已有人使用'
-                }
+          await sleep(300)
+          if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
+            if (resource === 'employees') {
+              await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
+              const user = firebase.auth().currentUser
+              if (this.account != data.account) {
+                await user.updateEmail(data.account)
               }
-              // 更新資料
-              if (resource === 'employees') {
-                await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
-                const user = firebase.auth().currentUser
-                if (this.account != data.account) {
-                  await user.updateEmail(data.account)
-                }
-                if (this.password != data.password) {
-                  await user.updatePassword(data.password)
-                }
+              if (this.password != data.password) {
+                await user.updatePassword(data.password)
               }
-              if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales') {
-                await firebase.database().ref('/backends/' + this.key).update({
+            }
+            await firebase.firestore().runTransaction(async (transaction) => {
+              if (resource !== 'members') {
+                const backend_ref = firebase.firestore().collection('backends').doc(this.key)
+                await transaction.update(backend_ref, {
                   account: data.account,
                   password: data.password
                 })
               }
-              const upload_data = Object.assign({},data,{
-                club_id_name: data.club_id + '_' + data.name
-              })
-              await firebase.database().ref(resource + '/' + this.key).update(upload_data)
-            } else {
-              throw '資源錯誤'
-            }
+              const resource_ref = firebase.firestore().collection(resource).doc(this.key)
+              await transaction.update(resource_ref, data)
+              if (resource !== 'members') {
+                const check_backends_docs = await firebase.firestore().collection('backends').where("account", "==", data.account).get()
+                if ((!check_backends_docs.empty) && (this.account != data.account)) { throw '帳號重複' }
+              }
+            })
           } else {
-            throw '系統錯誤'
+            throw '資源錯誤'
           }
           successAlert(this.props.alert,'更新成功')
           this.goBack()
         } catch(err) {
+          if (resource === 'employees') {
+            const currentUser = firebase.auth().currentUser
+            await currentUser.updateEmail(this.account)
+            await currentUser.updatePassword(this.password)
+          }
           errorAlert(this.props.alert,'更新失敗 : ' + err.toString())
           this.setState({
             isLoading: false
@@ -131,96 +129,71 @@ function withEdit(params) {
         event: '刪除資料中'
       },async () => {
         try {
-          await sleep(500)
-          if (this.key) {
-            if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
-              const refereeCount = data.refereeCount
-              const saleCount = data.saleCount
-              const memberCount = data.memberCount
-              const employeeCount = data.employeeCount
-              // 檢查底下有無人
-              if (employeeCount > 0 || refereeCount > 0 || saleCount > 0 || memberCount > 0) {
-                throw '此人底下存在會員'
-              } 
-              // 刪資料
-              if (resource === 'employees') {
-                await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
-                const user = firebase.auth().currentUser
-                await user.delete()              
-              }
-              if (resource !== 'members') {
-                await firebase.database().ref('/backends/' + this.key).update({
-                  quit: true
-                })
-              }
-              // 改成加已刪除標記
-              await firebase.database().ref(resource + '/' + this.key).update({
-                quit: true
-              })
-              // count
-              if (resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
-                switch(resource) {
+          await sleep(300)
+          if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
+            const refereeCount = data.refereeCount
+            const saleCount = data.saleCount
+            const memberCount = data.memberCount
+            const employeeCount = data.employeeCount
+            // 檢查底下有無人
+            if (employeeCount > 0 || refereeCount > 0 || saleCount > 0 || memberCount > 0) {
+              throw '此人底下存在會員'
+            }
+            if (resource === 'employees') {
+              await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
+              const currentUser = firebase.auth().currentUser
+              await currentUser.delete()              
+            }
+            await firebase.firestore().runTransaction(async (transaction) => {
+              const backend_ref = firebase.firestore().collection('backends').doc(this.key)
+              const resource_ref = firebase.firestore().collection(resource).doc(this.key)
+              if (resource !== 'clubs') {
+                const club_ref = firebase.firestore().collection('clubs').doc(data['club_key'])
+                const club_doc = await transaction.get(club_ref)
+                const club_data = club_doc.data()
+                if (resource === 'employees' || resource === 'referees' || resource === 'sales') {
+                  if (!club_doc.exists) { throw '協會不存在' }
+                  switch(resource) { 
                   case 'employees':
-                  await firebase.database().ref('clubs/' +  data['club_key'] + '/employeeCount').transaction(count => {
-                    if (count) {
-                      return count - 1
-                    } else {
-                      return 0
-                    }
-                  })
-                  break
+                    const employeeCount = club_data.employeeCount ? club_data.employeeCount - 1 : 0
+                    await transaction.update(club_ref, { employeeCount })
+                    break
                   case 'referees':
-                  await firebase.database().ref('clubs/' +  data['club_key'] + '/refereeCount').transaction(count => {
-                    if (count) {
-                      return count - 1
-                    } else {
-                      return 0
-                    }
-                  })
-                  break
+                    const refereeCount = club_data.refereeCount ? club_data.refereeCount - 1 : 0
+                    await transaction.update(club_ref, { refereeCount })
+                    break
                   case 'sales':
-                  await firebase.database().ref('clubs/' +  data['club_key'] + '/saleCount').transaction(count => {
-                    if (count) {
-                      return count - 1
-                    } else {
-                      return 0
-                    }
-                  })
-                  break
-                  case 'members':
-                  await firebase.database().ref('clubs/' +  data['club_key'] + '/memberCount').transaction(count => {
-                    if (count) {
-                      return count - 1
-                    } else {
-                      return 0
-                    }
-                  })
-                  await firebase.database().ref('referees/' +  data['referee_key'] + '/memberCount').transaction(count => {
-                    if (count) {
-                      return count - 1
-                    } else {
-                      return 0
-                    }
-                  })
-                  await firebase.database().ref('sales/' +  data['sale_key'] + '/memberCount').transaction(count => {
-                    if (count) {
-                      return count - 1
-                    } else {
-                      return 0
-                    }
-                  })
-                  break
+                    const saleCount = club_data.saleCount ? club_data.saleCount - 1 : 0
+                    await transaction.update(club_ref, { saleCount })
+                    break
+                  }
+                } else if (resource === 'members') {
+                  let memberCount = 0
+                  const referee_ref = firebase.firestore().collection('referees').doc(data['referee_key'])
+                  const sale_ref = firebase.firestore().collection('sales').doc(data['sale_key'])
+                  const referee_doc = await transaction.get(referee_ref)
+                  const sale_doc = await transaction.get(sale_ref)
+                  const referee_data = referee_doc.data()
+                  const sale_data = sale_doc.data()
+                  memberCount = club_data.memberCount ? club_data.memberCount - 1 : 0
+                  await transaction.update(club_ref, { memberCount })
+                  memberCount = referee_data.memberCount ? referee_data.memberCount - 1 : 0
+                  await transaction.update(referee_ref, { memberCount })
+                  memberCount = sale_data.memberCount ? sale_data.memberCount - 1 : 0
+                  await transaction.update(sale_ref, { memberCount })
                 }
               }
-            } else {
-              throw '資源錯誤'
-            }
-          } else {
-            throw '系統錯誤'
+              if (resource !== 'members') { await transaction.update(backend_ref, { quit: true }) }  
+              await transaction.update(resource_ref, { quit: true })     
+            })
           }
           successAlert(this.props.alert,'刪除成功')
           this.goBack()
         } catch(err) {
+          if (resource === 'employees') {
+            const currentUser = firebase.auth().currentUser
+            if (!currentUser) { await firebase.auth().createUserWithEmailAndPassword(this.account,this.password) }
+          }
           errorAlert(this.props.alert,'刪除失敗 : ' + err.toString())
         } finally {
           this.setState({

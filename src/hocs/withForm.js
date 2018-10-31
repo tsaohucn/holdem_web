@@ -75,7 +75,7 @@ function withForm(params) {
         event: '新增資料中'
       },async () => {
         try {
-          await sleep(100)
+          await sleep(300)
           let key = uuidv1()
           let upload_data = {}
           if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
@@ -136,15 +136,15 @@ function withForm(params) {
                   if (!club_doc.exists) { throw '協會不存在' }
                   switch(resource) { 
                   case 'employees':
-                    const employeeCount = (club_data.employeeCount || 0) + 1
+                    const employeeCount = club_data.employeeCount ? club_data.employeeCount + 1 : 0
                     await transaction.update(club_ref, { employeeCount })
                     break
                   case 'referees':
-                    const refereeCount = (club_data.refereeCount || 0) + 1
+                    const refereeCount = club_data.refereeCount ? club_data.refereeCount + 1 : 0
                     await transaction.update(club_ref, { refereeCount })
                     break
                   case 'sales':
-                    const saleCount = (club_data.saleCount || 0) + 1
+                    const saleCount = club_data.saleCount ? club_data.saleCount + 1 : 0
                     await transaction.update(club_ref, { saleCount })
                     break
                   }
@@ -201,7 +201,6 @@ function withForm(params) {
             const currentUser = firebase.auth().currentUser
             if (currentUser) { (currentUser.email === data.account) && await currentUser.delete() }
           }
-          console.log(err)
           errorAlert(this.props.alert,'新增失敗 : ' + err.toString())
         } finally {
           this.setState({
