@@ -29,7 +29,7 @@ function withEdit(params) {
     }
 
     componentDidMount() {
-      this.fetchTableData(firebase.database().ref(resource + '/' + this.key))
+      this.fetchTableData(firebase.firestore().collection(resource).doc(this.key))
     }
 
 
@@ -39,22 +39,21 @@ function withEdit(params) {
       },async () => {
         try {
           await sleep(500)
-          const optionsPromise = belong && belong.map(belongResource => firebase.database().ref(belongResource + 's').orderByChild('club_id').equalTo(this.props.HoldemStore.clubId).once('value'))
-          const optionsSnap = await Promise.all(optionsPromise)
           let options = {}
+          const optionsPromise = belong && belong.map(belongResource => firebase.firestore().collection(belongResource + 's').where("club_id", "==", this.props.HoldemStore.clubId).get())
+          const optionsSnap = await Promise.all(optionsPromise)
           optionsSnap.forEach((snap,index) => {
-            const val = snap.val()
-            const keys = Object.keys(val || [])
-            const option = keys.map(key => {
+            const option = snap.docs.map(doc => {
+              const data = doc.data()
               return({
-                id: val[key].id,
-                id_name: val[key].id// + ' : ' + val[key].name
+                id: data.id,
+                id_name: data.id
               })
             })
             options[belong[index] + '_id'] = option
           })
-          const snap = fetch && (await fetch.once('value'))
-          const data = (snap && snap.val()) || {}
+          const doc = await fetch.get()
+          const data = doc.exists ? doc.data() : {}
           this.account = data.account
           this.password = data.password
           this.setState({
