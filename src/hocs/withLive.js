@@ -26,11 +26,14 @@ function withLive(params) {
 
     componentDidMount() {
       const searchValue = this.props.match.params.searchValue
-      const by = this.props.match.params.by
       if (!searchValue) {
-        this.playerListener = firebase.database().ref('members').orderByChild('club_id_onTable').equalTo(this.props.HoldemStore.clubId + '_' + true)
+        this.playerListener = firebase.firestore().collection('members')
+        .where("club_id", "==", this.props.HoldemStore.clubId)
+        .where("onTable", "==", true)
       } else {
-        this.playerListener = firebase.database().ref('members').orderByChild('club_id_table_id').equalTo(this.props.HoldemStore.clubId + '_' + searchValue)
+        this.playerListener = firebase.firestore().collection('members')
+        .where("club_id", "==", this.props.HoldemStore.clubId)
+        .where("table_id", "==", searchValue)
       }
       this.fetchTableData(this.playerListener)
     }
@@ -40,16 +43,12 @@ function withLive(params) {
     }
 
     fetchTableData = (fetch) => {
-      fetch.on('value',(snap) => {
+      fetch.onSnapshot((querySnapshot) => {
         this.setState({
           isLoading: true
         },async () => {
           await sleep(500)
-          let data = []
-          const val = snap.val()
-          if (val) {
-            data = Object.values(val) || []
-          }
+          const data = querySnapshot.docs.map(doc => doc.data())
           this.setState({
             isLoading: false,
             data
