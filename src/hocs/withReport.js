@@ -6,7 +6,7 @@ import Moment from 'moment'
 // local_module
 import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
-import { errorAlert, successAlert, sleep } from '../helpers'
+import { errorAlert, successAlert, sleep, getSaleReportData } from '../helpers'
 import ui from '../configs/ui'
 
 function withReport(params) {
@@ -27,7 +27,8 @@ function withReport(params) {
       this.state = {
         header: null,
         isLoading: true,
-        data: []
+        data: [],
+        saleReport: null
       }
     }
 
@@ -61,11 +62,15 @@ function withReport(params) {
       },async () => {
         try {
           const snap = await fetch.get()
-          const data = snap.docs.map(doc => doc.data())
+          let data = snap.docs.map(doc => doc.data())
+          if (by === 'sale_id') {
+            data = getSaleReportData(data)
+          }
           this.setState({
             isLoading: false,
             data,
-            header
+            header,
+            saleReport: by === 'sale_id'
           })
         } catch (err) {
           errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
@@ -105,6 +110,7 @@ function withReport(params) {
             <Component
               {...this.props}
               {...this.state}
+              saleReport={this.state.saleReport}
               header={this.state.header}
               title={title}
               onClickTableReturnButton={this.goBack}

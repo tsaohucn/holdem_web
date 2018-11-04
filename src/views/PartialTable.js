@@ -9,13 +9,6 @@ import Paper from '@material-ui/core/Paper'
 import ReactTooltip from 'react-tooltip'
 // local components
 import PartialButton from './PartialButton'
-import {   
-  getSpendTime,
-  getTenMinutes,
-  getTotalSpendTime,
-  getScore,
-  getC
-} from '../helpers'
 
 const PartialTable = (props) =>  {
 
@@ -24,17 +17,18 @@ const PartialTable = (props) =>  {
     title,
     data,
     onClickTableReturnButton,
-    onClickRefereeReportDate,
-    onClickRefereeDayReportTableId,
+    saleReport,
+    //onClickRefereeReportDate,
+    //onClickRefereeDayReportTableId,
     onClickCount,
     onClickEdit,
-    saleReportTotalPlayerSpendTime
+    //saleReportTotalPlayerSpendTime
   } = props ? props : {}
 
   const renderData = (data) => (
     data.map((n,index) => {
       return (
-        <TableRow key={index.toString()}>
+        <TableRow style={ saleReport ? n['onTableDate'] ? {} : n['referee_id'] ? {backgroundColor: '#ffffe0'} : {backgroundColor: '#e6e6fa'} : {}} key={index.toString()}>
           {
             title && title.map(ele => {
               const key = ele.key
@@ -58,52 +52,6 @@ const PartialTable = (props) =>  {
                           )}
                         </ol>
                       </ReactTooltip> 
-                    </TableCell>
-                  )
-                } else if (key === 'spendTime') {
-                  return (
-                    <TableCell key={key} style={styles.tableCell}>
-                      {getSpendTime(n['spendTime'])}
-                    </TableCell>
-                  )
-                } else if (key === 'saleReportTotalPlayerSpendTime') {
-                  return (
-                    <TableCell key={key} style={styles.tableCell}>
-                      {getTotalSpendTime(saleReportTotalPlayerSpendTime[n['playerDate'] + '_' + n['member_referee_id']])}
-                    </TableCell>
-                  )
-                } else if (key === 'refereeDayReportTotalPlayerSpendTime' || key === 'totalSpendTime') {
-                  return (
-                    <TableCell key={key} style={styles.tableCell}>
-                      {getTotalSpendTime(n[key])}
-                    </TableCell>
-                  )
-                } else if (key === 'score') {
-                  return(
-                    <TableCell key={key} style={styles.tableCell}>
-                      {getScore(saleReportTotalPlayerSpendTime[n['playerDate'] + '_' + n['member_referee_id']],n['table_level'])}
-                    </TableCell>
-                  )
-                } else if (key === 'referee_report_date') {
-                  return(
-                    <TableCell key={key} style={styles.tableCell}>
-                      <a style={styles.link} onClick={() => onClickRefereeReportDate && onClickRefereeReportDate(n[key])}>
-                        {n[key]}
-                      </a>
-                    </TableCell>
-                  )
-                } else if (key === 'referee_day_report_table_id') {
-                  return(
-                    <TableCell key={key} style={styles.tableCell}>
-                      <a style={styles.link} onClick={() => onClickRefereeDayReportTableId && onClickRefereeDayReportTableId(n[key])}>
-                        {n[key]}
-                      </a>
-                    </TableCell>
-                  )
-                } else if (key === 'c') {
-                  return(
-                    <TableCell key={key} style={styles.tableCell}>
-                      {getC(n['totalFinallyChip'],n['t'],n['i'])}
                     </TableCell>
                   )
                 } else {
