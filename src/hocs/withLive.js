@@ -27,23 +27,22 @@ function withLive(params) {
     componentDidMount() {
       const searchValue = this.props.match.params.searchValue
       if (!searchValue) {
-        this.playerListener = firebase.firestore().collection('members')
+        this.fetchTableData(firebase.firestore().collection('members')
         .where("club_id", "==", this.props.HoldemStore.clubId)
-        .where("onTable", "==", true)
+        .where("onTable", "==", true))
       } else {
-        this.playerListener = firebase.firestore().collection('members')
+        this.fetchTableData(firebase.firestore().collection('members')
         .where("club_id", "==", this.props.HoldemStore.clubId)
-        .where("table_id", "==", searchValue)
+        .where("table_id", "==", searchValue))
       }
-      this.fetchTableData(this.playerListener)
     }
 
     componentWillUnmount() {
-      this.removePlayerListener()
+      this.playerListener && this.playerListener()
     }
 
     fetchTableData = (fetch) => {
-      fetch.onSnapshot((querySnapshot) => {
+      this.playerListener = fetch.onSnapshot((querySnapshot) => {
         this.setState({
           isLoading: true
         },async () => {
@@ -55,13 +54,6 @@ function withLive(params) {
           })
         })
       })   
-    }
-
-    removePlayerListener = () => {
-      if (this.playerListener) {
-        this.playerListener.off()
-        this.playerListener = null
-      }
     }
 
     goBack = () => {
