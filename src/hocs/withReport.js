@@ -25,6 +25,7 @@ function withReport(params) {
       this.HoldemStore = this.props.HoldemStore
       this.db = this.props.db
       this.state = {
+        header: null,
         isLoading: true,
         data: []
       }
@@ -38,21 +39,36 @@ function withReport(params) {
       if (router) {
 
       } else {
+        let header = ''
+        if (by === 'id') {
+          header = '會員代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
+        } else if (by === 'sale_id') {
+          header = '業務代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
+        }
         this.fetchTableData(this.db.collection(resource)
           .where("club_id", "==", this.HoldemStore.clubId)
           .where(by, "==", searchValue)
-        )
+          .orderBy("onTableDateInt").startAt(20170620).endAt(20190220)
+        ,header)
       }
-      /*
-      if (searchValue && by) {
-        this.fetchTableData(firebase.database().ref('reports').orderByChild(by).equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
-      } else {
-        errorAlert(this.props.alert,'載入資料發生錯誤')
-      }*/
     }
 
-    fetchTableData = (fetch) => {
-
+    fetchTableData = (fetch,header) => {
+      this.setState({
+        isLoading: true
+      },async () => {
+        try {
+          const snap = await fetch.get()
+          const data = snap.docs.map(doc => doc.data())
+          this.setState({
+            isLoading: false,
+            data,
+            header
+          })
+        } catch (err) {
+          errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
+        }
+      })
     }
 
     goToRefereeDayReport = (date) => {
@@ -87,7 +103,7 @@ function withReport(params) {
             <Component
               {...this.props}
               {...this.state}
-              Title={this.state.Title}
+              header={this.state.header}
               title={title}
               onClickTableReturnButton={this.goBack}
               onClickRefereeReportDate={this.goToRefereeDayReport}

@@ -487,19 +487,19 @@
   ],
   "memberReportTable": [
     {
-      "key": "member_name",
+      "key": "name",
       "label": "會員名稱"      
     },
     {
-      "key": "member_referee_id",
+      "key": "referee_id",
       "label": "所屬裁判"      
     },
     {
-      "key": "playerDate",
+      "key": "onTableDate",
       "label": "上桌日期"      
     },
     {
-      "key": "playerTime",
+      "key": "onTableTime",
       "label": "上桌時間"      
     },
     {
@@ -531,15 +531,15 @@
       "label": "N個十分鐘"      
     },
     {
-      "key": "totalChipGrap",
+      "key": "totalChip",
       "label": "取碼總計"      
     },
     {
-      "key": "totalDecodeChip",
+      "key": "decodeChip",
       "label": "解碼總計"      
     },
     {
-      "key": "finallyChip",
+      "key": "finalChip",
       "label": "賽局餘額"       
     },
     {
