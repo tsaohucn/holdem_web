@@ -7,8 +7,7 @@ import withNavigation from '../../../hocs/withNavigation'
 import ui from '../../../configs/ui'
 
 export default inject('HoldemStore')(withNavigation(withAlert(withReport({
+  resource: 'players_reports',
   title: ui.saleReportTable,
-  resource: 'reports',
-  by: 'club_id_member_sale_id',
-  router: 'reports/sale'
+  by: 'sale_id'
 }))))

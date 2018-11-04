@@ -17,6 +17,6 @@ const more = [
 ]
 
 export default inject('HoldemStore','db')(withNavigation(withAlert((withTable({
-  title: ui.refereesTable.concat(more),
-  resource: 'referees'
+  resource: 'referees',
+  title: ui.refereesTable.concat(more)
 })))))
