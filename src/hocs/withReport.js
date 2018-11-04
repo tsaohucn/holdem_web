@@ -2,11 +2,17 @@
 import React, { PureComponent } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Moment from 'moment'
-//import { extendMoment } from 'moment-range'
 // local_module
 import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
-import { errorAlert, successAlert, sleep, getSaleReportData } from '../helpers'
+import { 
+  errorAlert, 
+  successAlert, 
+  sleep, 
+  getSaleReportData,
+  getRefereeReportData,
+  getRefereeDayReportData
+} from '../helpers'
 import ui from '../configs/ui'
 
 function withReport(params) {
@@ -14,8 +20,7 @@ function withReport(params) {
     title,
     resource,
     wrapperComponent,
-    by,
-    router
+    by
   } = params ? params : {}
 
   return class extends PureComponent {
@@ -37,10 +42,8 @@ function withReport(params) {
       const date = this.props.match.params.date
       const startDate = this.props.match.params.startDate
       const endDate = this.props.match.params.endDate
-      if (router) {
-
-      } else {
-        let header = ''
+      if ((by === 'id') || (by === 'sale_id')) {
+        let header = null
         if (by === 'id') {
           header = '會員代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
         } else if (by === 'sale_id') {
@@ -53,10 +56,35 @@ function withReport(params) {
           .startAt(parseInt(Moment(startDate).format('YYYYMMDD')))
           .endAt(parseInt(Moment(endDate).format('YYYYMMDD')))
         ,header)
+      } else if ((by === 'refereeTotal') || (by === 'refereeDay')){
+        let header = null
+        if (by === 'refereeTotal') {
+          header = '裁判代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
+          this.fetchTableData(this.db.collection(resource)
+            .where("club_id", "==", this.HoldemStore.clubId)
+            .where("referee_id", "==", searchValue)
+            //.orderBy("onTableDateInt")
+            //.startAt(parseInt(Moment(startDate).format('YYYYMMDD')))
+            //.endAt(parseInt(Moment(endDate).format('YYYYMMDD')))
+          ,header,startDate,endDate)
+        } else {
+          header = '裁判代號：' + searchValue + '   ' + '上桌日期：' + date
+          this.fetchTableData(this.db.collection(resource)
+            .where("club_id", "==", this.HoldemStore.clubId)
+            .where("referee_id", "==", searchValue)
+            .where("onTableDate", "==", Moment(date).format('YYYY/MM/DD'))
+          ,header,null,null,null,searchValue)
+        }
+      } else {
+        const header = '桌次編號：' + searchValue
+        this.fetchTableData(this.db.collection(resource)
+          .where("club_id", "==", this.HoldemStore.clubId)
+          .where("table_id", "==", searchValue)
+        ,header)        
       }
     }
 
-    fetchTableData = (fetch,header) => {
+    fetchTableData = (fetch,header,startDate,endDate,date,searchValue) => {
       this.setState({
         isLoading: true
       },async () => {
@@ -65,6 +93,10 @@ function withReport(params) {
           let data = snap.docs.map(doc => doc.data())
           if (by === 'sale_id') {
             data = getSaleReportData(data)
+          } else if (by === 'refereeTotal') {
+            data = getRefereeReportData(data,startDate,endDate)
+          } else if (by === 'refereeDay') {
+            data = await getRefereeDayReportData(data,searchValue,this.db)
           }
           this.setState({
             isLoading: false,
@@ -79,9 +111,9 @@ function withReport(params) {
     }
 
     goToRefereeDayReport = (date) => {
-      const _date = date.split('/').join('-')
+      const _date = Moment(date).format('YYYY-MM-DD')
       const searchValue = this.props.match.params.searchValue
-      this.props.history.push('/reports/day/referee/' + _date + '/' + searchValue)
+      this.props.history.push('/reports/refereeDay/' + _date + '/' + searchValue)
     }
 
     goToTableReport = (table_id) => {

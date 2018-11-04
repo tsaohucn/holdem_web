@@ -5,11 +5,15 @@ import {
 import sleep from './sleep'
 import passwordSchema from './passwordSchema'
 import { 
-  getSaleReportData
+  getRefereeReportData,
+  getSaleReportData,
+  getRefereeDayReportData
 } from './report'
 
 
 export {
+  getRefereeDayReportData,
+  getRefereeReportData,
   getSaleReportData,
   errorAlert,
   successAlert,
