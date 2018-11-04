@@ -178,7 +178,12 @@
     {
       "key": "chipLimit",
       "label": "會員抓馬額度",
-      "helperText": "請輸入數字"
+      "helperText": "請輸入正整數"
+    },
+    {
+      "key": "rbPercentage",
+      "label": "退回協會趴數%",
+      "helperText": "請輸入0~100整數"
     }
   ],
   "clubsTable": [

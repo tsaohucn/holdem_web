@@ -1,15 +1,5 @@
 import Moment from 'moment'
 import { extendMoment } from 'moment-range'
-/*
-const getTotalSpendTime = (spendTime) => {
-  const diff = Moment.duration(spendTime)
-  return [Math.floor(diff.asHours()), diff.minutes()].join('.')
-}
-
-const getC = (totalFinallyChip,t,i) => {
-  return totalFinallyChip - t - i
-}
-*/
 
 const getSaleReportData = (data) => {
   const data_by_day = {}
@@ -120,7 +110,8 @@ const getRefereeDayReportData = async (data,referee_id,db) => {
     i: new_tables_data[index]['i'],
     t: new_tables_data[index]['t'],
     returnT: referee_id === ele.table_referee_id ? new_tables_data[index]['t'] : 0,
-    returnI: referee_id === ele.table_referee_id ? new_tables_data[index]['i']*0.2 : 0
+    returnI: referee_id === ele.table_referee_id ? new_tables_data[index]['i']*0.2 : 0,
+    average: new_tables_data[index]['average']
   }))
   return tables_data
 }

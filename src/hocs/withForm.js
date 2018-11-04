@@ -120,12 +120,12 @@ function withForm(params) {
                 totalChip: 0, 
                 chipNoLimit: false,
                 quit: false,
-                referee_key: data['referee_key'],
                 referee_id: this.options[data['referee_key']].id, 
-                sale_key: data['sale_key'],
                 sale_id: this.options[data['sale_key']].id,
                 club_key: this.props.HoldemStore.clubKey,
-                club_id: this.props.HoldemStore.clubId
+                club_id: this.props.HoldemStore.clubId,
+                chipLimit: parseInt(data['chipLimit']),
+                rbPercentage: parseInt(data['rbPercentage'])
               })
               break
             }

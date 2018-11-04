@@ -68,8 +68,13 @@ class FormComponent extends PureComponent {
 
   checkLimitFormat = () => {
     if (this.state.data.chipLimit) {
-      if (Number.isInteger(this.state.data.chipLimit)) {
-        return true
+      if (Number.isInteger(parseInt(this.state.data.chipLimit))) {
+        if (parseInt(this.state.data.chipLimit) >= 0) {
+          return true
+        } else {
+          const message = '抓馬額度格式錯誤'
+          errorAlert(this.props.alert,message)
+        }
       } else {
         const message = '抓馬額度格式錯誤'
         errorAlert(this.props.alert,message)
@@ -80,9 +85,28 @@ class FormComponent extends PureComponent {
     }
   }
 
+  checkRbPercentage = () => {
+    if (this.state.data.rbPercentage) {
+      if (Number.isInteger(parseInt(this.state.data.rbPercentage))) {
+        if ((parseInt(this.state.data.rbPercentage) >= 0) && (parseInt(this.state.data.rbPercentage) <= 100)) {
+          return true
+        } else {
+          const message = '退回協會趴數格式錯誤'
+          errorAlert(this.props.alert,message)
+          return false 
+        }
+      } else {
+        const message = '退回協會趴數格式錯誤'
+        errorAlert(this.props.alert,message)
+        return false         
+      }
+    } else {
+      return true
+    }    
+  }
+
   onChange = (event,key) => {
-    let value = event.target.value
-    if (key === 'chipLimit') { value = parseInt(event.target.value) }
+    const value = event.target.value
     const data = Object.assign({},this.state.data,{ [key]: value })
     this.setState({
       data
@@ -94,7 +118,9 @@ class FormComponent extends PureComponent {
       if (this.checkEmailFormat()) {
         if (this.checkPasswordFormat()) {
           if (this.checkLimitFormat()) {
-            this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state.data)
+            if (this.checkRbPercentage()) {
+              this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state.data)
+            }
           }
         }
       }
