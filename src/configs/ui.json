@@ -1,5 +1,6 @@
 {
-	"adminsRouter": {
+	"delayTime": 500,
+  "adminsRouter": {
     "clubs": "俱樂部資料表"
   },
   "clubsRouter": {

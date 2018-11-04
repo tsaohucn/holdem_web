@@ -3,8 +3,6 @@ import React, { PureComponent } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
 import PartialInformation from '../views/PartialInformation'
-import firebase from '../configs/firebase'
-import { errorAlert, successAlert, sleep } from '../helpers'
 
 function withInformation(params) {
   const {
@@ -15,6 +13,7 @@ function withInformation(params) {
 
     constructor(props) {
       super(props)
+      this.HoldemStore = this.props.HoldemStore
       this.search = this.props.match.params.search || ''
       this.state = {
         isLoading: false,
@@ -43,11 +42,11 @@ function withInformation(params) {
             :
             <Component
               {...this.props}
-              id={this.props.HoldemStore.id}
-              resource={this.props.HoldemStore.resource}
-              account={this.props.HoldemStore.account}
-              password={this.props.HoldemStore.password}
-              clubId={this.props.HoldemStore.clubId}
+              id={this.HoldemStore.id}
+              resource={this.HoldemStore.resource}
+              account={this.HoldemStore.account}
+              password={this.HoldemStore.password}
+              clubId={this.HoldemStore.clubId}
               onClickTableReturnButton={this.goBack}
             />
           }

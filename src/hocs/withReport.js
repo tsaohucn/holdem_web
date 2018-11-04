@@ -7,6 +7,7 @@ import { extendMoment } from 'moment-range'
 import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
 import { errorAlert, successAlert, sleep } from '../helpers'
+import ui from '../configs/ui'
 
 function withReport(params) {
   const {
@@ -21,6 +22,7 @@ function withReport(params) {
 
     constructor(props) {
       super(props)
+      this.db = this.props.db
       this.state = {
         isLoading: true,
         data: []
@@ -29,11 +31,12 @@ function withReport(params) {
 
     componentDidMount() {
       const searchValue = this.props.match.params.searchValue
+      /*
       if (searchValue && by) {
         this.fetchTableData(firebase.database().ref('reports').orderByChild(by).equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
       } else {
         errorAlert(this.props.alert,'載入資料發生錯誤')
-      }
+      }*/
     }
 
     fetchTableData = (fetch) => {
@@ -41,7 +44,7 @@ function withReport(params) {
         isLoading: true
       },async () => {
         try {
-          await sleep(500)
+          await sleep(ui.delayTime)
           const searchValue = this.props.match.params.searchValue
           const date = this.props.match.params.date
           const startDate = this.props.match.params.startDate || date

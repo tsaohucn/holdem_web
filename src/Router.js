@@ -142,7 +142,7 @@ const AuthEmployees = () => (
       <Route exact path='/reports/index' component={ReportIndexScreen}/>
       <Route exact path='/reports/member/:startDate/:endDate/:searchValue' component={MemberReportScreen}/>
       <Route exact path='/reports/referee/:startDate/:endDate/:searchValue' component={RefereeReportScreen}/>
-      <Route exact path='/reports/day/referee/:date/:searchValue' component={RefereeDayReportScreen}/>
+      <Route exact path='/reports/refereeDay/:date/:searchValue' component={RefereeDayReportScreen}/>
       <Route exact path='/reports/sale/:startDate/:endDate/:searchValue' component={SaleReportScreen}/>
       <Route exact path='/reports/table/:date/:searchValue' component={TableReportScreen}/>
       {/*nomatch*/}

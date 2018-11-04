@@ -20,6 +20,7 @@ function withForm(params) {
 
     constructor(props) {
       super(props)
+      this.db = this.props.db
       this.options = {}
       this.state = {
         isLoading: true,
@@ -36,10 +37,13 @@ function withForm(params) {
         isLoading: true
       },async () => {
         try { 
-          await sleep(500)
+          await sleep(ui.delayTime)
           this.options = {}
           let options = {}
-          const optionsPromise = belong.map(belongResource => firebase.firestore().collection(belongResource + 's').where("club_id", "==", this.props.HoldemStore.clubId).get())
+          const optionsPromise = belong.map(belongResource => this.db.collection(belongResource + 's')
+            .where("club_id", "==", this.props.HoldemStore.clubId)
+            .where("quit", "==", false)
+            .get())
           const optionsSnap = await Promise.all(optionsPromise)
           optionsSnap.forEach((snap,index) => {
             const option = snap.docs.map(doc => {
@@ -75,7 +79,7 @@ function withForm(params) {
         event: '新增資料中'
       },async () => {
         try {
-          await sleep(300)
+          await sleep(ui.delayTime)
           let key = uuidv1()
           let upload_data = {}
           if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
@@ -112,7 +116,7 @@ function withForm(params) {
             case 'members':
               upload_data = Object.assign({},data,{
                 key,
-                chip: 0, 
+                totalChip: 0, 
                 chipNoLimit: false,
                 quit: false,
                 referee_key: data['referee_key'],
@@ -126,10 +130,10 @@ function withForm(params) {
             }
             // 上傳資料
             if (resource === 'employees') { await firebase.auth().createUserWithEmailAndPassword(data.account,data.password) }
-            await firebase.firestore().runTransaction(async (transaction) => {
+            await this.db.runTransaction(async (transaction) => {
               // 寫入計數
               if (resource !== 'clubs') {
-                const club_ref = firebase.firestore().collection('clubs').doc(data['club_key'])
+                const club_ref = this.db.collection('clubs').doc(data['club_key'])
                 const club_doc = await transaction.get(club_ref)
                 const club_data = club_doc.data()
                 if (resource === 'employees' || resource === 'referees' || resource === 'sales') {
@@ -150,8 +154,8 @@ function withForm(params) {
                   }
                 } else if (resource === 'members') {
                   let memberCount = 0
-                  const referee_ref = firebase.firestore().collection('referees').doc(data['referee_key'])
-                  const sale_ref = firebase.firestore().collection('sales').doc(data['sale_key'])
+                  const referee_ref = this.db.collection('referees').doc(data['referee_key'])
+                  const sale_ref = this.db.collection('sales').doc(data['sale_key'])
                   const referee_doc = await transaction.get(referee_ref)
                   const sale_doc = await transaction.get(sale_ref)
                   const referee_data = referee_doc.data()
@@ -165,14 +169,14 @@ function withForm(params) {
                 }
               }
               // 寫入資料
-              const id_ref = firebase.firestore().collection('ids').doc(key)
-              const resource_ref = firebase.firestore().collection(resource).doc(key)
+              const id_ref = this.db.collection('ids').doc(key)
+              const resource_ref = this.db.collection(resource).doc(key)
               await transaction.set(id_ref,{
                 id: data.id
               })
               await transaction.set(resource_ref,upload_data)
               if (resource !== 'members') {
-                const backend_ref = firebase.firestore().collection('backends').doc(key)
+                const backend_ref = this.db.collection('backends').doc(key)
                 await transaction.set(backend_ref,{
                   key,
                   id: data.id,
@@ -185,10 +189,10 @@ function withForm(params) {
                 })
               }
               // 檢查資料
-              const check_ids_docs = await firebase.firestore().collection('ids').where("id", "==", data.id).get()
+              const check_ids_docs = await this.db.collection('ids').where("id", "==", data.id).get()
               if (!check_ids_docs.empty) { throw '代號重複' }
               if (resource !== 'members') {
-                const check_backends_docs = await firebase.firestore().collection('backends').where("account", "==", data.account).get()
+                const check_backends_docs = await this.db.collection('backends').where("account", "==", data.account).get()
                 if (!check_backends_docs.empty) { throw '帳號重複' }
               }
             })

@@ -29,7 +29,7 @@ const more = [
   }
 ]
 
-export default inject('HoldemStore')(withNavigation(withAlert((withTable({
+export default inject('HoldemStore','db')(withNavigation(withAlert((withTable({
   title: ui.clubsTable.concat(more),
   resource: 'clubs'
 })))))

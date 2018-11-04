@@ -5,6 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
 import { errorAlert, successAlert, sleep } from '../helpers'
+import ui from '../configs/ui'
 
 function withTable(params) {
   const {
@@ -17,6 +18,7 @@ function withTable(params) {
 
     constructor(props) {
       super(props)
+      this.db = this.props.db
       this.state = {
         isLoading: true,
         data: []
@@ -28,30 +30,30 @@ function withTable(params) {
       const by = this.props.match.params.by
       if (resource === 'clubs') {
         if (searchValue) {
-          this.fetchTableData(firebase.firestore().collection(resource)
+          this.fetchTableData(this.db.collection(resource)
             .where("id", "==", searchValue)
             .where("quit", "==", false)
           )
         } else {
-          this.fetchTableData(firebase.firestore().collection(resource))
+          this.fetchTableData(this.db.collection(resource))
         }
       } else {
         if (by === 'club_id') {
           if (searchValue) {
-            this.fetchTableData(firebase.firestore().collection(resource)
+            this.fetchTableData(this.db.collection(resource)
               .where("club_id", "==", searchValue)
               .where("quit", "==", false)
             )
           }
         } else {
           if (searchValue) {
-            by && this.fetchTableData(firebase.firestore().collection(resource)
+            by && this.fetchTableData(this.db.collection(resource)
               .where("club_id", "==", this.props.HoldemStore.clubId)
               .where(by, "==", searchValue)
               .where("quit", "==", false)
             )
           } else {
-            this.fetchTableData(firebase.firestore().collection(resource)
+            this.fetchTableData(this.db.collection(resource)
               .where("club_id", "==", this.props.HoldemStore.clubId)
               .where("quit", "==", false)
             )
@@ -65,7 +67,7 @@ function withTable(params) {
         isLoading: true
       },async () => {
         try {
-          await sleep(300)
+          await sleep(ui.delayTime)
           const snap = fetch && (await fetch.get())
           const data = snap.docs.map(doc => doc.data())
           this.setState({
@@ -74,8 +76,6 @@ function withTable(params) {
           })
         } catch(err) {
           errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
-        } finally {
-          //
         }         
       })     
     }
