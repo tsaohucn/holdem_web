@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Moment from 'moment'
-import { extendMoment } from 'moment-range'
+//import { extendMoment } from 'moment-range'
 // local_module
 import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
@@ -48,7 +48,9 @@ function withReport(params) {
         this.fetchTableData(this.db.collection(resource)
           .where("club_id", "==", this.HoldemStore.clubId)
           .where(by, "==", searchValue)
-          .orderBy("onTableDateInt").startAt(20170620).endAt(20190220)
+          .orderBy("onTableDateInt")
+          .startAt(parseInt(Moment(startDate).format('YYYYMMDD')))
+          .endAt(parseInt(Moment(endDate).format('YYYYMMDD')))
         ,header)
       }
     }

@@ -66,12 +66,6 @@ const PartialTable = (props) =>  {
                       {getSpendTime(n['spendTime'])}
                     </TableCell>
                   )
-                } else if (key === 'tenMinutes') {
-                  return (
-                    <TableCell key={key} style={styles.tableCell}>
-                      {getTenMinutes(n['spendTime'])}
-                    </TableCell>
-                  )
                 } else if (key === 'saleReportTotalPlayerSpendTime') {
                   return (
                     <TableCell key={key} style={styles.tableCell}>

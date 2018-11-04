@@ -116,6 +116,7 @@ function withForm(params) {
             case 'members':
               upload_data = Object.assign({},data,{
                 key,
+                chipGrap: [],
                 totalChip: 0, 
                 chipNoLimit: false,
                 quit: false,
