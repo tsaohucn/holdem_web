@@ -20,7 +20,7 @@ import {
 const PartialTable = (props) =>  {
 
   const {
-    Title, 
+    header, 
     title,
     data,
     onClickTableReturnButton,
@@ -138,7 +138,7 @@ const PartialTable = (props) =>  {
   return(
     <div>
       {
-        Title ? <h4>{Title}</h4> : <br/> 
+        header ? <h4>{header}</h4> : <br/> 
       }
       <Paper style={styles.root}>
         <Table style={styles.table}>
