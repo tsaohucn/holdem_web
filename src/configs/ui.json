@@ -527,10 +527,6 @@
       "label": "本局時數"      
     },
     {
-      "key": "tenMinutes",
-      "label": "N個十分鐘"      
-    },
-    {
       "key": "totalChip",
       "label": "取碼總計"      
     },

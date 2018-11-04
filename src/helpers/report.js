@@ -2,7 +2,7 @@ import Moment from 'moment'
 
 const getSpendTime = (spendTime) => {
   const diff = Moment.duration(spendTime)
-  return [Math.floor(diff.asHours()), diff.minutes()].join(':')
+  return diff.minutes()
 }
 
 const getTenMinutes = (spendTime) => {
@@ -26,10 +26,16 @@ const getScore = (spendTime,table_level) => {
     return totalSpendTime*3
   case '25/50':
     return totalSpendTime*4
+  case '50/50':
+    return totalSpendTime*4
   case '50/100':
+    return totalSpendTime*5
+  case '100/100':
     return totalSpendTime*5
   case '100/200':
     return totalSpendTime*6
+  case '200/400':
+    return totalSpendTime*8
   default:
     return 0
   }
