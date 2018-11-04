@@ -1,4 +1,5 @@
-//import Moment from 'moment'
+import Moment from 'moment'
+import { extendMoment } from 'moment-range'
 /*
 const getTotalSpendTime = (spendTime) => {
   const diff = Moment.duration(spendTime)
@@ -71,4 +72,56 @@ const getSaleReportData = (data) => {
   return data_by_day_by_sort_by_total
 }
 
-export { getSaleReportData }
+const getRefereeReportData = (data,startDate,endDate) => {
+  const moment = extendMoment(Moment)
+  const start = moment(startDate, 'YYYY-MM-DD')
+  const end   = moment(endDate, 'YYYY-MM-DD')
+  const range = Array.from(moment.range(start, end).by('day', { excludeEnd: false })).map(m => m.format('YYYY/MM/DD'))
+  const range_data = range.map(date => ({
+    referee_report_date: date,
+    referee_rk: 0,
+    referee_rk50: 0,
+    referee_st: 0
+  }))
+  return range_data
+}
+
+const getRefereeDayReportData = async (data,referee_id,db) => {
+  let data_by_table = {}
+  data.forEach(ele => {
+    if (data_by_table[ele.table_id]) {
+      data_by_table[ele.table_id]['totallPlayerSpendTime'] += ele.spendTime
+      data_by_table[ele.table_id]['totalPlayerFinallyChip'] += ele.finalChip
+    } else {
+      data_by_table[ele.table_id] = {
+        table_key: ele.table_key,
+        referee_day_report_table_id: ele.table_id,
+        table_referee_id: ele.table_referee_id,
+        totallPlayerSpendTime: ele.spendTime,
+        totalPlayerFinallyChip: ele.finalChip,
+      }
+    }
+  })
+  const origin_tables_data = Object.values(data_by_table)
+  const table_keys = origin_tables_data.map(ele => ele.table_key)
+  const tables_promise = table_keys.map(key => db.collection('tables_reports').doc(key).get())
+  const tables = await Promise.all(tables_promise)
+  const new_tables_data = tables.map(table_doc => {
+    if (table_doc.exists) {
+      return table_doc.data()
+    } else {
+      return {}
+    }
+  })
+  const tables_data = origin_tables_data.map((ele,index) => Object.assign({},ele,{
+    totalTableFinallyChip: new_tables_data[index]['finalChip'],
+    totalTableSpendTime: new_tables_data[index]['spendTime'],
+    c: new_tables_data[index]['i'] - new_tables_data[index]['t'],
+    i: new_tables_data[index]['i'],
+    t: new_tables_data[index]['t'],
+    returnT: referee_id === ele.table_referee_id ? new_tables_data[index]['t'] : 0,
+    returnI: referee_id === ele.table_referee_id ? new_tables_data[index]['i']*0.2 : 0
+  }))
+  return tables_data
+}
+export { getSaleReportData, getRefereeReportData, getRefereeDayReportData }

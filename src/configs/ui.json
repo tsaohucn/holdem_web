@@ -549,20 +549,24 @@
       "label": "桌次代號"
     },
     {
-      "key": "refereeDayReportTotalPlayerSpendTime",
+      "key": "totallPlayerSpendTime",
       "label": "所屬會員上桌時數"      
     },
     {
-      "key": "refereeDayReportTotalFinallyChip",
+      "key": "totalPlayerFinallyChip",
       "label": "所屬會員賽局餘額"      
     },
     {
-      "key": "totalFinallyChip",
+      "key": "table_referee_id",
+      "label": "開桌裁判"
+    },
+    {
+      "key": "totalTableFinallyChip",
       "label": "本桌賽局餘額"      
     },
     {
-      "key": "totalSpendTime",
-      "label": "本桌賽局時數"      
+      "key": "totalTableSpendTime",
+      "label": "本桌賽局總時數"      
     },
     {
       "key": "c",
@@ -577,16 +581,16 @@
       "label": "總t"      
     },
     {
-      "key": "referee_id",
-      "label": "開桌裁判"
+      "key": "average",
+      "label": "平均數"      
     },
     {
-      "key": "returnClub",
-      "label": "給協會保險費"      
+      "key": "returnI",
+      "label": "給協會i"      
     },    
     {
-      "key": "returnReferee",
-      "label": "給荷官小費"      
+      "key": "returnT",
+      "label": "給荷官t"      
     },
     {
       "key": "referee_rk",
@@ -595,65 +599,7 @@
     {
       "key": "referee_st",
       "label": "裁判ST"      
-    },
-    {
-      "key": "average",
-      "label": "平均數"      
     }
-  ],
-  "tableReportTable": [
-    {
-      "key": "playerTime",
-      "label": "會員上桌時間"      
-    },
-    {
-      "key": "table_referee_id",
-      "label": "開桌裁判"
-    },
-    {
-      "key": "table_level",
-      "label": "盲著級別"      
-    },
-    {
-      "key": "member_id",
-      "label": "會員代號"      
-    },
-    {
-      "key": "member_name",
-      "label": "會員名稱"      
-    },
-    {
-      "key": "member_referee_id",
-      "label": "所屬裁判"      
-    },
-    {
-      "key": "decodeDate",
-      "label": "解碼日期"      
-    },
-    {
-      "key": "decodeTime",
-      "label": "解碼時間"      
-    },
-    {
-      "key": "spendTime",
-      "label": "本局時數"      
-    },
-    {
-      "key": "totalChipGrap",
-      "label": "取碼總計"      
-    },
-    {
-      "key": "totalDecodeChip",
-      "label": "解碼總計"      
-    },
-    {
-      "key": "finallyChip",
-      "label": "賽局餘額"       
-    },
-    {
-      "key": "member_rk",
-      "label": "會員貢獻度(RK)"       
-    } 
   ],
   "gender": [
     {
