@@ -5,20 +5,12 @@ import {
 import sleep from './sleep'
 import passwordSchema from './passwordSchema'
 import { 
-  getSpendTime, 
-  getTenMinutes, 
-  getTotalSpendTime,
-  getScore,
-  getC
+  getSaleReportData
 } from './report'
 
 
 export {
-  getC,
-  getScore,
-  getTotalSpendTime,
-  getSpendTime,
-  getTenMinutes,
+  getSaleReportData,
   errorAlert,
   successAlert,
   sleep,

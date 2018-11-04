@@ -449,27 +449,19 @@
   ],
   "saleReportTable": [
     {
-      "key": "playerDate",
-      "label": "會員上桌日期"
+      "key": "onTableDate",
+      "label": "上桌日期"
     },
     {
-      "key": "playerTime",
-      "label": "會員上桌時間"
+      "key": "referee_id",
+      "label": "所屬裁判"
     },
     {
-      "key": "member_referee_id",
-      "label": "會員所屬裁判"
-    },
-    {
-      "key": "saleReportTotalPlayerSpendTime",
-      "label": "總時數"      
-    },
-    {
-      "key": "member_id",
+      "key": "id",
       "label": "會員代號"
     },
     {
-      "key": "member_name",
+      "key": "name",
       "label": "會員名稱"
     },
     {
@@ -482,7 +474,15 @@
     },
     {
       "key": "score",
-      "label": "分數"      
+      "label": "分數"  
+    },
+    {
+      "key": "totalSpendTime",
+      "label": "總時數"       
+    },
+    {
+      "key": "totalScore",
+      "label": "總分數"      
     }
   ],
   "memberReportTable": [
@@ -550,19 +550,19 @@
     },
     {
       "key": "refereeDayReportTotalPlayerSpendTime",
-      "label": "此裁判所含玩家在此桌次上場總時間"      
+      "label": "所屬會員上桌時數"      
     },
     {
       "key": "refereeDayReportTotalFinallyChip",
-      "label": "此裁判所含玩家在此桌次賽局總計"      
+      "label": "所屬會員賽局餘額"      
     },
     {
       "key": "totalFinallyChip",
-      "label": "賽局總計"      
+      "label": "本桌賽局餘額"      
     },
     {
       "key": "totalSpendTime",
-      "label": "此桌次所有玩家上場總時間"      
+      "label": "本桌賽局時數"      
     },
     {
       "key": "c",
@@ -637,10 +637,6 @@
     {
       "key": "spendTime",
       "label": "本局時數"      
-    },
-    {
-      "key": "tenMinutes",
-      "label": "N個十分鐘"      
     },
     {
       "key": "totalChipGrap",
