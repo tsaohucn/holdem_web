@@ -50,7 +50,7 @@ const PartialTable = (props) =>  {
                 } else if (key === 'chipGrap') {
                   return (
                     <TableCell key={key} style={styles.tableCell}>
-                      <a data-tip data-for={n['key']}>{'明細'}</a>
+                      <a data-tip data-for={n['key']}>{n['totalChip']}</a>
                       <ReactTooltip id={n['key']} type='error' effect='solid'>
                         <ol style={styles.ol}>
                           { Object.values(n[key] || {}).map((ele) =>

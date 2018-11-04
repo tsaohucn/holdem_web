@@ -5,6 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
 import { errorAlert, successAlert, sleep } from '../helpers'
+import ui from '../configs/ui'
 
 function withLive(params) {
   const {
@@ -16,6 +17,7 @@ function withLive(params) {
 
     constructor(props) {
       super(props)
+      this.db = this.props.db
       this.playerListener = null
       this.state = {
         modalIsShow: false,
@@ -27,11 +29,11 @@ function withLive(params) {
     componentDidMount() {
       const searchValue = this.props.match.params.searchValue
       if (!searchValue) {
-        this.fetchTableData(firebase.firestore().collection('members')
+        this.fetchTableData(this.db.collection('members')
         .where("club_id", "==", this.props.HoldemStore.clubId)
         .where("onTable", "==", true))
       } else {
-        this.fetchTableData(firebase.firestore().collection('members')
+        this.fetchTableData(this.db.collection('members')
         .where("club_id", "==", this.props.HoldemStore.clubId)
         .where("table_id", "==", searchValue))
       }
@@ -42,17 +44,10 @@ function withLive(params) {
     }
 
     fetchTableData = (fetch) => {
-      this.playerListener = fetch.onSnapshot((querySnapshot) => {
-        this.setState({
-          isLoading: true
-        },async () => {
-          await sleep(500)
-          const data = querySnapshot.docs.map(doc => doc.data())
-          this.setState({
-            isLoading: false,
-            data
-          })
-        })
+      this.playerListener = fetch.onSnapshot(async (querySnapshot) => {
+        await sleep(ui.delayTime)
+        const data = querySnapshot.docs.map(doc => doc.data())
+        this.setState({ data })
       })   
     }
 

@@ -5,6 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import EditComponent from '../components/EditComponent'
 import firebase from '../configs/firebase'
 import { errorAlert, successAlert, sleep } from '../helpers'
+import ui from '../configs/ui'
 
 function withEdit(params) {
   const {
@@ -19,6 +20,7 @@ function withEdit(params) {
 
     constructor(props) {
       super(props)
+      this.db = this.props.db
       this.key = this.props.match.params.key || ''
       this.account = null
       this.password = null
@@ -29,7 +31,7 @@ function withEdit(params) {
     }
 
     componentDidMount() {
-      this.fetchTableData(firebase.firestore().collection(resource).doc(this.key))
+      this.fetchTableData(this.db.collection(resource).doc(this.key))
     }
 
 
@@ -38,9 +40,12 @@ function withEdit(params) {
         isLoading: true
       },async () => {
         try {
-          await sleep(500)
+          await sleep(ui.delayTime)
           let options = {}
-          const optionsPromise = belong && belong.map(belongResource => firebase.firestore().collection(belongResource + 's').where("club_id", "==", this.props.HoldemStore.clubId).get())
+          const optionsPromise = belong && belong.map(belongResource => this.db.collection(belongResource + 's')
+            .where("club_id", "==", this.props.HoldemStore.clubId)
+            .where("quit", "==", false)
+            .get())
           const optionsSnap = await Promise.all(optionsPromise)
           optionsSnap.forEach((snap,index) => {
             const option = snap.docs.map(doc => {
@@ -75,7 +80,7 @@ function withEdit(params) {
         event: '更新資料中'
       },async () => {
         try {
-          await sleep(300)
+          await sleep(ui.delayTime)
           if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
             if (resource === 'employees') {
               await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
@@ -87,18 +92,18 @@ function withEdit(params) {
                 await user.updatePassword(data.password)
               }
             }
-            await firebase.firestore().runTransaction(async (transaction) => {
+            await this.db.runTransaction(async (transaction) => {
               if (resource !== 'members') {
-                const backend_ref = firebase.firestore().collection('backends').doc(this.key)
+                const backend_ref = this.db.collection('backends').doc(this.key)
                 await transaction.update(backend_ref, {
                   account: data.account,
                   password: data.password
                 })
               }
-              const resource_ref = firebase.firestore().collection(resource).doc(this.key)
+              const resource_ref = this.db.collection(resource).doc(this.key)
               await transaction.update(resource_ref, data)
               if (resource !== 'members') {
-                const check_backends_docs = await firebase.firestore().collection('backends').where("account", "==", data.account).get()
+                const check_backends_docs = await this.db.collection('backends').where("account", "==", data.account).get()
                 if ((!check_backends_docs.empty) && (this.account != data.account)) { throw '帳號重複' }
               }
             })
@@ -129,7 +134,7 @@ function withEdit(params) {
         event: '刪除資料中'
       },async () => {
         try {
-          await sleep(300)
+          await sleep(ui.delayTime)
           if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
             const refereeCount = data.refereeCount
             const saleCount = data.saleCount
@@ -144,11 +149,11 @@ function withEdit(params) {
               const currentUser = firebase.auth().currentUser
               await currentUser.delete()              
             }
-            await firebase.firestore().runTransaction(async (transaction) => {
-              const backend_ref = firebase.firestore().collection('backends').doc(this.key)
-              const resource_ref = firebase.firestore().collection(resource).doc(this.key)
+            await this.db.runTransaction(async (transaction) => {
+              const backend_ref = this.db.collection('backends').doc(this.key)
+              const resource_ref = this.db.collection(resource).doc(this.key)
               if (resource !== 'clubs') {
-                const club_ref = firebase.firestore().collection('clubs').doc(data['club_key'])
+                const club_ref = this.db.collection('clubs').doc(data['club_key'])
                 const club_doc = await transaction.get(club_ref)
                 const club_data = club_doc.data()
                 if (resource === 'employees' || resource === 'referees' || resource === 'sales') {
@@ -169,8 +174,8 @@ function withEdit(params) {
                   }
                 } else if (resource === 'members') {
                   let memberCount = 0
-                  const referee_ref = firebase.firestore().collection('referees').doc(data['referee_key'])
-                  const sale_ref = firebase.firestore().collection('sales').doc(data['sale_key'])
+                  const referee_ref = this.db.collection('referees').doc(data['referee_key'])
+                  const sale_ref = this.db.collection('sales').doc(data['sale_key'])
                   const referee_doc = await transaction.get(referee_ref)
                   const sale_doc = await transaction.get(sale_ref)
                   const referee_data = referee_doc.data()
