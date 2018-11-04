@@ -12,6 +12,6 @@ const edit = {
 }
 
 export default inject('HoldemStore','db')(withNavigation(withAlert((withTable({
-  title: ui.employeesTable.concat(edit),
-  resource: 'employees'
+  resource: 'employees',
+  title: ui.employeesTable.concat(edit)
 })))))

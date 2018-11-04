@@ -38,26 +38,24 @@ function withTable(params) {
           this.fetchTableData(this.db.collection(resource))
         }
       } else {
-        if (by === 'club_id') {
-          if (searchValue) {
+        if (searchValue) {
+          if (by === 'club_id') {
             this.fetchTableData(this.db.collection(resource)
-              .where("club_id", "==", searchValue)
-              .where("quit", "==", false)
-            )
-          }
-        } else {
-          if (searchValue) {
-            by && this.fetchTableData(this.db.collection(resource)
-              .where("club_id", "==", this.props.HoldemStore.clubId)
               .where(by, "==", searchValue)
               .where("quit", "==", false)
             )
           } else {
             this.fetchTableData(this.db.collection(resource)
               .where("club_id", "==", this.props.HoldemStore.clubId)
+              .where(by, "==", searchValue)
               .where("quit", "==", false)
             )
           }
+        } else {
+          this.fetchTableData(this.db.collection(resource)
+            .where("club_id", "==", this.props.HoldemStore.clubId)
+            .where("quit", "==", false)
+          )
         }
       }
     }

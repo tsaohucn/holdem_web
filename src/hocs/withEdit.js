@@ -21,7 +21,7 @@ function withEdit(params) {
     constructor(props) {
       super(props)
       this.db = this.props.db
-      this.key = this.props.match.params.key || ''
+      this.delete = false
       this.account = null
       this.password = null
       this.state = {
@@ -31,7 +31,8 @@ function withEdit(params) {
     }
 
     componentDidMount() {
-      this.fetchTableData(this.db.collection(resource).doc(this.key))
+      const key = this.props.match.params.key
+      this.fetchTableData(this.db.collection(resource).doc(key))
     }
 
 
@@ -81,6 +82,7 @@ function withEdit(params) {
       },async () => {
         try {
           await sleep(ui.delayTime)
+          const key = this.props.match.params.key
           if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
             if (resource === 'employees') {
               await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
@@ -94,18 +96,19 @@ function withEdit(params) {
             }
             await this.db.runTransaction(async (transaction) => {
               if (resource !== 'members') {
-                const backend_ref = this.db.collection('backends').doc(this.key)
+                const backend_ref = this.db.collection('backends').doc(key)
+                const check_account_ref = this.db.collection('backends')
+                  .where("account", "==", data.account)
+                  //.where("quit", "==", false)
+                const check_account_docs = await transaction.get(check_account_ref)
+                if ((!check_account_docs.empty) && (this.account != data.account)) { throw '帳號重複' }        
                 await transaction.update(backend_ref, {
                   account: data.account,
                   password: data.password
                 })
               }
-              const resource_ref = this.db.collection(resource).doc(this.key)
+              const resource_ref = this.db.collection(resource).doc(key)
               await transaction.update(resource_ref, data)
-              if (resource !== 'members') {
-                const check_backends_docs = await this.db.collection('backends').where("account", "==", data.account).get()
-                if ((!check_backends_docs.empty) && (this.account != data.account)) { throw '帳號重複' }
-              }
             })
           } else {
             throw '資源錯誤'
@@ -113,6 +116,7 @@ function withEdit(params) {
           successAlert(this.props.alert,'更新成功')
           this.goBack()
         } catch(err) {
+          // 調整一下
           if (resource === 'employees') {
             const currentUser = firebase.auth().currentUser
             await currentUser.updateEmail(this.account)
@@ -122,8 +126,6 @@ function withEdit(params) {
           this.setState({
             isLoading: false
           })
-        } finally {
-          //
         }
       })
     }
@@ -135,23 +137,24 @@ function withEdit(params) {
       },async () => {
         try {
           await sleep(ui.delayTime)
+          this.delete = false
+          const key = this.props.match.params.key
           if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
             const refereeCount = data.refereeCount
             const saleCount = data.saleCount
             const memberCount = data.memberCount
             const employeeCount = data.employeeCount
             // 檢查底下有無人
-            if (employeeCount > 0 || refereeCount > 0 || saleCount > 0 || memberCount > 0) {
-              throw '此人底下存在會員'
-            }
+            if (employeeCount > 0 || refereeCount > 0 || saleCount > 0 || memberCount > 0) { throw '此人底下存在會員' }
             if (resource === 'employees') {
               await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
               const currentUser = firebase.auth().currentUser
-              await currentUser.delete()              
+              await currentUser.delete()
+              this.delete = true             
             }
             await this.db.runTransaction(async (transaction) => {
-              const backend_ref = this.db.collection('backends').doc(this.key)
-              const resource_ref = this.db.collection(resource).doc(this.key)
+              const backend_ref = this.db.collection('backends').doc(key)
+              const resource_ref = this.db.collection(resource).doc(key)
               if (resource !== 'clubs') {
                 const club_ref = this.db.collection('clubs').doc(data['club_key'])
                 const club_doc = await transaction.get(club_ref)
@@ -195,12 +198,12 @@ function withEdit(params) {
           successAlert(this.props.alert,'刪除成功')
           this.goBack()
         } catch(err) {
-          if (resource === 'employees') {
-            const currentUser = firebase.auth().currentUser
-            if (!currentUser) { await firebase.auth().createUserWithEmailAndPassword(this.account,this.password) }
+          // 調整一下
+          if (this.delete && (resource === 'employees')) {
+            await firebase.auth().createUserWithEmailAndPassword(this.account,this.password)
+            this.delete = false
           }
           errorAlert(this.props.alert,'刪除失敗 : ' + err.toString())
-        } finally {
           this.setState({
             isLoading: false
           })
