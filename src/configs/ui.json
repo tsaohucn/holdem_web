@@ -334,6 +334,10 @@
     {
       "key": "chipLimit",
       "label": "會員抓馬額度"
+    },
+    {
+      "key": "rbPercentage",
+      "label": "退回協會趴數%"
     }
   ],
   "playersTable": [
@@ -436,16 +440,12 @@
       "label": "日期"
     },
     {
-      "key": "referee_rk",
-      "label": "裁判積分RK"
-    },
-    {
-      "key": "referee_rk50",
-      "label": "50RK"
+      "key": "referee_rb",
+      "label": "裁判積分(RB)"
     },
     {
       "key": "referee_st",
-      "label": "裁判ST"
+      "label": "裁判積分(ST)"
     },
     {
       "key": "returnClub",
@@ -546,7 +546,11 @@
     {
       "key": "member_rk",
       "label": "會員貢獻度(RK)"       
-    }    
+    },
+    {
+      "key": "rb",
+      "label": "會員貢獻度(RB)" 
+    }   
   ],
   "refereeDayReportTable": [
     {
@@ -598,12 +602,12 @@
       "label": "給荷官t"      
     },
     {
-      "key": "referee_rk",
-      "label": "裁判積分RK"      
+      "key": "referee_rb",
+      "label": "裁判積分(RB)"      
     },
     {
       "key": "referee_st",
-      "label": "裁判ST"      
+      "label": "裁判積分(ST)"      
     }
   ],
   "gender": [

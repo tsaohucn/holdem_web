@@ -7,16 +7,20 @@ import passwordSchema from './passwordSchema'
 import { 
   getRefereeReportData,
   getSaleReportData,
-  getRefereeDayReportData
+  getRefereeDayReportData,
+  getMemberReportData,
+  getDateRange
 } from './report'
 
 
 export {
+  getDateRange,
   getRefereeDayReportData,
   getRefereeReportData,
   getSaleReportData,
   errorAlert,
   successAlert,
   sleep,
-  passwordSchema
+  passwordSchema,
+  getMemberReportData
 }
