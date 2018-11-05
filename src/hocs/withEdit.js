@@ -83,7 +83,18 @@ function withEdit(params) {
         try {
           await sleep(ui.delayTime)
           const key = this.props.match.params.key
+          let upload_data = {}
           if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
+            // 整理資料
+            if (resource === 'members') { 
+              upload_data = Object.assign({},data,{
+                chipLimit: parseInt(data['chipLimit']),
+                rbPercentage: parseInt(data['rbPercentage'])            
+              })
+            } else {
+              upload_data = data
+            }
+            // 上傳資料
             if (resource === 'employees') {
               await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
               const user = firebase.auth().currentUser
@@ -108,7 +119,7 @@ function withEdit(params) {
                 })
               }
               const resource_ref = this.db.collection(resource).doc(key)
-              await transaction.update(resource_ref, data)
+              await transaction.update(resource_ref, upload_data)
             })
           } else {
             throw '資源錯誤'

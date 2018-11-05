@@ -11,7 +11,9 @@ import {
   sleep, 
   getSaleReportData,
   getRefereeReportData,
-  getRefereeDayReportData
+  getRefereeDayReportData,
+  getMemberReportData,
+  getDateRange
 } from '../helpers'
 import ui from '../configs/ui'
 
@@ -60,13 +62,12 @@ function withReport(params) {
         let header = null
         if (by === 'refereeTotal') {
           header = '裁判代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
-          this.fetchTableData(this.db.collection(resource)
+          const date_range = getDateRange(startDate,endDate)
+          const referee_total_data_promise = date_range.map(_date => this.db.collection(resource)
             .where("club_id", "==", this.HoldemStore.clubId)
             .where("referee_id", "==", searchValue)
-            //.orderBy("onTableDateInt")
-            //.startAt(parseInt(Moment(startDate).format('YYYYMMDD')))
-            //.endAt(parseInt(Moment(endDate).format('YYYYMMDD')))
-          ,header,startDate,endDate)
+            .where("onTableDate", "==", Moment(_date).format('YYYY/MM/DD')).get())
+          this.fetchTableData(referee_total_data_promise,header,null,null,null,searchValue,date_range)
         } else {
           header = '裁判代號：' + searchValue + '   ' + '上桌日期：' + date
           this.fetchTableData(this.db.collection(resource)
@@ -84,19 +85,26 @@ function withReport(params) {
       }
     }
 
-    fetchTableData = (fetch,header,startDate,endDate,date,searchValue) => {
+    fetchTableData = (fetch,header,startDate,endDate,date,searchValue,dateRange) => {
       this.setState({
         isLoading: true
       },async () => {
         try {
-          const snap = await fetch.get()
-          let data = snap.docs.map(doc => doc.data())
-          if (by === 'sale_id') {
-            data = getSaleReportData(data)
-          } else if (by === 'refereeTotal') {
-            data = getRefereeReportData(data,startDate,endDate)
-          } else if (by === 'refereeDay') {
-            data = await getRefereeDayReportData(data,searchValue,this.db)
+          let data = []
+          if (by === 'refereeTotal') {
+            const promise_val = await Promise.all(fetch)
+            const referee_total_data = promise_val.map(snap => snap.docs.map(doc => doc.data()))
+            data = await getRefereeReportData(referee_total_data,searchValue,this.db,dateRange)
+          } else {
+            const snap = await fetch.get()
+            data = snap.docs.map(doc => doc.data())
+            if (by === 'sale_id') {
+              data = getSaleReportData(data)
+            } else if (by === 'refereeDay') {
+              data = await getRefereeDayReportData(data,searchValue,this.db)
+            } else {
+              data = await getMemberReportData(data,this.db)
+            }
           }
           this.setState({
             isLoading: false,
@@ -105,6 +113,7 @@ function withReport(params) {
             saleReport: by === 'sale_id'
           })
         } catch (err) {
+          console.log(err)
           errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
         }
       })

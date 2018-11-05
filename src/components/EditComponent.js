@@ -65,7 +65,13 @@ class EditComponent extends PureComponent {
   checkLimitFormat = () => {
     if (this.state.data.limit) {
       if (Number.isInteger(parseInt(this.state.data.limit))) {
-        return true
+        if (parseInt(this.state.data.limit) >= 0) {
+          return true
+        } else {
+          const message = '抓馬額度格式錯誤'
+          errorAlert(this.props.alert,message)
+          return false
+        }
       } else {
         const message = '抓馬額度格式錯誤'
         errorAlert(this.props.alert,message)
@@ -74,6 +80,26 @@ class EditComponent extends PureComponent {
     } else {
       return true
     }
+  }
+
+  checkRbPercentage = () => {
+    if (this.state.data.rbPercentage) {
+      if (Number.isInteger(parseInt(this.state.data.rbPercentage))) {
+        if ((parseInt(this.state.data.rbPercentage) >= 0) && (parseInt(this.state.data.rbPercentage) <= 100)) {
+          return true
+        } else {
+          const message = '退回協會趴數格式錯誤'
+          errorAlert(this.props.alert,message)
+          return false 
+        }
+      } else {
+        const message = '退回協會趴數格式錯誤'
+        errorAlert(this.props.alert,message)
+        return false         
+      }
+    } else {
+      return true
+    }    
   }
 
   confirmDelete = () => {
@@ -110,7 +136,9 @@ class EditComponent extends PureComponent {
       if (this.checkEmailFormat()) {
         if (this.checkPasswordFormat()) {
           if (this.checkLimitFormat()) {
-            this.props.onClickEditConfirmButton && this.props.onClickEditConfirmButton(this.state.data)
+            if (this.checkRbPercentage()) {
+              this.props.onClickEditConfirmButton && this.props.onClickEditConfirmButton(this.state.data)
+            }
           }
         }
       }
