@@ -4,8 +4,10 @@ import TextField from '@material-ui/core/TextField'
 import Input from '@material-ui/core/Input'
 import Button from '@material-ui/core/Button'
 import MenuItem from '@material-ui/core/MenuItem'
+import Autocomplete from 'react-autocomplete'
 // local components
 import PartialButton from '../views/PartialButton'
+import SearchableDropdown from '../components/SearchableDropdown'
 
 const PartialForm = (props) => {
   const { 
@@ -36,6 +38,7 @@ const PartialForm = (props) => {
         {
           const { key, label, helperText } = ele ? ele : {}
           const isSelect = options.includes(key)
+          const isSearch = search.includes(key)
 
           if (isSelect) {
             return(
@@ -53,6 +56,15 @@ const PartialForm = (props) => {
               > 
                 { renderSelect(key) }
               </TextField>
+            )
+          } else if (isSearch) {
+            return(
+              <SearchableDropdown
+                key={key}
+                select={isSelect}
+                label={label}
+                helperText={helperText}
+              />
             )
           } else if (key === 'club_key') {
             return(
@@ -142,10 +154,13 @@ const PartialForm = (props) => {
 }
 
 const options = [
-  'referee_key',
-  'sale_key',
   'gender',
   'education' 
+]
+
+const search = [
+  'referee_key',
+  'sale_key'
 ]
 
 const styles = {
