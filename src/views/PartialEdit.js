@@ -10,7 +10,7 @@ import Modal from '@material-ui/core/Modal'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 // local components
-import SearchableDropdown from '../components/SearchableDropdown'
+import SearchableDropdown from './SearchableDropdown'
 import PartialButton from './PartialButton'
 import ui from '../configs/ui'
 
