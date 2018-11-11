@@ -42,7 +42,7 @@
   ],
   "employeesField": [
     {
-      "key": "club_key",
+      "key": "club_id",
       "label": "所屬俱樂部"
     },
     {
@@ -67,7 +67,7 @@
   ],
   "refereesField": [
     {
-      "key": "club_key",
+      "key": "club_id",
       "label": "所屬俱樂部"
     },
     {
@@ -96,7 +96,7 @@
   ],
   "salesField": [
     {
-      "key": "club_key",
+      "key": "club_id",
       "label": "所屬俱樂部"
     },
     {
@@ -124,7 +124,7 @@
   ],
   "membersField": [
     {
-      "key": "club_key",
+      "key": "club_id",
       "label": "所屬俱樂部"
     },
     {
@@ -132,11 +132,11 @@
       "label": "入會日期"
     },
     {
-      "key": "referee_key",
+      "key": "referee_id",
       "label": "所屬裁判"      
     },
     {
-      "key": "sale_key",
+      "key": "sale_id",
       "label": "所屬業務" 
     },
     {

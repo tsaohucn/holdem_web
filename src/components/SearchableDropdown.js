@@ -1,48 +1,48 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Component } from 'react'
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from 'react-autocomplete'
 
-export default class SearchableDropdown extends PureComponent {
+export default class SearchableDropdown extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      text: ''
-    }
   }
 
   onChange = (event) => {
-    this.setState({
-      text: event.target.value
-    })
+    const text = event.target.value
+    this.props.onSearch && this.props.onSearch(text)
   }
 
-  onSelect = (val) => {
-    console.log(val)
+  onSelect = (item) => {
+    this.props.onSearch && this.props.onSearch(item.id)
+  }
+
+  filterData = () => {
+    const data = this.props.items.filter(ele => ele.id.includes(this.props.value) && (this.props.value !== ''))
+    return data
   }
 
   render() {
 
-    const { key, isSelect, label, helperText} = this.props
+    const { value, style, key, isSelect, label, helperText} = this.props
 
+    const items = this.filterData()
+    
     return(
       <Autocomplete
-        getItemValue={(item) => item.label == 'apple'}
-        items={[
-          { label: 'apple' },
-          { label: 'banana' },
-          { label: 'pear' }
-        ]}
+        getItemValue={item => item}
+        items={items}
         renderItem={(item, isHighlighted) =>
           <div style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-            {item.label}
+            {item.id}
           </div>
         }
         onSelect={this.onSelect}
+        menuStyle={styles.menuStyle}
         renderInput={(props) => <TextField 
           inputProps={{
             ...props,
-            value: this.state.text,
+            value,
             onChange: this.onChange          
           }}
           key={key}
@@ -51,8 +51,8 @@ export default class SearchableDropdown extends PureComponent {
           select={isSelect}
           label={label}
           helperText={helperText}
-          style={styles.textField}
-          value={this.state.text}
+          style={style}
+          value={value}
           onChange={this.onChange}
         />}
       />
@@ -62,8 +62,8 @@ export default class SearchableDropdown extends PureComponent {
 
 
 const styles = {
-  textField: {
+  menuStyle: {
     width: '50%',
-    display: 'flex'
+    background: '#ffffff'
   }
 }

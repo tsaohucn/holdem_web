@@ -113,7 +113,6 @@ function withReport(params) {
             saleReport: by === 'sale_id'
           })
         } catch (err) {
-          console.log(err)
           errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
         }
       })

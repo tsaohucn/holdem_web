@@ -9,5 +9,5 @@ export default inject('HoldemStore','db')(withNavigation(withAlert((withForm({
   field: ui.salesField,
   buttonTitle: '送出',
   resource: 'sales',
-  belong: ['club']
+  belong: []
 })))))

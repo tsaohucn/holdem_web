@@ -131,13 +131,42 @@ class EditComponent extends PureComponent {
     })
   }
 
+  onSearch = (key,text) => {
+    const data = Object.assign({},this.state.data,{
+      [key]: text
+    })
+    this.setState({
+      data
+    })    
+  }
+
+  checkId = () => {
+    if (this.state.data.referee_id) {
+      if (!this.props.options[this.state.data.referee_id]) { 
+        const message = '所屬裁判不存在'
+        errorAlert(this.props.alert,message)
+        return false 
+      }
+    }
+    if (this.state.data.sale_id) {
+      if (!this.props.options[this.state.data.sale_id]) {
+        const message = '所屬業務不存在'
+        errorAlert(this.props.alert,message)
+        return false 
+      }
+    }
+    return true 
+  }
+
   onClickEditConfirmButton = () => {
     if (this.checkDataIntegrity()) {
       if (this.checkEmailFormat()) {
         if (this.checkPasswordFormat()) {
           if (this.checkLimitFormat()) {
             if (this.checkRbPercentage()) {
-              this.props.onClickEditConfirmButton && this.props.onClickEditConfirmButton(this.state.data)
+              if (this.checkId()) {
+                this.props.onClickEditConfirmButton && this.props.onClickEditConfirmButton(this.state.data)
+              }
             }
           }
         }
@@ -154,6 +183,7 @@ class EditComponent extends PureComponent {
         onChangeData={this.onChangeData}
         onClickEditConfirmButton={this.onClickEditConfirmButton}
         onClickDelete={this.onClickDelete}
+        onSearch={this.onSearch}
         cancelDelete={this.cancelDelete}
         confirmDelete={this.confirmDelete}
       />
