@@ -6,8 +6,8 @@ import Button from '@material-ui/core/Button'
 import MenuItem from '@material-ui/core/MenuItem'
 import Autocomplete from 'react-autocomplete'
 // local components
-import PartialButton from '../views/PartialButton'
-import SearchableDropdown from '../components/SearchableDropdown'
+import PartialButton from './PartialButton'
+import SearchableDropdown from './SearchableDropdown'
 
 const PartialForm = (props) => {
   const { 
