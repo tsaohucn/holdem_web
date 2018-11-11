@@ -77,8 +77,8 @@ const getRefereeReportData = async (data,referee_id,db,dateRange) => {
     let referee_rb = 0
     let referee_st = 0
     referee_day_data.forEach(data => {
-      referee_rb += data.referee_rb
-      referee_st += data.referee_st
+      referee_rb += data.referee_rb || 0
+      referee_st += data.referee_st || 0
     })
     return({
       referee_report_date: dateRange[index],
@@ -112,30 +112,29 @@ const getRefereeDayReportData = async (data,referee_id,db) => {
   const table_keys = origin_tables_data.map(ele => ele.table_key)
   const tables_promise = table_keys.map(key => db.collection('tables_reports').doc(key).get())
   const tables = await Promise.all(tables_promise)
-  const new_tables_data = tables.map(table_doc => {
-    if (table_doc.exists) {
-      return table_doc.data()
+  const tables_data = origin_tables_data.map((ele,index) => {
+    if (tables[index].exists) {
+      const new_tables_data = tables[index].data()
+      const average = new_tables_data['average']
+      const returnT = referee_id === ele.table_referee_id ? new_tables_data['t'] : 0
+      const returnI = referee_id === ele.table_referee_id ? new_tables_data['i']*0.2 : 0
+      const referee_rb = average*ele.member_rb
+      return Object.assign({},ele,{
+        totalTableFinallyChip: new_tables_data['finalChip'],
+        totalTableSpendTime: new_tables_data['spendTime'],
+        c: new_tables_data['i'] - new_tables_data['t'],
+        i: new_tables_data['i'],
+        t: new_tables_data['t'],
+        returnT,
+        returnI: parseFloat(returnI.toFixed(2)),
+        average: parseFloat(average.toFixed(4)),
+        referee_rb: parseFloat(referee_rb.toFixed(4)),
+        referee_st: parseFloat((ele.totallPlayerSpendTime + referee_rb + returnT + returnI).toFixed(4))
+      })
     } else {
-      return {}
+      return ele
     }
   })
-  const tables_data = origin_tables_data.map((ele,index) => {
-    const average = new_tables_data[index]['average']
-    const returnT = referee_id === ele.table_referee_id ? new_tables_data[index]['t'] : 0
-    const returnI = referee_id === ele.table_referee_id ? new_tables_data[index]['i']*0.2 : 0
-    const referee_rb = average*ele.member_rb
-    return Object.assign({},ele,{
-      totalTableFinallyChip: new_tables_data[index]['finalChip'],
-      totalTableSpendTime: new_tables_data[index]['spendTime'],
-      c: new_tables_data[index]['i'] - new_tables_data[index]['t'],
-      i: new_tables_data[index]['i'],
-      t: new_tables_data[index]['t'],
-      returnT,
-      returnI: parseFloat(returnI.toFixed(2)),
-      average: parseFloat(average.toFixed(4)),
-      referee_rb: parseFloat(referee_rb.toFixed(4)),
-      referee_st: parseFloat((ele.totallPlayerSpendTime + referee_rb + returnT + returnI).toFixed(4))
-    })})
   return tables_data
 }
 
@@ -143,17 +142,17 @@ const getMemberReportData = async (data,db) => {
   const table_keys = data.map(ele => ele.table_key)
   const tables_promise = table_keys.map(key => db.collection('tables_reports').doc(key).get())
   const tables = await Promise.all(tables_promise)
-  const tables_data = tables.map((table_doc,index) => {
-    if (table_doc.exists) {
-      const table = table_doc.data()
-      return Object.assign({},data[index],{
-        member_rk: parseFloat((table.average*data[index].spendTime).toFixed(2)),
-        rb: parseFloat((table.average*(data[index].rbPercentage/100)*data[index].spendTime).toFixed(2))
+  const player_combine_table_data = data.map((player_data,index) => {
+    if (tables[index].exists) {
+      const table = tables[index].data()
+      return Object.assign({},player_data,{
+        member_rk: parseFloat((table.average*player_data.spendTime).toFixed(2)),
+        rb: parseFloat((table.average*(player_data.rbPercentage/100)*player_data.spendTime).toFixed(2))
       })
     } else {
-      return {}
+      return player_data
     }
   })
-  return tables_data
+  return player_combine_table_data
 }
 export { getSaleReportData, getRefereeReportData, getRefereeDayReportData, getMemberReportData, getDateRange }

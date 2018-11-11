@@ -20,7 +20,8 @@ const PartialForm = (props) => {
     clubId,
     onFocusBirthday,
     onBlurBirthday,
-    focusBirthday
+    focusBirthday,
+    onSearch
   } = props ? props : {}
 
   const renderSelect = (property) => {
@@ -64,9 +65,13 @@ const PartialForm = (props) => {
                 select={isSelect}
                 label={label}
                 helperText={helperText}
+                items={props[key]}
+                onSearch={(text) => { onSearch(text,key) }}
+                value={data[key]}
+                style={styles.textField}
               />
             )
-          } else if (key === 'club_key') {
+          } else if (key === 'club_id') {
             return(
               <TextField
                 key={key}
@@ -159,8 +164,8 @@ const options = [
 ]
 
 const search = [
-  'referee_key',
-  'sale_key'
+  'referee_id',
+  'sale_id'
 ]
 
 const styles = {

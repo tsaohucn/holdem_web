@@ -13,8 +13,8 @@ class FormComponent extends PureComponent {
   
     this.state = {
       data: this.props.field.reduce((o, ele) => { 
-        if (ele.key === 'club_key') {
-          o[ele.key] = this.props.clubKey
+        if (ele.key === 'club_id') {
+          o[ele.key] = this.props.clubId
         } else if (ele.key === 'joinDate') {
           o[ele.key] = Moment(new Date()).format('l')
         } else {
@@ -113,13 +113,40 @@ class FormComponent extends PureComponent {
     })
   }
 
+  onSearch = (text,key) => {
+    const data = Object.assign({},this.state.data,{ [key]: text })
+    this.setState({
+      data
+    })    
+  }
+
+  checkId = () => {
+    if (this.state.data.referee_id) {
+      if (!this.props.options[this.state.data.referee_id]) { 
+        const message = '所屬裁判不存在'
+        errorAlert(this.props.alert,message)
+        return false 
+      }
+    }
+    if (this.state.data.sale_id) {
+      if (!this.props.options[this.state.data.sale_id]) {
+        const message = '所屬業務不存在'
+        errorAlert(this.props.alert,message)
+        return false 
+      }
+    }
+    return true 
+  }
+
   onClickNewPageButton = () => {
     if (this.checkDataIntegrity()) {
       if (this.checkEmailFormat()) {
         if (this.checkPasswordFormat()) {
           if (this.checkLimitFormat()) {
             if (this.checkRbPercentage()) {
-              this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state.data)
+              if (this.checkId()) {
+                this.props.onClickNewPageButton && this.props.onClickNewPageButton(this.state.data)
+              }
             }
           }
         }
@@ -148,6 +175,7 @@ class FormComponent extends PureComponent {
         onFocusBirthday={this.onFocusBirthday}
         data={this.state.data}
         onChange={this.onChange}
+        onSearch={this.onSearch}
         onClickNewPageButton={this.onClickNewPageButton}
       />
     )    

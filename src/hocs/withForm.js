@@ -48,16 +48,13 @@ function withForm(params) {
           optionsSnap.forEach((snap,index) => {
             const option = snap.docs.map(doc => {
               const data = doc.data()
-              this.options[data.key] = {
-                id: data.id,
-                name: data.name
-              }
-              return ({
+              this.options[data.id] = data.key
+              return {
                 key: data.key,
-                id_name: data.id
-              })
+                id: data.id
+              }
             })
-            options[belong[index] + '_key'] = option
+            options[belong[index] + '_id'] = option
           })
           this.setState({
             isLoading: false,
@@ -120,8 +117,8 @@ function withForm(params) {
                 totalChip: 0, 
                 chipNoLimit: false,
                 quit: false,
-                referee_id: this.options[data['referee_key']].id, 
-                sale_id: this.options[data['sale_key']].id,
+                referee_key: this.options[data['referee_id']], 
+                sale_key: this.options[data['sale_id']],
                 club_key: this.props.HoldemStore.clubKey,
                 club_id: this.props.HoldemStore.clubId,
                 chipLimit: parseInt(data['chipLimit']),
@@ -134,7 +131,7 @@ function withForm(params) {
             await this.db.runTransaction(async (transaction) => {
               // 寫入計數
               if (resource !== 'clubs') {
-                const club_ref = this.db.collection('clubs').doc(data['club_key'])
+                const club_ref = this.db.collection('clubs').doc(this.props.HoldemStore.clubKey)
                 const club_doc = await transaction.get(club_ref)
                 const club_data = club_doc.data()
                 if (resource === 'employees' || resource === 'referees' || resource === 'sales') {
@@ -155,8 +152,8 @@ function withForm(params) {
                   }
                 } else if (resource === 'members') {
                   let memberCount = 0
-                  const referee_ref = this.db.collection('referees').doc(data['referee_key'])
-                  const sale_ref = this.db.collection('sales').doc(data['sale_key'])
+                  const referee_ref = this.db.collection('referees').doc(this.options[data['referee_id']])
+                  const sale_ref = this.db.collection('sales').doc(this.options[data['sale_id']])
                   const referee_doc = await transaction.get(referee_ref)
                   const sale_doc = await transaction.get(sale_ref)
                   const referee_data = referee_doc.data()
@@ -237,8 +234,8 @@ function withForm(params) {
             <FormComponent
               {...this.props}
               {...this.state}
+              options={this.options}
               clubId={this.props.HoldemStore.clubId}
-              clubKey={this.props.HoldemStore.clubKey}
               field={field}
               buttonTitle={buttonTitle}
               onClickNewPageButton={this.onClickNewPageButton}

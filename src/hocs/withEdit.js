@@ -21,6 +21,7 @@ function withEdit(params) {
     constructor(props) {
       super(props)
       this.db = this.props.db
+      this.options = {}
       this.delete = false
       this.account = null
       this.password = null
@@ -42,6 +43,7 @@ function withEdit(params) {
       },async () => {
         try {
           await sleep(ui.delayTime)
+          this.options = {}
           let options = {}
           const optionsPromise = belong && belong.map(belongResource => this.db.collection(belongResource + 's')
             .where("club_id", "==", this.props.HoldemStore.clubId)
@@ -51,9 +53,10 @@ function withEdit(params) {
           optionsSnap.forEach((snap,index) => {
             const option = snap.docs.map(doc => {
               const data = doc.data()
+              this.options[data.id] = data.key
               return({
-                id: data.id,
-                id_name: data.id
+                key: data.key,
+                id: data.id
               })
             })
             options[belong[index] + '_id'] = option
@@ -88,13 +91,15 @@ function withEdit(params) {
             // 整理資料
             if (resource === 'members') { 
               upload_data = Object.assign({},data,{
+                referee_key: this.options[data['referee_id']], 
+                sale_key: this.options[data['sale_id']],
                 chipLimit: parseInt(data['chipLimit']),
                 rbPercentage: parseInt(data['rbPercentage'])            
               })
             } else {
               upload_data = data
             }
-            // 上傳資料
+            // 更新帳密
             if (resource === 'employees') {
               await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
               const user = firebase.auth().currentUser
@@ -105,21 +110,21 @@ function withEdit(params) {
                 await user.updatePassword(data.password)
               }
             }
+            // 更新資料
             await this.db.runTransaction(async (transaction) => {
+              const resource_ref = this.db.collection(resource).doc(key)
+              await transaction.update(resource_ref, upload_data)
               if (resource !== 'members') {
                 const backend_ref = this.db.collection('backends').doc(key)
-                const check_account_ref = this.db.collection('backends')
-                  .where("account", "==", data.account)
-                  //.where("quit", "==", false)
-                const check_account_docs = await transaction.get(check_account_ref)
-                if ((!check_account_docs.empty) && (this.account != data.account)) { throw '帳號重複' }        
                 await transaction.update(backend_ref, {
                   account: data.account,
                   password: data.password
                 })
+                const check_account_docs = await this.db.collection('backends')
+                  .where("account", "==", data.account)
+                  .get()
+                if ((check_account_docs.size > 1) && (this.account != data.account)) { throw '帳號重複' }        
               }
-              const resource_ref = this.db.collection(resource).doc(key)
-              await transaction.update(resource_ref, upload_data)
             })
           } else {
             throw '資源錯誤'
@@ -127,7 +132,6 @@ function withEdit(params) {
           successAlert(this.props.alert,'更新成功')
           this.goBack()
         } catch(err) {
-          // 調整一下
           if (resource === 'employees') {
             const currentUser = firebase.auth().currentUser
             await currentUser.updateEmail(this.account)
@@ -163,6 +167,7 @@ function withEdit(params) {
               await currentUser.delete()
               this.delete = true             
             }
+            // 刪除資料
             await this.db.runTransaction(async (transaction) => {
               const backend_ref = this.db.collection('backends').doc(key)
               const resource_ref = this.db.collection(resource).doc(key)
@@ -209,7 +214,6 @@ function withEdit(params) {
           successAlert(this.props.alert,'刪除成功')
           this.goBack()
         } catch(err) {
-          // 調整一下
           if (this.delete && (resource === 'employees')) {
             await firebase.auth().createUserWithEmailAndPassword(this.account,this.password)
             this.delete = false
@@ -241,6 +245,7 @@ function withEdit(params) {
             <Component
               {...this.props}
               {...this.state}
+              options={this.options}
               title={title}
               onClickEditReturnButton={this.goBack}
               onClickEditConfirmButton={this.updateData}
