@@ -63,6 +63,7 @@ export default class SearchableDropdown extends Component {
 
 const styles = {
   menuStyle: {
+    top: 0,
     width: '50%',
     background: '#ffffff'
   }
