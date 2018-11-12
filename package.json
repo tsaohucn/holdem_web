@@ -23,8 +23,7 @@
     "react-scripts": "1.1.4",
     "react-to-print": "^2.0.0-alpha-4",
     "react-tooltip": "^3.9.0",
-    "uuid": "^3.3.2",
-    "eslint": "^5.7.0"
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -36,6 +35,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "./node_modules/.bin/eslint src --fix"
+    "lint": "eslint src --fix"
   }
 }
