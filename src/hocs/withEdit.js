@@ -22,7 +22,6 @@ function withEdit(params) {
       super(props)
       this.db = this.props.db
       this.options = {}
-      this.delete = false
       this.account = null
       this.password = null
       this.state = {
@@ -42,7 +41,7 @@ function withEdit(params) {
         isLoading: true
       },async () => {
         try {
-          await sleep(ui.delayTime)
+          //await sleep(ui.delayTime)
           this.options = {}
           let options = {}
           const optionsPromise = belong && belong.map(belongResource => this.db.collection(belongResource + 's')
@@ -84,7 +83,7 @@ function withEdit(params) {
         event: '更新資料中'
       },async () => {
         try {
-          await sleep(ui.delayTime)
+          //await sleep(ui.delayTime)
           const key = this.props.match.params.key
           let upload_data = {}
           if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
@@ -132,10 +131,13 @@ function withEdit(params) {
           successAlert(this.props.alert,'更新成功')
           this.goBack()
         } catch(err) {
+          console.log(err)
           if (resource === 'employees') {
             const currentUser = firebase.auth().currentUser
-            await currentUser.updateEmail(this.account)
-            await currentUser.updatePassword(this.password)
+            if (currentUser) {
+              await currentUser.updateEmail(this.account)
+              await currentUser.updatePassword(this.password)
+            }
           }
           errorAlert(this.props.alert,'更新失敗 : ' + err.toString())
           this.setState({
@@ -151,8 +153,7 @@ function withEdit(params) {
         event: '刪除資料中'
       },async () => {
         try {
-          await sleep(ui.delayTime)
-          this.delete = false
+          //await sleep(ui.delayTime)
           const key = this.props.match.params.key
           if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {
             const refereeCount = data.refereeCount
@@ -165,7 +166,6 @@ function withEdit(params) {
               await firebase.auth().signInWithEmailAndPassword(this.account,this.password)
               const currentUser = firebase.auth().currentUser
               await currentUser.delete()
-              this.delete = true             
             }
             // 刪除資料
             await this.db.runTransaction(async (transaction) => {
@@ -214,9 +214,11 @@ function withEdit(params) {
           successAlert(this.props.alert,'刪除成功')
           this.goBack()
         } catch(err) {
-          if (this.delete && (resource === 'employees')) {
-            await firebase.auth().createUserWithEmailAndPassword(this.account,this.password)
-            this.delete = false
+          if (resource === 'employees') {
+            const currentUser = firebase.auth().currentUser
+            if (!currentUser) {
+              await firebase.auth().createUserWithEmailAndPassword(this.account,this.password)
+            }
           }
           errorAlert(this.props.alert,'刪除失敗 : ' + err.toString())
           this.setState({

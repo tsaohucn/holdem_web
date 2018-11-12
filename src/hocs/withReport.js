@@ -8,7 +8,6 @@ import firebase from '../configs/firebase'
 import { 
   errorAlert, 
   successAlert, 
-  sleep, 
   getSaleReportData,
   getRefereeReportData,
   getRefereeDayReportData,
