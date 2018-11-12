@@ -1,9 +1,9 @@
 import Moment from 'moment'
 import { extendMoment } from 'moment-range'
 
-const getSaleReportData = (data) => {
+const getSaleReportData = (source_data) => {
   const data_by_day = {}
-  data.forEach(ele => {
+  source_data.forEach(ele => {
     if (data_by_day[ele.onTableDate]) {
       data_by_day[ele.onTableDate].push(ele)
     } else {
@@ -70,8 +70,8 @@ const getDateRange = (startDate,endDate) => {
   return date_range
 }
 
-const getRefereeReportData = async (data,referee_id,db,dateRange) => {
-  const referee_total_data_promise = data.map(referee_day_data => getRefereeDayReportData(referee_day_data,referee_id,db))
+const getRefereeReportData = async (source_data,referee_id,db,dateRange) => {
+  const referee_total_data_promise = source_data.map(referee_day_data => getRefereeDayReportData(referee_day_data,referee_id,db))
   const referee_total_data = await Promise.all(referee_total_data_promise)
   const referee_final_data = referee_total_data.map((referee_day_data,index) => {
     let referee_rb = 0
@@ -90,9 +90,9 @@ const getRefereeReportData = async (data,referee_id,db,dateRange) => {
   return referee_final_data
 }
 
-const getRefereeDayReportData = async (data,referee_id,db) => {
+const getRefereeDayReportData = async (source_data,referee_id,db) => {
   let data_by_table = {}
-  data.forEach(ele => {
+  source_data.forEach(ele => {
     if (data_by_table[ele.table_id]) {
       data_by_table[ele.table_id]['totallPlayerSpendTime'] += ele.spendTime
       data_by_table[ele.table_id]['totalPlayerFinallyChip'] += ele.finalChip
@@ -138,11 +138,11 @@ const getRefereeDayReportData = async (data,referee_id,db) => {
   return tables_data
 }
 
-const getMemberReportData = async (data,db) => {
-  const table_keys = data.map(ele => ele.table_key)
+const getMemberReportData = async (source_data,db) => {
+  const table_keys = source_data.map(ele => ele.table_key)
   const tables_promise = table_keys.map(key => db.collection('tables_reports').doc(key).get())
   const tables = await Promise.all(tables_promise)
-  const player_combine_table_data = data.map((player_data,index) => {
+  const player_combine_table_data = source_data.map((player_data,index) => {
     if (tables[index].exists) {
       const table = tables[index].data()
       return Object.assign({},player_data,{

@@ -44,43 +44,38 @@ function withReport(params) {
       const startDate = this.props.match.params.startDate
       const endDate = this.props.match.params.endDate
       if ((by === 'id') || (by === 'sale_id')) {
-        let header = null
-        if (by === 'id') {
-          header = '會員代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
-        } else if (by === 'sale_id') {
-          header = '業務代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
-        }
-        this.fetchTableData(this.db.collection(resource)
+        const header = by === 'id' ? '會員代號：' : '業務代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
+        const fetch = this.db.collection(resource)
           .where('club_id', '==', this.HoldemStore.clubId)
           .where(by, '==', searchValue)
           .orderBy('onTableDateInt')
           .startAt(parseInt(Moment(startDate).format('YYYYMMDD')))
           .endAt(parseInt(Moment(endDate).format('YYYYMMDD')))
-          ,header)
+        this.fetchTableData(fetch,header)
       } else if ((by === 'refereeTotal') || (by === 'refereeDay')){
         let header = null
         if (by === 'refereeTotal') {
           header = '裁判代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
           const date_range = getDateRange(startDate,endDate)
-          const referee_total_data_promise = date_range.map(_date => this.db.collection(resource)
+          const fetch = date_range.map(_date => this.db.collection(resource)
             .where('club_id', '==', this.HoldemStore.clubId)
             .where('referee_id', '==', searchValue)
             .where('onTableDate', '==', Moment(_date).format('YYYY/MM/DD')).get())
-          this.fetchTableData(referee_total_data_promise,header,null,null,null,searchValue,date_range)
+          this.fetchTableData(fetch,header,null,null,null,searchValue,date_range)
         } else {
           header = '裁判代號：' + searchValue + '   ' + '上桌日期：' + date
-          this.fetchTableData(this.db.collection(resource)
+          const fetch = this.db.collection(resource)
             .where('club_id', '==', this.HoldemStore.clubId)
             .where('referee_id', '==', searchValue)
             .where('onTableDate', '==', Moment(date).format('YYYY/MM/DD'))
-            ,header,null,null,null,searchValue)
+          this.fetchTableData(fetch,header,null,null,null,searchValue)
         }
-      } else {
+      } else if (by === 'table_id') {
         const header = '桌次編號：' + searchValue
-        this.fetchTableData(this.db.collection(resource)
+        const fetch = this.db.collection(resource)
           .where('club_id', '==', this.HoldemStore.clubId)
           .where('table_id', '==', searchValue)
-          ,header)        
+        this.fetchTableData(fetch,header)        
       }
     }
 
@@ -91,18 +86,26 @@ function withReport(params) {
         try {
           let data = []
           if (by === 'refereeTotal') {
-            const promise_val = await Promise.all(fetch)
-            const referee_total_data = promise_val.map(snap => snap.docs.map(doc => doc.data()))
-            data = await getRefereeReportData(referee_total_data,searchValue,this.db,dateRange)
+            const promise_snap = await Promise.all(fetch)
+            const source_data = promise_snap.map(snap => snap.docs.map(doc => doc.data()))
+            data = await getRefereeReportData(source_data,searchValue,this.db,dateRange)
           } else {
             const snap = await fetch.get()
-            data = snap.docs.map(doc => doc.data())
-            if (by === 'sale_id') {
-              data = getSaleReportData(data)
-            } else if (by === 'refereeDay') {
-              data = await getRefereeDayReportData(data,searchValue,this.db)
-            } else {
-              data = await getMemberReportData(data,this.db)
+            const source_data = snap.docs.map(doc => doc.data())
+            switch(by) {
+            case 'sale_id': {
+              data = getSaleReportData(source_data)
+              break
+            }
+            case 'refereeDay': {
+              data = await getRefereeDayReportData(source_data,searchValue,this.db)
+              break
+            }
+            case 'table_id' :
+            case 'id': {
+              data = await getMemberReportData(source_data,this.db)
+              break
+            }
             }
           }
           this.setState({
