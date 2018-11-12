@@ -131,7 +131,6 @@ function withEdit(params) {
           successAlert(this.props.alert,'更新成功')
           this.goBack()
         } catch(err) {
-          console.log(err)
           if (resource === 'employees') {
             const currentUser = firebase.auth().currentUser
             if (currentUser) {
@@ -178,18 +177,21 @@ function withEdit(params) {
                 if (resource === 'employees' || resource === 'referees' || resource === 'sales') {
                   if (!club_doc.exists) { throw '協會不存在' }
                   switch(resource) { 
-                  case 'employees':
+                  case 'employees': {
                     const employeeCount = club_data.employeeCount ? club_data.employeeCount - 1 : 0
                     await transaction.update(club_ref, { employeeCount })
                     break
-                  case 'referees':
+                  }
+                  case 'referees': {
                     const refereeCount = club_data.refereeCount ? club_data.refereeCount - 1 : 0
                     await transaction.update(club_ref, { refereeCount })
                     break
-                  case 'sales':
+                  }
+                  case 'sales': {
                     const saleCount = club_data.saleCount ? club_data.saleCount - 1 : 0
                     await transaction.update(club_ref, { saleCount })
                     break
+                  }
                   }
                 } else if (resource === 'members') {
                   let memberCount = 0
