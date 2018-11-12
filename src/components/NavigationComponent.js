@@ -183,54 +183,54 @@ class NavigationComponent extends PureComponent {
   }
 
   getUserResource = (user) => {
-     switch(user) {
-      case 'admins':
-        return '最高權限管理員'
-        break
-      case 'clubs':
-        return '俱樂部管理員'
-        break
-      case 'employees':
-        return '員工'
-        break 
-      case 'referees':
-        return '裁判'
-        break
-      case 'sales':
-        return '業務'
-        break
-      default:
-        return '匿名'
-        break     
-     }
+    switch(user) {
+    case 'admins':
+      return '最高權限管理員'
+      break
+    case 'clubs':
+      return '俱樂部管理員'
+      break
+    case 'employees':
+      return '員工'
+      break 
+    case 'referees':
+      return '裁判'
+      break
+    case 'sales':
+      return '業務'
+      break
+    default:
+      return '匿名'
+      break     
+    }
   }
 
   getRouter = (user) => {
     switch(user) {
-      case 'admins': {
-        return ui.adminsRouter
-        break
-      }
-      case 'clubs': {
-        return ui.clubsRouter
-        break
-      }
-      case 'employees': {
-        return ui.employeesRouter
-        break
-      }
-      case 'referees': {
-        return ui.refereesRouter
-        break
-      }
-      case 'sales': {
-        return ui.salesRouter
-        break        
-      }
-      default: {
-        return {}
-        break 
-      }    
+    case 'admins': {
+      return ui.adminsRouter
+      break
+    }
+    case 'clubs': {
+      return ui.clubsRouter
+      break
+    }
+    case 'employees': {
+      return ui.employeesRouter
+      break
+    }
+    case 'referees': {
+      return ui.refereesRouter
+      break
+    }
+    case 'sales': {
+      return ui.salesRouter
+      break        
+    }
+    default: {
+      return {}
+      break 
+    }    
     }    
   }
 
@@ -337,4 +337,4 @@ NavigationComponent.propTypes = {
   theme: PropTypes.object.isRequired,
 }
 
-export default inject("HoldemStore")(withStyles(styles, { withTheme: true })(NavigationComponent))
+export default inject('HoldemStore')(withStyles(styles, { withTheme: true })(NavigationComponent))

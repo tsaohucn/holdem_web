@@ -30,12 +30,12 @@ function withLive(params) {
       const searchValue = this.props.match.params.searchValue
       if (!searchValue) {
         this.fetchTableData(this.db.collection('members')
-        .where("club_id", "==", this.props.HoldemStore.clubId)
-        .where("onTable", "==", true))
+          .where('club_id', '==', this.props.HoldemStore.clubId)
+          .where('onTable', '==', true))
       } else {
         this.fetchTableData(this.db.collection('members')
-        .where("club_id", "==", this.props.HoldemStore.clubId)
-        .where("table_id", "==", searchValue))
+          .where('club_id', '==', this.props.HoldemStore.clubId)
+          .where('table_id', '==', searchValue))
       }
     }
 
@@ -77,19 +77,19 @@ function withLive(params) {
         >
           {
             this.state.isLoading ? 
-            <div style={styles.spinner}>
-              <CircularProgress size={50}/>
-            </div>
-            :
-            <Component
-              {...this.props}
-              {...this.state}
-              title={title}
-              onClickChipGrap={this.showModal}
-              onClickModal={this.closeModal}
-              onClickTableReturnButton={this.goBack}
-              modalIsShow={this.state.modalIsShow}
-            />
+              <div style={styles.spinner}>
+                <CircularProgress size={50}/>
+              </div>
+              :
+              <Component
+                {...this.props}
+                {...this.state}
+                title={title}
+                onClickChipGrap={this.showModal}
+                onClickModal={this.closeModal}
+                onClickTableReturnButton={this.goBack}
+                modalIsShow={this.state.modalIsShow}
+              />
           }
         </div>
       )

@@ -31,8 +31,8 @@ function withTable(params) {
       if (resource === 'clubs') {
         if (searchValue) {
           this.fetchTableData(this.db.collection(resource)
-            .where("id", "==", searchValue)
-            .where("quit", "==", false)
+            .where('id', '==', searchValue)
+            .where('quit', '==', false)
           )
         } else {
           this.fetchTableData(this.db.collection(resource))
@@ -41,20 +41,20 @@ function withTable(params) {
         if (searchValue) {
           if (by === 'club_id') {
             this.fetchTableData(this.db.collection(resource)
-              .where(by, "==", searchValue)
-              .where("quit", "==", false)
+              .where(by, '==', searchValue)
+              .where('quit', '==', false)
             )
           } else {
             this.fetchTableData(this.db.collection(resource)
-              .where("club_id", "==", this.props.HoldemStore.clubId)
-              .where(by, "==", searchValue)
-              .where("quit", "==", false)
+              .where('club_id', '==', this.props.HoldemStore.clubId)
+              .where(by, '==', searchValue)
+              .where('quit', '==', false)
             )
           }
         } else {
           this.fetchTableData(this.db.collection(resource)
-            .where("club_id", "==", this.props.HoldemStore.clubId)
-            .where("quit", "==", false)
+            .where('club_id', '==', this.props.HoldemStore.clubId)
+            .where('quit', '==', false)
           )
         }
       }
@@ -125,18 +125,18 @@ function withTable(params) {
         >
           {
             this.state.isLoading ? 
-            <div style={styles.spinner}>
-              <CircularProgress size={50}/>
-            </div>
-            :
-            <Component
-              {...this.props}
-              {...this.state}
-              title={title}
-              onClickTableReturnButton={this.goBack}
-              onClickCount={this.goToCountTable}
-              onClickEdit={this.goToEditPage}
-            />
+              <div style={styles.spinner}>
+                <CircularProgress size={50}/>
+              </div>
+              :
+              <Component
+                {...this.props}
+                {...this.state}
+                title={title}
+                onClickTableReturnButton={this.goBack}
+                onClickCount={this.goToCountTable}
+                onClickEdit={this.goToEditPage}
+              />
           }
         </div>
       )

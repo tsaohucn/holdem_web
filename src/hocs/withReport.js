@@ -51,36 +51,36 @@ function withReport(params) {
           header = '業務代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
         }
         this.fetchTableData(this.db.collection(resource)
-          .where("club_id", "==", this.HoldemStore.clubId)
-          .where(by, "==", searchValue)
-          .orderBy("onTableDateInt")
+          .where('club_id', '==', this.HoldemStore.clubId)
+          .where(by, '==', searchValue)
+          .orderBy('onTableDateInt')
           .startAt(parseInt(Moment(startDate).format('YYYYMMDD')))
           .endAt(parseInt(Moment(endDate).format('YYYYMMDD')))
-        ,header)
+          ,header)
       } else if ((by === 'refereeTotal') || (by === 'refereeDay')){
         let header = null
         if (by === 'refereeTotal') {
           header = '裁判代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
           const date_range = getDateRange(startDate,endDate)
           const referee_total_data_promise = date_range.map(_date => this.db.collection(resource)
-            .where("club_id", "==", this.HoldemStore.clubId)
-            .where("referee_id", "==", searchValue)
-            .where("onTableDate", "==", Moment(_date).format('YYYY/MM/DD')).get())
+            .where('club_id', '==', this.HoldemStore.clubId)
+            .where('referee_id', '==', searchValue)
+            .where('onTableDate', '==', Moment(_date).format('YYYY/MM/DD')).get())
           this.fetchTableData(referee_total_data_promise,header,null,null,null,searchValue,date_range)
         } else {
           header = '裁判代號：' + searchValue + '   ' + '上桌日期：' + date
           this.fetchTableData(this.db.collection(resource)
-            .where("club_id", "==", this.HoldemStore.clubId)
-            .where("referee_id", "==", searchValue)
-            .where("onTableDate", "==", Moment(date).format('YYYY/MM/DD'))
-          ,header,null,null,null,searchValue)
+            .where('club_id', '==', this.HoldemStore.clubId)
+            .where('referee_id', '==', searchValue)
+            .where('onTableDate', '==', Moment(date).format('YYYY/MM/DD'))
+            ,header,null,null,null,searchValue)
         }
       } else {
         const header = '桌次編號：' + searchValue
         this.fetchTableData(this.db.collection(resource)
-          .where("club_id", "==", this.HoldemStore.clubId)
-          .where("table_id", "==", searchValue)
-        ,header)        
+          .where('club_id', '==', this.HoldemStore.clubId)
+          .where('table_id', '==', searchValue)
+          ,header)        
       }
     }
 
@@ -142,20 +142,20 @@ function withReport(params) {
         >
           {
             this.state.isLoading ? 
-            <div style={styles.spinner}>
-              <CircularProgress size={50}/>
-            </div>
-            :
-            <Component
-              {...this.props}
-              {...this.state}
-              saleReport={this.state.saleReport}
-              header={this.state.header}
-              title={title}
-              onClickTableReturnButton={this.goBack}
-              onClickRefereeReportDate={this.goToRefereeDayReport}
-              onClickRefereeDayReportTableId={this.goToTableReport}
-            />
+              <div style={styles.spinner}>
+                <CircularProgress size={50}/>
+              </div>
+              :
+              <Component
+                {...this.props}
+                {...this.state}
+                saleReport={this.state.saleReport}
+                header={this.state.header}
+                title={title}
+                onClickTableReturnButton={this.goBack}
+                onClickRefereeReportDate={this.goToRefereeDayReport}
+                onClickRefereeDayReportTableId={this.goToTableReport}
+              />
           }
         </div>
       )

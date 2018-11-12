@@ -36,19 +36,19 @@ function withInformation(params) {
         >
           {
             this.state.isLoading ? 
-            <div style={styles.spinner}>
-              <CircularProgress size={50}/>
-            </div>
-            :
-            <Component
-              {...this.props}
-              id={this.HoldemStore.id}
-              resource={this.HoldemStore.resource}
-              account={this.HoldemStore.account}
-              password={this.HoldemStore.password}
-              clubId={this.HoldemStore.clubId}
-              onClickTableReturnButton={this.goBack}
-            />
+              <div style={styles.spinner}>
+                <CircularProgress size={50}/>
+              </div>
+              :
+              <Component
+                {...this.props}
+                id={this.HoldemStore.id}
+                resource={this.HoldemStore.resource}
+                account={this.HoldemStore.account}
+                password={this.HoldemStore.password}
+                clubId={this.HoldemStore.clubId}
+                onClickTableReturnButton={this.goBack}
+              />
           }
         </div>
       )

@@ -1,16 +1,16 @@
 // node module
 import React, { Component } from 'react'
 import { 
-	FormGroup,
-	ControlLabel,
-	FormControl,
-	HelpBlock,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  HelpBlock,
   Button
 } from 'react-bootstrap'
 import { withAlert } from 'react-alert'
 import { inject, observer } from 'mobx-react'
 import Grid from '@material-ui/core/Grid'
-import validator from "email-validator"
+import validator from 'email-validator'
 // local components
 import firebase from '../configs/firebase'
 import { errorAlert, successAlert } from '../helpers'
@@ -52,10 +52,10 @@ class WelcomeScreen extends Component {
       loadingState: '登入中'
     },async () => {
       try {
-        const account_snap = await firebase.firestore().collection("backends")
-          .where("account", "==", this.state.account)
-          .where("password", "==", this.state.password)
-          .where("quit", "==", false)
+        const account_snap = await firebase.firestore().collection('backends')
+          .where('account', '==', this.state.account)
+          .where('password', '==', this.state.password)
+          .where('quit', '==', false)
           .get()
         const account_size = account_snap.size
         if (account_size === 1) {
@@ -100,20 +100,20 @@ class WelcomeScreen extends Component {
         alignItems={'center'}
         justify={'center'}
         direction={'column'}
-       >
+      >
         <h1 style={styles.title}>德州舖克後台管理系統</h1>
-	      <form>
-	        <FormGroup
-	          validationState={this.getValidationState()}
-	        >
-	          <FormControl
-	            type="text"
-	            value={this.state.account}
-	            placeholder="請輸入您的帳號"
-	            onChange={this.setAccount}
-	          />
-	          <FormControl.Feedback />
-	        </FormGroup>
+        <form>
+          <FormGroup
+            validationState={this.getValidationState()}
+          >
+            <FormControl
+              type="text"
+              value={this.state.account}
+              placeholder="請輸入您的帳號"
+              onChange={this.setAccount}
+            />
+            <FormControl.Feedback />
+          </FormGroup>
           <FormGroup>
             <FormControl
               type="text"
@@ -125,20 +125,20 @@ class WelcomeScreen extends Component {
           <div style={styles.buttonView}>
             <Button onClick={this.login}>{this.state.loadingState}</Button>
           </div>
-	      </form>
+        </form>
       </Grid>
     )
   }
 }
 
-export default inject("HoldemStore")(withAlert(WelcomeScreen))
+export default inject('HoldemStore')(withAlert(WelcomeScreen))
 
 const height = window.innerHeight
 
 const styles = {
-	gird: {
-		height
-	},
+  gird: {
+    height
+  },
   loadingState: {
     color: '#778899',
     textAlign: 'center'

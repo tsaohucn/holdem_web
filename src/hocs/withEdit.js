@@ -45,8 +45,8 @@ function withEdit(params) {
           this.options = {}
           let options = {}
           const optionsPromise = belong && belong.map(belongResource => this.db.collection(belongResource + 's')
-            .where("club_id", "==", this.props.HoldemStore.clubId)
-            .where("quit", "==", false)
+            .where('club_id', '==', this.props.HoldemStore.clubId)
+            .where('quit', '==', false)
             .get())
           const optionsSnap = await Promise.all(optionsPromise)
           optionsSnap.forEach((snap,index) => {
@@ -120,7 +120,7 @@ function withEdit(params) {
                   password: data.password
                 })
                 const check_account_docs = await this.db.collection('backends')
-                  .where("account", "==", data.account)
+                  .where('account', '==', data.account)
                   .get()
                 if ((check_account_docs.size > 1) && (this.account != data.account)) { throw '帳號重複' }        
               }
@@ -240,19 +240,19 @@ function withEdit(params) {
         >
           {
             this.state.isLoading ? 
-            <div style={styles.spinner}>
-              <CircularProgress size={50}/>
-            </div>
-            :
-            <Component
-              {...this.props}
-              {...this.state}
-              options={this.options}
-              title={title}
-              onClickEditReturnButton={this.goBack}
-              onClickEditConfirmButton={this.updateData}
-              confirmDelete={this.deleteData}
-            />
+              <div style={styles.spinner}>
+                <CircularProgress size={50}/>
+              </div>
+              :
+              <Component
+                {...this.props}
+                {...this.state}
+                options={this.options}
+                title={title}
+                onClickEditReturnButton={this.goBack}
+                onClickEditConfirmButton={this.updateData}
+                confirmDelete={this.deleteData}
+              />
           }
         </div>
       )
