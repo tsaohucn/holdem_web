@@ -37,7 +37,7 @@ function withForm(params) {
         isLoading: true
       },async () => {
         try { 
-          await sleep(ui.delayTime)
+          //await sleep(ui.delayTime)
           this.options = {}
           let options = {}
           const optionsPromise = belong.map(belongResource => this.db.collection(belongResource + 's')
@@ -76,7 +76,7 @@ function withForm(params) {
         event: '新增資料中'
       },async () => {
         try {
-          await sleep(ui.delayTime)
+          //await sleep(ui.delayTime)
           let key = uuidv1()
           let upload_data = {}
           if (resource === 'clubs' || resource === 'employees' || resource === 'referees' || resource === 'sales' || resource === 'members') {

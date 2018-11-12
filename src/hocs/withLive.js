@@ -45,7 +45,7 @@ function withLive(params) {
 
     fetchTableData = (fetch) => {
       this.playerListener = fetch.onSnapshot(async (querySnapshot) => {
-        await sleep(ui.delayTime)
+        //await sleep(ui.delayTime)
         const data = querySnapshot.docs.map(doc => doc.data())
         this.setState({ data })
       })   
