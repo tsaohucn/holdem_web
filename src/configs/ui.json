@@ -11,7 +11,8 @@
     "sales": "業務資料表",
     "members": "會員資料表",
     "reports": "賽局報表",
-    "players": "桌次現況"
+    "players": "桌次現況",
+    "printers": "列印"
   },
   "refereesRouter": {
     "reports": "報表"
