@@ -85,6 +85,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
+    height:  window.innerHeight,
     backgroundColor: theme.palette.background.default,
     paddingLeft: theme.spacing.unit * 3,
     paddingRight: theme.spacing.unit * 3,
