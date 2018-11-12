@@ -9,9 +9,9 @@ class ReportPageComponent extends PureComponent {
     this.startDate = null
     this.endDate = null
     this.searchContent = {
-      member: "",
-      referee: "",
-      sale: ""      
+      member: '',
+      referee: '',
+      sale: ''      
     }
     this.state = {
       radio: {

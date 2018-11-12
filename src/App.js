@@ -25,17 +25,19 @@ class App extends Component {
 
   render() {
     return (
-      <AlertProvider template={AlertTemplate} {...options}>
-        <Provider
-          db={firebase.firestore()}
-          HoldemStore={HoldemStore}
-        >
-          <Router 
-            auth={this.state.isAuth}
-            user={this.state.user}
-          />
-        </Provider>
-      </AlertProvider>
+      <div>
+        <AlertProvider template={AlertTemplate} {...options}>
+          <Provider
+            db={firebase.firestore()}
+            HoldemStore={HoldemStore}
+          >
+            <Router 
+              auth={this.state.isAuth}
+              user={this.state.user}
+            />
+          </Provider>
+        </AlertProvider>
+      </div>
     )
   }
 }

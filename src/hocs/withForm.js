@@ -6,7 +6,7 @@ import uuidv1 from 'uuid/v1'
 import FormComponent from '../components/FormComponent'
 import firebase from '../configs/firebase'
 import ui from '../configs/ui'
-import { errorAlert, successAlert, sleep } from '../helpers'
+import { errorAlert, successAlert } from '../helpers'
 
 function withForm(params) {
   const {
@@ -41,8 +41,8 @@ function withForm(params) {
           this.options = {}
           let options = {}
           const optionsPromise = belong.map(belongResource => this.db.collection(belongResource + 's')
-            .where("club_id", "==", this.props.HoldemStore.clubId)
-            .where("quit", "==", false)
+            .where('club_id', '==', this.props.HoldemStore.clubId)
+            .where('quit', '==', false)
             .get())
           const optionsSnap = await Promise.all(optionsPromise)
           optionsSnap.forEach((snap,index) => {
@@ -91,7 +91,7 @@ function withForm(params) {
                 memberCount: 0,
                 quit: false
               })
-            break
+              break
             case 'employees':
               upload_data = Object.assign({},data,{
                 key,
@@ -187,10 +187,10 @@ function withForm(params) {
                 })
               }
               // 檢查資料
-              const check_ids_docs = await this.db.collection('ids').where("id", "==", data.id).get()
+              const check_ids_docs = await this.db.collection('ids').where('id', '==', data.id).get()
               if (!check_ids_docs.empty) { throw '代號重複' }
               if (resource !== 'members') {
-                const check_backends_docs = await this.db.collection('backends').where("account", "==", data.account).get()
+                const check_backends_docs = await this.db.collection('backends').where('account', '==', data.account).get()
                 if (!check_backends_docs.empty) { throw '帳號重複' }
               }
             })
@@ -227,20 +227,20 @@ function withForm(params) {
         >
           {
             this.state.isLoading ? 
-            <div style={styles.spinner}>
-              <CircularProgress size={50}/>
-            </div>
-            :
-            <FormComponent
-              {...this.props}
-              {...this.state}
-              options={this.options}
-              clubId={this.props.HoldemStore.clubId}
-              field={field}
-              buttonTitle={buttonTitle}
-              onClickNewPageButton={this.onClickNewPageButton}
-              onClickNewPageReturn={this.onClickNewPageReturn}
-            />
+              <div style={styles.spinner}>
+                <CircularProgress size={50}/>
+              </div>
+              :
+              <FormComponent
+                {...this.props}
+                {...this.state}
+                options={this.options}
+                clubId={this.props.HoldemStore.clubId}
+                field={field}
+                buttonTitle={buttonTitle}
+                onClickNewPageButton={this.onClickNewPageButton}
+                onClickNewPageReturn={this.onClickNewPageReturn}
+              />
           }
         </div>
       )
