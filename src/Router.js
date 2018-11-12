@@ -9,6 +9,7 @@ import NoMatchScreen from './screens/NoMatchScreen'
 import SessionScreen from './screens/SessionScreen'
 import NoAuthScreen from './screens/NoAuthScreen'
 import InformationScreen from './screens/InformationScreen'
+import PrinterScreen from './screens/PrinterScreen'
 // mains
 // clubs
 import IndexScreen from './screens/mains/IndexScreen'
@@ -73,7 +74,7 @@ const AuthAdmins = () => (
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
       {/*infomation*/}
-      <Route exact path='/information/index' component={InformationScreen}/>
+      <Route exact path='/informations/index' component={InformationScreen}/>
       {/*clubs*/}
       <Route exact path='/clubs/index' component={ClubIndexScreen}/>
       <Route exact path='/clubs/new' component={ClubNewScreen}/>
@@ -98,7 +99,7 @@ const AuthClubs = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
-      <Route exact path='/information/index' component={InformationScreen}/>
+      <Route exact path='/informations/index' component={InformationScreen}/>
       {/*employees*/}
       <Route exact path='/employees/index' component={EmployeeIndexScreen}/>
       <Route exact path='/employees/new' component={EmployeeNewScreen}/>
@@ -114,7 +115,8 @@ const AuthEmployees = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
-      <Route exact path='/information/index' component={InformationScreen}/>
+      <Route exact path='/informations/index' component={InformationScreen}/>
+      <Route exact path='/printers/index' component={PrinterScreen}/>
       {/*referees*/}
       <Route exact path='/referees/index' component={RefereeIndexScreen}/>
       <Route exact path='/referees/new' component={RefereeNewScreen}/>

@@ -178,7 +178,7 @@ class NavigationComponent extends PureComponent {
   }
 
   goToInformationPage = () => {
-    this.props.history.push('/information/index')
+    this.props.history.push('/informations/index')
   }
 
   getUserResource = (user) => {
