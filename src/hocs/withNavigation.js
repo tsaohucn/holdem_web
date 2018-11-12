@@ -6,9 +6,9 @@ import NavigationComponent from '../components/NavigationComponent'
 function withNavigation(WrappedComponent) {
   return class extends PureComponent {
 
-  	constructor(props) {
-  	  super(props)
-  	}
+    constructor(props) {
+      super(props)
+    }
     
     render() {
       return(
