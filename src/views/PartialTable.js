@@ -7,8 +7,41 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import ReactTooltip from 'react-tooltip'
+import ReactToPrint from 'react-to-print'
 // local components
 import PartialButton from './PartialButton'
+import PrinterComponent from '../components/PrinterComponent'
+
+class ComponentToPrint extends React.Component {
+  render() {
+    return (
+      <table>
+        <thead>
+          <th>column 1</th>
+          <th>column 2</th>
+          <th>column 3</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>data 1</td>
+            <td>data 2</td>
+            <td>data 3</td>
+          </tr>
+          <tr>
+            <td>data 1</td>
+            <td>data 2</td>
+            <td>data 3</td>
+          </tr>
+          <tr>
+            <td>data 1</td>
+            <td>data 2</td>
+            <td>data 3</td>
+          </tr>
+        </tbody>
+      </table>
+    )
+  }
+}
 
 const PartialTable = (props) =>  {
 
@@ -21,8 +54,7 @@ const PartialTable = (props) =>  {
     onClickRefereeReportDate,
     onClickRefereeDayReportTableId,
     onClickCount,
-    onClickEdit,
-    //saleReportTotalPlayerSpendTime
+    onClickEdit
   } = props ? props : {}
 
   const renderData = (data) => (
@@ -68,6 +100,12 @@ const PartialTable = (props) =>  {
                       <a style={styles.link} onClick={() => onClickRefereeDayReportTableId && onClickRefereeDayReportTableId(n[key])}>
                         {n[key]}
                       </a>
+                    </TableCell>
+                  )
+                } else if (key === 'print') {
+                  return(
+                    <TableCell key={key} style={styles.tableCell}>
+                      <PrinterComponent/>
                     </TableCell>
                   )
                 } else {

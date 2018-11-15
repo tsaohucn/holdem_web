@@ -25,17 +25,10 @@ function withPrinter(params) {
     }
 
     componentDidMount() {
-      /*
-      const searchValue = this.props.match.params.searchValue
-      if (!searchValue) {
-        this.fetchTableData(this.db.collection('members')
-          .where('club_id', '==', this.props.HoldemStore.clubId)
-          .where('onTable', '==', true))
-      } else {
-        this.fetchTableData(this.db.collection('members')
-          .where('club_id', '==', this.props.HoldemStore.clubId)
-          .where('table_id', '==', searchValue))
-      }*/
+      this.playerListener = this.db.collection('printers').where('club_id', '==', this.props.HoldemStore.clubId).onSnapshot(querySnapshot => {
+        const data = querySnapshot.docs.map(doc => doc.data())
+        this.setState({ data })
+      })
     }
 
     componentWillUnmount() {

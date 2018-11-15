@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import ReactToPrint from 'react-to-print'
 
-class ComponentToPrint extends React.Component {
+class ComponentToPrint extends Component {
   render() {
     return (
       <table>
@@ -32,18 +32,28 @@ class ComponentToPrint extends React.Component {
   }
 }
 
-class PrinterScreen extends React.Component {
+class PrinterComponent extends Component {
   render() {
     return (
       <div>
         <ReactToPrint
-          trigger={() => <a href="#">Print this out!</a>}
+          trigger={() => <a href="#">{'列印'}</a>}
           content={() => this.componentRef}
         />
-        <ComponentToPrint ref={el => (this.componentRef = el)} />
+        <div style={styles.content}>
+          <ComponentToPrint
+            ref={el => (this.componentRef = el)} 
+          />
+        </div>
       </div>
     )
   }
 }
 
-export default PrinterScreen
+const styles = {
+  content: {
+    display: 'none'
+  }
+}
+
+export default PrinterComponent
