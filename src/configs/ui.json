@@ -385,7 +385,7 @@
       "label": "簽名單編號"  
     },
     {
-      "key": "resources",
+      "key": "resource",
       "label": "類型"
     },
     {
