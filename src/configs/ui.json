@@ -379,6 +379,20 @@
       "label": "取籌碼"
     }
   ],
+  "printersTable": [
+    {
+      "key": "key",
+      "label": "簽名單編號"  
+    },
+    {
+      "key": "resources",
+      "label": "類型"
+    },
+    {
+      "key": "print",
+      "label": "列印"
+    }
+  ],
   "employeeSimpleTable": [
     {
       "key": "club_id",

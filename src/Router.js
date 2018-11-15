@@ -9,7 +9,6 @@ import NoMatchScreen from './screens/NoMatchScreen'
 import SessionScreen from './screens/SessionScreen'
 import NoAuthScreen from './screens/NoAuthScreen'
 import InformationScreen from './screens/InformationScreen'
-import PrinterScreen from './screens/PrinterScreen'
 // mains
 // clubs
 import IndexScreen from './screens/mains/IndexScreen'
@@ -51,6 +50,8 @@ import RefereeReportScreen from './screens/mains/reports/RefereeReportScreen'
 import RefereeDayReportScreen from './screens/mains/reports/RefereeDayReportScreen'
 import SaleReportScreen from './screens/mains/reports/SaleReportScreen'
 import TableReportScreen from './screens/mains/reports/TableReportScreen'
+// printers
+import PrinterTableScreen from './screens/mains/printers/PrinterTableScreen'
 
 const Init = () => (
   <BrowserRouter>
@@ -116,7 +117,6 @@ const AuthEmployees = () => (
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
       <Route exact path='/informations/index' component={InformationScreen}/>
-      <Route exact path='/printers/index' component={PrinterScreen}/>
       {/*referees*/}
       <Route exact path='/referees/index' component={RefereeIndexScreen}/>
       <Route exact path='/referees/new' component={RefereeNewScreen}/>
@@ -148,6 +148,7 @@ const AuthEmployees = () => (
       <Route exact path='/reports/sale/:startDate/:endDate/:searchValue' component={SaleReportScreen}/>
       <Route exact path='/reports/table/:date/:searchValue' component={TableReportScreen}/>
       {/*nomatch*/}
+      <Route exact path='/printers/index' component={PrinterTableScreen}/>
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>
