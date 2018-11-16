@@ -5,7 +5,7 @@ configure({
   isolateGlobalState: false 
 })
 
-class HoldemStore {
+class Store {
 
   constructor() {
     this.isAuth = false
@@ -29,7 +29,7 @@ class HoldemStore {
 
 }
 
-decorate(HoldemStore, {
+decorate(Store, {
   isAuth: observable,
   resource: observable,
   id: observable,
@@ -39,4 +39,6 @@ decorate(HoldemStore, {
   clubKey: observable
 })
 
-export default HoldemStore
+const HoldemStore = new Store()
+
+export default HoldemStore 

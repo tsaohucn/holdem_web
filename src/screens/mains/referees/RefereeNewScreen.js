@@ -5,11 +5,9 @@ import withNavigation from '../../../hocs/withNavigation'
 import withForm from '../../../hocs/withForm'
 import ui from '../../../configs/ui'
 
-const RefereeNewScreen = withForm({
+export default inject('HoldemStore','db')(withNavigation(withAlert((withForm({
   field: ui.refereesField,
   buttonTitle: '送出',
   resource: 'referees',
-  belong: ['club']
-})
-
-export default inject('HoldemStore')(withNavigation(withAlert((RefereeNewScreen))))
+  belong: []
+})))))

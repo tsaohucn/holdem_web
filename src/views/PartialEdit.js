@@ -10,6 +10,7 @@ import Modal from '@material-ui/core/Modal'
 import TextField from '@material-ui/core/TextField'
 import MenuItem from '@material-ui/core/MenuItem'
 // local components
+import SearchableDropdown from './SearchableDropdown'
 import PartialButton from './PartialButton'
 import ui from '../configs/ui'
 
@@ -24,7 +25,8 @@ const PartialEdit = (props) =>  {
     cancelDelete,
     confirmDelete,
     data,
-    onChangeData
+    onChangeData,
+    onSearch
   } = props ? props : {}
 
   return(
@@ -91,23 +93,20 @@ const PartialEdit = (props) =>  {
                       </TableCell>
                     )
                   } else {
-                    if (options.includes(key)) {
+                    if (search.includes(key)) {
                       return (
                         <TableCell key={key} style={styles.tableCell}>
-                          <TextField
-                            select
+                          <SearchableDropdown
+                            key={key}
                             style={styles.tableCell}
                             value={data[key]}
-                            onChange={(event) => {
-                              const value = event.target.value
-                              onChangeData(key,value)}
-                            }                              
-                          > 
-                            { renderSelect(props[key]) }
-                          </TextField>
+                            items={props[key]}
+                            onSearch={(text) => { onSearch(key,text) }}
+                            value={data[key]}
+                          />
                         </TableCell>
                       )
-                    } else if (key === 'gender') {
+                    } else if (options.includes(key)) {
                       return (
                         <TableCell key={key} style={styles.tableCell}>
                           <TextField
@@ -119,23 +118,7 @@ const PartialEdit = (props) =>  {
                               onChangeData(key,value)}
                             }                              
                           > 
-                            { renderSelect(ui.gender) }
-                          </TextField>
-                        </TableCell>
-                      )
-                    } else if (key === 'education') {
-                      return (
-                        <TableCell key={key} style={styles.tableCell}>
-                          <TextField
-                            select
-                            style={styles.tableCell}
-                            value={data[key]}
-                            onChange={(event) => {
-                              const value = event.target.value
-                              onChangeData(key,value)}
-                            }                              
-                          > 
-                            { renderSelect(ui.education) }
+                            { renderSelect(ui[key]) }
                           </TextField>
                         </TableCell>
                       )
@@ -146,11 +129,6 @@ const PartialEdit = (props) =>  {
                             style={styles.tableCell}
                             id="date"
                             type="date"
-                            InputProps={{
-                              //onBlur: onBlurBirthday,
-                              //onFocus: onFocusBirthday,
-                              //style: focusBirthday ? {} : data[key] === '' ? styles.date : {}
-                            }}
                             value={data[key]}
                             onChange={(event) => {
                               const value = event.target.value
@@ -222,6 +200,11 @@ const noTextInput = [
 ]
 
 const options = [
+  'gender',
+  'education'
+]
+
+const search = [
   'referee_id',
   'sale_id' 
 ]

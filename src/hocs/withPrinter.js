@@ -7,7 +7,7 @@ import firebase from '../configs/firebase'
 import { errorAlert, successAlert, sleep } from '../helpers'
 import ui from '../configs/ui'
 
-function withLive(params) {
+function withPrinter(params) {
   const {
     title,
     wrapperComponent
@@ -20,49 +20,23 @@ function withLive(params) {
       this.db = this.props.db
       this.playerListener = null
       this.state = {
-        modalIsShow: false,
         data: []
       }
     }
 
     componentDidMount() {
-      const searchValue = this.props.match.params.searchValue
-      if (!searchValue) {
-        this.fetchTableData(this.db.collection('members')
-          .where('club_id', '==', this.props.HoldemStore.clubId)
-          .where('onTable', '==', true))
-      } else {
-        this.fetchTableData(this.db.collection('members')
-          .where('club_id', '==', this.props.HoldemStore.clubId)
-          .where('table_id', '==', searchValue))
-      }
+      this.playerListener = this.db.collection('printers').where('club_id', '==', this.props.HoldemStore.clubId).onSnapshot(querySnapshot => {
+        const data = querySnapshot.docs.map(doc => doc.data())
+        this.setState({ data })
+      })
     }
 
     componentWillUnmount() {
       this.playerListener && this.playerListener()
     }
 
-    fetchTableData = (fetch) => {
-      this.playerListener = fetch.onSnapshot(async (querySnapshot) => {
-        const data = querySnapshot.docs.map(doc => doc.data())
-        this.setState({ data })
-      })   
-    }
-
     goBack = () => {
       this.props.history.goBack()
-    }
-
-    showModal = () => {
-      this.setState({
-        modalIsShow: true
-      })
-    }
-
-    closeModal = () => {
-      this.setState({
-        modalIsShow: false
-      })      
     }
 
     render() {
@@ -77,10 +51,7 @@ function withLive(params) {
             {...this.props}
             {...this.state}
             title={title}
-            onClickChipGrap={this.showModal}
-            onClickModal={this.closeModal}
             onClickTableReturnButton={this.goBack}
-            modalIsShow={this.state.modalIsShow}
           />
         </div>
       )
@@ -103,4 +74,4 @@ const styles = {
   }
 }
 
-export default withLive
+export default withPrinter

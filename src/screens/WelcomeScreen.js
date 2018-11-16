@@ -1,16 +1,16 @@
 // node module
 import React, { Component } from 'react'
 import { 
-	FormGroup,
-	ControlLabel,
-	FormControl,
-	HelpBlock,
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  HelpBlock,
   Button
 } from 'react-bootstrap'
 import { withAlert } from 'react-alert'
 import { inject, observer } from 'mobx-react'
 import Grid from '@material-ui/core/Grid'
-import validator from "email-validator"
+import validator from 'email-validator'
 // local components
 import firebase from '../configs/firebase'
 import { errorAlert, successAlert } from '../helpers'
@@ -52,34 +52,29 @@ class WelcomeScreen extends Component {
       loadingState: '登入中'
     },async () => {
       try {
-        const snap = await firebase.database().ref('/backends').orderByChild('account').equalTo(this.state.account).once('value')
-        const val = snap.val()
-        if (val) {
-          const users = Object.values(val)
-          if (users.length > 1) {
-            throw '出現重複使用者'
-          } else {
-            const user = users[0]
-            if (user.password.toString() === this.state.password) {
-              if (user.quit) {
-                throw '此使用者已不再使用'
-              } else {
-                this.props.HoldemStore.setUser({
-                  isAuth: true,
-                  resource: user.resource,
-                  id: user.id,
-                  clubKey: user.club_key,
-                  clubId: user.club_id,
-                  account: user.account,
-                  password: user.password
-                })                
-              }
-            } else {
-              throw '密碼錯誤'
-            }
-          }
-        } else {
+        const account_snap = await firebase.firestore().collection('backends')
+          .where('account', '==', this.state.account)
+          .where('password', '==', this.state.password)
+          .where('quit', '==', false)
+          .get()
+        const account_size = account_snap.size
+        if (account_size === 1) {
+          const user = account_snap.docs.map(doc => doc.data())[0]
+          this.props.HoldemStore.setUser({
+            isAuth: true,
+            resource: user.resource,
+            id: user.id,
+            account: user.account,
+            password: user.password,
+            clubKey: user.club_key,
+            clubId: user.club_id
+          })
+        } else if (account_size === 0) {
           throw '無此使用者'
+        } else if (account_size > 1) {
+          throw '出現重複使用者'
+        } else {
+          throw '系統錯誤'
         }
       } catch (err) {
         errorAlert(this.props.alert,'登入錯誤 : ' + err.toString())
@@ -105,20 +100,20 @@ class WelcomeScreen extends Component {
         alignItems={'center'}
         justify={'center'}
         direction={'column'}
-       >
+      >
         <h1 style={styles.title}>德州舖克後台管理系統</h1>
-	      <form>
-	        <FormGroup
-	          validationState={this.getValidationState()}
-	        >
-	          <FormControl
-	            type="text"
-	            value={this.state.account}
-	            placeholder="請輸入您的帳號"
-	            onChange={this.setAccount}
-	          />
-	          <FormControl.Feedback />
-	        </FormGroup>
+        <form>
+          <FormGroup
+            validationState={this.getValidationState()}
+          >
+            <FormControl
+              type="text"
+              value={this.state.account}
+              placeholder="請輸入您的帳號"
+              onChange={this.setAccount}
+            />
+            <FormControl.Feedback />
+          </FormGroup>
           <FormGroup>
             <FormControl
               type="text"
@@ -130,20 +125,20 @@ class WelcomeScreen extends Component {
           <div style={styles.buttonView}>
             <Button onClick={this.login}>{this.state.loadingState}</Button>
           </div>
-	      </form>
+        </form>
       </Grid>
     )
   }
 }
 
-export default inject("HoldemStore")(withAlert(WelcomeScreen))
+export default inject('HoldemStore')(withAlert(WelcomeScreen))
 
 const height = window.innerHeight
 
 const styles = {
-	gird: {
-		height
-	},
+  gird: {
+    height
+  },
   loadingState: {
     color: '#778899',
     textAlign: 'center'

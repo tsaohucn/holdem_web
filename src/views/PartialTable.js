@@ -7,34 +7,60 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import ReactTooltip from 'react-tooltip'
+import ReactToPrint from 'react-to-print'
 // local components
 import PartialButton from './PartialButton'
-import {   
-  getSpendTime,
-  getTenMinutes,
-  getTotalSpendTime,
-  getScore,
-  getC
-} from '../helpers'
+import PrinterComponent from '../components/PrinterComponent'
+
+class ComponentToPrint extends React.Component {
+  render() {
+    return (
+      <table>
+        <thead>
+          <th>column 1</th>
+          <th>column 2</th>
+          <th>column 3</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>data 1</td>
+            <td>data 2</td>
+            <td>data 3</td>
+          </tr>
+          <tr>
+            <td>data 1</td>
+            <td>data 2</td>
+            <td>data 3</td>
+          </tr>
+          <tr>
+            <td>data 1</td>
+            <td>data 2</td>
+            <td>data 3</td>
+          </tr>
+        </tbody>
+      </table>
+    )
+  }
+}
 
 const PartialTable = (props) =>  {
 
   const {
-    Title, 
+    header, 
     title,
     data,
     onClickTableReturnButton,
+    saleReport,
     onClickRefereeReportDate,
     onClickRefereeDayReportTableId,
     onClickCount,
-    onClickEdit,
-    saleReportTotalPlayerSpendTime
+    onClickEdit
   } = props ? props : {}
 
   const renderData = (data) => (
     data.map((n,index) => {
       return (
-        <TableRow key={index.toString()}>
+        <TableRow style={ saleReport ? n['onTableDate'] ? {} : n['referee_id'] ? {backgroundColor: '#ffffe0'} : {backgroundColor: '#e6e6fa'} : {}} key={index.toString()}>
           {
             title && title.map(ele => {
               const key = ele.key
@@ -50,7 +76,7 @@ const PartialTable = (props) =>  {
                 } else if (key === 'chipGrap') {
                   return (
                     <TableCell key={key} style={styles.tableCell}>
-                      <a data-tip data-for={n['key']}>{'明細'}</a>
+                      <a data-tip data-for={n['key']}>{n['totalChip']}</a>
                       <ReactTooltip id={n['key']} type='error' effect='solid'>
                         <ol style={styles.ol}>
                           { Object.values(n[key] || {}).map((ele) =>
@@ -58,36 +84,6 @@ const PartialTable = (props) =>  {
                           )}
                         </ol>
                       </ReactTooltip> 
-                    </TableCell>
-                  )
-                } else if (key === 'spendTime') {
-                  return (
-                    <TableCell key={key} style={styles.tableCell}>
-                      {getSpendTime(n['spendTime'])}
-                    </TableCell>
-                  )
-                } else if (key === 'tenMinutes') {
-                  return (
-                    <TableCell key={key} style={styles.tableCell}>
-                      {getTenMinutes(n['spendTime'])}
-                    </TableCell>
-                  )
-                } else if (key === 'saleReportTotalPlayerSpendTime') {
-                  return (
-                    <TableCell key={key} style={styles.tableCell}>
-                      {getTotalSpendTime(saleReportTotalPlayerSpendTime[n['playerDate'] + '_' + n['member_referee_id']])}
-                    </TableCell>
-                  )
-                } else if (key === 'refereeDayReportTotalPlayerSpendTime' || key === 'totalSpendTime') {
-                  return (
-                    <TableCell key={key} style={styles.tableCell}>
-                      {getTotalSpendTime(n[key])}
-                    </TableCell>
-                  )
-                } else if (key === 'score') {
-                  return(
-                    <TableCell key={key} style={styles.tableCell}>
-                      {getScore(saleReportTotalPlayerSpendTime[n['playerDate'] + '_' + n['member_referee_id']],n['table_level'])}
                     </TableCell>
                   )
                 } else if (key === 'referee_report_date') {
@@ -106,10 +102,10 @@ const PartialTable = (props) =>  {
                       </a>
                     </TableCell>
                   )
-                } else if (key === 'c') {
+                } else if (key === 'print') {
                   return(
                     <TableCell key={key} style={styles.tableCell}>
-                      {getC(n['totalFinallyChip'],n['t'],n['i'])}
+                      <PrinterComponent/>
                     </TableCell>
                   )
                 } else {
@@ -138,7 +134,7 @@ const PartialTable = (props) =>  {
   return(
     <div>
       {
-        Title ? <h4>{Title}</h4> : <br/> 
+        header ? <h4>{header}</h4> : <br/> 
       }
       <Paper style={styles.root}>
         <Table style={styles.table}>
