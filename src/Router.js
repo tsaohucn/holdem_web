@@ -8,10 +8,14 @@ import WelcomeScreen from './screens/WelcomeScreen'
 import NoMatchScreen from './screens/NoMatchScreen'
 import SessionScreen from './screens/SessionScreen'
 import NoAuthScreen from './screens/NoAuthScreen'
-import InformationScreen from './screens/InformationScreen'
 // mains
-// clubs
+// index
 import IndexScreen from './screens/mains/IndexScreen'
+// printers
+import PrinterTableScreen from './screens/mains/printers/PrinterTableScreen'
+// informations
+import InformationScreen from './screens/mains/InformationScreen'
+// clubs
 import ClubIndexScreen from './screens/mains/clubs/ClubIndexScreen'
 import ClubNewScreen from './screens/mains/clubs/ClubNewScreen'
 import ClubTableScreen  from './screens/mains/clubs/ClubTableScreen'
@@ -50,8 +54,6 @@ import RefereeReportScreen from './screens/mains/reports/RefereeReportScreen'
 import RefereeDayReportScreen from './screens/mains/reports/RefereeDayReportScreen'
 import SaleReportScreen from './screens/mains/reports/SaleReportScreen'
 import TableReportScreen from './screens/mains/reports/TableReportScreen'
-// printers
-import PrinterTableScreen from './screens/mains/printers/PrinterTableScreen'
 
 const Init = () => (
   <BrowserRouter>
@@ -64,7 +66,7 @@ const Init = () => (
 const NoAuth = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path='/index' component={WelcomeScreen}/>
+      <Route exact path='/' component={WelcomeScreen}/>
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>
@@ -73,11 +75,11 @@ const NoAuth = () => (
 const AuthAdmins = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path='/index' component={IndexScreen}/>
+      <Route exact path='/' component={IndexScreen}/>
       {/*infomation*/}
-      <Route exact path='/informations/index' component={InformationScreen}/>
+      <Route exact path='/informations' component={InformationScreen}/>
       {/*clubs*/}
-      <Route exact path='/clubs/index' component={ClubIndexScreen}/>
+      <Route exact path='/clubs' component={ClubIndexScreen}/>
       <Route exact path='/clubs/new' component={ClubNewScreen}/>
       <Route exact path='/clubs/table' component={ClubTableScreen}/>
       <Route exact path='/clubs/table/:by/:searchValue' component={ClubTableScreen}/>
@@ -99,10 +101,10 @@ const AuthAdmins = () => (
 const AuthClubs = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path='/index' component={IndexScreen}/>
-      <Route exact path='/informations/index' component={InformationScreen}/>
+      <Route exact path='/' component={IndexScreen}/>
+      <Route exact path='/informations' component={InformationScreen}/>
       {/*employees*/}
-      <Route exact path='/employees/index' component={EmployeeIndexScreen}/>
+      <Route exact path='/employees' component={EmployeeIndexScreen}/>
       <Route exact path='/employees/new' component={EmployeeNewScreen}/>
       <Route exact path='/employees/table' component={EmployeeTableScreen}/>
       <Route exact path='/employees/table/:by/:searchValue' component={EmployeeTableScreen}/>
@@ -115,40 +117,40 @@ const AuthClubs = () => (
 const AuthEmployees = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path='/index' component={IndexScreen}/>
-      <Route exact path='/informations/index' component={InformationScreen}/>
+      <Route exact path='/' component={IndexScreen}/>
+      <Route exact path='/informations' component={InformationScreen}/>
       {/*referees*/}
-      <Route exact path='/referees/index' component={RefereeIndexScreen}/>
+      <Route exact path='/referees' component={RefereeIndexScreen}/>
       <Route exact path='/referees/new' component={RefereeNewScreen}/>
       <Route exact path='/referees/table' component={RefereeTableScreen}/>
       <Route exact path='/referees/table/:by/:searchValue' component={RefereeTableScreen}/>
       <Route exact path='/referees/edit/:key' component={RefereeEditScreen}/>
       {/*sales*/}
-      <Route exact path='/sales/index' component={SaleIndexScreen}/>
+      <Route exact path='/sales' component={SaleIndexScreen}/>
       <Route exact path='/sales/new' component={SaleNewScreen}/>
       <Route exact path='/sales/table' component={SaleTableScreen}/>
       <Route exact path='/sales/table/:by/:searchValue' component={SaleTableScreen}/>
       <Route exact path='/sales/edit/:key' component={SaleEditScreen}/>
       {/*members*/}
-      <Route exact path='/members/index' component={MemberIndexScreen}/>
+      <Route exact path='/members' component={MemberIndexScreen}/>
       <Route exact path='/members/new' component={MemberNewScreen}/>
       <Route exact path='/members/table' component={MemberTableScreen}/>
       <Route exact path='/members/table/:by/:searchValue' component={MemberTableScreen}/>
       <Route exact path='/members/simpleTable/:by/:searchValue' component={MemberSimpleTableScreen}/>
       <Route exact path='/members/edit/:key' component={MemberEditScreen}/>
       {/*games*/}
-      <Route exact path='/players/index' component={PlayerIndexScreen}/>
+      <Route exact path='/players' component={PlayerIndexScreen}/>
       <Route exact path='/players/table' component={PlayerTableScreen}/>
       <Route exact path='/players/table/:by/:searchValue' component={PlayerTableScreen}/>
       {/*reports*/}
-      <Route exact path='/reports/index' component={ReportIndexScreen}/>
+      <Route exact path='/reports' component={ReportIndexScreen}/>
       <Route exact path='/reports/member/:startDate/:endDate/:searchValue' component={MemberReportScreen}/>
       <Route exact path='/reports/referee/:startDate/:endDate/:searchValue' component={RefereeReportScreen}/>
       <Route exact path='/reports/refereeDay/:date/:searchValue' component={RefereeDayReportScreen}/>
       <Route exact path='/reports/sale/:startDate/:endDate/:searchValue' component={SaleReportScreen}/>
       <Route exact path='/reports/table/:date/:searchValue' component={TableReportScreen}/>
       {/*nomatch*/}
-      <Route exact path='/printers/index' component={PrinterTableScreen}/>
+      <Route exact path='/printers' component={PrinterTableScreen}/>
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>

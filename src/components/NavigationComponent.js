@@ -183,7 +183,7 @@ class NavigationComponent extends PureComponent {
   }
 
   goToInformationPage = () => {
-    this.props.history.push('/informations/index')
+    this.props.history.push('/informations')
   }
 
   getUserResource = (user) => {
@@ -238,7 +238,7 @@ class NavigationComponent extends PureComponent {
     const router_name = Object.values(router)
     return(
       router_path.map((path,index) => (
-        <ListItem className={this.props.classes.ListItem} key={path} button onClick={() => this.props.history.push('/' + path + '/index')}>
+        <ListItem className={this.props.classes.ListItem} key={path} button onClick={() => this.props.history.push('/' + path)}>
           <ListItemIcon>
             <Search/>
           </ListItemIcon>
