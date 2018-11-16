@@ -24,12 +24,13 @@ export default class SearchableDropdown extends Component {
 
   render() {
 
-    const { value, style, key, isSelect, label, helperText} = this.props
+    const { value, key, isSelect, label, helperText} = this.props
 
     const items = this.filterData()
     
     return(
       <Autocomplete
+        wrapperStyle={styles.textField}
         getItemValue={item => item}
         items={items}
         renderItem={(item, isHighlighted) =>
@@ -51,7 +52,7 @@ export default class SearchableDropdown extends Component {
           select={isSelect}
           label={label}
           helperText={helperText}
-          style={style}
+          style={styles.textField}
           value={value}
           onChange={this.onChange}
         />}
@@ -60,11 +61,13 @@ export default class SearchableDropdown extends Component {
   }
 }
 
-
 const styles = {
   menuStyle: {
     top: 0,
-    width: '50%',
+    width: '100%',
     background: '#ffffff'
+  },
+  textField: {
+    width: '100%'
   }
 }

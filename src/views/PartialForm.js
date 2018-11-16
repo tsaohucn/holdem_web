@@ -38,7 +38,7 @@ const PartialForm = (props) => {
         field.map(ele => 
         {
           const { key, label, helperText } = ele ? ele : {}
-          const isSelect = options.includes(key)
+          const isSelect = select.includes(key)
           const isSearch = search.includes(key)
 
           if (isSelect) {
@@ -62,13 +62,14 @@ const PartialForm = (props) => {
             return(
               <SearchableDropdown
                 key={key}
+                margin="normal"
+                variant="outlined"
                 select={isSelect}
                 label={label}
                 helperText={helperText}
                 items={props[key]}
                 onSearch={(text) => { onSearch(text,key) }}
                 value={data[key]}
-                style={styles.textField}
               />
             )
           } else if (key === 'club_id') {
@@ -149,7 +150,7 @@ const PartialForm = (props) => {
   )  
 }
 
-const options = [
+const select = [
   'gender',
   'education' 
 ]
@@ -161,13 +162,11 @@ const search = [
 
 const styles = {
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexGrow: 1
+    height: '100%',
+    width: '50%'
   },
   textField: {
-    width: '50%',
-    display: 'flex'
+    width: '100%'
   },
   date: {
     color: 'transparent'

@@ -35,9 +35,8 @@ const styles = theme => {
     root: {
       display: 'flex',
       flexDirection: 'row',
-      overflowX: 'hidden',
-      overflowY: 'hidden',
-      flexGrow: 1
+      overflow: 'hidden',
+      flex: 1
     },
     appBar: {
       transition: theme.transitions.create(['margin', 'width'], {
@@ -68,7 +67,7 @@ const styles = theme => {
     drawerPaper: {
       position: 'relative',
       width: drawerWidth,
-      height
+      height: '100%'
     },
     drawerHeader: {
       display: 'flex',
@@ -83,16 +82,15 @@ const styles = theme => {
     contentPaper: {
       position: 'relative',
       width: width - drawerWidth,
-      height
+      height: '100%'
     },
     content: {
       display: 'flex',
       flexDirection: 'column',
-      flexGrow: 1,
+      flex: 1,
       backgroundColor: '#ffffff',
       padding: theme.spacing.unit * 2,
-      overflowX: 'scroll',
-      overflowY: 'scroll',
+      overflow: 'scroll',
       "@media (min-width:0px) and (orientation: landscape)": { height: height - 48 },
       "@media (min-width:600px)": { height: height - 64 },
       height: height - 56,
