@@ -50,6 +50,8 @@ import RefereeReportScreen from './screens/mains/reports/RefereeReportScreen'
 import RefereeDayReportScreen from './screens/mains/reports/RefereeDayReportScreen'
 import SaleReportScreen from './screens/mains/reports/SaleReportScreen'
 import TableReportScreen from './screens/mains/reports/TableReportScreen'
+// printers
+import PrinterTableScreen from './screens/mains/printers/PrinterTableScreen'
 
 const Init = () => (
   <BrowserRouter>
@@ -73,7 +75,7 @@ const AuthAdmins = () => (
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
       {/*infomation*/}
-      <Route exact path='/information/index' component={InformationScreen}/>
+      <Route exact path='/informations/index' component={InformationScreen}/>
       {/*clubs*/}
       <Route exact path='/clubs/index' component={ClubIndexScreen}/>
       <Route exact path='/clubs/new' component={ClubNewScreen}/>
@@ -98,7 +100,7 @@ const AuthClubs = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
-      <Route exact path='/information/index' component={InformationScreen}/>
+      <Route exact path='/informations/index' component={InformationScreen}/>
       {/*employees*/}
       <Route exact path='/employees/index' component={EmployeeIndexScreen}/>
       <Route exact path='/employees/new' component={EmployeeNewScreen}/>
@@ -114,7 +116,7 @@ const AuthEmployees = () => (
   <BrowserRouter>
     <Switch>
       <Route exact path='/index' component={IndexScreen}/>
-      <Route exact path='/information/index' component={InformationScreen}/>
+      <Route exact path='/informations/index' component={InformationScreen}/>
       {/*referees*/}
       <Route exact path='/referees/index' component={RefereeIndexScreen}/>
       <Route exact path='/referees/new' component={RefereeNewScreen}/>
@@ -142,10 +144,11 @@ const AuthEmployees = () => (
       <Route exact path='/reports/index' component={ReportIndexScreen}/>
       <Route exact path='/reports/member/:startDate/:endDate/:searchValue' component={MemberReportScreen}/>
       <Route exact path='/reports/referee/:startDate/:endDate/:searchValue' component={RefereeReportScreen}/>
-      <Route exact path='/reports/day/referee/:date/:searchValue' component={RefereeDayReportScreen}/>
+      <Route exact path='/reports/refereeDay/:date/:searchValue' component={RefereeDayReportScreen}/>
       <Route exact path='/reports/sale/:startDate/:endDate/:searchValue' component={SaleReportScreen}/>
       <Route exact path='/reports/table/:date/:searchValue' component={TableReportScreen}/>
       {/*nomatch*/}
+      <Route exact path='/printers/index' component={PrinterTableScreen}/>
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
   </BrowserRouter>

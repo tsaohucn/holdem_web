@@ -2,117 +2,128 @@
 import React, { PureComponent } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Moment from 'moment'
-import { extendMoment } from 'moment-range'
 // local_module
 import PartialTable from '../views/PartialTable'
 import firebase from '../configs/firebase'
-import { errorAlert, successAlert, sleep } from '../helpers'
+import { 
+  errorAlert, 
+  successAlert, 
+  getSaleReportData,
+  getRefereeReportData,
+  getRefereeDayReportData,
+  getMemberReportData,
+  getDateRange
+} from '../helpers'
+import ui from '../configs/ui'
 
 function withReport(params) {
   const {
     title,
     resource,
     wrapperComponent,
-    by,
-    router
+    by
   } = params ? params : {}
 
   return class extends PureComponent {
 
     constructor(props) {
       super(props)
+      this.HoldemStore = this.props.HoldemStore
+      this.db = this.props.db
       this.state = {
+        header: null,
         isLoading: true,
-        data: []
+        data: [],
+        saleReport: null
       }
     }
 
     componentDidMount() {
       const searchValue = this.props.match.params.searchValue
-      if (searchValue && by) {
-        this.fetchTableData(firebase.database().ref('reports').orderByChild(by).equalTo(this.props.HoldemStore.clubId + '_' + searchValue))
-      } else {
-        errorAlert(this.props.alert,'載入資料發生錯誤')
+      const date = this.props.match.params.date
+      const startDate = this.props.match.params.startDate
+      const endDate = this.props.match.params.endDate
+      if ((by === 'id') || (by === 'sale_id')) {
+        const header = by === 'id' ? '會員代號：' : '業務代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
+        const fetch = this.db.collection(resource)
+          .where('club_id', '==', this.HoldemStore.clubId)
+          .where(by, '==', searchValue)
+          .orderBy('onTableDateInt')
+          .startAt(parseInt(Moment(startDate).format('YYYYMMDD')))
+          .endAt(parseInt(Moment(endDate).format('YYYYMMDD')))
+        this.fetchTableData(fetch,header)
+      } else if ((by === 'refereeTotal') || (by === 'refereeDay')){
+        let header = null
+        if (by === 'refereeTotal') {
+          header = '裁判代號：' + searchValue + '   ' + '上桌日期：' + startDate + ' ~ ' +  endDate
+          const date_range = getDateRange(startDate,endDate)
+          const fetch = date_range.map(_date => this.db.collection(resource)
+            .where('club_id', '==', this.HoldemStore.clubId)
+            .where('referee_id', '==', searchValue)
+            .where('onTableDate', '==', Moment(_date).format('YYYY/MM/DD')).get())
+          this.fetchTableData(fetch,header,null,null,null,searchValue,date_range)
+        } else {
+          header = '裁判代號：' + searchValue + '   ' + '上桌日期：' + date
+          const fetch = this.db.collection(resource)
+            .where('club_id', '==', this.HoldemStore.clubId)
+            .where('referee_id', '==', searchValue)
+            .where('onTableDate', '==', Moment(date).format('YYYY/MM/DD'))
+          this.fetchTableData(fetch,header,null,null,null,searchValue)
+        }
+      } else if (by === 'table_id') {
+        const header = '桌次編號：' + searchValue
+        const fetch = this.db.collection(resource)
+          .where('club_id', '==', this.HoldemStore.clubId)
+          .where('table_id', '==', searchValue)
+        this.fetchTableData(fetch,header)        
       }
     }
 
-    fetchTableData = (fetch) => {
+    fetchTableData = (fetch,header,startDate,endDate,date,searchValue,dateRange) => {
       this.setState({
         isLoading: true
       },async () => {
         try {
-          await sleep(500)
-          const searchValue = this.props.match.params.searchValue
-          const date = this.props.match.params.date
-          const startDate = this.props.match.params.startDate || date
-          const endDate = this.props.match.params.endDate || date
-          const moment = extendMoment(Moment)
-          const start = moment(startDate, 'YYYY-MM-DD')
-          const end   = moment(endDate, 'YYYY-MM-DD')
-          const range = Array.from(moment.range(start, end).by('day', { excludeEnd: false })).map(m => m.format('YYYY/MM/DD'))
-          const snap = fetch && (await fetch.once('value'))
-          const val = (snap && snap.val()) || {}
-          const data = Object.values(val) || []
-          let in_range_data = data.filter(ele => range.includes(ele.playerDate))
-          let saleReportTotalPlayerSpendTime = {}
-          let Title = null
-          if (router === 'reports/referee') {
-            Title = '裁判代號：' + searchValue + '   ' + '會員上桌日期：' + startDate + ' ~ ' +  endDate
-            in_range_data = range.map(date => ({
-              referee_report_date: date,
-              referee_rk: 0,
-              referee_rk50: 0,
-              referee_st: 0
-            }))
-          } else if (router === 'reports/sale') {
-            Title = '業務代號：' + searchValue + '   ' + '會員上桌日期：' + startDate + ' ~ ' +  endDate
-            in_range_data.forEach(ele => {
-              const spendTime = saleReportTotalPlayerSpendTime[ele.playerDate + '_' + ele.member_referee_id] || 0
-              saleReportTotalPlayerSpendTime[ele.playerDate + '_' + ele.member_referee_id] = spendTime + ele.spendTime
-            })
-          } else if (router === 'reports/member') {
-            Title = '會員代號：' + searchValue + '   ' + '會員上桌日期：' + startDate + ' ~ ' +  endDate  
-          } else if (router === 'reports/table') {
-            Title = '桌次代號：' + searchValue + '   ' + '會員上桌日期：' + date
-          } else if (router === 'reports/day/referee') { 
-            Title = '裁判代號：' + searchValue + '   ' + '會員上桌日期：' + date
-            let temp_data = {}
-            in_range_data.forEach((ele) => {
-              if (temp_data[ele.table_key]) {
-                temp_data[ele.table_key]['refereeDayReportTotalPlayerSpendTime'] += ele.spendTime
-                temp_data[ele.table_key]['refereeDayReportTotalFinallyChip'] += ele.finallyChip
-              } else {
-                temp_data[ele.table_key] = {
-                  referee_day_report_table_id: ele.table_id,
-                  refereeDayReportTotalPlayerSpendTime: ele.spendTime,
-                  refereeDayReportTotalFinallyChip: ele.finallyChip
-                }
-              } 
-            })
-            const keys = Object.keys(temp_data)
-            const tables_promise = keys.map(key => firebase.database().ref('/table_reports/' + key).once('value'))
-            const tables_promise_snap_arr = await Promise.all(tables_promise)
-            const tables_val_arr = tables_promise_snap_arr.map(snap => snap.val())
-            in_range_data = Object.values(temp_data).map((ele,index) => Object.assign({},ele,tables_val_arr[index]))
+          let data = []
+          if (by === 'refereeTotal') {
+            const promise_snap = await Promise.all(fetch)
+            const source_data = promise_snap.map(snap => snap.docs.map(doc => doc.data()))
+            data = await getRefereeReportData(source_data,searchValue,this.db,dateRange)
+          } else {
+            const snap = await fetch.get()
+            const source_data = snap.docs.map(doc => doc.data())
+            switch(by) {
+            case 'sale_id': {
+              data = getSaleReportData(source_data)
+              break
+            }
+            case 'refereeDay': {
+              data = await getRefereeDayReportData(source_data,searchValue,this.db)
+              break
+            }
+            case 'table_id' :
+            case 'id': {
+              data = await getMemberReportData(source_data,this.db)
+              break
+            }
+            }
           }
           this.setState({
             isLoading: false,
-            data: in_range_data,
-            saleReportTotalPlayerSpendTime,
-            Title
-          }) 
-        } catch(err) {
+            data,
+            header,
+            saleReport: by === 'sale_id'
+          })
+        } catch (err) {
           errorAlert(this.props.alert,'載入資料發生錯誤 : ' + err.toString())
-        } finally {
-          //
-        }         
-      })     
+        }
+      })
     }
 
     goToRefereeDayReport = (date) => {
-      const _date = date.split('/').join('-')
+      const _date = Moment(date).format('YYYY-MM-DD')
       const searchValue = this.props.match.params.searchValue
-      this.props.history.push('/reports/day/referee/' + _date + '/' + searchValue)
+      this.props.history.push('/reports/refereeDay/' + _date + '/' + searchValue)
     }
 
     goToTableReport = (table_id) => {
@@ -134,19 +145,20 @@ function withReport(params) {
         >
           {
             this.state.isLoading ? 
-            <div style={styles.spinner}>
-              <CircularProgress size={50}/>
-            </div>
-            :
-            <Component
-              {...this.props}
-              {...this.state}
-              Title={this.state.Title}
-              title={title}
-              onClickTableReturnButton={this.goBack}
-              onClickRefereeReportDate={this.goToRefereeDayReport}
-              onClickRefereeDayReportTableId={this.goToTableReport}
-            />
+              <div style={styles.spinner}>
+                <CircularProgress size={50}/>
+              </div>
+              :
+              <Component
+                {...this.props}
+                {...this.state}
+                saleReport={this.state.saleReport}
+                header={this.state.header}
+                title={title}
+                onClickTableReturnButton={this.goBack}
+                onClickRefereeReportDate={this.goToRefereeDayReport}
+                onClickRefereeDayReportTableId={this.goToTableReport}
+              />
           }
         </div>
       )

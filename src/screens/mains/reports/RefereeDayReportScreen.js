@@ -6,9 +6,8 @@ import withReport from '../../../hocs/withReport'
 import withNavigation from '../../../hocs/withNavigation'
 import ui from '../../../configs/ui'
 
-export default inject('HoldemStore')(withNavigation(withAlert(withReport({
+export default inject('HoldemStore','db')(withNavigation(withAlert(withReport({
   title: ui.refereeDayReportTable,
-  resource: 'reports',
-  by: 'club_id_member_referee_id',
-  router: 'reports/day/referee'
+  resource: 'players_reports',
+  by: 'refereeDay'
 }))))

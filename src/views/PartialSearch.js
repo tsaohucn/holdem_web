@@ -10,12 +10,12 @@ import Radio from '@material-ui/core/Radio'
 import SearchBar from 'material-ui-search-bar'
 import SearchIcon from '@material-ui/icons/Search'
 // local components
-import PartialButton from '../views/PartialButton'
+import PartialButtonGroup from './PartialButtonGroup'
 
 const PartialSearch = (props) => {
   const { 
-    onClickSearchPageLeftButton,
-    onClickSearchPageRightButton, 
+    onClickLeftButton,
+    onClickRightButton, 
     onChangeSearchValue,
     leftButtonTitle, 
     rightButtonTitle,
@@ -30,11 +30,10 @@ const PartialSearch = (props) => {
   } = props
 
   return(
-    <div>
-      <br/>
+    <div style={styles.container}>
       {
         showRadioBox &&       
-        <div>
+        <div style={styles.showRadioBox}>
           <div style={styles.radioView}>
             <FormControlLabel
               control={
@@ -62,62 +61,46 @@ const PartialSearch = (props) => {
         </div>
       }
       <div style={styles.searchBlock}>
-        <h4 style={styles.SearchTitle}>{title}</h4>
+        <h4>{title}</h4>
         <SearchBar
-          style={styles.SearchBar}
           value={''}
           placeholder={placeholder}
           onChange={onChangeSearchValue}
           onRequestSearch={() => {}}
         />
       </div>
-      <br/>
-      <div style={styles.buttonView}>
-        <PartialButton 
-          onClick={onClickSearchPageLeftButton}
-        >
-          {leftButtonTitle}
-        </PartialButton>
-        {
-          showRightButton && 
-          <PartialButton 
-            onClick={onClickSearchPageRightButton}
-          >
-            {rightButtonTitle}
-          </PartialButton>
-        }
-      </div>
+      <PartialButtonGroup
+        showLeftButton
+        showRightButton={showRightButton}
+        leftButtonTitle={leftButtonTitle}
+        rightButtonTitle={rightButtonTitle}
+        onClickLeftButton={onClickLeftButton}
+        onClickRightButton={onClickRightButton}
+      />
     </div>
   )  
 }
 
 
 const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1
+  },
+  showRadioBox: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
   searchBlock: {
-    display: 'flex', 
+    display: 'flex',
     flexDirection: 'column',
     width: '50%'
-  },
-  SearchBar: {
-    flex: 6
-  },
-  SearchTitle: {
-    flex: 1
-  },
-  buttonView: {
-    width: '50%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  button: {
-    width: '33%',
-    minWidth: 0,
-    fontSize: 15
   },
   radioView: {
     display: 'flex',
     flexDirection: 'row',
+    flexGrow: 1,
     alignItems: 'center'
   }
 }

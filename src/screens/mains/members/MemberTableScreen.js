@@ -10,7 +10,7 @@ const edit = {
   label: '編輯'
 }
 
-export default inject('HoldemStore')(withNavigation(withAlert((withTable({
-  title: ui.membersTable.concat(edit),
-  resource: 'members'
+export default inject('HoldemStore','db')(withNavigation(withAlert((withTable({
+  resource: 'members',
+  title: ui.membersTable.concat(edit)
 })))))

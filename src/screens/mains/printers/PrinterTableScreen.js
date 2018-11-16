@@ -2,9 +2,10 @@ import { withAlert } from 'react-alert'
 import { inject } from 'mobx-react'
 // local components
 import withNavigation from '../../../hocs/withNavigation'
-import withLive from '../../../hocs/withLive'
+import withPrinter from '../../../hocs/withPrinter'
 import ui from '../../../configs/ui'
 
-export default inject('HoldemStore','db')(withNavigation(withAlert((withLive({
-  title: ui.playersTable
+export default inject('HoldemStore','db')(withNavigation(withAlert((withPrinter({
+  resource: 'printers',
+  title: ui.printersTable
 })))))

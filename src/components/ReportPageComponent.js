@@ -9,9 +9,9 @@ class ReportPageComponent extends PureComponent {
     this.startDate = null
     this.endDate = null
     this.searchContent = {
-      member: "",
-      referee: "",
-      sale: ""      
+      member: '',
+      referee: '',
+      sale: ''      
     }
     this.state = {
       radio: {
@@ -22,9 +22,9 @@ class ReportPageComponent extends PureComponent {
     }
   }
 
-  onClickButton = () => {
+  onClickReportSearchButton = () => {
     const radio = Object.keys(this.state.radio).find(key => this.state.radio[key])
-    this.props.onClickButton && this.props.onClickButton(radio,this.searchContent[radio],this.startDate,this.endDate)
+    this.props.onClickReportSearchButton && this.props.onClickReportSearchButton(radio,this.searchContent[radio],this.startDate,this.endDate)
   }
 
   onChangeMemberText = (event) => {
@@ -92,7 +92,7 @@ class ReportPageComponent extends PureComponent {
         onChangeSaleText={this.onChangeSaleText}
         onChangeStartDate={this.onChangeStartDate}
         onChangeEndDate={this.onChangeEndDate}
-        onClickButton={this.onClickButton}
+        onClickReportSearchButton={this.onClickReportSearchButton}
       />
     )
   }

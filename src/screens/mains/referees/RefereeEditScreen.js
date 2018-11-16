@@ -10,7 +10,7 @@ const _delete = {
   label: '刪除'
 }
 
-export default inject('HoldemStore')(withNavigation(withAlert((withEdit({
+export default inject('HoldemStore','db')(withNavigation(withAlert((withEdit({
   title: ui.refereesTable.concat(_delete),
   resource: 'referees',
   belong: ['club']
