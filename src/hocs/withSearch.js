@@ -11,6 +11,7 @@ function withSearch(params) {
     resource,
     leftButtonTitle,
     rightButtonTitle,
+    showLeftButton,
     showRightButton,
     wrapperComponent,
     placeholder,
@@ -21,7 +22,7 @@ function withSearch(params) {
 
   return class extends PureComponent {
 
-    onClickSearchPageRightButton = () => {
+    goToForm = () => {
       this.props.history.push('/' + resource + '/new')
     }
 
@@ -33,7 +34,7 @@ function withSearch(params) {
       }
     }
 
-    search = (radio,searchContent,startDate,endDate) => {
+    goToReport = (radio,searchContent,startDate,endDate) => {
       if ((radio || radio === 0) && searchContent && startDate && endDate && searchContent.length > 0) {
         if (new Date(startDate) > new Date(endDate)) {
           errorAlert(this.props.alert,'結束日期必須大於開始日期')
@@ -53,21 +54,24 @@ function withSearch(params) {
           title={searchTitle}
           buttonTitle={buttonTitle}
           placeholder={placeholder}
-          showRightButton={showRightButton}
+          showLeftButton={showLeftButton || defaultShowLeftButton}
+          showRightButton={showRightButton || defaultShowRightButton}
           leftButtonTitle={leftButtonTitle || defaultLeftButtonTitle}
           rightButtonTitle={rightButtonTitle || defaultRightButtonTitle}
           showRadioBox={showRadioBox}
           radioOneTitle={radioOneTitle}
           radioTwoTitle={radioTwoTitle}
-          onClickSearchPageRightButton={this.onClickSearchPageRightButton}
-          onClickSearchPageLeftButton={this.goToTable}
-          onClickButton={this.search}
+          onClickLeftButton={this.goToTable}
+          onClickRightButton={this.goToForm}
+          onClickReportSearchButton={this.goToReport}
         />
       )
     }
   }
 }
 
+const defaultShowLeftButton = true
+const defaultShowRightButton = true
 const defaultLeftButtonTitle = '搜索'
 const defaultRightButtonTitle = '新增'
 

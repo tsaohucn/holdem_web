@@ -42,9 +42,9 @@ class SearchComponent extends PureComponent {
     }
   }
 
-  onClickSearchPageLeftButton = () => {
+  onClickLeftButton = () => {
     const by = this.props.showRadioBox ? Object.keys(this.state.radio).find(key => this.state.radio[key]) : 'id'
-    this.props.onClickSearchPageLeftButton && this.props.onClickSearchPageLeftButton(by,this.searchValue)
+    this.props.onClickLeftButton && this.props.onClickLeftButton(by,this.searchValue)
   }
 
   render() {
@@ -53,7 +53,7 @@ class SearchComponent extends PureComponent {
         {...this.props}
         radio={this.state.radio}
         onClickRadio={this.onClickRadio}
-        onClickSearchPageLeftButton={this.onClickSearchPageLeftButton}
+        onClickLeftButton={this.onClickLeftButton}
         onChangeSearchValue={this.onChangeSearchValue}
       />
     )
