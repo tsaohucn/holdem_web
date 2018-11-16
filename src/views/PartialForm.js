@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button'
 import MenuItem from '@material-ui/core/MenuItem'
 import Autocomplete from 'react-autocomplete'
 // local components
-import PartialButton from './PartialButton'
+import PartialButtonGroup from './PartialButtonGroup'
 import SearchableDropdown from './SearchableDropdown'
 
 const PartialForm = (props) => {
@@ -137,23 +137,14 @@ const PartialForm = (props) => {
         }
         )
       }
-      <div style={styles.buttonView}>
-        <PartialButton 
-          style={styles.button} 
-          variant="contained" 
-          color="secondary" 
-          onClick={onClickNewPageReturn}>
-          {'返回'}
-        </PartialButton>
-        <PartialButton 
-          style={styles.button} 
-          variant="contained" 
-          color="secondary" 
-          onClick={onClickNewPageButton}
-        >
-          {buttonTitle}
-        </PartialButton>
-      </div>
+      <PartialButtonGroup
+        showLeftButton
+        showRightButton
+        leftButtonTitle={'返回'}
+        rightButtonTitle={buttonTitle}
+        onClickLeftButton={onClickNewPageReturn}
+        onClickRightButton={onClickNewPageButton}
+      />
     </div>
   )  
 }
@@ -171,22 +162,12 @@ const search = [
 const styles = {
   container: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    flexGrow: 1
   },
   textField: {
     width: '50%',
     display: 'flex'
-  },
-  buttonView: {
-    marginTop: 20,
-    width: '50%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  button: {
-    width: '33%',
-    minWidth: 0
   },
   date: {
     color: 'transparent'

@@ -16,7 +16,7 @@ const ReportPage = (props) => {
 
   const { 
     buttonTitle,
-    onClickButton,
+    onClickReportSearchButton,
     onClickRadio,
     radio,
     onChangeMemberText,
@@ -112,7 +112,7 @@ const ReportPage = (props) => {
       </FormControl>
       <br/>
       <div style={styles.buttonView}>
-        <PartialButton onClick={onClickButton}>{buttonTitle}</PartialButton>
+        <PartialButton onClick={onClickReportSearchButton}>{buttonTitle}</PartialButton>
       </div>
     </div>
   ) 
