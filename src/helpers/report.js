@@ -122,9 +122,12 @@ const getRefereeDayReportData = async (source_data,referee_id,db) => {
       return Object.assign({},ele,{
         totalTableFinallyChip: new_tables_data['finalChip'],
         totalTableSpendTime: new_tables_data['spendTime'],
-        c: new_tables_data['i'] - new_tables_data['t'],
+        c: new_tables_data['i'] - (new_tables_data['t'] + new_tables_data['r'] + new_tables_data['s'] + new_tables_data['o']),
         i: new_tables_data['i'],
         t: new_tables_data['t'],
+        r: new_tables_data['r'],
+        s: new_tables_data['s'],
+        o: new_tables_data['o'],
         returnT,
         returnI: parseFloat(returnI.toFixed(2)),
         average: parseFloat(average.toFixed(4)),

@@ -159,21 +159,15 @@ const AuthEmployees = () => (
 const AuthOnlyReport = () => (
   <BrowserRouter>
     <Switch>
-      <Route exact path='/index' component={IndexScreen}/>
-      {/*clubs*/}
-      <Route exact path='/clubs/index' component={NoAuthScreen}/>
-      {/*referees*/}
-      <Route exact path='/referees/index' component={NoAuthScreen}/>
-      {/*sales*/}
-      <Route exact path='/sales/index' component={NoAuthScreen}/>
-      {/*members*/}
-      <Route exact path='/members/index' component={NoAuthScreen}/>
-      {/*employees*/}
-      <Route exact path='/employees/index' component={NoAuthScreen}/>
+      <Route exact path='/' component={IndexScreen}/>
+      <Route exact path='/informations' component={InformationScreen}/>
       {/*reports*/}
-      <Route exact path='/reports/index' component={ReportIndexScreen}/>
-      {/*tables*/}
-      <Route exact path='/tables/index' component={NoAuthScreen}/>
+      <Route exact path='/reports' component={ReportIndexScreen}/>
+      <Route exact path='/reports/member/:startDate/:endDate/:searchValue' component={MemberReportScreen}/>
+      <Route exact path='/reports/referee/:startDate/:endDate/:searchValue' component={RefereeReportScreen}/>
+      <Route exact path='/reports/refereeDay/:date/:searchValue' component={RefereeDayReportScreen}/>
+      <Route exact path='/reports/sale/:startDate/:endDate/:searchValue' component={SaleReportScreen}/>
+      <Route exact path='/reports/table/:date/:searchValue' component={TableReportScreen}/>
       {/*nomatch*/}
       <Route path='/' component={NoMatchScreen}/>
     </Switch>
