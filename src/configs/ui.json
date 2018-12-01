@@ -594,15 +594,27 @@
     },
     {
       "key": "c",
-      "label": "總c"
+      "label": "c"
     },
     {
       "key": "i",
-      "label": "總i"      
+      "label": "i"      
     },
     {
       "key": "t",
-      "label": "總t"      
+      "label": "t"      
+    },
+    {
+      "key": "r",
+      "label": "r"      
+    },
+    {
+      "key": "s",
+      "label": "s"      
+    },
+    {
+      "key": "o",
+      "label": "o"      
     },
     {
       "key": "average",
