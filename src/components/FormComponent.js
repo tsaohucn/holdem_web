@@ -27,14 +27,19 @@ class FormComponent extends PureComponent {
   }
 
   checkDataIntegrity = () => {
-    const values =  Object.values(this.state.data)
-    const index = values.findIndex(value => (value === null || value === undefined || value === ''))
+    const index = requireField.findIndex(key => this.state.data[key] === null || this.state.data[key] === undefined || this.state.data[key] === '')
     if (index < 0) {
       return true
     } else {
-      const message = this.props.field[index].label + '不能為空'
-      errorAlert(this.props.alert,message)
-      return false      
+      const ele = this.props.field.find(ele => ele.key === requireField[index])  
+      if (ele) {
+        const { label } = ele
+        const message =  label + '不能為空'
+        errorAlert(this.props.alert,message)
+        return false
+      } else {
+        return true
+      }   
     }
   }
 
@@ -181,5 +186,17 @@ class FormComponent extends PureComponent {
     )    
   }
 }
+
+const requireField = [
+  'club_id',
+  'referee_id',
+  'sale_id',
+  'id',
+  'name',
+  'chipLimit',
+  'rbPercentage',
+  'account',
+  'password'
+]
 
 export default FormComponent

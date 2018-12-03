@@ -16,21 +16,19 @@ class EditComponent extends PureComponent {
   }
 
   checkDataIntegrity = () => {
-    const keys =  Object.keys(this.state.data)
-    let key = keys.find(key => this.state.data[key] === null || this.state.data[key] === undefined || this.state.data[key] === '')
-    if (!key) {
+    const index = requireField.findIndex(key => this.state.data[key] === null || this.state.data[key] === undefined || this.state.data[key] === '')
+    if (index < 0) {
       return true
     } else {
-      const ele = this.props.title.find(ele => ele.key === key)
+      const ele = this.props.title.find(ele => ele.key === requireField[index])
       if (ele) {
-        const label = ele.label
+        const { label } = ele
         const message =  label + '不能為空'
         errorAlert(this.props.alert,message)
+        return false
       } else {
-        const message = '不明錯誤'
-        errorAlert(this.props.alert,message)
+        return true
       }
-      return false      
     }
   }
 
@@ -191,27 +189,16 @@ class EditComponent extends PureComponent {
   }
 }
 
-const noTextInput = [
-  'club',
-  'referee',
-  'sale',
-  'account',
-  'password',
+const requireField = [
+  'club_id',
+  'referee_id',
+  'sale_id',
   'id',
-  'delete',
-  'memberCount'
-]
-
-const options = [
-  'club',
-  'referee',
-  'sale' 
-]
-
-const jumpPage = [
+  'name',
+  'chipLimit',
+  'rbPercentage',
   'account',
-  'password',
-  'memberCount'
+  'password'
 ]
 
 const styles = {

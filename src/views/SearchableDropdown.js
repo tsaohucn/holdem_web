@@ -41,6 +41,7 @@ export default class SearchableDropdown extends Component {
         onSelect={this.onSelect}
         menuStyle={styles.menuStyle}
         renderInput={(props) => <TextField 
+          required={this.props.required}
           inputProps={{
             ...props,
             value,
