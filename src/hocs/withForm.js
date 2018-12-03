@@ -181,6 +181,7 @@ function withForm(params) {
                   club_key: resource === 'clubs' ? key : this.props.HoldemStore.clubKey,
                   club_id: resource === 'clubs' ? data.id : this.props.HoldemStore.clubId,
                   account: data.account,
+                  account_lowerCase: data.account.toLowerCase(),
                   password: data.password,
                   quit: false,
                   resource
