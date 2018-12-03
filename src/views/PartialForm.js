@@ -44,6 +44,7 @@ const PartialForm = (props) => {
           if (isSelect) {
             return(
               <TextField
+                required={requireField.includes(key)}
                 key={key}
                 margin="normal"
                 variant="outlined"
@@ -61,6 +62,7 @@ const PartialForm = (props) => {
           } else if (isSearch) {
             return(
               <SearchableDropdown
+                required={requireField.includes(key)}
                 key={key}
                 margin="normal"
                 variant="outlined"
@@ -75,6 +77,7 @@ const PartialForm = (props) => {
           } else if (key === 'club_id') {
             return(
               <TextField
+                required={requireField.includes(key)}
                 key={key}
                 margin="normal"
                 variant="outlined"
@@ -89,6 +92,7 @@ const PartialForm = (props) => {
           } else if (key === 'joinDate') {
             return(
               <TextField
+                required={requireField.includes(key)}
                 key={key}
                 margin="normal"
                 variant="outlined"
@@ -103,6 +107,7 @@ const PartialForm = (props) => {
           } else if (key === 'birthday') {
             return(
               <TextField
+                required={requireField.includes(key)}
                 key={key}
                 margin="normal"
                 variant="outlined"
@@ -123,6 +128,7 @@ const PartialForm = (props) => {
           } else {
             return(
               <TextField
+                required={requireField.includes(key)}
                 key={key}
                 margin="normal"
                 variant="outlined"
@@ -149,6 +155,18 @@ const PartialForm = (props) => {
     </div>
   )  
 }
+
+const requireField = [
+  'club_id',
+  'referee_id',
+  'sale_id',
+  'id',
+  'name',
+  'chipLimit',
+  'rbPercentage',
+  'account',
+  'password'
+]
 
 const select = [
   'gender',
