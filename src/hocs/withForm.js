@@ -184,6 +184,7 @@ function withForm(params) {
                   account_lowerCase: data.account.toLowerCase(),
                   password: data.password,
                   quit: false,
+                  login: null,
                   resource
                 })
               }
