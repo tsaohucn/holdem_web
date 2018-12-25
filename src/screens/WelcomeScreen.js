@@ -101,7 +101,7 @@ class WelcomeScreen extends Component {
         justify={'center'}
         direction={'column'}
       >
-        <h1 style={styles.title}>德州舖克後台管理系統</h1>
+        <h1 style={styles.title}>德州撲克後台管理系統</h1>
         <form>
           <FormGroup
             validationState={this.getValidationState()}
