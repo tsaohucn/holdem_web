@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 // local_module
 import PartialTable from '../views/PartialTable'
-import firebase from '../configs/firebase'
+//import firebase from '../configs/firebase'
 import { errorAlert, successAlert, sleep } from '../helpers'
 import ui from '../configs/ui'
 
